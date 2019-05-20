@@ -130,6 +130,8 @@ requested format), or show the image directly (requires wxPython or Pythonista),
 just create an image and use it as any other *pero* canvas:
 
 .. code:: python
+
+    import pero
     
     # init size
     width = 200
@@ -186,7 +188,10 @@ Depending on the final image format, choose appropriate *cairo* surface, get the
 drawing context and encapsulate it into the *pero* canvas:
 
 .. code:: python
-    
+
+    import pero
+    import cairo
+
     # init size
     width = 200
     height = 200
@@ -214,7 +219,10 @@ Using PyMuPDF
 Create a document, add new page and encapsulate it into the *pero* canvas:
 
 .. code:: python
-    
+
+    import pero
+    import fitz
+
     # init size
     width = 200
     height = 200
@@ -244,7 +252,9 @@ The *pero* library implements its own way to draw and save SVG files Just create
 a *pero* canvas:
 
 .. code:: python
-    
+
+    import pero
+
     # init size
     width = 200
     height = 200
@@ -269,7 +279,10 @@ Using Pythonista
 Initialize a new *ui.ImageContext* and create a *pero* canvas:
 
 .. code:: python
-    
+
+    import pero
+    import ui
+
     # init size
     width = 200
     height = 200
@@ -289,3 +302,57 @@ Initialize a new *ui.ImageContext* and create a *pero* canvas:
         # show image
         img = ctx.get_image()
         img.show()
+
+
+Using glyphs and dynamic properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Similar to `d3js <https://d3js.org>`_ JavaScript library, most of the
+properties of pre-build *pero.Glyphs* objects can be specified as a function,
+to which given data source is automatically provided. Together with *scales*
+(and maybe the *pero.Axis)* this can be used to make simple plots easily.
+
+.. code:: python
+
+    import pero
+    import numpy
+
+    # init size
+    width = 400
+    height = 300
+    padding = 50
+
+    # init data
+    x_data = numpy.linspace(-numpy.pi, numpy.pi, 50)
+    y_data = numpy.sin(x_data)
+
+    # init scales
+    x_scale = pero.LinScale(
+        in_range = (min(x_data), max(x_data)),
+        out_range = (padding, width-padding))
+
+    y_scale = pero.LinScale(
+        in_range = (-1, 1),
+        out_range = (height-padding, padding))
+
+    color_scale = pero.GradientLinScale(
+        in_range = (-1, 1),
+        out_range = pero.Palette.Spectral)
+
+    # init marker
+    marker = pero.Circle(
+        size = 8,
+        x = lambda d: x_scale.scale(d[0]),
+        y = lambda d: y_scale.scale(d[1]),
+        line_color = lambda d: color_scale.scale(d[1]).darker(.2),
+        fill_color = lambda d: color_scale.scale(d[1]))
+
+    # init image
+    image = pero.Image(width=width, height=height)
+
+    # draw points
+    for p in zip(x_data, y_data):
+        image.draw_graphics(marker, source=p)
+
+    # show image
+    image.show()
