@@ -8,6 +8,10 @@ img = pero.Image(width=400, height=400)
 img.line_cap = pero.ROUND
 img.line_join = pero.ROUND
 
+# fill
+img.fill_color = pero.Color.White
+img.fill()
+
 # body
 img.line_width = 3
 img.line_color = pero.Color.Orange.darker(.1)

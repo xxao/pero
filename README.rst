@@ -5,7 +5,7 @@ The main motivation behind the *pero* library is to provide unified API for
 multiple drawing backends like `wxPython <https://pypi.org/project/wxPython/>`_,
 `PyCairo <https://pypi.org/project/pycairo/>`_,
 `PyMuPDF <https://pypi.org/project/PyMuPDF/>`_,
-`Pythonista <http://http://omz-software.com/pythonista/>`_ (and
+`Pythonista <http://omz-software.com/pythonista/>`_ (and
 possibly more), which is easy to understand and use. Beside the common drawing
 capabilities, numerous pre-build glyphs are available, as well as an easy to use
 path, matrix transformations etc. Depending on available backend libraries,
@@ -29,7 +29,11 @@ the in-code documentation of classes and functions to learn more about the
     
     img.line_cap = pero.ROUND
     img.line_join = pero.ROUND
-    
+
+    # fill
+    img.fill_color = pero.Color.White
+    img.fill()
+
     # body
     img.line_width = 3
     img.line_color = pero.Color.Orange.darker(.1)
@@ -46,7 +50,7 @@ the in-code documentation of classes and functions to learn more about the
     img.draw_circle(140, 170, 30)
     img.draw_circle(260, 170, 30)
     
-    # eye brows
+    # eyebrows
     img.line_color = pero.Color.Black
     img.fill_color = None
     img.line_width = 7
