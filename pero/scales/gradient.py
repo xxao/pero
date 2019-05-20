@@ -51,6 +51,8 @@ class GradientScale(Scale):
         
         # init gradient
         self._gradient = None
+        if 'out_range' in overrides:
+            self._gradient = Gradient.create(self.out_range).normalized(0, 1)
         
         # bind events
         self.bind(EVENT.PROPERTY_CHANGED, self._on_gradient_scale_property_changed)
@@ -81,7 +83,7 @@ class GradientScale(Scale):
         
         # check gradient
         if evt.name == 'out_range':
-            self._gradient = Gradient.create(self.out_range).normalized(0,1)
+            self._gradient = Gradient.create(self.out_range).normalized(0, 1)
 
 
 class GradientLinScale(GradientScale):
