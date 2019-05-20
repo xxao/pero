@@ -14,18 +14,18 @@ class DrawTest(pero.Graphics):
         
         # init canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # init glyphs
         circle = pero.Circle(
             line_width = 1,
-            line_color = pero.Color.Red,
+            line_color = pero.colors.Red,
             fill_color = None)
         
         origin = pero.Plus(
             line_width = 1,
-            line_color = pero.Color.Red,
+            line_color = pero.colors.Red,
             size = 10)
         
         top_label = pero.Text(

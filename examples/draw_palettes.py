@@ -13,7 +13,7 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # set properties
@@ -25,7 +25,7 @@ class DrawTest(pero.Graphics):
         
         rect = pero.Rect(
             line_width = 1,
-            line_color = pero.Color.White,
+            line_color = pero.colors.White,
             width = rect_width,
             height = rect_height)
         

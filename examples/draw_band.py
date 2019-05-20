@@ -14,7 +14,7 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # calc coordinates
@@ -40,11 +40,11 @@ class DrawTest(pero.Graphics):
         
         # init glyph (with dynamic fill)
         glyph = pero.Band(
-            line_color = pero.Color.Blue,
-            fill_color = pero.Color.Blue.lighter(0.7),
+            line_color = pero.colors.Blue,
+            fill_color = pero.colors.Blue.lighter(0.7),
             data = data,
             marker_size = 8,
-            marker_line_color = pero.Color.White,
+            marker_line_color = pero.colors.White,
             marker_fill_color = lambda d: "b" if d[0] >= 0 else "r")
         
         # draw lines

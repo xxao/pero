@@ -13,7 +13,7 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # set properties
@@ -29,7 +29,7 @@ class DrawTest(pero.Graphics):
             text_base = pero.MIDDLE)
         
         glyph = pero.Circle(
-            line_color = pero.Color.Grey,
+            line_color = pero.colors.Grey,
             line_width = 1,
             size = size)
         

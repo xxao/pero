@@ -13,14 +13,14 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # set properties
         arrow_size = 15
-        line_color = pero.Color.Blue
-        start_fill_color = pero.Color.Red.opaque(0.25)
-        end_fill_color = pero.Color.Blue.opaque(0.25)
+        line_color = pero.colors.Blue
+        start_fill_color = pero.colors.Red.opaque(0.25)
+        end_fill_color = pero.colors.Blue.opaque(0.25)
         
         # init arrow
         arrow = pero.ConnectorArrow(line_color=line_color)
@@ -33,7 +33,7 @@ class DrawTest(pero.Graphics):
         y2 = 140
         
         # draw guides
-        canvas.line_color = pero.Color.Red
+        canvas.line_color = pero.colors.Red
         canvas.draw_line(20, y1, 660, y1)
         canvas.draw_line(20, y2, 660, y2)
         
@@ -65,7 +65,7 @@ class DrawTest(pero.Graphics):
         y2 += 150
         
         # draw guides
-        canvas.line_color = pero.Color.Red
+        canvas.line_color = pero.colors.Red
         canvas.draw_line(20, y1, 660, y1)
         canvas.draw_line(20, y2, 660, y2)
         

@@ -13,13 +13,13 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # init glyphs
         line = pero.Line(
             line_width = 1,
-            line_color = pero.Color.Red)
+            line_color = pero.colors.Red)
         
         label = pero.Text(
             font_size = 9,
@@ -78,11 +78,11 @@ class DrawTest(pero.Graphics):
         y += 30
         
         # test color
-        label.draw(canvas, x=x, y=y, text="black", text_color=pero.Color.Black, text_bgr_color=None)
+        label.draw(canvas, x=x, y=y, text="black", text_color=pero.colors.Black, text_bgr_color=None)
         x += 50
-        label.draw(canvas, x=x, y=y, text="blue", text_color=pero.Color.Blue, text_bgr_color=None)
+        label.draw(canvas, x=x, y=y, text="blue", text_color=pero.colors.Blue, text_bgr_color=None)
         x += 50
-        label.draw(canvas, x=x, y=y, text="background", text_color=pero.Color.LightGrey, text_bgr_color=pero.Color.Black)
+        label.draw(canvas, x=x, y=y, text="background", text_color=pero.colors.LightGrey, text_bgr_color=pero.colors.Black)
         
         x = 20
         y += 30

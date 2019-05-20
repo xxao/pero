@@ -13,18 +13,18 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # set properties
         size = 20
         line_width = 1
-        line_color = pero.Color.Blue
-        fill_color = pero.Color.Blue.lighter(0.7)
+        line_color = pero.colors.Blue
+        fill_color = pero.colors.Blue.lighter(0.7)
         
         # init glyphs
         line = pero.Line(
-            line_color = pero.Color.Red)
+            line_color = pero.colors.Red)
         
         label = pero.Text(
             text_align = pero.CENTER)
@@ -34,9 +34,9 @@ class DrawTest(pero.Graphics):
         y = 50
         
         # draw guidelines
-        line.draw(canvas, x1=x-30, y1=y-0.5*size, x2=x+450, y2=y-0.5*size, line_color=pero.Color.LightGrey)
+        line.draw(canvas, x1=x-30, y1=y-0.5*size, x2=x+450, y2=y-0.5*size, line_color=pero.colors.LightGrey)
         line.draw(canvas, x1=x-30, y1=y, x2=x+450, y2=y)
-        line.draw(canvas, x1=x-30, y1=y+0.5*size, x2=x+450, y2=y+0.5*size, line_color=pero.Color.LightGrey)
+        line.draw(canvas, x1=x-30, y1=y+0.5*size, x2=x+450, y2=y+0.5*size, line_color=pero.colors.LightGrey)
         
         # test asterisk
         marker = pero.Asterisk(line_width=line_width, line_color=line_color, fill_color=fill_color, size=size)

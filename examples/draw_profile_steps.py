@@ -13,7 +13,7 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # calc coordinates
@@ -44,11 +44,11 @@ class DrawTest(pero.Graphics):
             show_line = True,
             show_points = True,
             show_area = True,
-            line_color = pero.Color.Blue,
-            fill_color = pero.Color.Blue.lighter(0.7),
+            line_color = pero.colors.Blue,
+            fill_color = pero.colors.Blue.lighter(0.7),
             marker_size = 8,
-            marker_line_color = pero.Color.White,
-            marker_fill_color = pero.Color.Blue)
+            marker_line_color = pero.colors.White,
+            marker_fill_color = pero.colors.Blue)
         
         # draw line
         label.draw(canvas, x=x, y=y, text="None")

@@ -14,7 +14,7 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # init coords
@@ -33,7 +33,7 @@ class DrawTest(pero.Graphics):
         minor_ticks = [offset+i*length/(splits*count) for i in range(splits*count+1)]
         
         # init origin
-        origin = pero.Cross(size=10, line_color=pero.Color.Red)
+        origin = pero.Cross(size=10, line_color=pero.colors.Red)
         
         # init axis
         axis = pero.StraitAxis(

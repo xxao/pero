@@ -13,7 +13,7 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # init coords
@@ -27,12 +27,12 @@ class DrawTest(pero.Graphics):
         path.circle(x, y, r)
         
         # draw standard circle
-        canvas.line_color = pero.Color.Grey
+        canvas.line_color = pero.colors.Grey
         canvas.draw_circle(x, y, r)
         
         # draw path circle
         glyph = pero.Pather(path=path)
-        glyph.draw(canvas, fill_color=None, line_color=pero.Color.Red)
+        glyph.draw(canvas, fill_color=None, line_color=pero.colors.Red)
 
 
 # run test

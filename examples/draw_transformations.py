@@ -13,7 +13,7 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # init path
@@ -27,18 +27,18 @@ class DrawTest(pero.Graphics):
         # init glyphs
         ghost = pero.Shape(
             path = path,
-            line_color = pero.Color.Blue.trans(0.25),
-            fill_color = pero.Color.Blue.trans(0.5))
+            line_color = pero.colors.Blue.trans(0.25),
+            fill_color = pero.colors.Blue.trans(0.5))
         
         shape = pero.Shape(
-            line_color = pero.Color.Orange,
-            fill_color = pero.Color.Orange.trans(0.25))
+            line_color = pero.colors.Orange,
+            fill_color = pero.colors.Orange.trans(0.25))
         
         origin = pero.Plus(
             x = 0,
             y = 0,
             size = 10,
-            line_color = pero.Color.Red)
+            line_color = pero.colors.Red)
         
         label = pero.Text(
             x = 0,
@@ -89,7 +89,7 @@ class DrawTest(pero.Graphics):
         
         matrix = pero.Matrix().rotate(45, x=20, y=20, units=pero.DEG)
         shape.draw(canvas, path=path.transformed(matrix))
-        origin.draw(canvas, x=20, y=20, line_color=pero.Color.White)
+        origin.draw(canvas, x=20, y=20, line_color=pero.colors.White)
         label.draw(canvas, text="Rotate (ori)")
         
         x = 50
@@ -113,7 +113,7 @@ class DrawTest(pero.Graphics):
         
         matrix = pero.Matrix().scale(0.75, 1.5, x=20, y=20)
         shape.draw(canvas, path=path.transformed(matrix))
-        origin.draw(canvas, x=20, y=20, line_color=pero.Color.White)
+        origin.draw(canvas, x=20, y=20, line_color=pero.colors.White)
         label.draw(canvas, text="Scale (ori)")
         
         x += 100
@@ -136,7 +136,7 @@ class DrawTest(pero.Graphics):
         
         matrix = pero.Matrix().skew(20, 10, x=20, y=20, units=pero.DEG)
         shape.draw(canvas, path=path.transformed(matrix))
-        origin.draw(canvas, x=20, y=20, line_color=pero.Color.White)
+        origin.draw(canvas, x=20, y=20, line_color=pero.colors.White)
         label.draw(canvas, text="Skew (ori)")
         
         x = 50
@@ -170,7 +170,7 @@ class DrawTest(pero.Graphics):
         
         matrix = pero.Matrix().hflip(20)
         shape.draw(canvas, path=path.transformed(matrix))
-        origin.draw(canvas, x=20, y=20, line_color=pero.Color.White)
+        origin.draw(canvas, x=20, y=20, line_color=pero.colors.White)
         label.draw(canvas, text="H Flip (ori)")
         
         x += 100
@@ -193,7 +193,7 @@ class DrawTest(pero.Graphics):
         
         matrix = pero.Matrix().vflip(20)
         shape.draw(canvas, path=path.transformed(matrix))
-        origin.draw(canvas, x=20, y=20, line_color=pero.Color.White)
+        origin.draw(canvas, x=20, y=20, line_color=pero.colors.White)
         label.draw(canvas, text="V Flip (ori)")
 
 

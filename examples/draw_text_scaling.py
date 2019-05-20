@@ -14,22 +14,22 @@ class DrawTest(pero.Graphics):
         # clear canvas
         canvas.line_scale = 1.5
         canvas.font_scale = 1.5
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # init glyphs
         line = pero.Line(
             line_width = 1,
-            line_color = pero.Color.Red)
+            line_color = pero.colors.Red)
         
         label = pero.Text(
             font_size = 12,
             font_name = "Arial",
             text_spacing = .5,
-            text_bgr_color = pero.Color.Grey.opaque(.3))
+            text_bgr_color = pero.colors.Grey.opaque(.3))
         
         rect = pero.Rect(
-            line_color = pero.Color.Green,
+            line_color = pero.colors.Green,
             fill_color = None)
         
         # init coords

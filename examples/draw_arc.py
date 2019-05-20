@@ -14,43 +14,43 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         x = 70
         y = 70
         radius = 40
         
-        canvas.line_color = pero.Color.Blue
+        canvas.line_color = pero.colors.Blue
         canvas.draw_arc(x, y, radius, math.radians(0), math.radians(90), True)
         
         x += 100
-        canvas.line_color = pero.Color.Blue
+        canvas.line_color = pero.colors.Blue
         canvas.draw_arc(x, y, radius, math.radians(0), math.radians(90), False)
         
         x += 100
-        canvas.line_color = pero.Color.Blue
+        canvas.line_color = pero.colors.Blue
         canvas.draw_arc(x, y, radius, math.radians(90), math.radians(0), True)
         
         x += 100
-        canvas.line_color = pero.Color.Blue
+        canvas.line_color = pero.colors.Blue
         canvas.draw_arc(x, y, radius, math.radians(90), math.radians(0), False)
         
         x = 70
         y += 100
-        canvas.line_color = pero.Color.Blue
+        canvas.line_color = pero.colors.Blue
         canvas.draw_arc(x, y, radius, math.radians(-30), math.radians(200), True)
         
         x += 100
-        canvas.line_color = pero.Color.Blue
+        canvas.line_color = pero.colors.Blue
         canvas.draw_arc(x, y, radius, math.radians(-30), math.radians(200), False)
         
         x += 100
-        canvas.line_color = pero.Color.Blue
+        canvas.line_color = pero.colors.Blue
         canvas.draw_arc(x, y, radius, math.radians(200), math.radians(-30), True)
         
         x += 100
-        canvas.line_color = pero.Color.Blue
+        canvas.line_color = pero.colors.Blue
         canvas.draw_arc(x, y, radius, math.radians(200), math.radians(-30), False)
 
 

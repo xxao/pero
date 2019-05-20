@@ -13,7 +13,7 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # init glyphs
@@ -24,11 +24,11 @@ class DrawTest(pero.Graphics):
             text_base = pero.TOP)
         
         rect = pero.Rect(
-            line_color = pero.Color.Red.trans(0.5),
+            line_color = pero.colors.Red.trans(0.5),
             fill_color = None)
         
         middle = pero.Ray(
-            line_color = pero.Color.Red.trans(0.5))
+            line_color = pero.colors.Red.trans(0.5))
         
         # init coords
         x = 20

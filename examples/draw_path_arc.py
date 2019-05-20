@@ -14,7 +14,7 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.fill_color = pero.Color.White
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # init path
@@ -34,17 +34,17 @@ class DrawTest(pero.Graphics):
         
         # draw angles rays
         ray = pero.Ray(x=x, y=y, length=r+10)
-        ray.draw(canvas, angle=start_angle, line_color=pero.Color.Red)
-        ray.draw(canvas, angle=end_angle, line_color=pero.Color.Green)
+        ray.draw(canvas, angle=start_angle, line_color=pero.colors.Red)
+        ray.draw(canvas, angle=end_angle, line_color=pero.colors.Green)
         
         # draw standard arc
-        canvas(line_color=pero.Color.Grey, fill_color=None)
+        canvas(line_color=pero.colors.Grey, fill_color=None)
         canvas.draw_circle(x, y, r)
         # canvas.draw_path(pero.Path().circle(x, y, r))
         
         # draw path arc
         glyph = pero.Pather(path=path)
-        glyph.draw(canvas, fill_color=None, line_color=pero.Color.Red)
+        glyph.draw(canvas, fill_color=None, line_color=pero.colors.Red)
 
 
 # run test
