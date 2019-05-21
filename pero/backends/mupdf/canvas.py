@@ -248,7 +248,7 @@ class MuPDFCanvas(Canvas):
                 shape.drawBezier(cursor, values[0:2], values[2:4], values[4:6])
                 cursor = values[4:6]
         
-        # draw last
+        # fill and stroke
         self._fill_and_stroke(shape, close=False, even_odd=MUPDF_FILL_RULE[path.fill_rule])
     
     
