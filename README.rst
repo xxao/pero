@@ -138,16 +138,16 @@ just create an image and use it as any other *pero* canvas:
     height = 200
     
     # init image
-    image = pero.Image(width=width, height=height)
+    img = pero.Image(width=width, height=height)
     
     # draw graphics
-    image.line_color = "b"
-    image.fill_color = "w"
-    image.fill()
-    image.draw_circle(100, 100, 75)
+    img.line_color = "b"
+    img.fill_color = "w"
+    img.fill()
+    img.draw_circle(100, 100, 75)
     
     # save to file
-    image.export('image.png')
+    img.export('image.png')
 
 
 Using wxPython
