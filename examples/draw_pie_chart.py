@@ -57,7 +57,7 @@ class DrawTest(pero.Graphics):
             start_angle = wedge.end_angle
             
             # set color
-            wedge.fill_color = pero.Palette.Pero[i]
+            wedge.fill_color = pero.colors.Pero[i]
             
             # draw glyph
             wedge.draw(canvas)

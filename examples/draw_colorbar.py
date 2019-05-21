@@ -25,7 +25,7 @@ class DrawTest(pero.Graphics):
         # init color bar
         bar = pero.ColorBar(
             steps = 128,
-            gradient = pero.Palette.YlOrBr)
+            gradient = pero.colors.YlOrBr)
         
         # draw horizontal bars
         bar.orientation = pero.HORIZONTAL

@@ -82,8 +82,8 @@ class DrawTest(pero.Graphics):
         
         for i, y_data in enumerate((sin_data, cos_data)):
             
-            series_glyph.line_color = pero.Palette.Pero[i]
-            series_glyph.fill_color = pero.Palette.Pero[i].opaque(.75)
+            series_glyph.line_color = pero.colors.Pero[i]
+            series_glyph.fill_color = pero.colors.Pero[i].opaque(.75)
             
             canvas.group()
             for j in range(len(x_data)):
