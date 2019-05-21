@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # define values
-NONE = 'n'
+NONE = 'none'
 
 DEG = 'deg'
 RAD = 'rad'
