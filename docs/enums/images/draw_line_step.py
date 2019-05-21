@@ -65,4 +65,4 @@ glyph.draw(img, steps=pero.MIDDLE, x=x_scale.scale(x_data), y=y_scale.scale(y_da
 label.draw(img, x=x, y=y+60, text="pero.MIDDLE")
 
 img.show()
-img.export('line_steps.svg')
+img.export('line_step.svg')
