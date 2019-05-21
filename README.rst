@@ -17,8 +17,8 @@ Python drawings. In fact, this has been the trigger to start working on the
 *pero* library. Finally, it is all now available.
 
 Until the full documentation is available, please see the *examples* folder or
-the in-code documentation of classes and functions to learn more about the
-*pero* library capabilities.
+in-code documentation of classes and functions to learn more about the *pero*
+library capabilities.
 
 
 .. code:: python
@@ -349,6 +349,10 @@ to which given data source is automatically provided. Together with *scales*
 
     # init image
     image = pero.Image(width=width, height=height)
+
+    # fill
+    image.fill_color = pero.colors.White
+    image.fill()
 
     # draw points
     for p in zip(x_data, y_data):
