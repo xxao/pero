@@ -492,7 +492,7 @@ class MuPDFCanvas(Canvas):
             width = self._pen['width'] if self._pen['color'] else 0,
             color = self._pen['color'] if self._pen['width'] else None,
             roundCap = self._pen['cap'],
-            roundJoin = self._pen['join'],
+            #roundJoin = self._pen['join'],
             dashes = self._pen['dashes'],
             fill = self._brush['color'] if fill else None,
             even_odd = even_odd,
