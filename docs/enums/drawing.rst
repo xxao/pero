@@ -68,7 +68,7 @@ Used to specify a profile line steps style.
 
 .. image:: images/line_step.svg
 
-- **pero.NONE**: Points are connected directly by strait line.
-- **pero.BEFORE**: A line steps up or down before a final point to ist y-value.
-- **pero.AFTER**: A line steps up or down after a final point to ist y-value.
-- **pero.MIDDLE**: A line steps up or down between two points to the final y-value.
+- **pero.NONE**: Data points are connected directly by strait line.
+- **pero.BEFORE**: A horizontal line starts before data points.
+- **pero.AFTER**: A horizontal line starts after data points.
+- **pero.MIDDLE**: A horizontal line crosses data points.
