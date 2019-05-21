@@ -281,8 +281,20 @@ class Path(object):
                 Fill rule.
         """
         
-        
         return self._fill_rule
+
+
+    @fill_rule.setter
+    def fill_rule(self, value):
+        """
+        Sets current fill rule as a value from pero.FILL_RULE enum.
+        
+        Args:
+            value: pero.FILL_RULE
+                Fill rule.
+        """
+        
+        self._fill_rule = value
     
     
     def bbox(self):
@@ -1435,20 +1447,24 @@ class Path(object):
         return self
     
     
-    def transformed(self, matrix):
+    def transformed(self, matrix, fill_rule=None):
         """
         Creates a clone of current path and applies the transformation.
         
         Args:
             matrix: pero.Matrix
                 Transformation matrix to apply.
+            
+            fill_rule: pero.FILL_RULE
+                Specifies the fill rule to be used for drawing as a value from
+                pero.FILL_RULE enum. If set to None, current path value is used.
         
         Returns:
             pero.Path
                 Transformed path as a new instance.
         """
         
-        return self.clone().transform(matrix)
+        return self.clone(fill_rule).transform(matrix)
     
     
     def split(self):
@@ -1468,10 +1484,15 @@ class Path(object):
         return tuple(Path.from_commands(x) for x in self._paths if x)
     
     
-    def symbol(self):
+    def symbol(self, fill_rule=None):
         """
         Creates a clone of current path centered at 0,0 and rescaled to fit into
         1 x 1 square.
+        
+        Args:
+            fill_rule: pero.FILL_RULE
+                Specifies the fill rule to be used for drawing as a value from
+                pero.FILL_RULE enum. If set to None, current path value is used.
         
         Returns:
             pero.Path
@@ -1492,20 +1513,29 @@ class Path(object):
         matrix.scale(scale, scale)
         
         # apply to path
-        return self.clone().transform(matrix)
+        return self.clone(fill_rule).transform(matrix)
     
     
-    def clone(self):
+    def clone(self, fill_rule=None):
         """
         Creates a clone of current path.
+        
+        Args:
+            fill_rule: pero.FILL_RULE
+                Specifies the fill rule to be used for drawing as a value from
+                pero.FILL_RULE enum. If set to None, current path value is used.
         
         Returns:
             pero.Path
                 Direct clone of current path.
         """
         
+        # get fill rule
+        if fill_rule is None:
+            fill_rule = self._fill_rule
+        
         # clone commands
-        path = Path.from_commands(self.commands, self.fill_rule)
+        path = Path.from_commands(self.commands, fill_rule)
         
         # set cursor
         path._cursor = self._cursor
@@ -1613,7 +1643,7 @@ class Path(object):
         Args:
             commands: ((pero.PATH, float,),)
                 Sequence of commands as (key, *values), where key must be a
-                value from the pero.PATH enum. 
+                value from the pero.PATH enum.
             
             fill_rule: pero.FILL_RULE
                 Specifies the fill rule to be used for drawing as a value from
@@ -1749,13 +1779,17 @@ class Path(object):
     
     
     @staticmethod
-    def from_bezier(curve):
+    def from_bezier(curve, fill_rule=EVEN_ODD):
         """
         Creates a new path from given Bezier curve.
         
         Args:
             curve: pero.Bezier
                 Bezier curve.
+            
+            fill_rule: pero.FILL_RULE
+                Specifies the fill rule to be used for drawing as a value from
+                pero.FILL_RULE enum.
         
         Returns:
             pero.Path
@@ -1766,7 +1800,7 @@ class Path(object):
         coords = curve.coords
         
         # make path
-        path = Path()
+        path = Path(fill_rule)
         path.move_to(coords[0], coords[1])
         path.curve_to(*coords[2:])
         
@@ -1774,7 +1808,7 @@ class Path(object):
     
     
     @staticmethod
-    def make_star(rays, x=0, y=0, outer_radius=.5, inner_radius=.25):
+    def make_star(rays, x=0, y=0, outer_radius=.5, inner_radius=.25, fill_rule=EVEN_ODD):
         """
         Creates a closed star-like path.
         
@@ -1793,6 +1827,10 @@ class Path(object):
             
             inner_radius: int or float
                 Inner radius of the rays.
+            
+            fill_rule: pero.FILL_RULE
+                Specifies the fill rule to be used for drawing as a value from
+                pero.FILL_RULE enum.
         
         Returns:
             pero.Path
@@ -1810,11 +1848,11 @@ class Path(object):
         vertices += numpy.array((x, y))
         
         # make path
-        return Path().polygon(vertices[:-1])
+        return Path(fill_rule).polygon(vertices[:-1])
     
     
     @staticmethod
-    def make_ngon(sides, x=0, y=0, radius=.5):
+    def make_ngon(sides, x=0, y=0, radius=.5, fill_rule=EVEN_ODD):
         """
         Creates a closed regular polygon path.
         
@@ -1830,6 +1868,10 @@ class Path(object):
             
             radius: int or float
                 Radius of the polygon.
+            
+            fill_rule: pero.FILL_RULE
+                Specifies the fill rule to be used for drawing as a value from
+                pero.FILL_RULE enum.
         
         Returns:
             pero.Path
@@ -1844,4 +1886,4 @@ class Path(object):
         vertices += numpy.array((x, y))
         
         # make path
-        return Path().polygon(vertices[:-1])
+        return Path(fill_rule).polygon(vertices[:-1])
