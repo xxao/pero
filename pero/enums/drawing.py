@@ -114,9 +114,9 @@ LINE_STEP = Enum(
 
 # define line dash values
 DASH_VALUES = Enum(
-    DOTTED = (1,5),
-    DASHED = (5,5),
-    DASHDOTTED = (5,5,1,5))
+    DOTTED = (1, 5),
+    DASHED = (5, 5),
+    DASHDOTTED = (5, 5, 1, 5))
 
 # define fill style
 FILL_STYLE = Enum(
