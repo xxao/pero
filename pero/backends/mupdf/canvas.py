@@ -172,7 +172,7 @@ class MuPDFCanvas(Canvas):
         shape.drawLine((x1, y1), (x2, y2))
         
         # fill and stroke
-        self._fill_and_stroke(shape, close=False)
+        self._fill_and_stroke(shape, close=False, fill=False)
     
     
     def draw_lines(self, points):
@@ -484,7 +484,7 @@ class MuPDFCanvas(Canvas):
         pass
     
     
-    def _fill_and_stroke(self, shape, close, even_odd=True, commit=True):
+    def _fill_and_stroke(self, shape, close, even_odd=True, fill=True, commit=True):
         """Fills and strokes given shape."""
         
         # draw shape
@@ -492,8 +492,9 @@ class MuPDFCanvas(Canvas):
             width = self._pen['width'] if self._pen['color'] else 0,
             color = self._pen['color'] if self._pen['width'] else None,
             roundCap = self._pen['cap'],
+            roundJoin = self._pen['join'],
             dashes = self._pen['dashes'],
-            fill = self._brush['color'],
+            fill = self._brush['color'] if fill else None,
             even_odd = even_odd,
             closePath = close)
         
