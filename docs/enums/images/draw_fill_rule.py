@@ -8,8 +8,8 @@ img = pero.Image(width=330, height=180)
 img.fill_color = pero.colors.GhostWhite
 img.fill()
 
-img.fill_color = pero.colors.LightBlue
-img.line_color = pero.colors.Black
+img.fill_color = pero.colors.Blue.lighter(0.7)
+img.line_color = pero.colors.Blue
 img.line_width = 1
 
 label = pero.Text(
