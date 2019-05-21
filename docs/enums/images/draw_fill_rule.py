@@ -23,8 +23,8 @@ path = pero.Path().move_to(0, -50).line_to(40, 50).line_to(-55, -10).line_to(55,
 mat = pero.Matrix()
 
 mat.translate(90, 70)
-img.draw_path(path.transformed(mat, pero.EVEN_ODD))
-label.draw(img, x=90, y=70+60, text="pero.EVEN_ODD")
+img.draw_path(path.transformed(mat, pero.EVENODD))
+label.draw(img, x=90, y=70+60, text="pero.EVENODD")
 
 mat.translate(150, 0)
 img.draw_path(path.transformed(mat, pero.WINDING))

@@ -10,7 +10,7 @@
     L145.0 60.0
     L50.0 120.0
     Z" />
-  <text x="27.0" y="145.0" font-family="Arial" font-size="16.200000000000003" text-anchor="left" fill="#000000" >pero.EVEN_ODD</text>
+  <text x="27.0" y="145.0" font-family="Arial" font-size="16.200000000000003" text-anchor="left" fill="#000000" >pero.EVENODD</text>
   <path stroke="#000000" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#add8e6" fill-rule="nonzero" d="
     M240.0 20.0
     L280.0 120.0

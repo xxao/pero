@@ -58,7 +58,7 @@ Used to specify a path filling rule.
 
 .. image:: images/fill_rule.svg
 
-- **pero.EVEN_ODD**: Fills an area according to inside/outside state.
+- **pero.EVENODD**: Fills an area according to inside/outside state.
 - **pero.WINDING**: Fills a whole enclosed area.
 
 

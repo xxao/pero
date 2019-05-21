@@ -125,7 +125,7 @@ FILL_STYLE = Enum(
 
 # define fill rule
 FILL_RULE = Enum(
-    EVEN_ODD = EVEN_ODD,
+    EVENODD = EVENODD,
     WINDING = WINDING)
 
 # define orientation

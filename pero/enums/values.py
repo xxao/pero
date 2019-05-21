@@ -19,7 +19,7 @@ END = 'end'
 BEFORE = 'before'
 AFTER = 'after'
 
-EVEN_ODD = 'evenodd'
+EVENODD = 'evenodd'
 WINDING = 'winding'
 
 N = 'n'

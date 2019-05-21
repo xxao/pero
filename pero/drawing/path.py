@@ -23,7 +23,7 @@ class Path(object):
     """
     
     
-    def __init__(self, fill_rule=EVEN_ODD):
+    def __init__(self, fill_rule=EVENODD):
         """
         Initializes a new instance of Path.
         
@@ -1636,7 +1636,7 @@ class Path(object):
     
     
     @staticmethod
-    def from_commands(commands, fill_rule=EVEN_ODD):
+    def from_commands(commands, fill_rule=EVENODD):
         """
         Creates a new path from given commands.
         
@@ -1684,7 +1684,7 @@ class Path(object):
     
     
     @staticmethod
-    def from_svg(svg, fill_rule=EVEN_ODD):
+    def from_svg(svg, fill_rule=EVENODD):
         """
         Creates a new path by parsing given SVG path definition.
         
@@ -1779,7 +1779,7 @@ class Path(object):
     
     
     @staticmethod
-    def from_bezier(curve, fill_rule=EVEN_ODD):
+    def from_bezier(curve, fill_rule=EVENODD):
         """
         Creates a new path from given Bezier curve.
         
@@ -1808,7 +1808,7 @@ class Path(object):
     
     
     @staticmethod
-    def make_star(rays, x=0, y=0, outer_radius=.5, inner_radius=.25, fill_rule=EVEN_ODD):
+    def make_star(rays, x=0, y=0, outer_radius=.5, inner_radius=.25, fill_rule=EVENODD):
         """
         Creates a closed star-like path.
         
@@ -1852,7 +1852,7 @@ class Path(object):
     
     
     @staticmethod
-    def make_ngon(sides, x=0, y=0, radius=.5, fill_rule=EVEN_ODD):
+    def make_ngon(sides, x=0, y=0, radius=.5, fill_rule=EVENODD):
         """
         Creates a closed regular polygon path.
         
