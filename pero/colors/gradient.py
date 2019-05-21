@@ -56,6 +56,12 @@ class Gradient(object, metaclass=GradientMeta):
         # set name
         self._name = name
         
+        # check colors
+        if len(colors) == 0:
+            raise AttributeError("Gradient must be defined by one color at least!")
+        elif len(colors) == 1:
+            colors = (colors[0], colors[0])
+        
         # get colors
         self._colors = []
         

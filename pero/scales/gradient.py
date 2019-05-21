@@ -4,7 +4,7 @@
 # import modules
 from ..enums import *
 from ..properties import *
-from ..colors import Gradient
+from ..colors import Gradient, Transparent
 from .scale import Scale
 from .interpols import *
 
@@ -31,9 +31,10 @@ class GradientScale(Scale):
         in_range: (float, float)
             Specifies the minimum and maximum value of the input range.
         
-        out_range: pero.Palette, (color,)
-            Specifies the output gradient as a sequence of colors or
-            pero.Palette.
+        out_range: pero.Gradient, pero.Palette, (color,), str
+            Specifies the output gradient as a sequence of supported pero.Color
+            definitions, pero.Palette, pero.Gradient or registered palette or
+            gradient name.
         
         normalizer: pero.Interpol
             Specifies the normalization interpolator.
@@ -42,6 +43,7 @@ class GradientScale(Scale):
     normalizer = Property(UNDEF, types=(Interpol,), dynamic=False)
     
     in_range = TupleProperty((), intypes=(int, float), dynamic=False)
+    out_range = GradientProperty(UNDEF, dynamic=False)
     
     
     def __init__(self, **overrides):
@@ -51,8 +53,7 @@ class GradientScale(Scale):
         
         # init gradient
         self._gradient = None
-        if 'out_range' in overrides:
-            self._gradient = Gradient.create(self.out_range).normalized(0, 1)
+        self._update_gradient()
         
         # bind events
         self.bind(EVENT.PROPERTY_CHANGED, self._on_gradient_scale_property_changed)
@@ -78,12 +79,22 @@ class GradientScale(Scale):
         return self._gradient.color_at(norm)
     
     
+    def _update_gradient(self):
+        """Updates gradient by current out_range."""
+        
+        if self.out_range is UNDEF:
+            self._gradient = Gradient((Transparent, Transparent))
+        
+        else:
+            self._gradient = self.out_range.normalized(0, 1)
+    
+    
     def _on_gradient_scale_property_changed(self, evt=None):
         """Called after a property has changed."""
         
-        # check gradient
+        # update gradient
         if evt.name == 'out_range':
-            self._gradient = Gradient.create(self.out_range).normalized(0, 1)
+            self._update_gradient()
 
 
 class GradientLinScale(GradientScale):
