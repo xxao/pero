@@ -250,11 +250,11 @@ MARKER = Enum(
 # define available arrows
 ARROW = Enum(
     ARC = 'c',
+    BOW = ')',
     CONNECT_LINE = 'z',
     CONNECT_CURVE = 's',
     CURVE = '~',
     LINE = '-',
-    RADIAL = 'o',
     RAY = '/')
 
 # define available heads

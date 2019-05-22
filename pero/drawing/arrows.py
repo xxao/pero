@@ -108,8 +108,8 @@ class Arrow(Glyph):
         elif arrow_type == ARROW.LINE:
             return LineArrow(**overrides)
         
-        elif arrow_type == ARROW.RADIAL:
-            return RadialArrow(**overrides)
+        elif arrow_type == ARROW.BOW:
+            return BowArrow(**overrides)
         
         elif arrow_type == ARROW.RAY:
             return RayArrow(**overrides)
@@ -181,6 +181,105 @@ class ArcArrow(Arrow):
         direction = 1 if clockwise else -1
         start_angle = start_angle - 0.5*math.pi * direction
         end_angle = end_angle + 0.5*math.pi * direction
+        
+        # set pen and brush
+        canvas.set_pen_by(self, source=source, overrides=overrides)
+        canvas.fill_color = None
+        
+        # start drawing group
+        canvas.group(tag, "arrow")
+        
+        # draw path
+        canvas.draw_path(path)
+        
+        # draw start head
+        if start_head:
+            
+            canvas.set_pen_by(self, source=source, overrides=overrides)
+            canvas.set_brush_by(self, source=source, overrides=overrides)
+            
+            head_overrides = self.get_child_overrides('start_head', overrides)
+            start_head.draw(canvas, source=source, x=x1, y=y1, angle=start_angle, angle_units=ANGLE.RAD, **head_overrides)
+        
+        # draw end head
+        if end_head:
+            
+            canvas.set_pen_by(self, source=source, overrides=overrides)
+            canvas.set_brush_by(self, source=source, overrides=overrides)
+            
+            head_overrides = self.get_child_overrides('end_head', overrides)
+            end_head.draw(canvas, source=source, x=x2, y=y2, angle=end_angle, angle_units=ANGLE.RAD, **head_overrides)
+        
+        # end drawing group
+        canvas.ungroup()
+
+
+class BowArrow(Arrow):
+    """
+    This type of arrow is drawn as a simple circular arc defined by its start
+    and end coordinates, expected radius and the drawing direction.
+    
+    Properties:
+        
+        x1: int, float, callable
+            Specifies the x-coordinate of the arrow start.
+        
+        y1: int, float, callable
+            Specifies the y-coordinate of the arrow start.
+        
+        x2: int, float, callable
+            Specifies the x-coordinate of the arrow end.
+        
+        y2: int, float, callable
+            Specifies the y-coordinate of the arrow end.
+        
+        radius: int, float, callable
+            Specifies the arc radius.
+        
+        large: bool
+            Specifies which of the possible arcs will be drawn.
+        
+        clockwise: bool, callable
+            Specifies the drawing direction. If set to True the arc is drawn
+            clockwise, otherwise anti-clockwise.
+    """
+    
+    x1 = NumProperty(0)
+    y1 = NumProperty(0)
+    x2 = NumProperty(0)
+    y2 = NumProperty(0)
+    radius = NumProperty(0)
+    large = BoolProperty(False)
+    clockwise = BoolProperty(True)
+    
+    
+    def draw(self, canvas, source=UNDEF, **overrides):
+        """Uses given canvas to draw arrow."""
+        
+        # check if visible
+        if not self.is_visible(source, overrides):
+            return
+        
+        # get properties
+        tag = self.get_property('tag', source, overrides)
+        start_head = self.get_property('start_head', source, overrides)
+        end_head = self.get_property('end_head', source, overrides)
+        x1 = self.get_property('x1', source, overrides)
+        y1 = self.get_property('y1', source, overrides)
+        x2 = self.get_property('x2', source, overrides)
+        y2 = self.get_property('y2', source, overrides)
+        radius = self.get_property('radius', source, overrides)
+        large = self.get_property('large', source, overrides)
+        clockwise = self.get_property('clockwise', source, overrides)
+        
+        # make path
+        path = Path()
+        path.move_to(x1, y1)
+        path.arc_to3(x2, y2, radius, large, clockwise)
+        
+        # get edge angles
+        start_angle = path.start_angle() - math.pi
+        end_angle = path.end_angle()
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
@@ -628,105 +727,6 @@ class PathArrow(Arrow):
         
         # get angles
         start_angle = path.start_angle() + math.pi
-        end_angle = path.end_angle()
-        
-        # set pen and brush
-        canvas.set_pen_by(self, source=source, overrides=overrides)
-        canvas.fill_color = None
-        
-        # start drawing group
-        canvas.group(tag, "arrow")
-        
-        # draw path
-        canvas.draw_path(path)
-        
-        # draw start head
-        if start_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('start_head', overrides)
-            start_head.draw(canvas, source=source, x=x1, y=y1, angle=start_angle, angle_units=ANGLE.RAD, **head_overrides)
-        
-        # draw end head
-        if end_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('end_head', overrides)
-            end_head.draw(canvas, source=source, x=x2, y=y2, angle=end_angle, angle_units=ANGLE.RAD, **head_overrides)
-        
-        # end drawing group
-        canvas.ungroup()
-
-
-class RadialArrow(Arrow):
-    """
-    This type of arrow is drawn as a simple circular arc defined by its start
-    and end coordinates, expected radius and the drawing direction.
-    
-    Properties:
-        
-        x1: int, float, callable
-            Specifies the x-coordinate of the arrow start.
-        
-        y1: int, float, callable
-            Specifies the y-coordinate of the arrow start.
-        
-        x2: int, float, callable
-            Specifies the x-coordinate of the arrow end.
-        
-        y2: int, float, callable
-            Specifies the y-coordinate of the arrow end.
-        
-        radius: int, float, callable
-            Specifies the arc radius.
-        
-        large: bool
-            Specifies which of the possible arcs will be drawn.
-        
-        clockwise: bool, callable
-            Specifies the drawing direction. If set to True the arc is drawn
-            clockwise, otherwise anti-clockwise.
-    """
-    
-    x1 = NumProperty(0)
-    y1 = NumProperty(0)
-    x2 = NumProperty(0)
-    y2 = NumProperty(0)
-    radius = NumProperty(0)
-    large = BoolProperty(False)
-    clockwise = BoolProperty(True)
-    
-    
-    def draw(self, canvas, source=UNDEF, **overrides):
-        """Uses given canvas to draw arrow."""
-        
-        # check if visible
-        if not self.is_visible(source, overrides):
-            return
-        
-        # get properties
-        tag = self.get_property('tag', source, overrides)
-        start_head = self.get_property('start_head', source, overrides)
-        end_head = self.get_property('end_head', source, overrides)
-        x1 = self.get_property('x1', source, overrides)
-        y1 = self.get_property('y1', source, overrides)
-        x2 = self.get_property('x2', source, overrides)
-        y2 = self.get_property('y2', source, overrides)
-        radius = self.get_property('radius', source, overrides)
-        large = self.get_property('large', source, overrides)
-        clockwise = self.get_property('clockwise', source, overrides)
-        
-        # make path
-        path = Path()
-        path.move_to(x1, y1)
-        path.arc_to3(x2, y2, radius, large, clockwise)
-        
-        # get edge angles
-        start_angle = path.start_angle() - math.pi
         end_angle = path.end_angle()
         
         # set pen and brush

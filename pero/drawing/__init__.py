@@ -21,7 +21,7 @@ from .utils import *
 # import glyphs
 from .glyphs import Glyph, Annulus, Arc, Bar, Ellipse, Line, Polygon, Ray, Rect, Shape, Text, Textbox, Wedge
 from .markers import Marker, Asterisk, Circle, Cross, Diamond, Plus, Triangle, Square, Symbol
-from .arrows import Arrow, ArcArrow, ConnectorArrow, CurveArrow, LineArrow, PathArrow, RadialArrow, RayArrow
+from .arrows import Arrow, ArcArrow, BowArrow, ConnectorArrow, CurveArrow, LineArrow, PathArrow, RayArrow
 from .heads import Head, CircleHead, LineHead, NormalHead, OpenHead, SymbolHead, VeeHead
 from .grid import Grid, ParallelGrid, RayGrid, RadialGrid
 from .axes import Axis, StraitAxis, RadialAxis

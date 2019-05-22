@@ -69,10 +69,10 @@ class DrawTest(pero.Graphics):
         
         x += 120
         
-        # test radial arrow
-        arrow = pero.RadialArrow(start_head=start_head, end_head=end_head, line_width=line_width, line_color=line_color)
+        # test bow arrow
+        arrow = pero.BowArrow(start_head=start_head, end_head=end_head, line_width=line_width, line_color=line_color)
         arrow.draw(canvas, x1=x-30, y1=y1, x2=x+30, y2=y2, radius=100, large=False, clockwise=True)
-        label.draw(canvas, x=x, y=y2+20, text="RadialArrow")
+        label.draw(canvas, x=x, y=y2+20, text="BowArrow")
         
         x += 100
         
