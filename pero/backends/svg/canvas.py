@@ -3,6 +3,7 @@
 
 # import modules
 import numpy
+import html
 from ...properties import *
 from ...drawing import Canvas, Path, Matrix
 from .enums import *
@@ -438,6 +439,9 @@ class SVGCanvas(Canvas):
             # apply scaling and offset
             text_x = self._scale[0] * (x + x_offset + self._offset[0])
             text_y = self._scale[1] * (y + y_offset + self._offset[1])
+            
+            # escape line
+            line = html.escape(line)
             
             # make command
             transform = 'transform="rotate(%s, %s, %s)"' % (angle, trans_x, trans_y) if angle else ""
