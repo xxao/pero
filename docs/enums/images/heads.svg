@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="650" height="180">
+  <rect x="0.0" y="0.0" width="650.0" height="180.0" stroke="#000000" stroke-width="0.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f8f8ff" />
+  <g id="tag_1326325808152" class="arrow">
+    <line x1="45.0" y1="30.0" x2="95.0" y2="100.0" stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" />
+    <line x1="51.103001034050514" y1="25.640713547106778" x2="38.896998965949486" y2="34.35928645289322" stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" />
+    <line x1="88.89699896594949" y1="104.35928645289323" x2="101.10300103405051" y2="95.64071354710677" stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" />
+  </g>
+  <text x="65.0" y="134.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >'|'</text>
+  <text x="22.5" y="151.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >pero.LineHead</text>
+  <g id="tag_1326325808152" class="arrow">
+    <line x1="165.0" y1="30.0" x2="215.0" y2="100.0" stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" />
+    <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" fill-rule="evenodd" d="
+      M166.44750458710726 44.929994322514105
+      L165.0 30.0
+      L178.65350665520828 36.21142141672766" />
+    <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" fill-rule="evenodd" d="
+      M213.55249541289274 85.0700056774859
+      L215.0 100.0
+      L201.34649334479172 93.78857858327234" />
+  </g>
+  <text x="164.5" y="134.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >'<' or '>'</text>
+  <text x="138.0" y="151.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >pero.OpenHead</text>
+  <g id="tag_1326325808152" class="arrow">
+    <line x1="285.0" y1="30.0" x2="335.0" y2="100.0" stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" />
+    <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" fill-rule="evenodd" d="
+      M286.4475045871073 44.929994322514105
+      L285.0 30.0
+      L298.6535066552083 36.21142141672766
+      Z" />
+    <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" fill-rule="evenodd" d="
+      M333.5524954128927 85.0700056774859
+      L335.0 100.0
+      L321.3464933447917 93.78857858327234
+      Z" />
+  </g>
+  <text x="280.5" y="134.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >'<|' or '|>'</text>
+  <text x="252.0" y="151.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >pero.NormalHead</text>
+  <g id="tag_1326325808152" class="arrow">
+    <line x1="415.0" y1="30.0" x2="465.0" y2="100.0" stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" />
+    <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" fill-rule="evenodd" d="
+      M416.4475045871073 44.929994322514105
+      L415.0 30.0
+      L428.6535066552083 36.21142141672766
+      L418.68490249168127 35.15886348835377
+      Z" />
+    <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" fill-rule="evenodd" d="
+      M463.5524954128927 85.0700056774859
+      L465.0 100.0
+      L451.3464933447917 93.78857858327234
+      L461.31509750831873 94.84113651164623
+      Z" />
+  </g>
+  <text x="405.5" y="134.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >'<<' or '>>'</text>
+  <text x="393.0" y="151.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >pero.VeeHead</text>
+  <g id="tag_1326325808152" class="arrow">
+    <line x1="545.0" y1="30.0" x2="595.0" y2="100.0" stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" />
+    <circle cx="545.0" cy="30.0" r="7.5" stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" />
+    <circle cx="595.0" cy="100.0" r="7.5" stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" />
+  </g>
+  <text x="563.0" y="134.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >'o'</text>
+  <text x="517.0" y="151.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >pero.CircleHead</text>
+</svg>
