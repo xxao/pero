@@ -813,8 +813,93 @@ class Path(object):
         self.curve_to(cx1, cy1, cx2, cy2, x, y)
         
         return self
-    
-    
+
+
+    def bow_to(self, x, y, radius, large=False, clockwise=True, relative=False):
+        """
+        Adds a circular arc from the current point, using given radius and end
+        point coordinates. One of four existing solutions is chosen according to
+        the 'large' and 'clockwise' parameters.
+        
+        If the radius is too small for specified end points the theoretical
+        minimum is used, which equals half of the end points distance.
+        
+        Args:
+            x: int or float
+                X-coordinate of the end point.
+            
+            y: int or float
+                Y-coordinate of the end point.
+            
+            radius: int or float
+                Radius of the arc.
+            
+            large: bool
+                Specifies which of the possible arcs will be drawn.
+            
+            clockwise: bool
+                Specifies the direction of drawing. If set to True, the arc
+                will be drawn in the clockwise direction.
+            
+            relative: bool
+                If set to True given coordinates are considered as relative to
+                current point.
+        
+        Returns:
+            pero.Path
+                Returns self so that the commands can be chained.
+        """
+        
+        # get absolute coordinates
+        if relative:
+            x += self._cursor[0]
+            y += self._cursor[1]
+        
+        # get start point
+        x1, y1 = self._cursor
+        
+        # get points distance and angle
+        dist = 0.5 * numpy.sqrt((x - x1) ** 2 + (y - y1) ** 2)
+        angle = numpy.arctan2(y - y1, x - x1)
+        
+        # check min radius
+        radius = max(radius, dist)
+        
+        # calc sin/cos
+        sin = numpy.sin(angle)
+        cos = numpy.cos(angle)
+        
+        # get origins
+        o = numpy.sqrt(radius ** 2 - dist ** 2)
+        o1x = x1 + dist * cos - o * sin
+        o1y = y1 + dist * sin + o * cos
+        o2x = x1 + dist * cos + o * sin
+        o2y = y1 + dist * sin - o * cos
+        
+        # set circles
+        if angle >= 0:
+            small = o1x, o1y
+            big = o2x, o2y
+        else:
+            big = o2x, o2y
+            small = o1x, o1y
+        
+        # apply direction
+        if not clockwise:
+            small, big = big, small
+        
+        # select final circle
+        ox, oy = big if large else small
+        
+        # get end angle
+        end_angle = numpy.arctan2(y - oy, x - ox)
+        
+        # add arc
+        self.arc_around(ox, oy, end_angle, clockwise=clockwise)
+        
+        return self
+
+
     def arc_to(self, cx, cy, x, y, radius=None, relative=False, finalize=False, limit=True):
         """
         Adds a circular arc from the current point, using given radius and
@@ -944,7 +1029,7 @@ class Path(object):
             self.line_to(ax1, ay1)
         
         # add arc
-        self.arc_to2(ox, oy, end_angle, clockwise=clockwise)
+        self.arc_around(ox, oy, end_angle, clockwise=clockwise)
         
         # add final line
         if finalize and (x != ax2 or y != ay2):
@@ -953,7 +1038,7 @@ class Path(object):
         return self
     
     
-    def arc_to2(self, x, y, end_angle, clockwise=True, relative=False):
+    def arc_around(self, x, y, end_angle, clockwise=True, relative=False):
         """
         Adds a circular arc from the current point around given center
         coordinates up to specified end angle.
@@ -994,10 +1079,10 @@ class Path(object):
         x1, y1 = self._cursor
         
         # get radius
-        radius = numpy.sqrt((x-x1)**2 + (y-y1)**2)
+        radius = numpy.sqrt((x - x1) ** 2 + (y - y1) ** 2)
         
         # get angles
-        start_angle = numpy.arctan2(y1-y, x1-x) % pi2
+        start_angle = numpy.arctan2(y1 - y, x1 - x) % pi2
         end_angle = end_angle % pi2
         total_angle = numpy.abs(end_angle - start_angle) % pi2
         
@@ -1015,21 +1100,20 @@ class Path(object):
         
         # create segments
         while total_angle > _ANGLE_LIMIT:
-            
             # calc segment angle
             a2 = a1 + direction * min(total_angle, pi05)
             angle = (a2 - a1)
             
             # calc force
-            force = radius * (4./3.)*numpy.tan(numpy.pi/(2*pi2/angle))
+            force = radius * (4. / 3.) * numpy.tan(numpy.pi / (2 * pi2 / angle))
             
             # calc coordinates
             x2 = x + radius * numpy.cos(a2)
             y2 = y + radius * numpy.sin(a2)
-            cx1 = x1 + force * numpy.cos(a1+pi05)
-            cy1 = y1 + force * numpy.sin(a1+pi05)
-            cx2 = x2 + force * numpy.cos(a2-pi05)
-            cy2 = y2 + force * numpy.sin(a2-pi05)
+            cx1 = x1 + force * numpy.cos(a1 + pi05)
+            cy1 = y1 + force * numpy.sin(a1 + pi05)
+            cx2 = x2 + force * numpy.cos(a2 - pi05)
+            cy2 = y2 + force * numpy.sin(a2 - pi05)
             
             # add curve
             self.curve_to(cx1, cy1, cx2, cy2, x2, y2)
@@ -1039,91 +1123,6 @@ class Path(object):
             a1 = a2
             x1 = x2
             y1 = y2
-        
-        return self
-    
-    
-    def arc_to3(self, x, y, radius, large=False, clockwise=True, relative=False):
-        """
-        Adds a circular arc from the current point, using given radius and end
-        point coordinates. One of four existing solutions is chosen according to
-        the 'large' and 'clockwise' parameters.
-        
-        If the radius is too small for specified end points the theoretical
-        minimum is used, which equals half of the end points distance.
-        
-        Args:
-            x: int or float
-                X-coordinate of the end point.
-            
-            y: int or float
-                Y-coordinate of the end point.
-            
-            radius: int or float
-                Radius of the arc.
-            
-            large: bool
-                Specifies which of the possible arcs will be drawn.
-            
-            clockwise: bool
-                Specifies the direction of drawing. If set to True, the arc
-                will be drawn in the clockwise direction.
-            
-            relative: bool
-                If set to True given coordinates are considered as relative to
-                current point.
-        
-        Returns:
-            pero.Path
-                Returns self so that the commands can be chained.
-        """
-        
-        # get absolute coordinates
-        if relative:
-            x += self._cursor[0]
-            y += self._cursor[1]
-        
-        # get start point
-        x1, y1 = self._cursor
-        
-        # get points distance and angle
-        dist = 0.5*numpy.sqrt((x-x1)**2 + (y-y1)**2)
-        angle = numpy.arctan2(y-y1, x-x1)
-        
-        # check min radius
-        radius = max(radius, dist)
-        
-        # calc sin/cos
-        sin = numpy.sin(angle)
-        cos = numpy.cos(angle)
-        
-        # get origins
-        o = numpy.sqrt(radius**2 - dist**2)
-        o1x = x1 + dist * cos - o * sin
-        o1y = y1 + dist * sin + o * cos
-        o2x = x1 + dist * cos + o * sin
-        o2y = y1 + dist * sin - o * cos
-        
-        # set circles
-        if angle >= 0:
-            small = o1x, o1y
-            big = o2x, o2y
-        else:
-            big = o2x, o2y
-            small = o1x, o1y
-        
-        # apply direction
-        if not clockwise:
-            small, big = big, small
-        
-        # select final circle
-        ox, oy = big if large else small
-        
-        # get end angle
-        end_angle = numpy.arctan2(y-oy, x-ox)
-        
-        # add arc
-        self.arc_to2(ox, oy, end_angle, clockwise=clockwise)
         
         return self
     
@@ -1164,7 +1163,7 @@ class Path(object):
         self.move_to(x1, y1)
         
         # add arc
-        self.arc_to2(x, y, end_angle, clockwise)
+        self.arc_around(x, y, end_angle, clockwise)
         
         return self
     

@@ -275,7 +275,7 @@ class BowArrow(Arrow):
         # make path
         path = Path()
         path.move_to(x1, y1)
-        path.arc_to3(x2, y2, radius, large, clockwise)
+        path.bow_to(x2, y2, radius, large, clockwise)
         
         # get edge angles
         start_angle = path.start_angle() - math.pi

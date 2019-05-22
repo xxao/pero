@@ -828,7 +828,7 @@ class Wedge(Glyph):
             path.arc(x, y, outer_radius, start_angle, end_angle, clockwise)
             path.line_to(x + inner_radius*math.cos(end_angle), y + inner_radius*math.sin(end_angle))
             if inner_radius:
-                path.arc_to2(x, y, start_angle, not clockwise)
+                path.arc_around(x, y, start_angle, not clockwise)
             path.close()
         
         # set pen and brush
