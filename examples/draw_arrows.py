@@ -148,7 +148,7 @@ class DrawTest(pero.Graphics):
         x += 90
         
         # test symbol heads
-        path = pero.Path.make_ngon(5).transformed(pero.Matrix().rotate(90, units=pero.DEG))
+        path = pero.Path.make_ngon(5).transformed(pero.Matrix().rotate(pero.rads(90)))
         arrow.start_head = pero.SymbolHead(path=path, size=arrow_size, line_color=line_color, fill_color=start_fill_color)
         arrow.end_head = pero.SymbolHead(path=path, size=arrow_size, line_color=line_color, fill_color=end_fill_color)
         arrow.draw(canvas, x1=x-25, y1=y1, x2=x+25, y2=y2)

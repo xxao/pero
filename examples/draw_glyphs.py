@@ -143,4 +143,4 @@ class DrawTest(pero.Graphics):
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'pdf', "Glyphs", 365, 230)
+    pero.debug(DrawTest(), 'show', "Glyphs", 365, 230)

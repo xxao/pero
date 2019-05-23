@@ -18,7 +18,7 @@ class DrawTest(pero.Graphics):
         
         # apply angle
         if angle:
-            matrix = pero.Matrix().rotate(angle, cx, cy, pero.DEG)
+            matrix = pero.Matrix().rotate(pero.rads(angle), cx, cy)
             p1x, p1y = matrix.transform(p1x, p1y)
             p2x, p2y = matrix.transform(p2x, p2y)
         

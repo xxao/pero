@@ -3,7 +3,6 @@
 
 # import modules
 import numpy
-from ..enums import *
 
 
 class Matrix(object):
@@ -79,23 +78,19 @@ class Matrix(object):
         return self
     
     
-    def rotate(self, angle, x=0, y=0, units=ANGLE.RAD, clockwise=True):
+    def rotate(self, angle, x=0, y=0, clockwise=True):
         """
         Applies rotation around specified origin to current matrix.
         
         Args:
             angle: float
-                Angle to be applied.
+                Angle to be applied in radians.
             
             x: int float
                 X-coordinate of the rotation origin.
             
             y: int float
                 Y-coordinate of the rotation origin.
-            
-            units: pero.ANGLE
-                Units of provided angle as any item from the pero.ANGLE
-                enum.
             
             clockwise: bool
                 Specifies the direction of rotation. If set to True, the rotation
@@ -105,9 +100,6 @@ class Matrix(object):
             pero.Matrix
                 Returns self so that the commands can be chained.
         """
-        
-        if units != ANGLE.RAD:
-            angle = numpy.deg2rad(angle)
         
         clockwise = 1 if clockwise else -1
         
@@ -169,26 +161,22 @@ class Matrix(object):
         return self
     
     
-    def skew(self, x_shear, y_shear, x=0, y=0, units=ANGLE.RAD, clockwise=True):
+    def skew(self, x_shear, y_shear, x=0, y=0, clockwise=True):
         """
         Applies skewing and shearing around specified origin to current matrix.
         
         Args:
             x_shear: float
-                Angle to be applied along horizontal axis.
+                Angle to be applied along horizontal axis in radians.
             
             y_shear: float
-                Angle to be applied along vertical axis.
+                Angle to be applied along vertical axis in radians.
             
             x: int float
                 X-coordinate of the rotation origin.
             
             y: int float
                 Y-coordinate of the rotation origin.
-            
-            units: pero.ANGLE
-                Units of provided angles as any item from the pero.ANGLE
-                enum.
             
             clockwise: bool
                 Specifies the direction of skew. If set to True, the skew
@@ -198,10 +186,6 @@ class Matrix(object):
             pero.Matrix
                 Returns self so that the commands can be chained.
         """
-        
-        if units != ANGLE.RAD:
-            x_shear = numpy.deg2rad(x_shear)
-            y_shear = numpy.deg2rad(y_shear)
         
         clockwise = 1 if clockwise else -1
         
@@ -224,7 +208,7 @@ class Matrix(object):
         return self
     
     
-    def ray(self, length, angle, units=ANGLE.RAD):
+    def ray(self, length, angle):
         """
         Applies shift along the direction of given angle to current matrix.
         
@@ -233,20 +217,16 @@ class Matrix(object):
                 Shift along the angle.
             
             angle: float
-                Angle of the shift.
-            
-            units: pero.ANGLE
-                Units of provided angle as any item from the pero.ANGLE
-                enum.
+                Angle of the shift in radians.
         
         Returns:
             pero.Matrix
                 Returns self so that the commands can be chained.
         """
         
-        self.rotate(-angle, units=units)
+        self.rotate(-angle)
         self.translate(length)
-        self.rotate(angle, units=units)
+        self.rotate(angle)
         
         return self
     

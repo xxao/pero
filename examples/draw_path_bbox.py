@@ -26,7 +26,7 @@ class DrawTest(pero.Graphics):
         
         # rect
         path = pero.Path().rect(50, 50, 100, 100)
-        matrix = pero.Matrix().rotate(45, x=100, y=100, units=pero.DEG)
+        matrix = pero.Matrix().rotate(pero.rads(45), x=100, y=100)
         path.transform(matrix)
         pather.draw(canvas, path=path)
         
@@ -35,7 +35,7 @@ class DrawTest(pero.Graphics):
         
         # circle
         path = pero.Path().circle(250, 100, 50)
-        matrix = pero.Matrix().rotate(45, x=250, y=100, units=pero.DEG)
+        matrix = pero.Matrix().rotate(pero.rads(45), x=250, y=100)
         path.transform(matrix)
         pather.draw(canvas, path=path)
         
@@ -48,7 +48,7 @@ class DrawTest(pero.Graphics):
             .curve_to(450, 50, 310, 150, 380, 150) \
             .curve_to(450, 150, 310, 50, 380, 50)
         
-        matrix = pero.Matrix().rotate(45, x=380, y=100, units=pero.DEG)
+        matrix = pero.Matrix().rotate(pero.rads(45), x=380, y=100)
         path.transform(matrix)
         pather.draw(canvas, path=path)
         

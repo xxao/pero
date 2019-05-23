@@ -12,7 +12,7 @@ class DrawTest(pero.Graphics):
         """Draws the test."""
         
         # clear canvas
-        canvas.line_scale = 1.5
+        canvas.line_scale = 1
         canvas.font_scale = 1.5
         canvas.fill_color = pero.colors.White
         canvas.fill()

@@ -51,7 +51,7 @@ class TestCase(unittest.TestCase):
         
         # rotate by degrees
         matrix = pero.Matrix()
-        matrix.rotate(90, units=pero.DEG)
+        matrix.rotate(pero.rads(90))
         x, y = matrix.transform(10, 20)
         
         self.assertAlmostEqual(x, -20)
