@@ -83,8 +83,8 @@ library capabilities.
 .. image:: docs/drawing/images/image.svg
 
 
-Requirements:
--------------
+Requirements
+------------
 
 - Python 3.6+
 - Numpy
@@ -95,8 +95,8 @@ Requirements:
 - [Pythonista iOS App]
 
 
-Installation:
--------------
+Installation
+------------
 
 The *pero* library is fully implemented in Python. No additional compiler is
 necessary. After downloading the source code just run the following command from
@@ -109,8 +109,8 @@ or
 $ pip install .
 
 
-Disclaimer:
------------
+Disclaimer
+----------
 
 This program is distributed in the hope that it will be useful, but WITHOUT
 ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
@@ -120,8 +120,8 @@ Please note that the *pero* library is still in an alpha state. Any changes in
 its API may occur.
 
 
-Examples:
----------
+Examples
+--------
 
 
 Using default backend

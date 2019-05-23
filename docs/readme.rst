@@ -17,8 +17,8 @@ Python drawings. In fact, this has been the trigger to start working on the
 *pero* library.
 
 
-Requirements:
--------------
+Requirements
+------------
 
 - Python 3.6+
 - Numpy
@@ -29,8 +29,8 @@ Requirements:
 - [Pythonista iOS App]
 
 
-Installation:
--------------
+Installation
+------------
 
 The *pero* library is fully implemented in Python. No additional compiler is
 necessary. After downloading the source code just run the following command from
@@ -43,8 +43,8 @@ or
 $ pip install .
 
 
-Disclaimer:
------------
+Disclaimer
+----------
 
 This program is distributed in the hope that it will be useful, but WITHOUT
 ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
@@ -101,8 +101,8 @@ fill properties, shortcuts to create predefined glyphs or to position objects re
 are all defined in the `pero.enums <enums/readme.rst>`_ module.
 
 
-Basic Examples:
----------------
+Basic Examples
+--------------
 
 Using default backend
 ~~~~~~~~~~~~~~~~~~~~~
