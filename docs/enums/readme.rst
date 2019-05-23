@@ -1,6 +1,11 @@
 pero.enums
 ==========
 
+There are several constants used throughout the *pero* library to define angle units, various text properties, line and
+fill properties, shortcuts to create predefined glyphs or to position objects relative to each other. These constants
+are all defined in the *pero.enums* module.
+
+
 Drawing Enums
 -------------
 
