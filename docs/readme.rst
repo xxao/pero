@@ -36,11 +36,11 @@ The *pero* library is fully implemented in Python. No additional compiler is
 necessary. After downloading the source code just run the following command from
 the *pero* folder:
 
-$ python setup.py install
+``$ python setup.py install``
 
 or
 
-$ pip install .
+``$ pip install .``
 
 
 Disclaimer
