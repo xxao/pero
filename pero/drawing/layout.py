@@ -680,7 +680,7 @@ class Cell(Graphics):
         
         # set clipping
         if clip:
-            canvas.clip(Path().rectangle(*content.rect))
+            canvas.clip(Path().rect(*content.rect))
         
         # draw graphics
         if graphics:
