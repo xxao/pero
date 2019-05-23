@@ -89,7 +89,7 @@ Requirements:
 - PIL (Pillow)
 - [wxPython]
 - [Cairo]
-- [PyMuPDF]
+- [PyMuPDF 1.14.15+]
 - [Pythonista iOS App]
 
 
