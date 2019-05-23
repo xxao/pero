@@ -54,38 +54,51 @@ FOR A PARTICULAR PURPOSE.
 Modules
 -------
 
-- `pero.drawing <drawing/readme.rst>`_: Although the actual drawing is always done by particular backend, the main
-benefit of the *pero* library is its unified drawing experience (or API), which is independent of any backend. To draw
-simple shapes or texts, several methods are available for each backend's canvas implementation. For more complex
-drawings a path, Bezier curves and transformation matrix can be used. Beside the main functionality, the
-`pero.drawing <drawing/readme.rst>`_ module provides a hand full of predefined glyphs starting from simple markers,
-arrows or grids and going up to more complex graphics such as graph axes.
+`pero.drawing <drawing/readme.rst>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Although the actual drawing is always done by particular backend, the main benefit of the *pero* library is its unified
+drawing experience (or API), which is independent of any backend. To draw simple shapes or texts, several methods are
+available for each backend's canvas implementation. For more complex drawings a path, Bezier curves and transformation
+matrix can be used. Beside the main functionality, the `pero.drawing <drawing/readme.rst>`_ module provides a hand full
+of predefined glyphs starting from simple markers, arrows or grids and going up to more complex graphics such as graph
+axes.
 
-- `pero.colors <colors/readme.rst>`_: One of the key element of any drawing is, of course, a color. Inside the *pero*
-library, colors are defined by their RGB(A) channels using *pero.Color* class. Additional classes are available to
-define and use color pallets and gradients. Many standard colors and palettes are available and can be easily accessed
-by corresponding name from the `pero.colors <colors/readme.rst>`_ module.
+`pero.colors <colors/readme.rst>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+One of the key element of any drawing is, of course, a color. Inside the *pero* library, colors are defined by their
+RGB(A) channels using *pero.Color* class. Additional classes are available to define and use color pallets and
+gradients. Many standard colors and palettes are available and can be easily accessed by corresponding name from the
+`pero.colors <colors/readme.rst>`_ module.
 
-- `pero.backends <backends/readme.rst>`_: As already mentioned, the actual drawing is done by various backends, for
-which the *pero* library provides consistent API. This is achieved by specific implementations of the *pero.Canvas* base
-class, which translates the API into methods and logic of particular backend. As of now, the *pero* library supports
+`pero.backends <backends/readme.rst>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+As already mentioned, the actual drawing is done by various backends, for which the *pero* library provides consistent
+API. This is achieved by specific implementations of the *pero.Canvas* base class, which translates the API into methods
+and logic of particular backend. As of now, the *pero* library supports
 `wxPython <https://pypi.org/project/wxPython/>`_, `PyCairo <https://pypi.org/project/pycairo/>`_,
 `PyMuPDF <https://pypi.org/project/PyMuPDF/>`_, `Pythonista <http://omz-software.com/pythonista/>`_ app and its own
 implementation of SVG canvas.
 
-- `pero.scales <scales/readme.rst>`_:
+`pero.scales <scales/readme.rst>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- `pero.tickers <tickers/readme.rst>`_:
+`pero.tickers <tickers/readme.rst>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- `pero.formatters <formatters/readme.rst>`_:
+`pero.formatters <formatters/readme.rst>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- `pero.properties <properties/readme.rst>`_:
+`pero.properties <properties/readme.rst>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- `pero.events <events/readme.rst>`_:
+`pero.events <events/readme.rst>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- `pero.enums <enums/readme.rst>`_: There are several constants used throughout the *pero* library to define angle
-units, various text properties, line and fill properties, shortcuts to create predefined glyphs or to position objects
-relative to each other. These constants are all defined in the `pero.enums <enums/readme.rst>`_ module.
+`pero.enums <enums/readme.rst>`_
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are several constants used throughout the *pero* library to define angle units, various text properties, line and
+fill properties, shortcuts to create predefined glyphs or to position objects relative to each other. These constants
+are all defined in the `pero.enums <enums/readme.rst>`_ module.
 
 
 Basic Examples:
