@@ -5,6 +5,6 @@ Although the actual drawing is always done by particular backend, the main benef
 drawing experience (or API), which is independent of any backend. To draw simple shapes or texts, several methods are
 available for each backend's canvas implementation. For more complex drawings a path, Bezier curves and transformation
 matrix can be used. Beside the main functionality, the *pero.drawing* module provides a hand full of predefined glyphs
-starting from simple markers, arrows or grids and going up to more complex graphics such as graph axes.
+and graphics, starting from simple markers, arrows or grids and going up to more complex graphics such as graph axes.
 
 Under construction...

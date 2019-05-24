@@ -60,39 +60,56 @@ Although the actual drawing is always done by particular backend, the main benef
 drawing experience (or API), which is independent of any backend. To draw simple shapes or texts, several methods are
 available for each backend's canvas implementation. For more complex drawings a path, Bezier curves and transformation
 matrix can be used. Beside the main functionality, the `pero.drawing <drawing/readme.rst>`_ module provides a hand full
-of predefined glyphs starting from simple markers, arrows or grids and going up to more complex graphics such as graph
-axes.
+of predefined glyphs and graphics, starting from simple markers, arrows or grids and going up to more complex graphics
+such as graph axes.
 
 `pero.colors <colors/readme.rst>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 One of the key element of any drawing is, of course, a color. Inside the *pero* library, colors are defined by their
-RGB(A) channels using *pero.Color* class. Additional classes are available to define and use color pallets and
-gradients. Many standard colors and palettes are available and can be easily accessed by corresponding name from the
+RGB(A) channels using dedicated class. Additional classes are available to define and use color pallets and gradients.
+Many standard colors and palettes are available and can be easily accessed by corresponding name from the
 `pero.colors <colors/readme.rst>`_ module.
 
 `pero.backends <backends/readme.rst>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 As already mentioned, the actual drawing is done by various backends, for which the *pero* library provides consistent
-API. This is achieved by specific implementations of the *pero.Canvas* base class, which translates the API into methods
-and logic of particular backend. As of now, the *pero* library supports
-`wxPython <https://pypi.org/project/wxPython/>`_, `PyCairo <https://pypi.org/project/pycairo/>`_,
-`PyMuPDF <https://pypi.org/project/PyMuPDF/>`_, `Pythonista <http://omz-software.com/pythonista/>`_ app and its own
-implementation of SVG canvas.
+API. This is achieved by specific implementations of a canvas base class, which translates the API into methods and
+logic of particular backend. As of now, the *pero* library supports `wxPython <https://pypi.org/project/wxPython/>`_,
+`PyCairo <https://pypi.org/project/pycairo/>`_, `PyMuPDF <https://pypi.org/project/PyMuPDF/>`_,
+`Pythonista <http://omz-software.com/pythonista/>`_ app and its own implementation of SVG canvas.
 
 `pero.scales <scales/readme.rst>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In prototyping or research activities, some real data often need to be mapped to screen coordinates, specific color or
+simply from one dimension to another in general. This is the place where the `pero.scales <scales/readme.rst>`_ module
+provides lots of convenient tools. Together with the dynamic nature of glyphs properties this makes creation of graphics
+like plots or gauge bars much easier.
 
 `pero.tickers <tickers/readme.rst>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For drawing graphics like plots or gauge bars it is essential to provide easy to read labels and ticks. To make this
+task a bit less boring the `pero.tickers <tickers/readme.rst>`_ module provides several classes to help generate
+reasonable values for given range and scale such as linear, logarithmic or time scale.
 
 `pero.formatters <formatters/readme.rst>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For any graphics containing lots of text labels, the `pero.formatters <formatters/readme.rst>`_ module provides various
+ways to conveniently format values into specific form. This can be as simple as providing templates for the
+string.format(), custom functions or fully automatic way of formatting numbers according to specified range and required
+precision.
 
 `pero.properties <properties/readme.rst>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The core of most of the classes within the *pero* library is a specific implementation of properties and their
+collections. This allows to specify properties not only by a final value but dynamically, i.e. as a function to retrieve
+the final value from given data source. In addition, it allows for type checking or internal conversion from multiple
+definition styles (e.g. for colors).
 
 `pero.events <events/readme.rst>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Each time a property of *pero* graphics is changed an event is raised and can be used to act accordingly. The
+`pero.events <events/readme.rst>`_ module, provides a general implementation of event handling mechanism and can
+be used to create custom "smart" objects or interactive graphics.
 
 `pero.enums <enums/readme.rst>`_
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
