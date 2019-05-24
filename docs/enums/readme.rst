@@ -202,12 +202,9 @@ Used to specify an arrow head type shortcut for pero.HeadProperty.
 
 - Use the "o" character for pero.CircleHead arrow head.
 - Use the "\|" character for pero.LineHead arrow head.
-- Use the "\|>" characters for pero.NormalHead arrow head.
-- Use the "<\|" characters for pero.NormalHead arrow head.
-- Use the ">" characters for pero.OpenHead arrow head.
-- Use the "<" characters for pero.OpenHead arrow head.
-- Use the ">>" characters for pero.VeeHead arrow head.
-- Use the "<<" characters for pero.VeeHead arrow head.
+- Use the "<\|" or "\|>" characters for pero.NormalHead arrow head.
+- Use the "<" or ">" characters for pero.OpenHead arrow head.
+- Use the "<<" or ">>" characters for pero.VeeHead arrow head.
 
 
 Position Enums
