@@ -483,25 +483,15 @@ class Canvas(PropertySet):
         if self.text_split and self.text_splitter:
             lines = text.split(self.text_splitter)
         
-        # get line size
-        line_width, line_height = self.get_line_size(lines[0] or " ")
+        # calc size
+        for line in lines:
+            line_width, line_height = self.get_line_size(line or " ")
+            height += line_height
+            if line_width > width:
+                width = line_width
         
-        # single line
-        if len(lines) == 1:
-            width, height = line_width, line_height
-        
-        # multiple lines
-        else:
-            
-            # calc size
-            for line in lines:
-                w, line_height = self.get_line_size(line or " ")
-                height += line_height
-                if w > width:
-                    width = w
-            
-            # apply line spacing
-            height += line_height*self.text_spacing * (len(lines) - 1)
+        # add line spacing
+        height += line_height*self.text_spacing * (len(lines) - 1)
         
         # apply angle
         if angle:
@@ -521,7 +511,7 @@ class Canvas(PropertySet):
         return width, height
     
     
-    def get_text_bbox(self, text, x, y, invert_scaling=True):
+    def get_text_bbox(self, text, x=0, y=0, angle=0, invert_scaling=True):
         """
         Gets bounding box of the text.
         
@@ -540,6 +530,9 @@ class Canvas(PropertySet):
             y: int or float
                 Y-coordinate of the text anchor.
             
+            angle: float
+                Text angle in radians.
+            
             invert_scaling: bool
                 If set to True, text width and height are inverse-scaled by
                 current line scale factor.
@@ -553,24 +546,67 @@ class Canvas(PropertySet):
         if not text:
             return Frame(x, y, 0, 0)
         
-        # get text size
-        width, height = self.get_text_size(text, angle=0, invert_scaling=invert_scaling)
+        # init buffers
+        boxes = []
+        x0 = x
+        y0 = y
         
-        # get coords
-        if self.text_align == TEXT_ALIGN.CENTER:
-            x -= 0.5*width
+        # split lines
+        lines = [text]
+        if self.text_split and self.text_splitter:
+            lines = text.split(self.text_splitter)
         
-        elif self.text_align == TEXT_ALIGN.RIGHT:
-            x -= width
+        # calc boxes
+        for line in lines:
+            
+            # get line size
+            width, height = self.get_line_size(line or " ")
+            
+            # invert scaling
+            if invert_scaling:
+                width /= self._scale[0]
+                height /= self._scale[1]
+            
+            # apply alignment
+            if self.text_align == TEXT_ALIGN.CENTER:
+                x0 = x - 0.5 * width
+            
+            elif self.text_align == TEXT_ALIGN.RIGHT:
+                x0 = x - width
+            
+            # store box
+            boxes.append(Frame(x0, y0, width, height))
+            
+            # add line spacing
+            y0 += height * (1 + self.text_spacing)
+        
+        # apply baseline
+        y_offset = 0
+        total_height = y0 - y - height * self.text_spacing
         
         if self.text_base == TEXT_BASELINE.MIDDLE:
-            y -= 0.5*height
+            y_offset = - 0.5*total_height
         
         elif self.text_base == TEXT_BASELINE.BOTTOM:
-            y -= height
+            y_offset = - total_height
         
-        # make frame
-        return Frame(x, y, width, height)
+        if y_offset:
+            for box in boxes:
+                box.offset(y=y_offset)
+        
+        # calc sin
+        sin = numpy.sin(angle)
+        cos = numpy.cos(angle)
+        
+        # make final frame
+        frame = Frame(x, y)
+        for box in boxes:
+            for p in box.points:
+                px = x + (p[0]-x) * cos - (p[1]-y) * sin
+                py = y + (p[0]-x) * sin + (p[1]-y) * cos
+                frame.extend(px, py)
+        
+        return frame
     
     
     def draw_arc(self, x, y, radius, start_angle, end_angle, clockwise=True):

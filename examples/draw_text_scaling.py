@@ -13,7 +13,7 @@ class DrawTest(pero.Graphics):
         
         # clear canvas
         canvas.line_scale = 1
-        canvas.font_scale = 1.5
+        canvas.font_scale = 1
         canvas.fill_color = pero.colors.White
         canvas.fill()
         
@@ -23,6 +23,7 @@ class DrawTest(pero.Graphics):
             line_color = pero.colors.Red)
         
         label = pero.Text(
+            angle = pero.rads(20),
             font_size = 12,
             font_name = "Arial",
             text_spacing = .5,
@@ -45,7 +46,7 @@ class DrawTest(pero.Graphics):
                 text = "%s\n%s" % (base.upper(), align.upper())
                 label.draw(canvas, x=x, y=y, text=text, text_align=align, text_base=base)
                 
-                bbox = canvas.get_text_bbox(text, x, y)
+                bbox = canvas.get_text_bbox(text, x, y, label.angle)
                 rect.draw(canvas, x=bbox.x, y=bbox.y, width=bbox.width, height=bbox.height)
                 
                 line.draw(canvas, x1=x, y1=y-10, x2=x, y2=y+10)
