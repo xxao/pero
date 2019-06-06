@@ -445,7 +445,7 @@ class Canvas(PropertySet):
         return width, height
     
     
-    def get_text_size(self, text, angle=0, invert_scaling=True):
+    def get_text_size(self, text, invert_scaling=True):
         """
         Gets width and height of the text bounding box using current text
         settings.
@@ -458,9 +458,6 @@ class Canvas(PropertySet):
         Args:
             text: str
                 Text for which the size should be calculated.
-            
-            angle: float
-                Text angle in radians.
             
             invert_scaling: bool
                 If set to True, resulting width and height are inverse-scaled by
@@ -492,16 +489,6 @@ class Canvas(PropertySet):
         
         # add line spacing
         height += line_height*self.text_spacing * (len(lines) - 1)
-        
-        # apply angle
-        if angle:
-            
-            sin = numpy.fabs(numpy.sin(angle))
-            cos = numpy.fabs(numpy.cos(angle))
-            
-            a = width * sin + height * cos
-            b = width * cos + height * sin
-            width, height = b, a
         
         # invert scaling
         if invert_scaling:
