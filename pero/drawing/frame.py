@@ -248,12 +248,10 @@ class Frame(object):
         if x:
             self._left_x += x
             self._right_x += x
-            self._width = self._right_x - self._left_x
         
         if y:
             self._top_y += y
             self._bottom_y += y
-            self._height = self._bottom_y - self._top_y
     
     
     def extend(self, x=None, y=None, width=0, height=0):

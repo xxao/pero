@@ -65,7 +65,7 @@ class DrawTest(pero.Graphics):
         ghost.draw(canvas)
         origin.draw(canvas)
         
-        matrix = pero.Matrix().ray(pero.rads(10), -45)
+        matrix = pero.Matrix().ray(10, pero.rads(-45))
         shape.draw(canvas, path=path.transformed(matrix))
         label.draw(canvas, text="Ray")
         
