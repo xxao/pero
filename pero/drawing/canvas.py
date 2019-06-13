@@ -482,7 +482,11 @@ class Canvas(PropertySet):
         
         # calc size
         for line in lines:
+            
+            # get line size
             line_width, line_height = self.get_line_size(line or " ")
+            
+            # update size
             height += line_height
             if line_width > width:
                 width = line_width
