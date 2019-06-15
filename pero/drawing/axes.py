@@ -432,7 +432,7 @@ class StraitAxis(Axis):
             y1 = y + (pos+offset) * sin + label_offset * cos
             
             # get bbox
-            bbox = canvas.get_text_bbox(label, x1, y1)
+            bbox = canvas.get_text_bbox(label, x1, y1, label_angle)
             
             # check overlaps
             if not label_overlap and any(bbox.overlaps(box) for box in area):
