@@ -80,7 +80,7 @@ library capabilities.
     
     img.show()
 
-.. image:: https://github.com/xxao/pero/blob/master/docs/drawing/images/image.png
+.. image:: https://raw.githubusercontent.com/xxao/pero/master/docs/drawing/images/image.png
 
 
 Requirements
