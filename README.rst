@@ -80,7 +80,7 @@ library capabilities.
     
     img.show()
 
-.. image:: docs/drawing/images/image.svg
+.. image:: https://github.com/xxao/pero/docs/drawing/images/image.png
 
 
 Requirements
@@ -104,9 +104,9 @@ the *pero* folder:
 
 ``$ python setup.py install``
 
-or
+or simply by using pip
 
-``$ pip install .``
+``$ pip install pero``
 
 
 Disclaimer

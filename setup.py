@@ -6,6 +6,10 @@ from setuptools import setup, find_packages
 from pero import version
 version = '.'.join(str(x) for x in version)
 
+# get description
+with open("README.rst", "r") as fh:
+    long_description = fh.read()
+
 # include additional files
 package_data = {}
 
@@ -23,7 +27,8 @@ classifiers = [
 setup(
     name = 'pero',
     version = version,
-    description = 'Simple drawing library',
+    description = 'Draw consistently with various backends',
+    long_description = long_description,
     url = 'https://github.com/xxao/pero',
     author = 'Martin Strohalm',
     author_email = 'pero@bymartin.cz',
