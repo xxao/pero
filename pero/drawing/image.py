@@ -12,7 +12,11 @@ from .graphics import Graphics
 
 class Image(Canvas, Graphics):
     """
-    
+    Special type of drawing canvas, which does not implement any drawing itself
+    but provides a way to buffer drawing commands. Its content can either be
+    later drawn to a specific backend canvas or it can be used to create JSON
+    dump. Since the class is derived from pero.Canvas as well as from
+    pero.Graphics, it can also be used as regular graphics object.
     """
     
     
@@ -426,4 +430,27 @@ class Image(Canvas, Graphics):
         # store command
         self._store_command('set_property', {
             'name': evt.name,
-            'value': value})
+            'value': value,
+            'raise_error': False})
+    
+    
+    @staticmethod
+    def from_json(dump):
+        """
+        Creates a new pero.Image from given JSON dump.
+        
+        Args:
+            dump: str or dict
+                Image JSON dump.
+        
+        Returns:
+            pero.Image
+        """
+        
+        # init image
+        img = Image()
+        
+        # add JSON dump
+        img.draw_json(dump)
+        
+        return img

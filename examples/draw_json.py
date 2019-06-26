@@ -60,6 +60,5 @@ dump = """{"commands": [
 }"""
 
 # draw image
-img = pero.Image()
-img.draw_json(dump)
+img = pero.Image.from_json(dump)
 img.show()
