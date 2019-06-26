@@ -278,8 +278,8 @@ class BowArrow(Arrow):
         path.bow_to(x2, y2, radius, large, clockwise)
         
         # get edge angles
-        start_angle = path.start_angle() - math.pi
-        end_angle = path.end_angle()
+        start_angle = path.start_angle - math.pi
+        end_angle = path.end_angle
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
@@ -531,8 +531,8 @@ class CurveArrow(Arrow):
         path.curve_to(cx1, cy1, cx2, cy2, x2, y2)
         
         # get angles
-        start_angle = path.start_angle() + math.pi
-        end_angle = path.end_angle()
+        start_angle = path.start_angle + math.pi
+        end_angle = path.end_angle
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
@@ -726,8 +726,8 @@ class PathArrow(Arrow):
         path = path.transformed(matrix)
         
         # get angles
-        start_angle = path.start_angle() + math.pi
-        end_angle = path.end_angle()
+        start_angle = path.start_angle + math.pi
+        end_angle = path.end_angle
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)

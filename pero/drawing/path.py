@@ -56,6 +56,32 @@ class Path(object):
     
     
     @property
+    def fill_rule(self):
+        """
+        Gets current fill rule as a value from pero.FILL_RULE enum.
+        
+        Returns:
+            str
+                Fill rule.
+        """
+        
+        return self._fill_rule
+    
+    
+    @fill_rule.setter
+    def fill_rule(self, value):
+        """
+        Sets current fill rule as a value from pero.FILL_RULE enum.
+        
+        Args:
+            value: pero.FILL_RULE
+                Fill rule.
+        """
+        
+        self._fill_rule = value
+    
+    
+    @property
     def cursor(self):
         """
         Gets current cursor position.
@@ -272,29 +298,110 @@ class Path(object):
     
     
     @property
-    def fill_rule(self):
+    def start_angle(self):
         """
-        Gets current fill rule as a value from pero.FILL_RULE enum.
+        Gets the angle of the path at the start point of the first sub-path
+        in radians.
         
         Returns:
-            str
-                Fill rule.
+            float or None
+                Start angle in radians.
         """
         
-        return self._fill_rule
-
-
-    @fill_rule.setter
-    def fill_rule(self, value):
-        """
-        Sets current fill rule as a value from pero.FILL_RULE enum.
+        # get angle
+        if self._start_angle is None:
+            
+            # get first sub-path
+            path = self._paths[0]
+            if not path:
+                return None
+            
+            # init points
+            origin = None
+            control = None
+            
+            # get angle
+            for command in path:
+                
+                # get data
+                key = command[0]
+                values = command[1:]
+                
+                # move to
+                if key == PATH.MOVE:
+                    origin = values
+                
+                # line to
+                elif key == PATH.LINE:
+                    control = values
+                
+                # curve to
+                elif key == PATH.CURVE:
+                    control = values[:2]
+                
+                # calc angle
+                if origin and control:
+                    self._start_angle = numpy.arctan2(control[1] - origin[1], control[0] - origin[0])
+                    break
         
-        Args:
-            value: pero.FILL_RULE
-                Fill rule.
+        return self._start_angle
+    
+    
+    @property
+    def end_angle(self):
+        """
+        Gets the angle of the path at the end point of the last sub-path
+        in radians.
+        
+        Returns:
+            float or None
+                End angle in radians.
         """
         
-        self._fill_rule = value
+        # get angle
+        if self._end_angle is None:
+            
+            # get last sub-path
+            path = self._paths[-1]
+            if not path:
+                return None
+            
+            # init points
+            origin = None
+            control = None
+            
+            # get angle
+            for command in reversed(path):
+                
+                # get data
+                key = command[0]
+                values = command[1:]
+                
+                # move to
+                if key == PATH.MOVE:
+                    origin = values
+                
+                # line to
+                elif key == PATH.LINE:
+                    if control:
+                        origin = values
+                    else:
+                        control = values
+                
+                # curve to
+                elif key == PATH.CURVE:
+                    if control:
+                        origin = values[4:6]
+                    else:
+                        origin = values[2:4]
+                        control = values[4:6]
+                
+                # calc angle
+                if origin and control:
+                    self._end_angle = numpy.arctan2(control[1] - origin[1], control[0] - origin[0])
+                    break
+        
+        return self._end_angle
     
     
     def bbox(self):
@@ -347,111 +454,6 @@ class Path(object):
                     x1, y1 = x2, y2
         
         return self._bbox.clone()
-    
-    
-    def start_angle(self):
-        """
-        Gets the angle of the path at the start point of the first sub-path
-        in radians.
-        
-        Returns:
-            float or None
-                Start angle in radians.
-        """
-        
-        # get angle
-        if self._start_angle is None:
-            
-            # get first sub-path
-            path = self._paths[0]
-            if not path:
-                return None
-            
-            # init points
-            origin = None
-            control = None
-            
-            # get angle
-            for command in path:
-                
-                # get data
-                key = command[0]
-                values = command[1:]
-                
-                # move to
-                if key == PATH.MOVE:
-                    origin = values
-                
-                # line to
-                elif key == PATH.LINE:
-                    control = values
-                
-                # curve to
-                elif key == PATH.CURVE:
-                    control = values[:2]
-                
-                # calc angle
-                if origin and control:
-                    self._start_angle = numpy.arctan2(control[1]-origin[1], control[0]-origin[0])
-                    break
-        
-        return self._start_angle
-    
-    
-    def end_angle(self):
-        """
-        Gets the angle of the path at the end point of the last sub-path
-        in radians.
-        
-        Returns:
-            float or None
-                End angle in radians.
-        """
-        
-        # get angle
-        if self._end_angle is None:
-            
-            # get last sub-path
-            path = self._paths[-1]
-            if not path:
-                return None
-            
-            # init points
-            origin = None
-            control = None
-            
-            # get angle
-            for command in reversed(path):
-                
-                # get data
-                key = command[0]
-                values = command[1:]
-                
-                # move to
-                if key == PATH.MOVE:
-                    origin = values
-                
-                # line to
-                elif key == PATH.LINE:
-                    if control:
-                        origin = values
-                    else:
-                        control = values
-                
-                # curve to
-                elif key == PATH.CURVE:
-                    if control:
-                        origin = values[4:6]
-                    else:
-                        origin = values[2:4]
-                        control = values[4:6]
-                
-                # calc angle
-                if origin and control:
-                    self._end_angle = numpy.arctan2(control[1]-origin[1], control[0]-origin[0])
-                    break
-        
-        return self._end_angle
     
     
     def svg(self, indent=""):
