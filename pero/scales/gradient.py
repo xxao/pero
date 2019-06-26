@@ -49,6 +49,11 @@ class GradientScale(Scale):
     def __init__(self, **overrides):
         """Initializes a new instance of GradientScale."""
         
+        # init interpolator
+        if 'normalizer' not in overrides:
+            overrides['normalizer'] = LinInterpol()
+        
+        # init base
         super(GradientScale, self).__init__(**overrides)
         
         # init gradient

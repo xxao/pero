@@ -337,7 +337,7 @@ to which given data source is automatically provided. Together with *scales*
         in_range = (-1, 1),
         out_range = (height-padding, padding))
 
-    color_scale = pero.GradientLinScale(
+    color_scale = pero.GradientScale(
         in_range = (-1, 1),
         out_range = pero.colors.Spectral)
 
