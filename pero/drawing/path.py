@@ -4,6 +4,7 @@
 # import modules
 import numpy
 import re
+import json
 from ..enums import *
 from .matrix import Matrix
 from .frame import Frame
@@ -454,6 +455,20 @@ class Path(object):
                     x1, y1 = x2, y2
         
         return self._bbox.clone()
+    
+    
+    def json(self):
+        """
+        Gets current path as JSON dump.
+        
+        Returns:
+            str
+                JSON dump.
+        """
+        
+        return json.dumps({
+            "fill_rule": self.fill_rule,
+            "commands": self.commands})
     
     
     def svg(self, indent=""):
@@ -1660,6 +1675,53 @@ class Path(object):
         
         # add commands
         for command in commands:
+            
+            # get data
+            key = command[0]
+            values = command[1:]
+            
+            # close
+            if key == PATH.CLOSE:
+                path.close()
+            
+            # move to
+            elif key == PATH.MOVE:
+                path.move_to(*values)
+            
+            # line to
+            elif key == PATH.LINE:
+                path.line_to(*values)
+            
+            # curve to
+            elif key == PATH.CURVE:
+                path.curve_to(*values)
+        
+        return path
+    
+    
+    @staticmethod
+    def from_json(dump):
+        """
+        Creates a new path from given JSON dump.
+        
+        Args:
+            dump: str
+                JSON string representing the path.
+        
+        Returns:
+            pero.Path
+                Path created from given JSON dump.
+        """
+        
+        # load json
+        if not isinstance(dump, dict):
+            dump = json.loads(dump)
+        
+        # init path
+        path = Path(fill_rule=dump.get("fill_rule", EVENODD))
+        
+        # add commands
+        for command in dump.get("commands", []):
             
             # get data
             key = command[0]

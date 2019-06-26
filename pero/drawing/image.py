@@ -2,7 +2,10 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # import modules
+import json
 from ..enums import *
+from ..colors import Color
+from ..properties import UNDEF
 from .canvas import Canvas
 from .graphics import Graphics
 
@@ -20,13 +23,13 @@ class Image(Canvas, Graphics):
         self._commands = []
         
         # init base
-        super(Image, self).__init__(**overrides)
+        super(Image, self).__init__()
         
         # bind events
         self.bind(EVENT.PROPERTY_CHANGED, self._on_image_property_changed)
         
-        # store overrides
-        self._store_command('set_properties', {'properties': overrides})
+        # set overrides
+        self.set_properties(overrides)
     
     
     def set_viewport(self, x=None, y=None, width=None, height=None, relative=False):
@@ -67,6 +70,18 @@ class Image(Canvas, Graphics):
             'relative': relative})
     
     
+    def get_json(self):
+        """
+        Gets JSON string for current drawings.
+        
+        Returns:
+            str
+                Drawings JSON string.
+        """
+        
+        return json.dumps({"commands": self._commands})
+    
+    
     def draw(self, canvas, *args, **kwargs):
         """
         Uses given canvas to draw the image.
@@ -76,18 +91,13 @@ class Image(Canvas, Graphics):
                 Canvas to be used for rendering.
         """
         
-        # call commands
-        for name, args in self._commands:
-            method = getattr(canvas, name)
-            method(**args)
+        # draw JSON dump
+        canvas.draw_json(self.get_json())
     
     
     def draw_arc(self, x, y, radius, start_angle, end_angle, clockwise=True):
         """
         Draws an arc of specified radius centered around given coordinates.
-        
-        This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
         
         Args:
             x: int or float
@@ -123,9 +133,6 @@ class Image(Canvas, Graphics):
         """
         Draws a circle of specified radius centered around given coordinates.
         
-        This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
-        
         Args:
             x: int or float
                 X-coordinate of the center.
@@ -148,9 +155,6 @@ class Image(Canvas, Graphics):
         """
         Draws an ellipse centered around given coordinates and fitting into the
         width and height.
-        
-        This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
         
         Args:
             x: int or float
@@ -178,9 +182,6 @@ class Image(Canvas, Graphics):
         """
         Draws a line between two points.
         
-        This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
-        
         Args:
             x1: int or float
                 X-coordinate of the line start.
@@ -207,13 +208,13 @@ class Image(Canvas, Graphics):
         """
         Draws continuous open line using sequence of points.
         
-        This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
-        
         Args:
             points: ((float, float),)
                 Sequence of x,y coordinates of the points.
         """
+        
+        # disconnect points
+        points = tuple((p[0], p[1]) for p in points)
         
         # store command
         self._store_command('draw_lines', {'points': points})
@@ -223,13 +224,13 @@ class Image(Canvas, Graphics):
         """
         Draws given path using current pen and brush.
         
-        This method must be overwritten by specific backend to provide native
-        implementation for path drawing.
-        
         Args:
             path: pero.Path
                 Path to be drawn.
         """
+        
+        # get path dump
+        path = json.loads(path.json())
         
         # store command
         self._store_command('draw_path', {'path': path})
@@ -239,13 +240,13 @@ class Image(Canvas, Graphics):
         """
         Draws a closed polygon using sequence of points.
         
-        This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
-        
         Args:
             points: ((float, float),)
                 Sequence of x,y coordinates of the points.
         """
+        
+        # disconnect points
+        points = tuple((p[0], p[1]) for p in points)
         
         # store command
         self._store_command('draw_polygon', {'points': points})
@@ -256,9 +257,6 @@ class Image(Canvas, Graphics):
         Draws a rectangle specified by given top left corner and size and
         optional round corners specified as a single value or individual value
         for each corners starting from top-left.
-        
-        This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
         
         Args:
             x: int or float
@@ -290,9 +288,6 @@ class Image(Canvas, Graphics):
         """
         Draws a text string anchored at specified point using current text
         settings.
-        
-        This method must be overwritten by specific backend to provide native
-        implementation for text drawing.
         
         Args:
             text: str
@@ -327,25 +322,20 @@ class Image(Canvas, Graphics):
         """
         Sets clipping path as intersection with current one.
         
-        This method needs be overwritten by specific backend to provide native
-        implementation for clipping.
-        
         Args:
             path: pero.Path
                 Path to be used for clipping.
         """
+        
+        # get path dump
+        path = json.loads(path.json())
         
         # store command
         self._store_command('clip', {'path': path})
     
     
     def unclip(self):
-        """
-        Removes last clipping path while keeping previous if any.
-        
-        This method needs be overwritten by specific backend to provide native
-        implementation for clipping.
-        """
+        """Removes last clipping path while keeping previous if any."""
         
         # store command
         self._store_command('unclip')
@@ -354,9 +344,6 @@ class Image(Canvas, Graphics):
     def group(self, id_tag=None, class_tag=None):
         """
         Opens new drawing group.
-        
-        This method needs be overwritten by specific backend to provide native
-        implementation for objects grouping.
         
         Args:
             id_tag: str
@@ -373,12 +360,7 @@ class Image(Canvas, Graphics):
     
     
     def ungroup(self):
-        """
-        Closes the last drawing group.
-        
-        This method needs be overwritten by specific backend to provide native
-        implementation for objects grouping.
-        """
+        """Closes the last drawing group."""
         
         # store command
         self._store_command('ungroup')
@@ -430,7 +412,18 @@ class Image(Canvas, Graphics):
     def _on_image_property_changed(self, evt):
         """Called after any property has changed."""
         
+        # get value
+        value = evt.new_value
+        
+        # convert UNDEF
+        if value is UNDEF:
+            value = str(UNDEF)
+        
+        # convert color
+        elif isinstance(value, Color):
+            value = value.hex
+        
         # store command
         self._store_command('set_property', {
             'name': evt.name,
-            'value': evt.new_value})
+            'value': value})

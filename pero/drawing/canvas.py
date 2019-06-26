@@ -2,6 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # import modules
+import json
 import numpy
 from ..enums import *
 from ..events import *
@@ -708,6 +709,33 @@ class Canvas(PropertySet):
         """
         
         graphics.draw(self, source=source, **overrides)
+    
+    
+    def draw_json(self, dump):
+        """
+        Draws graphics by given JSON dump. Such dump can be easily created by
+        drawing to pero.Image and calling its 'get_json' method.
+        
+        Args:
+            dump: str or dict
+                JSON image dump.
+        """
+        
+        # load json
+        if not isinstance(dump, dict):
+            dump = json.loads(dump)
+        
+        # call commands
+        for name, args in dump.get("commands", []):
+            
+            # recreate path
+            if 'path' in args:
+                args = args.copy()
+                args['path'] = Path.from_json(args['path'])
+            
+            # call method
+            method = getattr(self, name)
+            method(**args)
     
     
     def draw_line(self, x1, y1, x2, y2):
