@@ -14,9 +14,15 @@ class Image(Canvas, Graphics):
     """
     Special type of drawing canvas, which does not implement any drawing itself
     but provides a way to buffer drawing commands. Its content can either be
-    later drawn to a specific backend canvas or it can be used to create JSON
-    dump. Since the class is derived from pero.Canvas as well as from
-    pero.Graphics, it can also be used as regular graphics object.
+    later drawn to specific backend canvas or it can be used to create JSON
+    dump.
+    
+    Since the class is derived from pero.Canvas as well as from pero.Graphics,
+    it can also be used as a regular graphics object.
+    
+    In addition to standard canvas methods, two convenient methods are available
+    as shortcuts to 'export' or 'show' the image using available default drawing
+    backend/viewer.
     """
     
     
