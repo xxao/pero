@@ -67,7 +67,7 @@ class TextTooltip(Tooltip):
             Includes pero.FillProperties to specify the box fill.
     """
     
-    textbox = Include(Textbox, line_color="#ccce", fill_color="#eeee", radius=4, padding=(3,5))
+    textbox = Include(Textbox, line_color="#ccce", fill_color="#eeee", radius=4, padding=(3, 5))
     
     
     def __init__(self, **overrides):

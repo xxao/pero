@@ -47,6 +47,9 @@ def equals(v1, v2, epsilon=0.000001):
         
         v2: float
             Value two
+        
+        epsilon: float
+            Max allowed difference.
     
     Returns:
         bool
@@ -70,6 +73,9 @@ def between(v, min_v, max_v, epsilon=0.000001):
         
         max_v: float
             Maximum value.
+        
+        epsilon: float
+            Max allowed difference.
     
     Returns:
         bool
@@ -152,4 +158,4 @@ def rotate(p, angle, center=(0,0)):
     x = center[0] + (p[0]-center[0]) * cos - (p[1]-center[1]) * sin
     y = center[1] + (p[0]-center[0]) * sin + (p[1]-center[1]) * cos
     
-    return x,y
+    return x, y

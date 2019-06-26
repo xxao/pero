@@ -26,7 +26,7 @@ class Image(Canvas, Graphics):
         self.bind(EVENT.PROPERTY_CHANGED, self._on_image_property_changed)
         
         # store overrides
-        self._store_command('set_properties', {'properties':overrides})
+        self._store_command('set_properties', {'properties': overrides})
     
     
     def set_viewport(self, x=None, y=None, width=None, height=None, relative=False):
@@ -418,8 +418,11 @@ class Image(Canvas, Graphics):
         backends.show(self, title, self.width, self.height)
     
     
-    def _store_command(self, command, args={}):
+    def _store_command(self, command, args=None):
         """Stores command and its parameters."""
+        
+        if args is None:
+            args = {}
         
         self._commands.append((command, args))
     

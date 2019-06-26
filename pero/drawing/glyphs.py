@@ -659,7 +659,7 @@ class Textbox(Text):
         
         # get padding
         if not padding:
-            padding = (0,0,0,0)
+            padding = (0, 0, 0, 0)
         
         # get background coords
         bgr_x = x
@@ -706,7 +706,7 @@ class Textbox(Text):
         
         # get radius
         if not radius:
-            radius = (0,0,0,0)
+            radius = (0, 0, 0, 0)
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)

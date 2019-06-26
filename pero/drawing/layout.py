@@ -174,7 +174,7 @@ class Layout(Graphics):
         canvas.group(tag, "layout")
         
         # draw cells
-        for cell in sorted(self._cells, key=lambda c:c.z_index):
+        for cell in sorted(self._cells, key=lambda c: c.z_index):
             cell.draw(canvas)
         
         # end drawing group
@@ -199,7 +199,7 @@ class Layout(Graphics):
             height = canvas.viewport.height if canvas else 0
         
         # apply padding and spacing
-        padding = padding or (0,0,0,0)
+        padding = padding or (0, 0, 0, 0)
         x += padding[3]
         y += padding[0]
         width -= spacing * (len(self._cols) - 1) + padding[1] + padding[3]
@@ -718,7 +718,7 @@ class Cell(Graphics):
         clip = self.get_property('clip', source, overrides)
         
         # get coords
-        padding = padding or (0,0,0,0)
+        padding = padding or (0, 0, 0, 0)
         width = width or 0
         height = height or 0
         

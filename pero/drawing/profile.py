@@ -96,8 +96,8 @@ class Profile(Glyph):
     show_area = BoolProperty(False)
     
     data = SequenceProperty(UNDEF, nullable=True)
-    x = SequenceProperty(UNDEF, intypes=(int,float))
-    y = SequenceProperty(UNDEF, intypes=(int,float))
+    x = SequenceProperty(UNDEF, intypes=(int, float))
+    y = SequenceProperty(UNDEF, intypes=(int, float))
     base = NumProperty(UNDEF, nullable=True)
     
     steps = EnumProperty(None, enum=LINE_STEP, nullable=True)
@@ -364,9 +364,9 @@ class Band(Glyph):
     show_area = BoolProperty(False)
     
     data = SequenceProperty(UNDEF, nullable=True)
-    x = SequenceProperty(UNDEF, intypes=(int,float))
-    y1 = SequenceProperty(UNDEF, intypes=(int,float))
-    y2 = SequenceProperty(UNDEF, intypes=(int,float))
+    x = SequenceProperty(UNDEF, intypes=(int, float))
+    y1 = SequenceProperty(UNDEF, intypes=(int, float))
+    y2 = SequenceProperty(UNDEF, intypes=(int, float))
     
     marker = MarkerProperty(UNDEF, nullable=True)
     spacing = IntProperty(10)

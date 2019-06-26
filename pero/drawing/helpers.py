@@ -3,6 +3,7 @@
 
 # import modules
 import numpy
+from .utils import *
 
 # Legendre-Gauss abscissas
 T_VALUES = (
@@ -29,8 +30,7 @@ T_VALUES = (
   -0.9747285559713094981983919930081690617411,
    0.9747285559713094981983919930081690617411,
   -0.9951872199970213601799974097007368118745,
-   0.9951872199970213601799974097007368118745
-)
+   0.9951872199970213601799974097007368118745)
 
 # Legendre-Gauss weights
 C_VALUES = (
@@ -57,43 +57,7 @@ C_VALUES = (
   0.0285313886289336631813078159518782864491,
   0.0285313886289336631813078159518782864491,
   0.0123412297999871995468056670700372915759,
-  0.0123412297999871995468056670700372915759
-)
-
-
-def equals(v1, v2, epsilon=0.000001):
-    """pass"""
-    
-    return abs(v1-v2) <= epsilon
-
-
-def between(v, min_v, max_v):
-    """pass"""
-    
-    return (min_v <= v <= max_v) or equals(v, min_v) or equals(v, max_v)
-
-
-def angle(p1, p2, p3):
-    """pass"""
-    
-    dx1 = p1[0] - p2[0]
-    dy1 = p1[1] - p2[1]
-    dx2 = p3[0] - p2[0]
-    dy2 = p3[1] - p2[1]
-    
-    cross = dx1*dy2 - dy1*dx2
-    dot = dx1*dx2 + dy1*dy2
-    
-    return numpy.arctan2(cross, dot)
-
-
-def distance(p1, p2):
-    """Calculates distance between two points."""
-    
-    dx = p1[0] - p2[0]
-    dy = p1[1] - p2[1]
-    
-    return numpy.sqrt(dx*dx + dy*dy)
+  0.0123412297999871995468056670700372915759)
 
 
 def relative(p1, p2, r):
@@ -145,7 +109,7 @@ def align(p1, p2, *points):
     for px, py in points:
         x = (px-x1)*cos - (py-y1)*sin
         y = (px-x1)*sin + (py-y1)*cos
-        buff.append((x,y))
+        buff.append((x, y))
     
     return buff
 

@@ -8,7 +8,6 @@ from ..events import *
 from ..properties import *
 from .fonts import FONTS
 from .frame import Frame
-from .matrix import Matrix
 from .path import Path
 
 
@@ -187,7 +186,7 @@ class Canvas(PropertySet):
         
         # init views
         self._viewport = None
-        self._viewport_full = Frame(0,0, self.width/self.line_scale, self.height/self.line_scale)
+        self._viewport_full = Frame(0, 0, self.width/self.line_scale, self.height/self.line_scale)
         
         # bind events
         self.bind(EVENT.PROPERTY_CHANGED, self._on_canvas_property_changed)
@@ -541,6 +540,7 @@ class Canvas(PropertySet):
         boxes = []
         x0 = x
         y0 = y
+        height = 0
         
         # split lines
         lines = [text]
@@ -1122,7 +1122,7 @@ class Canvas(PropertySet):
         
         # update full viewport
         if evt.name in ('line_scale', 'width', 'height'):
-            self._viewport_full = Frame(0,0, self.width/self.line_scale, self.height/self.line_scale)
+            self._viewport_full = Frame(0, 0, self.width/self.line_scale, self.height/self.line_scale)
         
         # update current font
         if evt.name in ('font_name', 'font_family', 'font_style', 'font_weight'):

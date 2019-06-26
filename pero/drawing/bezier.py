@@ -221,8 +221,8 @@ class Bezier(object):
             
             ex = [[], []]
             
-            for dim in (0,1):
-                s = lambda v:v[dim]
+            for dim in (0, 1):
+                s = lambda v: v[dim]
                 
                 p = list(map(s, self._derivs[0]))
                 ex[dim] = helpers.droots(p)
@@ -491,10 +491,10 @@ class Bezier(object):
         x2, y2 = h[0][3]
         right = Bezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2)
         
-        left._t1 = self._scale_t(0, 0,1, self._t1,self._t2)
-        left._t2 = self._scale_t(t, 0,1, self._t1,self._t2)
-        right._t1 = self._scale_t(t, 0,1, self._t1,self._t2)
-        right._t2 = self._scale_t(1, 0,1, self._t1,self._t2)
+        left._t1 = self._scale_t(0, 0, 1, self._t1, self._t2)
+        left._t2 = self._scale_t(t, 0, 1, self._t1, self._t2)
+        right._t1 = self._scale_t(t, 0, 1, self._t1, self._t2)
+        right._t2 = self._scale_t(1, 0, 1, self._t1, self._t2)
         
         return left, right
     
@@ -825,7 +825,7 @@ class Bezier(object):
         dist = numpy.power(2., 63)
         idx = 0
         
-        for i,p in enumerate(lut):
+        for i, p in enumerate(lut):
             
             dx = x - p[0]
             dy = y - p[1]
@@ -853,7 +853,7 @@ class Bezier(object):
             for s1 in seg1:
                 for s2 in seg2:
                     if s1.overlaps(s2):
-                        pairs.append((s1,s2))
+                        pairs.append((s1, s2))
             
             for pair in pairs:
                 buff += self._intersect_simple(pair[0], pair[1], threshold)
@@ -871,7 +871,7 @@ class Bezier(object):
         for s1 in seg1:
             for s2 in seg2:
                 if s1.overlaps(s2):
-                    pairs.append((s1,s2))
+                    pairs.append((s1, s2))
         
         buff = []
         for pair in pairs:
