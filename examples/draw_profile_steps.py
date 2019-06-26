@@ -24,8 +24,8 @@ class DrawTest(pero.Graphics):
         y = padding
         
         # init data
-        x_data = [1,2,3,4,5,6,7,8,9,10]
-        y_data = [5,2,7,3,9,2,8,6,1,10]
+        x_data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        y_data = [5, 2, 7, 3, 9, 2, 8, 6, 1, 10]
         
         # init scales
         x_scale = pero.LinScale()

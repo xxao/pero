@@ -35,7 +35,7 @@ class DrawTest(pero.Graphics):
                 p1 = p2
         
         # draw point
-        x,y = curve.point(t)
+        x, y = curve.point(t)
         point.draw(canvas, x=x, y=y, line_color="r", fill_color=None, size=10)
     
     
@@ -75,7 +75,7 @@ class DrawTest(pero.Graphics):
         # draw extremes
         extremes = curve.extremes()
         for t in extremes[0]+extremes[1]:
-            x,y = curve.point(t)
+            x, y = curve.point(t)
             point.draw(canvas, x=x, y=y)
         
         # draw length
@@ -100,9 +100,9 @@ class DrawTest(pero.Graphics):
         d = 20
         while t <= 1:
             
-            x,y = curve.point(t)
-            nx,ny = curve.normal(t)
-            tx,ty = curve.tangent(t)
+            x, y = curve.point(t)
+            nx, ny = curve.normal(t)
+            tx, ty = curve.tangent(t)
             
             if nx is not None:
                 line.draw(canvas, x1=x, y1=y, x2=x+d*nx, y2=y+d*ny, line_color="r")
@@ -126,7 +126,7 @@ class DrawTest(pero.Graphics):
         
         # draw inflections
         for t in curve.inflections():
-            x,y = curve.point(t)
+            x, y = curve.point(t)
             point.draw(canvas, x=x, y=y)
     
     
@@ -162,8 +162,8 @@ class DrawTest(pero.Graphics):
         
         # init points
         points = (
-            (50, 10), (50,50), (50,100), (50,150),
-            (90, 10), (90,50), (90,100), (90,150), (140,200))
+            (50, 10), (50, 50), (50, 100), (50, 150),
+            (90, 10), (90, 50), (90, 100), (90, 150), (140, 200))
         
         # draw projections
         for px, py in points:
@@ -197,17 +197,17 @@ class DrawTest(pero.Graphics):
         
         # draw x-cuts
         for t in curve.xcuts(xcut):
-            x,y = curve.point(t)
+            x, y = curve.point(t)
             point.draw(canvas, x=x, y=y)
         
         # draw y-cuts
         for t in curve.ycuts(ycut):
-            x,y = curve.point(t)
+            x, y = curve.point(t)
             point.draw(canvas, x=x, y=y)
         
         # draw line cuts
         for t in curve.cuts(*lcut):
-            x,y = curve.point(t)
+            x, y = curve.point(t)
             point.draw(canvas, x=x, y=y)
         
     
@@ -219,7 +219,7 @@ class DrawTest(pero.Graphics):
         point = pero.Circle(fill_color="r", line_color="w", size=8)
         
         # init line
-        curve2 = pero.Bezier(75,15 , 75,25 , 75,185 , 75,205)
+        curve2 = pero.Bezier(75, 15, 75, 25, 75, 185, 75, 205)
         
         # draw 1st curve
         path = pero.Path.from_bezier(curve)
@@ -230,12 +230,12 @@ class DrawTest(pero.Graphics):
         pather.draw(canvas, path=path, line_color="r", show_anchors=False, show_handles=False)
         
         # draw intersections
-        for t1,t2 in curve.intersects(curve2):
+        for t1, t2 in curve.intersects(curve2):
             
-            x,y = curve.point(t1)
+            x, y = curve.point(t1)
             point.draw(canvas, x=x, y=y)
             
-            x,y = curve2.point(t2)
+            x, y = curve2.point(t2)
             point.draw(canvas, x=x, y=y, size=10, fill_color=None, line_color="r")
     
     
@@ -247,7 +247,7 @@ class DrawTest(pero.Graphics):
         point = pero.Circle(fill_color="r", line_color="w", size=8)
         
         # init 2nd curve
-        curve2 = pero.Bezier(25,50 , 170,50 , 20,170 , 150,150)
+        curve2 = pero.Bezier(25, 50, 170, 50, 20, 170, 150, 150)
         
         # draw 1st curve
         path = pero.Path.from_bezier(curve)
@@ -258,12 +258,12 @@ class DrawTest(pero.Graphics):
         pather.draw(canvas, path=path, line_color="r", show_anchors=False, show_handles=False)
         
         # draw intersections
-        for t1,t2 in curve.intersects(curve2):
+        for t1, t2 in curve.intersects(curve2):
             
-            x,y = curve.point(t1)
+            x, y = curve.point(t1)
             point.draw(canvas, x=x, y=y)
             
-            x,y = curve2.point(t2)
+            x, y = curve2.point(t2)
             point.draw(canvas, x=x, y=y, size=10, fill_color=None, line_color="r")
     
     
@@ -275,19 +275,19 @@ class DrawTest(pero.Graphics):
         point = pero.Circle(fill_color="r", line_color="w", size=8)
         
         # init curve
-        curve = pero.Bezier(120,50 , 30,150 , 160,150 , 70,50)
+        curve = pero.Bezier(120, 50, 30, 150, 160, 150, 70, 50)
         
         # draw curve
         path = pero.Path.from_bezier(curve)
         pather.draw(canvas, path=path)
         
         # draw intersections
-        for t1,t2 in curve.intersects():
+        for t1, t2 in curve.intersects():
             
-            x,y = curve.point(t1)
+            x, y = curve.point(t1)
             point.draw(canvas, x=x, y=y)
             
-            x,y = curve.point(t2)
+            x, y = curve.point(t2)
             point.draw(canvas, x=x, y=y, size=10, fill_color=None, line_color="r")
     
     
@@ -303,7 +303,7 @@ class DrawTest(pero.Graphics):
         label = pero.Text(text_align=pero.CENTER, x=100, y=220)
         
         # init curve
-        curve = pero.Bezier(100,25 , 10,90 , 110,100 , 150,195)
+        curve = pero.Bezier(100, 25, 10, 90, 110, 100, 150, 195)
         
         # draw tests
         canvas.set_viewport(20, 20, relative=True)

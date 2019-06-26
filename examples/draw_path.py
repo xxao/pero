@@ -144,10 +144,16 @@ class DrawTest(pero.Graphics):
         matrix.clear().translate(x, y)
         
         # split path
-        colors = lambda c: pero.colors.Pero[c]
-        glyph(show_anchors=False, show_handles=False, fill_color=None, line_color=colors, line_width=2)
+        glyph(
+            show_anchors = False,
+            show_handles = False,
+            fill_color = None,
+            line_color = lambda d: pero.colors.Pero[d],
+            line_width = 2)
+        
         for i, subpath in enumerate(path.transformed(matrix).split()):
             glyph.draw(canvas, i, path=subpath)
+        
         label.draw(canvas, x=x, y=y+80, text="Split")
 
 

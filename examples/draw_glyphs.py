@@ -66,7 +66,7 @@ class DrawTest(pero.Graphics):
         x += 60
         
         # test polygon
-        points = ((x-20,y-20), (x+20,y-20), (x+20,y-10), (x+10,y-10), (x+10,y+10), (x+20,y+10), (x+20,y+20), (x-10,y+20))
+        points = ((x-20, y-20), (x+20, y-20), (x+20, y-10), (x+10, y-10), (x+10, y+10), (x+20, y+10), (x+20, y+20), (x-10, y+20))
         glyph = pero.Polygon(line_width=line_width, line_color=line_color, fill_color=fill_color)
         glyph.draw(canvas, points=points)
         label.draw(canvas, x=x, y=y+30, text="Polygon")

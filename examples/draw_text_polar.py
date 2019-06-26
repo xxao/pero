@@ -46,11 +46,11 @@ class DrawTest(pero.Graphics):
             pero.INSIDE)
         
         rotations = {
-            pero.NONE:'None',
-            pero.FOLLOW:'Follow',
-            pero.NATURAL:'Natural',
-            pero.FACEOUT:'Faceout',
-            pero.FACEIN:'Facein'}
+            pero.NONE: 'None',
+            pero.FOLLOW: 'Follow',
+            pero.NATURAL: 'Natural',
+            pero.FACEOUT: 'Faceout',
+            pero.FACEIN: 'Facein'}
         
         # draw top labels
         top_label.draw(canvas, text="OUTSIDE", x=120, y=20)

@@ -84,7 +84,7 @@ class DrawTest(pero.Graphics):
         x += 100
         
         # test path arrow
-        path = pero.Path().move_to(10,10).line_to(25,10).line_to(30, 15).line_to(40,5).line_to(45,10).line_to(60,10)
+        path = pero.Path().move_to(10, 10).line_to(25, 10).line_to(30, 15).line_to(40, 5).line_to(45, 10).line_to(60, 10)
         arrow = pero.PathArrow(start_head=start_head, end_head=end_head, line_width=line_width, line_color=line_color)
         arrow.draw(canvas, x1=x-25, y1=y1, x2=x+25, y2=y2, path=path)
         label.draw(canvas, x=x, y=y2+20, text="PathArrow")

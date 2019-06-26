@@ -34,7 +34,7 @@ class DrawTest(pero.Graphics):
         y = 50
         
         # draw palettes
-        for palette in sorted(pero.PALETTES, key=lambda d:d.name):
+        for palette in sorted(pero.PALETTES, key=lambda d: d.name):
             
             if x + rect.width * len(palette) > 900:
                 x = 50

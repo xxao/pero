@@ -88,8 +88,8 @@ class DrawTest(pero.Graphics):
         
         # draw paths
         glyph = pero.Pather()
-        glyph.draw(canvas, path=path1, fill_color=(48,105,152))
-        glyph.draw(canvas, path=path2, fill_color=(255,232,115))
+        glyph.draw(canvas, path=path1, fill_color=(48, 105, 152))
+        glyph.draw(canvas, path=path2, fill_color=(255, 232, 115))
 
 
 # run test

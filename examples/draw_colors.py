@@ -38,7 +38,7 @@ class DrawTest(pero.Graphics):
         y = padding
         
         # draw colors
-        for color in sorted(pero.COLORS, key=lambda d:d.name):
+        for color in sorted(pero.COLORS, key=lambda d: d.name):
             
             glyph.draw(canvas, x=x, y=y, fill_color=color)
             label.draw(canvas, x=x+size, y=y, text=color.name)
