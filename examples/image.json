@@ -1,0 +1,332 @@
+{
+  "commands": [
+    [
+      "set_property",
+      {
+        "name": "height",
+        "value": 400
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "width",
+        "value": 400
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "line_cap",
+        "value": "round"
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "line_join",
+        "value": "round"
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "fill_color",
+        "value": "#ffffffff"
+      }
+    ],
+    [
+      "fill",
+      {}
+    ],
+    [
+      "set_property",
+      {
+        "name": "line_width",
+        "value": 3
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "line_color",
+        "value": "#e69500ff"
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "fill_color",
+        "value": "#ffa500ff"
+      }
+    ],
+    [
+      "draw_circle",
+      {
+        "x": 200,
+        "y": 200,
+        "radius": 150
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "line_color",
+        "value": null
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "fill_color",
+        "value": "#e6e6e6ff"
+      }
+    ],
+    [
+      "draw_ellipse",
+      {
+        "x": 200,
+        "y": 370,
+        "width": 100,
+        "height": 20
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "fill_color",
+        "value": "#000000ff"
+      }
+    ],
+    [
+      "draw_circle",
+      {
+        "x": 140,
+        "y": 170,
+        "radius": 30
+      }
+    ],
+    [
+      "draw_circle",
+      {
+        "x": 260,
+        "y": 170,
+        "radius": 30
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "line_color",
+        "value": "#000000ff"
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "fill_color",
+        "value": null
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "line_width",
+        "value": 7
+      }
+    ],
+    [
+      "draw_arc",
+      {
+        "x": 140,
+        "y": 170,
+        "radius": 45,
+        "start_angle": -1.745,
+        "end_angle": -0.349,
+        "clockwise": true
+      }
+    ],
+    [
+      "draw_arc",
+      {
+        "x": 260,
+        "y": 170,
+        "radius": 45,
+        "start_angle": 3.491,
+        "end_angle": 4.887,
+        "clockwise": true
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "line_width",
+        "value": 10
+      }
+    ],
+    [
+      "draw_arc",
+      {
+        "x": 200,
+        "y": 200,
+        "radius": 100,
+        "start_angle": 0.698,
+        "end_angle": 1.396,
+        "clockwise": true
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "line_color",
+        "value": "#ffc04dff"
+      }
+    ],
+    [
+      "draw_arc",
+      {
+        "x": 200,
+        "y": 200,
+        "radius": 135,
+        "start_angle": 3.840,
+        "end_angle": 4.538,
+        "clockwise": true
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "line_color",
+        "value": null
+      }
+    ],
+    [
+      "set_property",
+      {
+        "name": "fill_color",
+        "value": "#000000ff"
+      }
+    ],
+    [
+      "draw_path",
+      {
+        "path": {
+          "fill_rule": "winding",
+          "commands": [
+            [
+              "M",
+              253.013,
+              54.348
+            ],
+            [
+              "C",
+              273.772,
+              61.903,
+              289.070,
+              72.236,
+              287.181,
+              77.4252
+            ],
+            [
+              "C",
+              285.292,
+              82.615,
+              266.932,
+              80.697,
+              246.173,
+              73.141
+            ],
+            [
+              "C",
+              225.414,
+              65.586,
+              210.116,
+              55.254,
+              212.005,
+              50.064
+            ],
+            [
+              "C",
+              213.894,
+              44.874,
+              232.254,
+              46.792,
+              253.013,
+              54.348
+            ],
+            [
+              "Z"
+            ],
+            [
+              "M",
+              259.854,
+              35.558
+            ],
+            [
+              "C",
+              272.828,
+              40.276,
+              281.815,
+              48.3114,
+              279.926,
+              53.501
+            ],
+            [
+              "C",
+              278.037,
+              58.691,
+              265.988,
+              59.070,
+              253.013,
+              54.348
+            ],
+            [
+              "C",
+              240.039,
+              49.625,
+              231.052,
+              41.590,
+              232.941,
+              36.400
+            ],
+            [
+              "C",
+              234.830,
+              31.210,
+              246.879,
+              30.8316,
+              259.854,
+              35.554
+            ],
+            [
+              "Z"
+            ],
+            [
+              "M",
+              232.941,
+              36.400
+            ],
+            [
+              "L",
+              279.926,
+              53.501
+            ],
+            [
+              "L",
+              273.085,
+              72.295
+            ],
+            [
+              "L",
+              226.101,
+              55.194
+            ],
+            [
+              "Z"
+            ]
+          ]
+        }
+      }
+    ]
+  ]
+}
