@@ -5,7 +5,6 @@
 import cairo
 import numpy
 from ...properties import *
-from ...colors import Transparent, Black
 from ...drawing import Canvas, Path, Matrix
 from .enums import *
 
@@ -38,10 +37,6 @@ class CairoCanvas(Canvas):
             'weight': self._default_font.get_weight(),
             'for_color': (0, 0, 0, 1),
             'bgr_color': None}
-        
-        # set font factor
-        if 'font_factor' not in overrides:
-            overrides['font_factor'] = 1.33
         
         # init base
         super(CairoCanvas, self).__init__(**overrides)
@@ -644,13 +639,13 @@ class CairoCanvas(Canvas):
             init_font = True
         
         # update font size
-        if prop_name is None or prop_name in ('font_size', 'font_scale', 'font_factor'):
+        if prop_name is None or prop_name in ('font_size', 'font_scale'):
             font_size = self.font_size
             
             if font_size is None:
-                self._dc.set_font_size(10 * self.font_scale * self.font_factor)
+                self._dc.set_font_size(11 * self.font_scale)
             elif font_size is not UNDEF:
-                self._dc.set_font_size(font_size * self.font_scale * self.font_factor)
+                self._dc.set_font_size(font_size * self.font_scale)
         
         # update font style
         if prop_name is None or prop_name == 'font_style':

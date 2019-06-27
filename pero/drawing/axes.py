@@ -106,7 +106,7 @@ class Axis(Glyph):
     line = Include(LineProperties, line_color="#000")
     
     labels = TupleProperty(None, nullable=True, intypes=(str,))
-    label_text = Include(TextProperties, prefix="label_", font_size=9, text_align=UNDEF, text_base=UNDEF)
+    label_text = Include(TextProperties, prefix="label_", font_size=11, text_align=UNDEF, text_base=UNDEF)
     label_between = BoolProperty(False)
     label_offset = NumProperty(10)
     label_flip = BoolProperty(False)

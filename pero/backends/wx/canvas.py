@@ -34,10 +34,11 @@ class WXCanvas(Canvas):
         self._pen = self._dc.GetPen()
         self._brush = self._dc.GetBrush()
         self._default_font = self._dc.GetFont()
-                
+        
         # set font factor
-        if 'font_factor' not in overrides and sys.platform == 'darwin':
-            overrides['font_factor'] = 1.4
+        self._font_factor = 1.
+        if sys.platform == 'win32':
+            self._font_factor = 0.9
         
         # init size
         width, height = self._dc.GetSize()
@@ -585,12 +586,12 @@ class WXCanvas(Canvas):
                 font.Family = WX_FONT_FAMILY[font_family]
         
         # update font size
-        if prop_name is None or prop_name in ('font_size', 'font_scale', 'font_factor'):
+        if prop_name is None or prop_name in ('font_size', 'font_scale'):
             font_size = self.font_size
             if font_size is None:
-                font.PointSize = self._default_font.PointSize * self.font_scale * self.font_factor
+                font.PointSize = self._default_font.PointSize * self.font_scale * self._font_factor
             elif font_size is not UNDEF:
-                font.PointSize = font_size * self.font_scale * self.font_factor
+                font.PointSize = font_size * self.font_scale * self._font_factor
         
         # update font style
         if prop_name is None or prop_name == 'font_style':

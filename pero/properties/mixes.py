@@ -288,7 +288,7 @@ class TextProperties(PropertySet):
             multiplier of line height.
     """
     
-    font_size = IntProperty(9, nullable=True)
+    font_size = IntProperty(11, nullable=True)
     font_name = StringProperty(UNDEF, nullable=True)
     font_family = EnumProperty(FONT_FAMILY.SANS, enum=FONT_FAMILY, nullable=True)
     font_style = EnumProperty(FONT_STYLE.NORMAL, enum=FONT_STYLE, nullable=True)

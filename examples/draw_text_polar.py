@@ -65,7 +65,7 @@ class DrawTest(pero.Graphics):
             side_label.draw(canvas, text=rotations[rotation].upper(), x=x, y=y)
             
             canvas.font_name = 'Arial'
-            canvas.font_size = 9
+            canvas.font_size = 11
             
             x += 100
             for position in positions:

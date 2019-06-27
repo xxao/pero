@@ -49,10 +49,6 @@ class SVGCanvas(Canvas):
         
         self._font_descent = 0
         
-        # set font factor
-        if 'font_factor' not in overrides:
-            overrides['font_factor'] = 1.35
-        
         # init base
         super(SVGCanvas, self).__init__(**overrides)
         
@@ -658,13 +654,13 @@ class SVGCanvas(Canvas):
             font_changed = True
         
         # update font size
-        if prop_name is None or prop_name in ('font_size', 'font_scale', 'font_factor'):
+        if prop_name is None or prop_name in ('font_size', 'font_scale'):
             font_size = self.font_size
             
             if font_size is None:
-                self._font_attrs['font-size'] = 10 * self.font_scale * self.font_factor
+                self._font_attrs['font-size'] = 11 * self.font_scale
             elif font_size is not UNDEF:
-                self._font_attrs['font-size'] = font_size * self.font_scale * self.font_factor
+                self._font_attrs['font-size'] = font_size * self.font_scale
             
             font_changed = True
         

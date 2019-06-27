@@ -40,10 +40,6 @@ class UICanvas(Canvas):
         
         self._clipping = []
         
-        # set font factor
-        if 'font_factor' not in overrides:
-            overrides['font_factor'] = 1.33
-        
         # init base
         super(UICanvas, self).__init__(**overrides)
         
@@ -353,12 +349,12 @@ class UICanvas(Canvas):
             self._font['name'] = font.name
         
         # update font size
-        if prop_name is None or prop_name in ('font_size', 'font_scale', 'font_factor'):
+        if prop_name is None or prop_name in ('font_size', 'font_scale'):
             font_size = self.font_size
             if font_size is None:
-                self._font['size'] = 10 * self.font_scale * self.font_factor
+                self._font['size'] = 11 * self.font_scale
             elif font_size is not UNDEF:
-                self._font['size'] = font_size * self.font_scale * self.font_factor
+                self._font['size'] = font_size * self.font_scale
         
         # update foreground color
         if prop_name is None or prop_name in ('text_color', 'text_alpha'):

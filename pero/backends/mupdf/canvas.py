@@ -46,10 +46,6 @@ class MuPDFCanvas(Canvas):
             'for_color': (0, 0, 0),
             'bgr_color': None}
         
-        # set font factor
-        if 'font_factor' not in overrides:
-            overrides['font_factor'] = 1.33
-        
         # init size
         rect = self._page.bound()
         
@@ -555,15 +551,15 @@ class MuPDFCanvas(Canvas):
             self._font['file'] = font.path
         
         # update font size
-        if prop_name is None or prop_name in ('font_size', 'font_scale', 'font_factor'):
+        if prop_name is None or prop_name in ('font_size', 'font_scale'):
             font_size = self.font_size
             if font_size is None:
-                self._font['size'] = 10 * self.font_scale * self.font_factor
+                self._font['size'] = 11 * self.font_scale
             elif font_size is not UNDEF:
-                self._font['size'] = font_size * self.font_scale * self.font_factor
+                self._font['size'] = font_size * self.font_scale
         
         # update font descent
-        if prop_name is None or prop_name in ('font_name', 'font_family', 'font_style', 'font_weight', 'font_size', 'font_scale', 'font_factor'):
+        if prop_name is None or prop_name in ('font_name', 'font_family', 'font_style', 'font_weight', 'font_size', 'font_scale'):
             font = self.get_font()
             self._font['descent'] = font.get_descent(int(0.5+self._font['size']))
         

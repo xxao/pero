@@ -22,7 +22,7 @@ class DrawTest(pero.Graphics):
             line_color = pero.colors.Red)
         
         label = pero.Text(
-            font_size = 9,
+            font_size = 12,
             font_name = "Arial")
         
         # init coords
@@ -68,11 +68,11 @@ class DrawTest(pero.Graphics):
         y += 30
         
         # test size
-        label.draw(canvas, x=x, y=y, text="size 8", font_size=8)
-        x += 60
         label.draw(canvas, x=x, y=y, text="size 10", font_size=10)
         x += 60
         label.draw(canvas, x=x, y=y, text="size 12", font_size=12)
+        x += 60
+        label.draw(canvas, x=x, y=y, text="size 14", font_size=14)
         
         x = 20
         y += 30
@@ -107,7 +107,7 @@ class DrawTest(pero.Graphics):
         line.draw(canvas, x1=x-5, y1=y, x2=x+50, y2=y)
         label.draw(canvas, x=x, y=y, text="MIDDLE", text_base=pero.MIDDLE)
         x += 100
-        line.draw(canvas, x1=x-5, y1=y, x2=x+50, y2=y)
+        line.draw(canvas, x1=x-5, y1=y, x2=x+55, y2=y)
         label.draw(canvas, x=x, y=y, text="BOTTOM", text_base=pero.BOTTOM)
 
 

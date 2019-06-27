@@ -23,7 +23,7 @@ class DrawTest(pero.Graphics):
             size = 10)
         
         label = pero.Text(
-            font_size = 10,
+            font_size = 14,
             text_align = pero.CENTER,
             text_base = pero.MIDDLE,
             text_bgr_color = "lightgrey",

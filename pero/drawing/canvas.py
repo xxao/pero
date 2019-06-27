@@ -82,9 +82,6 @@ class Canvas(PropertySet):
         font_scale: int, float
             Specifies the scaling factor for texts.
         
-        font_factor: int, float
-            Specifies the font normalization factor of the canvas.
-        
         font_size: int, None or UNDEF
             Specifies the font size or None to reset to default size.
         
@@ -155,7 +152,6 @@ class Canvas(PropertySet):
     
     line_scale = FloatProperty(1, dynamic=False)
     font_scale = FloatProperty(1, dynamic=False)
-    font_factor = FloatProperty(1, dynamic=False)
     
     pen = Include(LineProperties, dynamic=False, line_color="#000")
     brush = Include(FillProperties, dynamic=False, fill_color=None)
@@ -431,9 +427,9 @@ class Canvas(PropertySet):
         font = self.get_font()
         
         # get font size
-        size = 10
+        size = 11
         if self.font_size:
-            size = int(0.5 + self.font_size * self.font_scale * self.font_factor)
+            size = int(0.5 + self.font_size * self.font_scale)
         
         # get text size
         width, height = font.get_size(text, size)
@@ -1170,5 +1166,5 @@ class Canvas(PropertySet):
             self.fire(BrushChangedEvt.from_evt(evt))
         
         # update current text
-        if evt.name in self._text_properties or evt.name in ('font_scale', 'font_factor'):
+        if evt.name in self._text_properties or evt.name == 'font_scale':
             self.fire(TextChangedEvt.from_evt(evt))

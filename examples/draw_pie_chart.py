@@ -31,7 +31,7 @@ class DrawTest(pero.Graphics):
             text_align = pero.CENTER,
             text_base = pero.MIDDLE,
             text_color = "white",
-            font_size = 14,
+            font_size = 16,
             font_weight = pero.BOLD)
         
         # calc coordinates
