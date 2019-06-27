@@ -510,7 +510,7 @@ class CairoCanvas(Canvas):
     
     
     def _make_native_path(self, path):
-        """Adds given path to canvas without (drawing it)."""
+        """Adds given path to canvas without drawing it."""
         
         # init path
         self._dc.new_path()

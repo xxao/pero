@@ -51,7 +51,7 @@ class MuPDFCanvas(Canvas):
             overrides['font_factor'] = 1.33
         
         # init size
-        rect = page.bound()
+        rect = self._page.bound()
         
         if 'width' not in overrides:
             overrides['width'] = rect.width
@@ -97,7 +97,7 @@ class MuPDFCanvas(Canvas):
         shape = self._page.newShape()
         
         # draw
-        shape.drawCircle((x,y), radius)
+        shape.drawCircle((x, y), radius)
         
         # fill and stroke
         self._fill_and_stroke(shape, close=True)
@@ -464,24 +464,6 @@ class MuPDFCanvas(Canvas):
             
             # update page
             shape.commit()
-    
-    
-    def clip(self, path):
-        """
-        Sets clipping path as intersection with current one.
-        
-        Args:
-            path: pero.Path
-                Path to be used for clipping.
-        """
-        
-        pass
-    
-    
-    def unclip(self):
-        """Removes last clipping path while keeping previous if any."""
-        
-        pass
     
     
     def _fill_and_stroke(self, shape, close, even_odd=True, fill=True, commit=True):
