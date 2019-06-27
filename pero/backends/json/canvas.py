@@ -3,40 +3,27 @@
 
 # import modules
 import json
-from ..enums import *
-from ..colors import Color
-from ..properties import UNDEF
-from .canvas import Canvas
-from .graphics import Graphics
+from ...enums import *
+from ...colors import Color
+from ...properties import UNDEF
+from ...drawing import Canvas
 
 
-class Image(Canvas, Graphics):
-    """
-    Special type of drawing canvas, which does not implement any drawing itself
-    but provides a way to buffer drawing commands. Its content can either be
-    later drawn to specific backend canvas or it can be used to create JSON
-    dump.
-    
-    Since the class is derived from pero.Canvas as well as from pero.Graphics,
-    it can also be used as a regular graphics object.
-    
-    In addition to standard canvas methods, two convenient methods are available
-    as shortcuts to 'export' or 'show' the image using available default drawing
-    backend/viewer.
-    """
+class JsonCanvas(Canvas):
+    """Wrapper for buffered JSON drawing context."""
     
     
     def __init__(self, **overrides):
-        """Initializes a new instance of Image."""
+        """Initializes a new instance of JsonCanvas."""
         
         # init buffers
         self._commands = []
         
         # init base
-        super(Image, self).__init__()
+        super(JsonCanvas, self).__init__()
         
         # bind events
-        self.bind(EVENT.PROPERTY_CHANGED, self._on_image_property_changed)
+        self.bind(EVENT.PROPERTY_CHANGED, self._on_json_property_changed)
         
         # set overrides
         self.set_properties(overrides)
@@ -69,7 +56,7 @@ class Image(Canvas, Graphics):
         """
         
         # set to base
-        super(Image, self).set_viewport(x, y, width, height, relative)
+        super(JsonCanvas, self).set_viewport(x, y, width, height, relative)
         
         # store command
         self._store_command('set_viewport', {
@@ -90,19 +77,6 @@ class Image(Canvas, Graphics):
         """
         
         return json.dumps({"commands": self._commands})
-    
-    
-    def draw(self, canvas, *args, **kwargs):
-        """
-        Uses given canvas to draw the image.
-        
-        Args:
-            canvas: pero.Canvas
-                Canvas to be used for rendering.
-        """
-        
-        # draw JSON dump
-        canvas.draw_json(self.get_json())
     
     
     def draw_arc(self, x, y, radius, start_angle, end_angle, clockwise=True):
@@ -376,40 +350,6 @@ class Image(Canvas, Graphics):
         self._store_command('ungroup')
     
     
-    def export(self, path, **options):
-        """
-        Draws the image into specified file using the format determined
-        automatically from the file extension. This method makes sure
-        appropriate backend canvas is created and provided to the 'draw' method.
-        
-        Args:
-            path: str
-                Full path of a file to save the image into.
-            
-            options: str:any pairs
-                Additional parameters for specific backend.
-        """
-        
-        from .. import backends
-        backends.export(self, path, self.width, self.height, **options)
-    
-    
-    def show(self, title=None):
-        """
-        Shows the image in available viewer app. Currently this is only
-        available if wxPython is installed or within Pythonista app on iOS. This
-        method makes sure appropriate backend canvas is created and provided to
-        the 'draw' method.
-        
-        Args:
-            title: str or None
-                Viewer frame title.
-        """
-        
-        from .. import backends
-        backends.show(self, title, self.width, self.height)
-    
-    
     def _store_command(self, command, args=None):
         """Stores command and its parameters."""
         
@@ -419,7 +359,7 @@ class Image(Canvas, Graphics):
         self._commands.append((command, args))
     
     
-    def _on_image_property_changed(self, evt):
+    def _on_json_property_changed(self, evt):
         """Called after any property has changed."""
         
         # get value
@@ -438,25 +378,3 @@ class Image(Canvas, Graphics):
             'name': evt.name,
             'value': value,
             'raise_error': False})
-    
-    
-    @staticmethod
-    def from_json(dump):
-        """
-        Creates a new pero.Image from given JSON dump.
-        
-        Args:
-            dump: str or dict
-                Image JSON dump.
-        
-        Returns:
-            pero.Image
-        """
-        
-        # init image
-        img = Image()
-        
-        # add JSON dump
-        img.draw_json(dump)
-        
-        return img

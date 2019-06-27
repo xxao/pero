@@ -44,6 +44,9 @@ def export(graphics, path, width=750, height=500, **options):
         
         # try to import backend
         try:
+            if module == BACKEND.JSON:
+                from . import json as backend
+            
             if module == BACKEND.SVG:
                 from . import svg as backend
             

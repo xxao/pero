@@ -6,11 +6,16 @@ from .enum import Enum
 
 # define backends
 BACKEND = Enum(
+    JSON = 'json',
     SVG = 'svg',
     WX = 'wx',
     CAIRO = 'cairo',
     MUPDF = 'mupdf',
     PYTHONISTA = 'pythonista')
+
+# define image formats supported by JSON backend
+EXPORT_JSON = {
+    '.json'}
 
 # define image formats supported by SVG backend
 EXPORT_SVG = {
@@ -53,6 +58,7 @@ EXPORT_PYTHONISTA = {
 
 # define available formats
 EXPORT_FORMATS = {
+    BACKEND.JSON: EXPORT_JSON,
     BACKEND.SVG: EXPORT_SVG,
     BACKEND.WX: EXPORT_WX,
     BACKEND.CAIRO: EXPORT_CAIRO,
@@ -61,6 +67,7 @@ EXPORT_FORMATS = {
 
 # define export backend priorities
 EXPORT_PRIORITY = [
+    BACKEND.JSON,
     BACKEND.SVG,
     BACKEND.WX,
     BACKEND.CAIRO,
