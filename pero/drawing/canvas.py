@@ -728,6 +728,11 @@ class Canvas(PropertySet):
         # call commands
         for name, args in dump.get("commands", []):
             
+            # check UNDEF
+            if name == 'set_property' and args['value'] == UNDEF:
+                args = args.copy()
+                args['value'] = UNDEF
+            
             # recreate path
             if 'path' in args:
                 args = args.copy()

@@ -33,7 +33,7 @@ class Undefined(object):
     def __eq__(self, other):
         """Defines equality comparer."""
         
-        return other is self
+        return other is self or other == self.__str__()
     
     
     def __lt__(self, other):
