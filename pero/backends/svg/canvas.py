@@ -42,7 +42,6 @@ class SVGCanvas(Canvas):
             'font-size': None,
             'font-style': None,
             'font-weight': None,
-            'text-anchor': 'left',
             'fill': None,
             'fill-opacity': None,
             'filter': None}
