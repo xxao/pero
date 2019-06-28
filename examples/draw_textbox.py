@@ -19,7 +19,7 @@ class DrawTest(pero.Graphics):
         # init glyphs
         textbox = pero.Textbox(
             font_name = "Arial",
-            font_size = 14,
+            font_size = 16,
             line_color = "grey",
             fill_color = "lightgrey",
             radius = 5,

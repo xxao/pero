@@ -38,7 +38,7 @@ class WXCanvas(Canvas):
         # set font factor
         self._font_factor = 1.
         if sys.platform == 'win32':
-            self._font_factor = 0.9
+            self._font_factor = 0.75
         
         # init size
         width, height = self._dc.GetSize()
