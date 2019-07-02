@@ -1,0 +1,417 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="550">
+  <rect x="0.0" y="0.0" width="850.0" height="550.0" stroke="#000000" stroke-width="0.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f8f8ff" />
+  <text x="50.0" y="54.0" font-family="Arial" font-size="11.0" fill="#000000" >Accent (8)</text>
+  <rect x="50.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#7fc97f" />
+  <rect x="66.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#beaed4" />
+  <rect x="82.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdc086" />
+  <rect x="98.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffff99" />
+  <rect x="114.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#386cb0" />
+  <rect x="130.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f0027f" />
+  <rect x="146.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#bf5b17" />
+  <rect x="162.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#666666" />
+  <text x="228.0" y="54.0" font-family="Arial" font-size="11.0" fill="#000000" >Blues (9)</text>
+  <rect x="228.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f7fbff" />
+  <rect x="244.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#deebf7" />
+  <rect x="260.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#c6dbef" />
+  <rect x="276.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#9ecae1" />
+  <rect x="292.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#6baed6" />
+  <rect x="308.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#4292c6" />
+  <rect x="324.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#2171b5" />
+  <rect x="340.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#08519c" />
+  <rect x="356.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#08306b" />
+  <text x="422.0" y="54.0" font-family="Arial" font-size="11.0" fill="#000000" >BrBG (9)</text>
+  <rect x="422.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#8c510a" />
+  <rect x="438.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#bf812d" />
+  <rect x="454.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#dfc27d" />
+  <rect x="470.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f6e8c3" />
+  <rect x="486.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f5f5f5" />
+  <rect x="502.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#c7eae5" />
+  <rect x="518.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#80cdc1" />
+  <rect x="534.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#35978f" />
+  <rect x="550.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#01665e" />
+  <text x="616.0" y="54.0" font-family="Arial" font-size="11.0" fill="#000000" >BuGn (9)</text>
+  <rect x="616.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f7fcfd" />
+  <rect x="632.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e5f5f9" />
+  <rect x="648.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ccece6" />
+  <rect x="664.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#99d8c9" />
+  <rect x="680.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#66c2a4" />
+  <rect x="696.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#41ae76" />
+  <rect x="712.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#238b45" />
+  <rect x="728.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#006d2c" />
+  <rect x="744.0" y="60.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#00441b" />
+  <text x="50.0" y="96.0" font-family="Arial" font-size="11.0" fill="#000000" >BuPu (9)</text>
+  <rect x="50.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f7fcfd" />
+  <rect x="66.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e0ecf4" />
+  <rect x="82.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#bfd3e6" />
+  <rect x="98.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#9ebcda" />
+  <rect x="114.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#8c96c6" />
+  <rect x="130.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#8c6bb1" />
+  <rect x="146.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#88419d" />
+  <rect x="162.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#810f7c" />
+  <rect x="178.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#4d004b" />
+  <text x="244.0" y="96.0" font-family="Arial" font-size="11.0" fill="#000000" >Dark (8)</text>
+  <rect x="244.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#1b9e77" />
+  <rect x="260.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d95f02" />
+  <rect x="276.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#7570b3" />
+  <rect x="292.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e7298a" />
+  <rect x="308.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#66a61e" />
+  <rect x="324.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e6ab02" />
+  <rect x="340.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a6761d" />
+  <rect x="356.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#666666" />
+  <text x="422.0" y="96.0" font-family="Arial" font-size="11.0" fill="#000000" >GnBu (9)</text>
+  <rect x="422.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f7fcf0" />
+  <rect x="438.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e0f3db" />
+  <rect x="454.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ccebc5" />
+  <rect x="470.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a8ddb5" />
+  <rect x="486.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#7bccc4" />
+  <rect x="502.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#4eb3d3" />
+  <rect x="518.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#2b8cbe" />
+  <rect x="534.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#0868ac" />
+  <rect x="550.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#084081" />
+  <text x="616.0" y="96.0" font-family="Arial" font-size="11.0" fill="#000000" >Greens (9)</text>
+  <rect x="616.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f7fcf5" />
+  <rect x="632.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e5f5e0" />
+  <rect x="648.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#c7e9c0" />
+  <rect x="664.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a1d99b" />
+  <rect x="680.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#74c476" />
+  <rect x="696.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#41ab5d" />
+  <rect x="712.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#238b45" />
+  <rect x="728.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#006d2c" />
+  <rect x="744.0" y="102.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#00441b" />
+  <text x="50.0" y="138.0" font-family="Arial" font-size="11.0" fill="#000000" >Greys (9)</text>
+  <rect x="50.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffffff" />
+  <rect x="66.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f0f0f0" />
+  <rect x="82.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d9d9d9" />
+  <rect x="98.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#bdbdbd" />
+  <rect x="114.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#969696" />
+  <rect x="130.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#737373" />
+  <rect x="146.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#525252" />
+  <rect x="162.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#252525" />
+  <rect x="178.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" />
+  <text x="244.0" y="138.0" font-family="Arial" font-size="11.0" fill="#000000" >Inferno (9)</text>
+  <rect x="244.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fcfea4" />
+  <rect x="260.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f8c931" />
+  <rect x="276.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f98c09" />
+  <rect x="292.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e35832" />
+  <rect x="308.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ba3655" />
+  <rect x="324.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#88216a" />
+  <rect x="340.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#550f6d" />
+  <rect x="356.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#1f0c47" />
+  <rect x="372.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000003" />
+  <text x="438.0" y="138.0" font-family="Arial" font-size="11.0" fill="#000000" >Magma (9)</text>
+  <rect x="438.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fbfcbf" />
+  <rect x="454.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fec286" />
+  <rect x="470.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fb8660" />
+  <rect x="486.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e55063" />
+  <rect x="502.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b53679" />
+  <rect x="518.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#812581" />
+  <rect x="534.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#4f117b" />
+  <rect x="550.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#1b1044" />
+  <rect x="566.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000003" />
+  <text x="632.0" y="138.0" font-family="Arial" font-size="11.0" fill="#000000" >OrRd (9)</text>
+  <rect x="632.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fff7ec" />
+  <rect x="648.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fee8c8" />
+  <rect x="664.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdd49e" />
+  <rect x="680.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdbb84" />
+  <rect x="696.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fc8d59" />
+  <rect x="712.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ef6548" />
+  <rect x="728.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d7301f" />
+  <rect x="744.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b30000" />
+  <rect x="760.0" y="144.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#7f0000" />
+  <text x="50.0" y="180.0" font-family="Arial" font-size="11.0" fill="#000000" >Oranges (9)</text>
+  <rect x="50.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fff5eb" />
+  <rect x="66.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fee6ce" />
+  <rect x="82.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdd0a2" />
+  <rect x="98.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdae6b" />
+  <rect x="114.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fd8d3c" />
+  <rect x="130.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f16913" />
+  <rect x="146.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d94801" />
+  <rect x="162.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a63603" />
+  <rect x="178.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#7f2704" />
+  <text x="244.0" y="180.0" font-family="Arial" font-size="11.0" fill="#000000" >PRGn (9)</text>
+  <rect x="244.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#762a83" />
+  <rect x="260.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#9970ab" />
+  <rect x="276.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#c2a5cf" />
+  <rect x="292.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e7d4e8" />
+  <rect x="308.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f7f7f7" />
+  <rect x="324.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d9f0d3" />
+  <rect x="340.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a6dba0" />
+  <rect x="356.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#5aae61" />
+  <rect x="372.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#1b7837" />
+  <text x="438.0" y="180.0" font-family="Arial" font-size="11.0" fill="#000000" >Paired (12)</text>
+  <rect x="438.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a6cee3" />
+  <rect x="454.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#1f78b4" />
+  <rect x="470.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b2df8a" />
+  <rect x="486.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#33a02c" />
+  <rect x="502.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fb9a99" />
+  <rect x="518.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e31a1c" />
+  <rect x="534.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdbf6f" />
+  <rect x="550.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ff7f00" />
+  <rect x="566.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#cab2d6" />
+  <rect x="582.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#6a3d9a" />
+  <rect x="598.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffff99" />
+  <rect x="614.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b15928" />
+  <text x="680.0" y="180.0" font-family="Arial" font-size="11.0" fill="#000000" >Pastel1 (9)</text>
+  <rect x="680.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fbb4ae" />
+  <rect x="696.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3cde3" />
+  <rect x="712.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ccebc5" />
+  <rect x="728.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#decbe4" />
+  <rect x="744.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fed9a6" />
+  <rect x="760.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffffcc" />
+  <rect x="776.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e5d8bd" />
+  <rect x="792.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fddaec" />
+  <rect x="808.0" y="186.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f2f2f2" />
+  <text x="50.0" y="222.0" font-family="Arial" font-size="11.0" fill="#000000" >Pastel2 (8)</text>
+  <rect x="50.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3e2cd" />
+  <rect x="66.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdcdac" />
+  <rect x="82.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#cbd5e8" />
+  <rect x="98.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f4cae4" />
+  <rect x="114.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e6f5c9" />
+  <rect x="130.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fff2ae" />
+  <rect x="146.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f1e2cc" />
+  <rect x="162.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#cccccc" />
+  <text x="228.0" y="222.0" font-family="Arial" font-size="11.0" fill="#000000" >Pero (18)</text>
+  <rect x="228.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#1047b9" />
+  <rect x="244.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#328c00" />
+  <rect x="260.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f19000" />
+  <rect x="276.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#4cc7c5" />
+  <rect x="292.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#8f8f15" />
+  <rect x="308.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#edbb00" />
+  <rect x="324.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#786dff" />
+  <rect x="340.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b34e00" />
+  <rect x="356.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#80bfbd" />
+  <rect x="372.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#c88812" />
+  <rect x="388.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#c5ca3d" />
+  <rect x="404.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#7bb6ff" />
+  <rect x="420.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#45438a" />
+  <rect x="436.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#188183" />
+  <rect x="452.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#838183" />
+  <rect x="468.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#457ec6" />
+  <rect x="484.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#7f2200" />
+  <rect x="500.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#4c4e4c" />
+  <text x="566.0" y="222.0" font-family="Arial" font-size="11.0" fill="#000000" >PiYG (9)</text>
+  <rect x="566.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#c51b7d" />
+  <rect x="582.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#de77ae" />
+  <rect x="598.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f1b6da" />
+  <rect x="614.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fde0ef" />
+  <rect x="630.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f7f7f7" />
+  <rect x="646.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e6f5d0" />
+  <rect x="662.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b8e186" />
+  <rect x="678.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#7fbc41" />
+  <rect x="694.0" y="228.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#4d9221" />
+  <text x="50.0" y="264.0" font-family="Arial" font-size="11.0" fill="#000000" >Plasma (9)</text>
+  <rect x="50.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#eff821" />
+  <rect x="66.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdc328" />
+  <rect x="82.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f79341" />
+  <rect x="98.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e56b5c" />
+  <rect x="114.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ca4678" />
+  <rect x="130.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a82296" />
+  <rect x="146.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#7c02a7" />
+  <rect x="162.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#4a02a0" />
+  <rect x="178.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#0c0786" />
+  <text x="244.0" y="264.0" font-family="Arial" font-size="11.0" fill="#000000" >PuBu (9)</text>
+  <rect x="244.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fff7fb" />
+  <rect x="260.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ece7f2" />
+  <rect x="276.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d0d1e6" />
+  <rect x="292.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a6bddb" />
+  <rect x="308.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#74a9cf" />
+  <rect x="324.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#3690c0" />
+  <rect x="340.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#0570b0" />
+  <rect x="356.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#045a8d" />
+  <rect x="372.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#023858" />
+  <text x="438.0" y="264.0" font-family="Arial" font-size="11.0" fill="#000000" >PuBuGn (9)</text>
+  <rect x="438.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fff7fb" />
+  <rect x="454.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ece2f0" />
+  <rect x="470.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d0d1e6" />
+  <rect x="486.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a6bddb" />
+  <rect x="502.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#67a9cf" />
+  <rect x="518.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#3690c0" />
+  <rect x="534.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#02818a" />
+  <rect x="550.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#016c59" />
+  <rect x="566.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#014636" />
+  <text x="632.0" y="264.0" font-family="Arial" font-size="11.0" fill="#000000" >PuOr (9)</text>
+  <rect x="632.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#542788" />
+  <rect x="648.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#8073ac" />
+  <rect x="664.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b2abd2" />
+  <rect x="680.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d8daeb" />
+  <rect x="696.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f7f7f7" />
+  <rect x="712.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fee0b6" />
+  <rect x="728.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdb863" />
+  <rect x="744.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e08214" />
+  <rect x="760.0" y="270.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b35806" />
+  <text x="50.0" y="306.0" font-family="Arial" font-size="11.0" fill="#000000" >PuRd (9)</text>
+  <rect x="50.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f7f4f9" />
+  <rect x="66.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e7e1ef" />
+  <rect x="82.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d4b9da" />
+  <rect x="98.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#c994c7" />
+  <rect x="114.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#df65b0" />
+  <rect x="130.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e7298a" />
+  <rect x="146.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ce1256" />
+  <rect x="162.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#980043" />
+  <rect x="178.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#67001f" />
+  <text x="244.0" y="306.0" font-family="Arial" font-size="11.0" fill="#000000" >Purples (9)</text>
+  <rect x="244.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fcfbfd" />
+  <rect x="260.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#efedf5" />
+  <rect x="276.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#dadaeb" />
+  <rect x="292.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#bcbddc" />
+  <rect x="308.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#9e9ac8" />
+  <rect x="324.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#807dba" />
+  <rect x="340.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#6a51a3" />
+  <rect x="356.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#54278f" />
+  <rect x="372.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#3f007d" />
+  <text x="438.0" y="306.0" font-family="Arial" font-size="11.0" fill="#000000" >RdBu (9)</text>
+  <rect x="438.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b2182b" />
+  <rect x="454.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d6604d" />
+  <rect x="470.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f4a582" />
+  <rect x="486.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fddbc7" />
+  <rect x="502.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f7f7f7" />
+  <rect x="518.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d1e5f0" />
+  <rect x="534.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#92c5de" />
+  <rect x="550.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#4393c3" />
+  <rect x="566.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#2166ac" />
+  <text x="632.0" y="306.0" font-family="Arial" font-size="11.0" fill="#000000" >RdGy (9)</text>
+  <rect x="632.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b2182b" />
+  <rect x="648.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d6604d" />
+  <rect x="664.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f4a582" />
+  <rect x="680.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fddbc7" />
+  <rect x="696.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffffff" />
+  <rect x="712.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e0e0e0" />
+  <rect x="728.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#bababa" />
+  <rect x="744.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#878787" />
+  <rect x="760.0" y="312.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#4d4d4d" />
+  <text x="50.0" y="348.0" font-family="Arial" font-size="11.0" fill="#000000" >RdPu (9)</text>
+  <rect x="50.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fff7f3" />
+  <rect x="66.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fde0dd" />
+  <rect x="82.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fcc5c0" />
+  <rect x="98.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fa9fb5" />
+  <rect x="114.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f768a1" />
+  <rect x="130.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#dd3497" />
+  <rect x="146.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ae017e" />
+  <rect x="162.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#7a0177" />
+  <rect x="178.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#49006a" />
+  <text x="244.0" y="348.0" font-family="Arial" font-size="11.0" fill="#000000" >RdYlBu (9)</text>
+  <rect x="244.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d73027" />
+  <rect x="260.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f46d43" />
+  <rect x="276.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdae61" />
+  <rect x="292.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fee090" />
+  <rect x="308.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffffbf" />
+  <rect x="324.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e0f3f8" />
+  <rect x="340.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#abd9e9" />
+  <rect x="356.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#74add1" />
+  <rect x="372.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#4575b4" />
+  <text x="438.0" y="348.0" font-family="Arial" font-size="11.0" fill="#000000" >RdYlGn (9)</text>
+  <rect x="438.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d73027" />
+  <rect x="454.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f46d43" />
+  <rect x="470.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdae61" />
+  <rect x="486.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fee08b" />
+  <rect x="502.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffffbf" />
+  <rect x="518.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d9ef8b" />
+  <rect x="534.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a6d96a" />
+  <rect x="550.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#66bd63" />
+  <rect x="566.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#1a9850" />
+  <text x="632.0" y="348.0" font-family="Arial" font-size="11.0" fill="#000000" >Reds (9)</text>
+  <rect x="632.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fff5f0" />
+  <rect x="648.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fee0d2" />
+  <rect x="664.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fcbba1" />
+  <rect x="680.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fc9272" />
+  <rect x="696.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fb6a4a" />
+  <rect x="712.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ef3b2c" />
+  <rect x="728.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#cb181d" />
+  <rect x="744.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a50f15" />
+  <rect x="760.0" y="354.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#67000d" />
+  <text x="50.0" y="390.0" font-family="Arial" font-size="11.0" fill="#000000" >Set1 (9)</text>
+  <rect x="50.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e41a1c" />
+  <rect x="66.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#377eb8" />
+  <rect x="82.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#4daf4a" />
+  <rect x="98.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#984ea3" />
+  <rect x="114.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ff7f00" />
+  <rect x="130.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffff33" />
+  <rect x="146.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a65628" />
+  <rect x="162.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f781bf" />
+  <rect x="178.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#999999" />
+  <text x="244.0" y="390.0" font-family="Arial" font-size="11.0" fill="#000000" >Set2 (8)</text>
+  <rect x="244.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#66c2a5" />
+  <rect x="260.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fc8d62" />
+  <rect x="276.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#8da0cb" />
+  <rect x="292.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e78ac3" />
+  <rect x="308.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#a6d854" />
+  <rect x="324.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffd92f" />
+  <rect x="340.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e5c494" />
+  <rect x="356.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3b3" />
+  <text x="422.0" y="390.0" font-family="Arial" font-size="11.0" fill="#000000" >Set3 (12)</text>
+  <rect x="422.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#8dd3c7" />
+  <rect x="438.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffffb3" />
+  <rect x="454.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#bebada" />
+  <rect x="470.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fb8072" />
+  <rect x="486.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#80b1d3" />
+  <rect x="502.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdb462" />
+  <rect x="518.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3de69" />
+  <rect x="534.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fccde5" />
+  <rect x="550.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d9d9d9" />
+  <rect x="566.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#bc80bd" />
+  <rect x="582.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ccebc5" />
+  <rect x="598.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffed6f" />
+  <text x="664.0" y="390.0" font-family="Arial" font-size="11.0" fill="#000000" >Spectral (9)</text>
+  <rect x="664.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#3288bd" />
+  <rect x="680.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#66c2a5" />
+  <rect x="696.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#abdda4" />
+  <rect x="712.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e6f598" />
+  <rect x="728.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffffbf" />
+  <rect x="744.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fee08b" />
+  <rect x="760.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fdae61" />
+  <rect x="776.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f46d43" />
+  <rect x="792.0" y="396.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d53e4f" />
+  <text x="50.0" y="432.0" font-family="Arial" font-size="11.0" fill="#000000" >Viridis (9)</text>
+  <rect x="50.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fde724" />
+  <rect x="66.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#aadb32" />
+  <rect x="82.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#5bc862" />
+  <rect x="98.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#27ad80" />
+  <rect x="114.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#208f8c" />
+  <rect x="130.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#2c718e" />
+  <rect x="146.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#3b518a" />
+  <rect x="162.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#472b7a" />
+  <rect x="178.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#440154" />
+  <text x="244.0" y="432.0" font-family="Arial" font-size="11.0" fill="#000000" >YlGn (9)</text>
+  <rect x="244.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffffe5" />
+  <rect x="260.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f7fcb9" />
+  <rect x="276.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#d9f0a3" />
+  <rect x="292.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#addd8e" />
+  <rect x="308.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#78c679" />
+  <rect x="324.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#41ab5d" />
+  <rect x="340.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#238443" />
+  <rect x="356.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#006837" />
+  <rect x="372.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#004529" />
+  <text x="438.0" y="432.0" font-family="Arial" font-size="11.0" fill="#000000" >YlGnBu (9)</text>
+  <rect x="438.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffffd9" />
+  <rect x="454.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#edf8b1" />
+  <rect x="470.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#c7e9b4" />
+  <rect x="486.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#7fcdbb" />
+  <rect x="502.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#41b6c4" />
+  <rect x="518.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#1d91c0" />
+  <rect x="534.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#225ea8" />
+  <rect x="550.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#253494" />
+  <rect x="566.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#081d58" />
+  <text x="632.0" y="432.0" font-family="Arial" font-size="11.0" fill="#000000" >YlOrBr (9)</text>
+  <rect x="632.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffffe5" />
+  <rect x="648.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fff7bc" />
+  <rect x="664.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fee391" />
+  <rect x="680.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fec44f" />
+  <rect x="696.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fe9929" />
+  <rect x="712.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ec7014" />
+  <rect x="728.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#cc4c02" />
+  <rect x="744.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#993404" />
+  <rect x="760.0" y="438.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#662506" />
+  <text x="50.0" y="474.0" font-family="Arial" font-size="11.0" fill="#000000" >YlOrRd (9)</text>
+  <rect x="50.0" y="480.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffffcc" />
+  <rect x="66.0" y="480.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#ffeda0" />
+  <rect x="82.0" y="480.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fed976" />
+  <rect x="98.0" y="480.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#feb24c" />
+  <rect x="114.0" y="480.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fd8d3c" />
+  <rect x="130.0" y="480.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#fc4e2a" />
+  <rect x="146.0" y="480.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#e31a1c" />
+  <rect x="162.0" y="480.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#bd0026" />
+  <rect x="178.0" y="480.0" width="17.0" height="17.0" rx="0.0" ry="0.0" stroke="#ffffff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#800026" />
+</svg>
