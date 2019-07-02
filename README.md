@@ -136,6 +136,9 @@ img.draw_circle(100, 100, 75)
 
 # save to file
 img.export('image.png')
+
+# show in viewer
+img.show()
 ```
 
 ### Using wxPython
@@ -291,8 +294,8 @@ with ui.ImageContext(width, height) as ctx:
 ### Using glyphs and dynamic properties
 
 Similar to [d3js](https://d3js.org>) JavaScript library, most of the properties of pre-build *pero.Glyphs* objects can
-be specified as a function, to which given data source is automatically provided. Together with *scales* (and maybe the
-*pero.Axis)* this can be used to make simple plots easily.
+be specified as a function, to which given data source is automatically provided. Together with *pero.scales* (and maybe
+the *pero.Axis)* this can be used to make simple plots easily.
 
 ```python
 
