@@ -4,14 +4,14 @@
 import pero
 
 
-img = pero.Image(width=600, height=830)
+img = pero.Image(width=800, height=830)
 
 img.fill_color = pero.colors.GhostWhite
 img.fill()
 
 steps = 128
 padding = 20
-spacer = 10
+spacer = 5
 indent = 80
 
 width, height = img.viewport.wh
