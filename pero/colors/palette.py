@@ -128,8 +128,9 @@ class Palette(object, metaclass=PaletteMeta):
     @staticmethod
     def create(value):
         """
-        Initializes new palette from given value. The palette can be specified
-        as a sequence of color definitions, name or pero.Palette.
+        Creates new palette from given value. The palette can be specified as a
+        sequence of color definitions, unique library name or existing
+        pero.Palette to get its copy.
         
         Args:
             value: str, tuple or pero.Palette
@@ -159,7 +160,7 @@ class Palette(object, metaclass=PaletteMeta):
     @staticmethod
     def from_name(name):
         """
-        Initializes new palette from registered name.
+        Gets the palette from library by its registered name (case in-sensitive).
         
         Args:
             name: str
@@ -182,7 +183,7 @@ class Palette(object, metaclass=PaletteMeta):
     @staticmethod
     def from_palette(palette, count, name=None):
         """
-        Generates new palette by picking requested number of colors from given
+        Creates new palette by picking requested number of colors from given
         color sequence, while keeping original color range. The new palette is
         automatically registered for later use if the name is specified.
         
@@ -216,7 +217,7 @@ class Palette(object, metaclass=PaletteMeta):
     @staticmethod
     def from_gradient(gradient, count, name=None):
         """
-        Generates new palette by interpolating requested number of colors from
+        Creates new palette by interpolating requested number of colors from
         given gradient. The new palette is automatically registered for later
         use if the name is specified.
         

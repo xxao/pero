@@ -424,12 +424,12 @@ class Color(object, metaclass=ColorMeta):
     
     
     @staticmethod
-    def from_name(value):
+    def from_name(name):
         """
-        Gets the color from library by its registered name. Note that the name is not case sensitive.
+        Gets the color from library by its registered name (case in-sensitive).
         
         Args:
-            value: str
+            name: str
                 Registered color name.
         
         Returns:
@@ -438,11 +438,11 @@ class Color(object, metaclass=ColorMeta):
         """
         
         # get color
-        if value in COLORS:
-            return COLORS[value]
+        if name in COLORS:
+            return COLORS[name]
         
         # name not found
-        message = "Unknown color name specified! -> '%s'" % value
+        message = "Unknown color name specified! -> '%s'" % name
         raise ValueError(message)
     
     
@@ -533,10 +533,10 @@ class Color(object, metaclass=ColorMeta):
         name is specified.
         
         Args:
-            color1: str, (int,) or pero.Color
+            color1: str, (int, int, int), (int, int, int, int) or pero.Color
                 First color.
             
-            color2: str, (int,) or pero.Color
+            color2: str, (int, int, int), (int, int, int, int) or pero.Color
                 Second color.
             
             x: float

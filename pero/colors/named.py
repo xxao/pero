@@ -7,6 +7,7 @@
 # import modules
 from .color import Color
 from .palette import Palette
+from .gradient import Gradient
 
 
 # define colors
@@ -218,3 +219,12 @@ YlGn = Palette(('#ffffe5', '#f7fcb9', '#d9f0a3', '#addd8e', '#78c679', '#41ab5d'
 YlGnBu = Palette(('#ffffd9', '#edf8b1', '#c7e9b4', '#7fcdbb', '#41b6c4', '#1d91c0', '#225ea8', '#253494', '#081d58'), name='YlGnBu')
 YlOrBr = Palette(('#ffffe5', '#fff7bc', '#fee391', '#fec44f', '#fe9929', '#ec7014', '#cc4c02', '#993404', '#662506'), name='YlOrBr')
 YlOrRd = Palette(('#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026', '#800026'), name='YlOrRd')
+
+# define gradients
+palettes = (Spectral,
+    Blues, Greens, Greys, Oranges, Purples, Reds,
+    Inferno, Magma, Plasma, Viridis,
+    BrBG, BuGn, BuPu, GnBu, OrRd, PiYG, PRGn, PuBu, PuBuGn, PuOr, PuRd, RdBu, RdGy, RdPu, RdYlBu, RdYlGn, YlGn, YlGnBu, YlOrBr, YlOrRd)
+
+for palette in palettes:
+    Gradient(palette, name=palette.name)

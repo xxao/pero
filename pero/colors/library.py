@@ -17,8 +17,14 @@ class Library(object):
         
         self._items = {}
         self._names = {}
+
+
+    def __len__(self):
+        """Gets number of available colors."""
     
-    
+        return len(self._items)
+
+
     def __contains__(self, key):
         """Checks whether item exists."""
         

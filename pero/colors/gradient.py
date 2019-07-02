@@ -137,7 +137,7 @@ class Gradient(object, metaclass=GradientMeta):
         Gets color stops.
         
         Returns:
-            (floats,)
+            (float,)
                 Position of each color.
         """
         
@@ -146,12 +146,12 @@ class Gradient(object, metaclass=GradientMeta):
     
     def color_at(self, position, name=None):
         """
-        Interpolates color for given position. The new color is automatically
-        registered for later use if the name is specified.
+        Creates interpolated color for given position. The new color is
+        automatically registered for later use if the name is specified.
         
         Args:
             position: float
-                Position of the color within whole gradient.
+                Position of the color within defined gradient range.
             
             name: str or None
                 Unique name to register.
@@ -265,7 +265,7 @@ class Gradient(object, metaclass=GradientMeta):
     @staticmethod
     def create(value):
         """
-        Initializes new gradient from given value. The gradient can be specified
+        Creates new gradient from given value. The gradient can be specified
         as a sequence of color definitions, palette, gradient or palette name,
         pero.Palette or pero.Gradient.
         
@@ -301,7 +301,7 @@ class Gradient(object, metaclass=GradientMeta):
     @staticmethod
     def from_name(name):
         """
-        Initializes new gradient from registered name of gradient or palette.
+        Gets the gradient from library by registered name of gradient or palette (case in-sensitive).
         
         Args:
             name: str
