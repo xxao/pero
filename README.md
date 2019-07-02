@@ -11,8 +11,8 @@ Ever since I discovered the wonderful [d3js](https://d3js.org) JavaScript librar
 concept of dynamic properties within Python drawings. In fact, this has been the trigger to start working on the *pero*
 library. Finally, it is all now available.
 
-Until the full documentation is available, please see the *examples* folder or in-code documentation of classes and
-functions to learn more about the *pero* library capabilities.
+Until the full [documentation](docs/readme.md) is available, please see the *examples* folder or in-code documentation
+of classes and functions to learn more about the *pero* library capabilities.
 
 
 ```python
@@ -80,13 +80,13 @@ img.show()
 
 ## Requirements
 
-- Python 3.6+
-- Numpy
-- PIL (Pillow)
-- \[wxPython\]
-- \[Cairo\]
-- \[PyMuPDF 1.14.15+\]
-- \[Pythonista iOS App\]
+- [Python 3.6+](https://www.python.org)
+- [Numpy](https://pypi.org/project/numpy/)
+- [PIL (Pillow)](https://pypi.org/project/Pillow/)
+- \[[wxPython](https://pypi.org/project/wxPython/)\]
+- \[[Cairo](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pycairo)\]
+- \[[PyMuPDF](https://pypi.org/project/PyMuPDF/)\]
+- \[[Pythonista iOS App](http://omz-software.com/pythonista/)\]
 
 
 ## Installation

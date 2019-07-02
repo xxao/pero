@@ -18,13 +18,13 @@ Python drawings. In fact, this has been the trigger to start working on the
 
 ## Requirements
 
-- Python 3.6+
-- Numpy
-- PIL (Pillow)
-- \[wxPython\]
-- \[Cairo\]
-- \[PyMuPDF 1.14.15+\]
-- \[Pythonista iOS App\]
+- [Python 3.6+](https://www.python.org)
+- [Numpy](https://pypi.org/project/numpy/)
+- [PIL (Pillow)](https://pypi.org/project/Pillow/)
+- \[[wxPython](https://pypi.org/project/wxPython/)\]
+- \[[Cairo](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pycairo)\]
+- \[[PyMuPDF](https://pypi.org/project/PyMuPDF/)\]
+- \[[Pythonista iOS App](http://omz-software.com/pythonista/)\]
 
 
 ## Installation
