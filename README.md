@@ -11,7 +11,7 @@ Ever since I discovered the wonderful [d3js](https://d3js.org) JavaScript librar
 concept of dynamic properties within Python drawings. In fact, this has been the trigger to start working on the *pero*
 library. Finally, it is all now available.
 
-Until the full [documentation](docs/readme.md) is available, please see the *examples* folder or in-code documentation
+Until the full [documentation](https://github.com/xxao/pero/tree/master/docs) is available, please see the *examples* folder or in-code documentation
 of classes and functions to learn more about the *pero* library capabilities.
 
 
