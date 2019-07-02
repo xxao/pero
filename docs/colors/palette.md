@@ -84,7 +84,7 @@ The new palette is automatically registered for later use if the name is specifi
 Creates new palette by interpolating requested number of colors from given gradient. The new palette is automatically
 registered for later use if the name is specified.
 
-- **gradient:** *[pero.Gradient](gradient.md)*, *[pero.Palette](palette.md)* or *([color definition](color.md),)  
+- **gradient:** *[pero.Gradient](gradient.md)*, *[pero.Palette](palette.md)* or *([color definition](color.md),)*  
   Existing gradient, palette or sequence of colors in any supported format.
 
 - **count:** *int*  
