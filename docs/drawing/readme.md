@@ -1,5 +1,4 @@
-pero.drawing
-============
+# pero.drawing
 
 Although the actual drawing is always done by particular backend, the main benefit of the *pero* library is its unified
 drawing experience (or API), which is independent of any backend. To draw simple shapes or texts, several methods are

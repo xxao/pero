@@ -1,5 +1,4 @@
-pero.formatters
-===============
+# pero.formatters
 
 For any graphics containing lots of text labels, the *pero.formatters* module provides many ways to conveniently format
 values into specific form. This can be as simple as providing templates for the string.format() function, custom

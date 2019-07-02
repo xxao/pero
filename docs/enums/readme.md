@@ -1,49 +1,49 @@
-pero.enums
-==========
+# pero.enums
 
-There are several constants used throughout the *pero* library to define angle units, various text properties, line and
-fill properties, shortcuts to create predefined glyphs or to position objects relative to each other. These constants
-are all defined in the *pero.enums* module.
+There are several constants used throughout the *pero* library to define
+angle units, various text properties, line and fill properties,
+shortcuts to create predefined glyphs or to position objects relative to
+each other. These constants are all defined in the *pero.enums* module.
 
 
-Drawing Enums
--------------
+## Drawing Enums
 
-pero.ANGLE
-~~~~~~~~~~
+### pero.ANGLE
+
 Used to specify angle units.
 
 - **pero.DEG**: Angle defined in degrees.
 - **pero.RAD**: Angle defined in radians.
 
 
-pero.LINE_CAP
-~~~~~~~~~~~~~
+### pero.LINE_CAP
+
 Used to specify a shape to be used at line ends.
 
-.. image:: images/line_cap.svg
+![Line Cap](images/line_cap.svg)
 
 - **pero.BUTT**: A line cuts directly after endpoint.
 - **pero.SQUARE**: A line continues beyond endpoint for half its width.
-- **pero.ROUND**: A line continues beyond endpoint by half circle to form round endpoints.
+- **pero.ROUND**: A line continues beyond endpoint by half circle to
+  form round endpoints.
 
 
-pero.LINE_JOIN
-~~~~~~~~~~~~~~
+### pero.LINE_JOIN
+
 Used to specify a line join style.
 
-.. image:: images/line_join.svg
+![Line Join](images/line_join.svg)
 
 - **pero.BEVEL**: A line join is cutout at the distance of half line width.
 - **pero.MITER**: Extends a line join to follow the angle of segments.
 - **pero.ROUND**: A line join is filled by circle to form round join.
 
 
-pero.LINE_STYLE
-~~~~~~~~~~~~~~~
+### pero.LINE_STYLE
+
 Used to specify a line style.
 
-.. image:: images/line_style.svg
+![Line Style](images/line_style.svg)
 
 - **pero.SOLID**: A line is drawn as a solid line.
 - **pero.DOTTED**: A line is drawn as a series of dots and spaces.
@@ -52,29 +52,28 @@ Used to specify a line style.
 - **pero.CUSTOM**: A line is drawn according to definition given by 'line_dash'.
 
 
-pero.FILL_STYLE
-~~~~~~~~~~~~~~~
+### pero.FILL_STYLE
+
 Used to specify a filling style.
 
 - **pero.SOLID**: Uses current fill color to draw fills.
 - **pero.TRANS**: Uses transparent color to draw fills.
 
 
-pero.FILL_RULE
-~~~~~~~~~~~~~~
+### pero.FILL_RULE
 Used to specify a path filling rule.
 
-.. image:: images/fill_rule.svg
+![Fill Rule](images/fill_rule.svg)
 
 - **pero.EVENODD**: Fills an area according to inside/outside state.
 - **pero.WINDING**: Fills a whole enclosed area.
 
 
-pero.LINE_STEP
-~~~~~~~~~~~~~~
+### pero.LINE_STEP
+
 Used to specify a profile line steps style.
 
-.. image:: images/line_step.svg
+![Line Step](images/line_step.svg)
 
 - **pero.NONE**: Data points are connected directly by strait line.
 - **pero.BEFORE**: A horizontal line starts before data points.
@@ -82,36 +81,35 @@ Used to specify a profile line steps style.
 - **pero.MIDDLE**: A horizontal line crosses data points.
 
 
-Text Enums
-----------
+## Text Enums
 
-pero.FONT_FAMILY
-~~~~~~~~~~~~~~~~
+### pero.FONT_FAMILY
+
 Used to specify a font family, rather then exact font to use.
 
-.. image:: images/font_family.svg
+![Font Family](images/font_family.svg)
 
 - **pero.SERIF**: Default serif font will be used (e.g. Times).
 - **pero.SANS**: Default sans-serif font will be used (e.g. Arial or Helvetica).
 - **pero.MONO**: Default monospaced font will be used (e.g. Courier).
 
 
-pero.FONT_STYLE
-~~~~~~~~~~~~~~~
+### pero.FONT_STYLE
+
 Used to specify a font style to use.
 
-.. image:: images/font_style.svg
+![Font Style](images/font_style.svg)
 
 - **pero.NORMAL**: Normal font style variant will be used.
 - **pero.ITALIC**: Italic font style variant will be used.
 
 
-pero.FONT_WEIGHT
-~~~~~~~~~~~~~~~~
+### pero.FONT_WEIGHT
+
 Used to specify a font weight to use. Note that not all values are supported by all backends and the closest value might
 be used instead (e.g. pero.HEAVY falls to pero.BOLD).
 
-.. image:: images/font_weight.svg
+![Font Weight](images/font_weight.svg)
 
 - **pero.NORMAL**: Normal font weight variant will be used.
 - **pero.LIGHT**: Light font weight variant will be used.
@@ -124,33 +122,33 @@ be used instead (e.g. pero.HEAVY falls to pero.BOLD).
 - **pero.THIN**: Thin font weight variant will be used.
 
 
-pero.TEXT_ALIGN
-~~~~~~~~~~~~~~~
+### pero.TEXT_ALIGN
+
 Used to specify a text horizontal alignment.
 
-.. image:: images/text_align.svg
+![Text Align](images/text_align.svg)
 
 - **pero.LEFT**: Uses the text left side as anchor.
 - **pero.CENTER**: Uses the text center as anchor.
 - **pero.RIGHT**: Uses the text right side as anchor.
 
 
-pero.TEXT_BASELINE
-~~~~~~~~~~~~~~~~~~
+### pero.TEXT_BASELINE
+
 Used to specify a text vertical alignment.
 
-.. image:: images/text_base.svg
+![Text Base](images/text_base.svg)
 
 - **pero.TOP**: Uses the text top side as anchor.
 - **pero.MIDDLE**: Uses the text center as anchor.
 - **pero.BOTTOM**: Uses the text bottom side as anchor.
 
 
-pero.TEXT_ROTATION
-~~~~~~~~~~~~~~~~~~
+### pero.TEXT_ROTATION
+
 Used to define a way to align text labels around a circle according to their angle.
 
-.. image:: images/text_rotation.svg
+![Text Rotation](images/text_rotation.svg)
 
 - **pero.NONE**: Labels are drawn horizontally, aligned to the circle.
 - **pero.FOLLOW**: Labels are drawn the way their left or right side follows the circle.
@@ -159,14 +157,13 @@ Used to define a way to align text labels around a circle according to their ang
 - **pero.FACEIN**: Labels are drawn the way their top side follows the circle.
 
 
-Glyphs Enums
-------------
+## Glyphs Enums
 
-pero.MARKER
-~~~~~~~~~~~
+### pero.MARKER
+
 Used to specify a marker glyph type shortcut for pero.MarkerProperty.
 
-.. image:: images/markers.svg
+![Markers](images/markers.svg)
 
 - Use the "*" character for pero.Asterisk marker.
 - Use the "o" character for pero.Circle marker.
@@ -179,11 +176,11 @@ Used to specify a marker glyph type shortcut for pero.MarkerProperty.
 - Use the "h" character for pero.Hexagon marker.
 
 
-pero.ARROWS
-~~~~~~~~~~~
+### pero.ARROWS
+
 Used to specify an arrow type shortcut to create pero.Arrow.
 
-.. image:: images/arrows.svg
+![Arrows](images/arrows.svg)
 
 - Use the "c" character for pero.ArcArrow arrow.
 - Use the ")" character for pero.BowArrow arrow.
@@ -194,11 +191,11 @@ Used to specify an arrow type shortcut to create pero.Arrow.
 - Use the "s" character for curve pero.ConnectorArrow arrow.
 
 
-pero.HEADS
-~~~~~~~~~~
+### pero.HEADS
+
 Used to specify an arrow head type shortcut for pero.HeadProperty.
 
-.. image:: images/heads.svg
+![Arrow Heads](images/heads.svg)
 
 - Use the "o" character for pero.CircleHead arrow head.
 - Use the "\|" character for pero.LineHead arrow head.
@@ -207,27 +204,26 @@ Used to specify an arrow head type shortcut for pero.HeadProperty.
 - Use the "<<" or ">>" characters for pero.VeeHead arrow head.
 
 
-Position Enums
---------------
+## Position Enums
 
-pero.ORIENTATION
-~~~~~~~~~~~~~~~~
+### pero.ORIENTATION
+
 Used to specify an object orientation.
 
 - **pero.HORIZONTAL**
 - **pero.VERTICAL**
 
 
-pero.POSITION_LR
-~~~~~~~~~~~~~~~~
+### pero.POSITION_LR
+
 Used to specify an object horizontal position.
 
 - **pero.LEFT**
 - **pero.RIGHT**
 
 
-pero.POSITION_LRC
-~~~~~~~~~~~~~~~~~
+### pero.POSITION_LRC
+
 Used to specify an object horizontal position.
 
 - **pero.LEFT**
@@ -235,16 +231,16 @@ Used to specify an object horizontal position.
 - **pero.CENTER**
 
 
-pero.POSITION_TB
-~~~~~~~~~~~~~~~~
+### pero.POSITION_TB
+
 Used to specify an object vertical position.
 
 - **pero.TOP**
 - **pero.BOTTOM**
 
 
-pero.POSITION_TBC
-~~~~~~~~~~~~~~~~~
+### pero.POSITION_TBC
+
 Used to specify an object vertical position.
 
 - **pero.TOP**
@@ -252,8 +248,8 @@ Used to specify an object vertical position.
 - **pero.CENTER**
 
 
-pero.POSITION_LRTB
-~~~~~~~~~~~~~~~~~~
+### pero.POSITION_LRTB
+
 Used to specify an object cross position.
 
 - **pero.LEFT**
@@ -262,8 +258,8 @@ Used to specify an object cross position.
 - **pero.BOTTOM**
 
 
-pero.POSITION_LRTBC
-~~~~~~~~~~~~~~~~~~~
+### pero.POSITION_LRTBC
+
 Used to specify an object cross position.
 
 - **pero.LEFT**
@@ -273,8 +269,8 @@ Used to specify an object cross position.
 - **pero.CENTER**
 
 
-pero.POSITION_IOC
-~~~~~~~~~~~~~~~~~
+### pero.POSITION_IOC
+
 Used to specify an object relative position.
 
 - **pero.INSIDE**
@@ -282,8 +278,8 @@ Used to specify an object relative position.
 - **pero.CENTER**
 
 
-pero.POSITION_SEM
-~~~~~~~~~~~~~~~~~
+### pero.POSITION_SEM
+
 Used to specify an object relative position.
 
 - **pero.START**
@@ -291,40 +287,40 @@ Used to specify an object relative position.
 - **pero.MIDDLE**
 
 
-pero.POSITION_TL
-~~~~~~~~~~~~~~~~
+### pero.POSITION_TL
+
 Used to specify an object corner position.
 
 - **pero.TOP**
 - **pero.LEFT**
 
 
-pero.POSITION_TR
-~~~~~~~~~~~~~~~~
+### pero.POSITION_TR
+
 Used to specify an object corner position.
 
 - **pero.TOP**
 - **pero.RIGHT**
 
 
-pero.POSITION_BL
-~~~~~~~~~~~~~~~~
+### pero.POSITION_BL
+
 Used to specify an object corner position.
 
 - **pero.BOTTOM**
 - **pero.LEFT**
 
 
-pero.POSITION_BR
-~~~~~~~~~~~~~~~~
+### pero.POSITION_BR
+
 Used to specify an object corner position.
 
 - **pero.BOTTOM**
 - **pero.RIGHT**
 
 
-pero.POSITION_COMPASS
-~~~~~~~~~~~~~~~~~~~~~
+### pero.POSITION_COMPASS
+
 Used to specify an object compass-like position.
 
 - **pero.N**
