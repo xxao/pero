@@ -263,15 +263,19 @@ class Gradient(object, metaclass=GradientMeta):
     
     
     @staticmethod
-    def create(value):
+    def create(value, name=None):
         """
         Creates new gradient from given value. The gradient can be specified
         as a sequence of color definitions, palette, gradient or palette name,
-        pero.Palette or pero.Gradient.
+        pero.Palette or pero.Gradient. The new gradient is automatically
+        registered for later use if the name is specified.
         
         Args:
             value: str, (color,), pero.Palette or pero.Gradient
                 Any supported gradient definition.
+            
+            name: str or None
+                Unique name to register.
         
         Returns:
             pero.Gradient
@@ -280,15 +284,15 @@ class Gradient(object, metaclass=GradientMeta):
         
         # clone given gradient instance
         if isinstance(value, Gradient):
-            return Gradient(value.colors, value.stops)
+            return Gradient(value.colors, value.stops, name=name)
         
         # convert from palette
         if isinstance(value, Palette):
-            return Gradient(value)
+            return Gradient(value, name=name)
         
         # convert from color collection
         if isinstance(value, (list, tuple)):
-            return Gradient(value)
+            return Gradient(value, name=name)
         
         # convert from name
         if isinstance(value, str):

@@ -67,12 +67,16 @@ for later use if the name is specified.
 ### Static Methods
 
 
-#### create(value) -> *[pero.Gradient](gradient.md)*
+#### create(value, name=None) -> *[pero.Gradient](gradient.md)*
 Creates new gradient from given value. The gradient can be specified as a sequence of color definitions, unique library
-name of the gradient or palette, *[pero.Palette](palette.md)* or *[pero.Gradient](gradient.md)*.
+name of the gradient or palette, *[pero.Palette](palette.md)* or *[pero.Gradient](gradient.md)*. The new gradient is
+automatically registered for later use if the name is specified.
 
 - **value:** *str*, *([color definition](color.md), )*, *[pero.Palette](palette.md)* or *[pero.Gradient](gradient.md)*  
   Any supported palette definition.
+ 
+- **name:** *str* or *None*  
+  If the name is provided, it is used to register the gradient in the *[pero.GRADIENTS](gradient.md)* library.
 
 
 #### from_name(name) -> *[pero.Gradient](gradient.md)*

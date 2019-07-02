@@ -47,12 +47,16 @@ later use if the name is specified.
 ### Static Methods
 
 
-#### create(value) -> *[pero.Palette](palette.md)*
+#### create(value, name=None) -> *[pero.Palette](palette.md)*
 Creates new palette from given value. The palette can be specified as a sequence of color definitions, unique library
-name or existing pero.Palette to get its copy.
+name or existing pero.Palette to get its copy. The new palette is automatically registered for later use if the name is
+specified.
 
 - **value:** *str*, *([color definition](color.md), )* or *[pero.Palette](palette.md)*  
   Any supported palette definition.
+
+- **name:** *str* or *None*  
+  If the name is provided, it is used to register the palette in the *[pero.PALETTES](palette.md)* library.
 
 
 #### from_name(name) -> *[pero.Palette](palette.md)*

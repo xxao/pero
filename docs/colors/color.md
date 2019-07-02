@@ -117,12 +117,16 @@ new color is automatically registered for later use if the name is specified.
 ### Static Methods
 
 
-#### create(value) -> *[pero.Color](color.md)*
+#### create(value, name=None) -> *[pero.Color](color.md)*
 Creates new color from given value. The color can be specified as an RGB or RGBA tuple of integers, hex code, unique
-library name or existing pero.Color to get its copy.
+library name or existing pero.Color to get its copy. The color is automatically registered for later use if the name is
+specified.
 
 - **value:** *str*, *(int, int, int)*, *(int, int, int, int)* or *pero.Color*  
   Any supported color definition.
+
+- **name:** *str* or *None*  
+  If the name is provided, it is used to register the color in the *[pero.COLORS](color.md)* library.
 
 
 #### from_name(name) -> *[pero.Color](color.md)*

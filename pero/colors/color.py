@@ -382,15 +382,19 @@ class Color(object, metaclass=ColorMeta):
     
     
     @staticmethod
-    def create(value):
+    def create(value, name=None):
         """
         Creates new color from given value. The color can be specified as an
         RGB or RGBA tuple of integers, hex code, unique library name or existing
-        pero.Color to get its copy.
+        pero.Color to get its copy. The new color is automatically registered
+        for later use if the name is specified.
         
         Args:
             value: str, (int, int, int), (int, int, int, int) or pero.Color
                 Any supported color definition.
+            
+            name: str or None
+                Unique name to register.
         
         Returns:
             pero.Color
@@ -399,21 +403,21 @@ class Color(object, metaclass=ColorMeta):
         
         # clone given color instance
         if isinstance(value, Color):
-            return Color(value.red, value.green, value.blue, value.alpha)
+            return Color(value.red, value.green, value.blue, value.alpha, name=name)
         
         # convert from channels
         if isinstance(value, (list, tuple)):
             if len(value) == 3:
-                return Color(value[0], value[1], value[2])
+                return Color(value[0], value[1], value[2], name=name)
             if len(value) == 4:
-                return Color(value[0], value[1], value[2], value[3])
+                return Color(value[0], value[1], value[2], value[3], name=name)
         
         # convert from string
         if isinstance(value, str):
             
             # convert from hex
             if value[0] == '#':
-                return Color.from_hex(value)
+                return Color.from_hex(value, name=name)
             
             # use registered name
             return Color.from_name(value)

@@ -126,15 +126,19 @@ class Palette(object, metaclass=PaletteMeta):
     
     
     @staticmethod
-    def create(value):
+    def create(value, name=None):
         """
         Creates new palette from given value. The palette can be specified as a
         sequence of color definitions, unique library name or existing
-        pero.Palette to get its copy.
+        pero.Palette to get its copy. The new palette is automatically
+        registered for later use if the name is specified.
         
         Args:
             value: str, tuple or pero.Palette
                 Any supported palette definition.
+            
+            name: str
+                Unique name to register.
         
         Returns:
             pero.Palette
@@ -143,11 +147,11 @@ class Palette(object, metaclass=PaletteMeta):
         
         # clone given palette instance
         if isinstance(value, Palette):
-            return Palette(value.colors)
+            return Palette(value.colors, name=name)
         
         # convert from color collection
         if isinstance(value, (list, tuple)):
-            return Palette(value)
+            return Palette(value, name=name)
         
         # convert from name
         if isinstance(value, str):
