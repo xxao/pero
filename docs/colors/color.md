@@ -1,5 +1,12 @@
 # Colors
 
+## Registered Colors
+
+Registered palette can be accessed by its name via *pero.COLORS* library (e.g. `c = pero.COLORS.Blue`) or directly from
+the *pero.Color* class (e.g. `c = pero.Color.Blue`). All newly created palettes with specified name are automatically
+registered and available. The default colors can also be accessed directly from the *pero.colors* module (e.g. `c =
+pero.colors.Blue`).
+
 ![Registered palettes](images/colors.svg)
 
 

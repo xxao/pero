@@ -1,5 +1,12 @@
 # Gradients
 
+
+## Registered Gradients
+
+Registered gradient can be accessed by its name via *pero.GRADIENTS* library (e.g. `g = pero.GRADIENTS.Blues`) or
+directly from the *pero.Gradient* class (e.g. `g = pero.Gradient.Blues`). All newly created gradients with specified
+name are automatically registered and available.
+
 ![Registered gradients](images/gradients.svg)
 
 
@@ -7,7 +14,7 @@
 
 Represents a gradient color generator defined by series of colors and their positions.
 
-- **colors:** *(color definition,)* or *pero.Palette*  
+- **colors:** *([color definition](color.md),)* or *pero.Palette*  
   Sequence of color definitions. Any supported color definition can be used inside the sequence (e.g. RGB(A) tuple, hex,
   unique library name or *pero.Color*)
 
@@ -64,7 +71,7 @@ for later use if the name is specified.
 Creates new gradient from given value. The gradient can be specified as a sequence of color definitions, unique library
 name of the gradient or palette, *pero.Palette* or *pero.Gradient*.
 
-- **value:** *str*, *(color definition, )*, *pero.Palette* or *pero.Gradient*  
+- **value:** *str*, *([color definition](color.md), )*, *pero.Palette* or *pero.Gradient*  
   Any supported palette definition.
 
 

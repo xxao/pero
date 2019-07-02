@@ -1,5 +1,13 @@
 # Palettes
 
+
+## Registered Palettes
+
+Registered palette can be accessed by its name via *pero.PALETTES* library (e.g. `p = pero.PALETTES.Blues`) or directly
+from the *pero.Palette* class (e.g. `p = pero.Palette.Blues`). All newly created palettes with specified name are
+automatically registered and available. The default palettes can also be accessed directly from the *pero.colors* module
+(e.g. `p = pero.colors.Blues`).
+
 ![Registered palettes](images/palettes.svg)
 
 
@@ -7,7 +15,7 @@
 
 Represents a color palette defined by series of colors.
 
-- **colors:** *(color definition,)*  
+- **colors:** *([color definition](color.md),)*  
   Sequence of color definitions. Any supported color definition can be used inside the sequence (e.g. RGB(A) tuple, hex,
   registered name or *pero.Color*)
 
@@ -43,7 +51,7 @@ later use if the name is specified.
 Creates new palette from given value. The palette can be specified as a sequence of color definitions, unique library
 name or existing pero.Palette to get its copy.
 
-- **value:** *str*, *(color definition, ) or *pero.Palette*  
+- **value:** *str*, *([color definition](color.md), )* or *pero.Palette*  
   Any supported palette definition.
 
 
@@ -58,7 +66,7 @@ Gets the palette from library by its registered name (case in-sensitive).
 Creates new palette by picking requested number of colors from given color sequence, while keeping original color range.
 The new palette is automatically registered for later use if the name is specified.
 
-- **palette:** *pero.Palette*, *(color definition,)*  
+- **palette:** *pero.Palette*, *([color definition](color.md),)*  
   Existing palette or Sequence of colors in any supported format.
 
 - **count:** *int*  
@@ -72,7 +80,7 @@ The new palette is automatically registered for later use if the name is specifi
 Creates new palette by interpolating requested number of colors from given gradient. The new palette is automatically
 registered for later use if the name is specified.
 
-- **gradient:** *pero.Gradient*, *pero.Palette* or *(color definition,)  
+- **gradient:** *pero.Gradient*, *pero.Palette* or *([color definition](color.md),)  
   Existing gradient, palette or sequence of colors in any supported format.
 
 - **count:** *int*  
