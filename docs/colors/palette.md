@@ -11,7 +11,7 @@ directly from the *pero.colors* module (e.g. `p = pero.colors.Blues`).
 ![Registered palettes](images/palettes.svg)
 
 
-## *class* Palette(colors, name=None)
+## pero.Palette(colors, name=None)
 
 Represents a color palette defined by series of colors.
 

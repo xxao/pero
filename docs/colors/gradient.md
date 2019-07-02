@@ -10,7 +10,7 @@ newly created gradients with specified name are automatically registered and ava
 ![Registered gradients](images/gradients.svg)
 
 
-## *class* Gradient(colors, stops=None, name=None)
+## pero.Gradient(colors, stops=None, name=None)
 
 Represents a gradient color generator defined by series of colors and their positions.
 

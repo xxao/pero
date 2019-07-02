@@ -10,7 +10,7 @@ module (e.g. `c = pero.colors.Blue`).
 ![Registered palettes](images/colors.svg)
 
 
-## *class* Color(red, green, blue, alpha=255, name=None)
+## pero.Color(red, green, blue, alpha=255, name=None)
 
 Represents a color defined by red, green, blue and alpha channels.
 
