@@ -84,7 +84,7 @@ img.show()
 - [Numpy](https://pypi.org/project/numpy/)
 - [PIL (Pillow)](https://pypi.org/project/Pillow/)
 - \[[wxPython](https://pypi.org/project/wxPython/)\]
-- \[[Cairo](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pycairo)\]
+- \[[PyCairo](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pycairo)\]
 - \[[PyMuPDF](https://pypi.org/project/PyMuPDF/)\]
 - \[[Pythonista iOS App](http://omz-software.com/pythonista/)\]
 
