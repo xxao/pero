@@ -72,9 +72,6 @@ img.line_color = None
 img.fill_color = pero.colors.Black
 img.draw_path(path)
 
-# save image
-img.export('image.png')
-
 # show image
 img.show()
 ```
