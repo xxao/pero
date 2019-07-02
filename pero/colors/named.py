@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-#  Most fo the palettes are adapted from d3js, van der Walt, Smith and Firing
+#  Most of the palettes are adapted from d3js, van der Walt, Smith and Firing
 #  or Niccoli’s perceptual rainbow.
 
 # import modules

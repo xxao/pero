@@ -8,6 +8,10 @@ pero.PALETTES.Blues`) or directly from the *[pero.Palette](palette.md)* class (e
 palettes with specified name are automatically registered and available. The default palettes can also be accessed
 directly from the *pero.colors* module (e.g. `p = pero.colors.Blues`).
 
+Most of the palettes are adapted from [d3js](https://www.d3js.org), 
+[van der Walt, Smith and Firing](https://bids.github.io/colormap/) and
+[Cynthia A. Brewer’s ColorBrewer](http://colorbrewer2.org).
+
 ![Registered palettes](images/palettes.svg)
 
 
