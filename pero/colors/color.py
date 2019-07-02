@@ -207,7 +207,8 @@ class Color(object, metaclass=ColorMeta):
     def rgb(self):
         """
         Gets RGB channels tuple where each channel is defined as integer in
-        range 0 to 255.
+        range 0 to 255. This might me useful to implement backends not
+        supporting color transparency.
         
         Returns:
             (int, int, int)
@@ -267,7 +268,7 @@ class Color(object, metaclass=ColorMeta):
         
         Args:
             factor: float
-                Amount of lightening to be applied in range 0 to 1.
+                Relative amount of white to be added in range 0 to 1.
             
             name: str or None
                 Unique name to register.
@@ -299,7 +300,7 @@ class Color(object, metaclass=ColorMeta):
         
         Args:
             factor: float
-                Amount of darkening to be applied in range 0 to 1.
+                Relative amount of black to be added in range 0 to 1.
             
             name: str or None
                 Unique name to register.
@@ -383,11 +384,12 @@ class Color(object, metaclass=ColorMeta):
     @staticmethod
     def create(value):
         """
-        Initializes new color from given value. The color can be specified as an
-        RGB or RGBA tuple, hex code, name or pero.Color.
+        Creates new color from given value. The color can be specified as an
+        RGB or RGBA tuple of integers, hex code, unique library name or existing
+        pero.Color to get its copy.
         
         Args:
-            value: str, (int,) or pero.Color
+            value: str, (int, int, int), (int, int, int, int) or pero.Color
                 Any supported color definition.
         
         Returns:
@@ -422,12 +424,12 @@ class Color(object, metaclass=ColorMeta):
     
     
     @staticmethod
-    def from_name(name):
+    def from_name(value):
         """
-        Initializes a color from registered name.
+        Gets the color from library by its registered name. Note that the name is not case sensitive.
         
         Args:
-            name: str
+            value: str
                 Registered color name.
         
         Returns:
@@ -436,24 +438,24 @@ class Color(object, metaclass=ColorMeta):
         """
         
         # get color
-        if name in COLORS:
-            return COLORS[name]
+        if value in COLORS:
+            return COLORS[value]
         
         # name not found
-        message = "Unknown color name specified! -> '%s'" % name
+        message = "Unknown color name specified! -> '%s'" % value
         raise ValueError(message)
     
     
     @staticmethod
-    def from_hex(color, name=None):
+    def from_hex(value, name=None):
         """
-        Initializes a color from hex value. The value can be provided either as
-        RGB or RGBA channels where all channels are defined by one or two
-        digits/characters. The value can be prefixed by '#'. The new color is
-        automatically registered for later use if the name is specified.
+        Creates a color from hex value (e.g. #FFA500). The value can be provided
+        either as RGB or RGBA channels where all channels are defined by one or
+        two digits/characters. The value can be prefixed by '#'. The new color
+        is automatically registered for later use if the name is specified.
         
         Args:
-            color: str
+            value: str
                 Hex color representation.
             
             name: str or None
@@ -465,38 +467,38 @@ class Color(object, metaclass=ColorMeta):
         """
         
         # strip prefix
-        value = color.lstrip('#')
+        color = value.lstrip('#')
         
         # parse channels
-        if len(value) == 3 or len(value) == 4:
-            channels = list(int(value[i]+value[i], 16) for i in range(0, len(value)))
+        if len(color) == 3 or len(color) == 4:
+            channels = list(int(color[i]+color[i], 16) for i in range(0, len(color)))
         
-        elif len(value) == 6 or len(value) == 8:
-            channels = list(int(value[i:i+2], 16) for i in range(0, len(value), 2))
+        elif len(color) == 6 or len(color) == 8:
+            channels = list(int(color[i:i+2], 16) for i in range(0, len(color), 2))
         
         else:
-            message = "Unrecognized hex color value! -> %s" % color
+            message = "Unrecognized hex color value! -> %s" % value
             raise ValueError(message)
         
         return Color(*channels, name=name)
     
     
     @staticmethod
-    def from_int(color, alpha_first=False, alpha_relative=False, name=None):
+    def from_int(value, alpha_first=False, alpha_relative=False, name=None):
         """
-        Initializes a color from integer value. Additional arguments can be used
+        Creates a color from integer value. Additional arguments can be used
         to specify position and range of the alpha channel. The new color is
         automatically registered for later use if the name is specified.
         
         Args:
-            color: int
+            value: int
                 Integer representation.
             
             alpha_first: bool
-                Set to True if alpha channel is specified first.
+                If set to True the alpha channel is expected to be the at the first channel.
             
             alpha_relative: bool
-                Set to True if alpha channel is specified in %/100.
+                If set to True the alpha channel is expected to be specified in range from 0 to 1.
             
             name: str or None
                 Unique name to register.
@@ -507,26 +509,26 @@ class Color(object, metaclass=ColorMeta):
         """
         
         if alpha_first:
-            a = ((color >> 24) & 0xFF)
-            r = (color >> 16) & 0xFF
-            g = (color >> 8) & 0xFF
-            b = color & 0xFF
+            a = ((value >> 24) & 0xFF)
+            r = (value >> 16) & 0xFF
+            g = (value >> 8) & 0xFF
+            b = value & 0xFF
         else:
-            r = ((color >> 24) & 0xFF)
-            g = (color >> 16) & 0xFF
-            b = (color >> 8) & 0xFF
-            a = color & 0xFF
+            r = ((value >> 24) & 0xFF)
+            g = (value >> 16) & 0xFF
+            b = (value >> 8) & 0xFF
+            a = value & 0xFF
         
         if alpha_relative:
             a = int(a / 255.)
         
-        return Color(r,g,b,a, name)
+        return Color(r, g, b, a, name)
     
     
     @staticmethod
     def interpolate(color1, color2, x, name=None):
         """
-        Initializes new color by interpolating relative position between two
+        Creates new color by interpolating relative position between two
         colors. The new color is automatically registered for later use if the
         name is specified.
         
