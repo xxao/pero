@@ -1,11 +1,56 @@
 # Colors
 
+## Examples
+
+The *[pero.Color](color.md)* can be created in several ways. The class itself must be instantiated by providing integer
+values for each of the RGB channels, optional alpha channel and optional name to register within colors library.
+
+```python
+color = pero.Color(255, 165, 0, 255, name="Orange")
+color = pero.Color(255, 165, 0)
+```
+
+Since this is not always the most convenient way, simple utility methods are available to initialize a color from
+different formats. Those methods are typically used automatically, when a color is expected argument such as to
+initialize a *[pero.Palette](palette.md)* or *[pero.Gradient](gradient.md)*.
+
+```python
+color = pero.Color.create((255, 165, 0, 255))
+color = pero.Color.create((255, 165, 0))
+
+color = pero.Color.create('#ffa500ff')
+color = pero.Color.create('#ffa500')
+
+color = pero.Color.create('Orange')
+
+color = pero.Color.from_hex('#ffa500ff')
+color = pero.Color.from_hex('#ffa500')
+
+color = pero.Color.from_name('Orange')
+```
+
+There are many build-in colors, which can be accessed by their names directly from the *[pero.colors](readme.md)*
+module.
+
+```python
+color = pero.colors.Orange
+```
+
+All the colors, which were instantiated with a unique name (including build-in colors) are automatically registered and
+accessible from the *[pero.COLORS](color.md)* library or directly from the *[pero.Color](color.md)* class.
+
+```python
+color = pero.COLORS.Orange
+color = pero.COLORS['Orange']
+color = pero.Color.Orange
+```
+
 ## Registered Colors
 
-Registered color can be accessed by its name via *[pero.COLORS](color.md)* library (e.g. `c = pero.COLORS.Blue`) or
+Registered colors can be accessed by their name via *[pero.COLORS](color.md)* library (e.g. `c = pero.COLORS.Blue`) or
 directly from the *[pero.Color](color.md)* class (e.g. `c = pero.Color.Blue`). All newly created colors with specified
-name are automatically registered and available. The default colors can also be accessed directly from the *pero.colors*
-module (e.g. `c = pero.colors.Blue`).
+name are automatically registered and available. The default colors can also be accessed directly from the
+*[pero.colors](readme.md)* module (e.g. `c = pero.colors.Blue`).
 
 ![Registered palettes](images/colors.svg)
 
