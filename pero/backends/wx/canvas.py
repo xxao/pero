@@ -456,7 +456,8 @@ class WXCanvas(Canvas):
     
     def _make_native_path(self, path, gc):
         """Converts given path to native path."""
-        
+
+        # init path
         wx_path = gc.CreatePath()
         
         # apply commands

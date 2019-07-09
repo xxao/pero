@@ -85,6 +85,18 @@ class View(PropertySet):
         raise NotImplementedError("The 'set_cursor' method is not implemented for '%s'." % self.__class__.__name__)
     
     
+    def refresh(self, **overrides):
+        """
+        Refreshes current view by calling the draw method.
+        
+        Args:
+            overrides: str:any pairs
+                Specific properties of current graphics to be overwritten.
+        """
+        
+        self.draw(**overrides)
+    
+    
     def draw(self, canvas=None, **overrides):
         """
         This method should be overridden to provide specific drawing mechanism

@@ -119,16 +119,16 @@ def show(graphics, title=None, width=750, height=500):
     
     # set title
     if title is not None:
-        app.SetTitle(title)
+        app.set_title(title)
     
     # set size
-    app.SetSize((width, height))
+    app.set_size((width, height))
     
     # set graphics
-    app.AddGraphics(graphics)
+    app.set_graphics(graphics)
     
     # draw graphics
-    app.Refresh()
+    app.refresh()
     
     # start app
-    app.MainLoop()
+    app.show()

@@ -3,6 +3,7 @@
 
 # import modules
 import wx
+
 from .view import WXView
 
 
@@ -24,13 +25,7 @@ class WXViewer(wx.App):
         return True
     
     
-    def Show(self):
-        """Shows app."""
-        
-        self.MainLoop()
-    
-    
-    def SetSize(self, size):
+    def set_size(self, size):
         """
         Sets app window size.
         
@@ -43,7 +38,7 @@ class WXViewer(wx.App):
         self._frame.Centre(wx.BOTH)
     
     
-    def SetTitle(self, title):
+    def set_title(self, title):
         """
         Sets app window title.
         
@@ -52,52 +47,58 @@ class WXViewer(wx.App):
                 App window title.
         """
         
-        self._frame.SetTitle(title)
+        self._frame.SetTitle(title or "")
     
     
-    def AddGraphics(self, graphics):
+    def set_graphics(self, graphics):
         """
-        Adds graphics to draw.
+        Sets graphics to draw.
         
         Args:
             graphics: pero.WXView or pero.Graphics
         """
         
-        self._frame.AddGraphics(graphics)
+        self._frame.set_graphics(graphics)
     
     
-    def Refresh(self):
-        """Redraws plot."""
+    def show(self):
+        """Shows app."""
         
-        self._frame.Refresh()
+        self.MainLoop()
+    
+    
+    def refresh(self):
+        """Redraws graphics."""
+        
+        self._frame.refresh()
 
 
 class WXViewFrame(wx.Frame):
     """Main application frame."""
     
     
-    def __init__(self, parent, id, title, size=(750,500), style=wx.DEFAULT_FRAME_STYLE|wx.NO_FULL_REPAINT_ON_RESIZE):
+    def __init__(self, parent, id, title, size=(750, 500), style=wx.DEFAULT_FRAME_STYLE | wx.NO_FULL_REPAINT_ON_RESIZE):
         
         wx.Frame.__init__(self, parent, -1, title, size=size, style=style)
-        self.SetBackgroundColour((255,255,255))
+        self.SetBackgroundColour((255, 255, 255))
         
         # init panel
         self._panel = wx.Panel(self, -1, style=wx.WANTS_CHARS)
         self._panel.SetSizer(wx.BoxSizer(wx.VERTICAL))
         
-        # init buffers
-        self._graphics = []
+        # init view
+        self._view = None
         
         # show frame
         self.Layout()
         self.Centre(wx.BOTH)
         self.Show(True)
-        self.SetMinSize((100,100))
+        self.SetMinSize((100, 100))
     
     
-    def AddGraphics(self, graphics):
+    def set_graphics(self, graphics):
         """
-        Adds graphics to draw.
+        Sets graphics to draw.
         
         Args:
             graphics: pero.WXView or pero.Graphics
@@ -105,21 +106,21 @@ class WXViewFrame(wx.Frame):
         
         # init view
         if isinstance(graphics, WXView):
-            view = graphics
-        
+            self._view = graphics
         else:
-            view = WXView(self._panel)
-            view.graphics = graphics
+            self._view = WXView(self._panel)
+            self._view.graphics = graphics
+        
+        # clean sizer
+        self._panel.Sizer.Clear(True)
         
         # add to sizer
-        self._panel.Sizer.Add(view, 1, wx.EXPAND)
-        
-        # update sizer
+        self._panel.Sizer.Add(self._view, 1, wx.EXPAND)
         self._panel.Sizer.Layout()
     
     
-    def Refresh(self):
-        """Redraws all graphics."""
+    def refresh(self):
+        """Redraws graphics."""
         
-        for graphics in self._graphics:
-            graphics.draw()
+        if self._view is not None:
+            self._view.refresh()

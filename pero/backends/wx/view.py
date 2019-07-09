@@ -3,6 +3,7 @@
 
 # import modules
 import wx
+
 from ...events import *
 from ..view import View
 from .enums import *
@@ -27,7 +28,6 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         self._dc_overlay = wx.Overlay()
         self._dc_overlay_empty = True
         self._dc_size = None
-        self._line_scale = 1
         self._use_buffer = wx.Platform == '__WXMSW__'
         self._cursor = CURSOR.ARROW
         
@@ -85,26 +85,6 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         
         # remember cursor
         self._cursor = cursor
-    
-    
-    def get_coords(self, x, y):
-        """
-        Convert given device coordinates into logical coordinates by applying
-        current line scale.
-        
-        Args:
-            x: int or float
-                X-coordinate within current window.
-            
-            y: int or float
-                Y-coordinate within current window.
-        
-        Returns:
-            (float, float)
-                Recalculated coordinates.
-        """
-        
-        return x / self._line_scale, y / self._line_scale
     
     
     def draw(self, canvas=None, **overrides):
@@ -258,9 +238,8 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
     def _on_key(self, evt):
         """Handles all key events."""
         
-        # get position within canvas
+        # get position
         raw_x, raw_y = evt.GetPosition()
-        x, y = self.get_coords(raw_x, raw_y)
         
         # get Unicode key
         key = evt.GetUnicodeKey()
@@ -281,8 +260,8 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             graphics = self.graphics,
             raw_x = raw_x,
             raw_y = raw_y,
-            x = x,
-            y = y,
+            x = raw_x,
+            y = raw_y,
             key = key,
             char = char,
             alt_down = evt.AltDown(),
@@ -307,9 +286,8 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
     def _on_mouse(self, evt):
         """Handles all mouse events."""
         
-        # get position within canvas
+        # get position
         raw_x, raw_y = evt.GetPosition()
-        x, y = self.get_coords(raw_x, raw_y)
         
         # init base event
         mouse_evt = MouseEvt(
@@ -318,8 +296,8 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             graphics = self.graphics,
             raw_x = raw_x,
             raw_y = raw_y,
-            x = x,
-            y = y,
+            x = raw_x,
+            y = raw_y,
             dragging = evt.Dragging(),
             rotation = evt.GetWheelRotation(),
             left_down = evt.LeftIsDown(),
@@ -395,7 +373,4 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             dc = wx.GCDC(dc)
         
         # make canvas
-        canvas = WXCanvas(dc)
-        self._line_scale = canvas.line_scale
-        
-        return canvas
+        return WXCanvas(dc)
