@@ -65,8 +65,9 @@ EVENT = Enum(
     
     MOUSE = 'evt_mouse',
     MOUSE_MOTION = 'evt_motion',
-    MOUSE_DRAG = 'evt_drag',
     MOUSE_SCROLL = 'evt_scroll',
+    
+    MOUSE_ENTER ='evt_enter',
     MOUSE_LEAVE = 'evt_leave',
     
     LEFT_DOWN = 'evt_left_down',

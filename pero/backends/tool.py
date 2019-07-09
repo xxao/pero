@@ -35,6 +35,19 @@ class Tool(PropertySet):
         pass
     
     
+    def on_mouse_enter(self, evt):
+        """
+        This method should be overridden to provide specific handling
+        of mouse-enter event.
+        
+        Args:
+            evt: pero.MouseEnterEvt
+                Event to process.
+        """
+        
+        pass
+    
+    
     def on_mouse_leave(self, evt):
         """
         This method should be overridden to provide specific handling
@@ -55,19 +68,6 @@ class Tool(PropertySet):
         
         Args:
             evt: pero.MouseMotionEvt
-                Event to process.
-        """
-        
-        pass
-    
-    
-    def on_mouse_drag(self, evt):
-        """
-        This method should be overridden to provide specific handling
-        of mouse-drag event.
-        
-        Args:
-            evt: pero.MouseDragEvt
                 Event to process.
         """
         

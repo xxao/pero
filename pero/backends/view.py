@@ -194,9 +194,9 @@ class View(PropertySet):
         if old_tool:
             self.unbind(EVENT.KEY_DOWN, old_tool.on_key_down)
             self.unbind(EVENT.KEY_UP, old_tool.on_key_up)
+            self.unbind(EVENT.MOUSE_ENTER, old_tool.on_mouse_enter)
             self.unbind(EVENT.MOUSE_LEAVE, old_tool.on_mouse_leave)
             self.unbind(EVENT.MOUSE_MOTION, old_tool.on_mouse_motion)
-            self.unbind(EVENT.MOUSE_DRAG, old_tool.on_mouse_drag)
             self.unbind(EVENT.MOUSE_SCROLL, old_tool.on_mouse_scroll)
             self.unbind(EVENT.LEFT_DOWN, old_tool.on_mouse_down)
             self.unbind(EVENT.LEFT_UP, old_tool.on_mouse_up)
@@ -213,9 +213,9 @@ class View(PropertySet):
         self.bind(EVENT.KEY_UP, new_tool.on_key_up)
         
         # bind main mouse events
+        self.bind(EVENT.MOUSE_ENTER, new_tool.on_mouse_enter)
         self.bind(EVENT.MOUSE_LEAVE, new_tool.on_mouse_leave)
         self.bind(EVENT.MOUSE_MOTION, new_tool.on_mouse_motion)
-        self.bind(EVENT.MOUSE_DRAG, new_tool.on_mouse_drag)
         self.bind(EVENT.MOUSE_SCROLL, new_tool.on_mouse_scroll)
         
         # bind left mouse events

@@ -225,9 +225,11 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         
         # make size event
         size_evt = SizeEvt(
+            
             native = evt,
             view = self,
             graphics = self.graphics,
+            
             width = width,
             height = height)
         
@@ -237,9 +239,6 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
     
     def _on_key(self, evt):
         """Handles all key events."""
-        
-        # get position
-        raw_x, raw_y = evt.GetPosition()
         
         # get Unicode key
         key = evt.GetUnicodeKey()
@@ -255,15 +254,14 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         
         # init base event
         key_evt = KeyEvt(
+            
             native = evt,
             view = self,
             graphics = self.graphics,
-            raw_x = raw_x,
-            raw_y = raw_y,
-            x = raw_x,
-            y = raw_y,
+            
             key = key,
             char = char,
+            
             alt_down = evt.AltDown(),
             cmd_down = evt.CmdDown(),
             ctrl_down = evt.ControlDown(),
@@ -287,22 +285,24 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         """Handles all mouse events."""
         
         # get position
-        raw_x, raw_y = evt.GetPosition()
+        x, y = evt.GetPosition()
         
         # init base event
         mouse_evt = MouseEvt(
+            
             native = evt,
             view = self,
             graphics = self.graphics,
-            raw_x = raw_x,
-            raw_y = raw_y,
-            x = raw_x,
-            y = raw_y,
-            dragging = evt.Dragging(),
-            rotation = evt.GetWheelRotation(),
+            
+            x_pos = x,
+            y_pos = y,
+            
+            x_rot = evt.GetWheelRotation(),
+            
             left_down = evt.LeftIsDown(),
             middle_down = evt.MiddleIsDown(),
             right_down = evt.RightIsDown(),
+            
             alt_down = evt.AltDown(),
             cmd_down = evt.CmdDown(),
             ctrl_down = evt.ControlDown(),
@@ -312,10 +312,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         evt_type = evt.GetEventType()
         
         # make specific event type
-        if evt_type == wx.wxEVT_MOTION and evt.Dragging():
-            mouse_evt = MouseDragEvt.from_evt(mouse_evt)
-        
-        elif evt_type == wx.wxEVT_MOTION:
+        if evt_type == wx.wxEVT_MOTION:
             mouse_evt = MouseMotionEvt.from_evt(mouse_evt)
         
         elif evt_type == wx.wxEVT_MOUSEWHEEL:

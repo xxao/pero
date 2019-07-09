@@ -3,10 +3,10 @@
 
 # import modules
 from ..enums import *
-from .view import PositionEvt
+from .view import ViewEvt
 
 
-class KeyEvt(PositionEvt):
+class KeyEvt(ViewEvt):
     """
     Defines a generic event which is fired on any key-related event.
     
@@ -70,11 +70,6 @@ class KeyEvt(PositionEvt):
             native = evt.native,
             view = evt.view,
             graphics = evt.graphics,
-            
-            x = evt.x,
-            y = evt.y,
-            raw_x = evt.raw_x,
-            raw_y = evt.raw_y,
             
             key = evt.key,
             char = evt.char,

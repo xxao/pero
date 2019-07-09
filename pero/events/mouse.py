@@ -3,20 +3,26 @@
 
 # import modules
 from ..enums import *
-from .view import PositionEvt
+from .view import ViewEvt
 
 
-class MouseEvt(PositionEvt):
+class MouseEvt(ViewEvt):
     """
     Defines a generic event which is fired on any mouse-related event.
     
     Attributes:
         
-        dragging: bool
-            Indicates mouse dragging active.
+        x_pos: int or float
+            Logical x-coordinate in device units.
         
-        rotation: int
-            Mouse wheel rotation.
+        y_pos: int or float
+            Logical y-coordinate in device units.
+        
+        x_rot: int
+            Mouse wheel rotation in x direction.
+        
+        y_rot: int
+            Mouse wheel rotation in y direction.
         
         left_down: bool
             Indicates left mouse button state.
@@ -46,8 +52,11 @@ class MouseEvt(PositionEvt):
     def __init__(self, **kwargs):
         """Initializes a new instance of MouseEvt."""
         
-        self.dragging = None
-        self.rotation = None
+        self.x_pos = None
+        self.y_pos = None
+        
+        self.x_rot = None
+        self.y_rot = None
         
         self.left_down = None
         self.middle_down = None
@@ -81,13 +90,11 @@ class MouseEvt(PositionEvt):
             view = evt.view,
             graphics = evt.graphics,
             
-            x = evt.x,
-            y = evt.y,
-            raw_x = evt.raw_x,
-            raw_y = evt.raw_y,
+            x_pos = evt.x_pos,
+            y_pos = evt.y_pos,
             
-            dragging = evt.dragging,
-            rotation = evt.rotation,
+            x_rot = evt.x_rot,
+            y_rot = evt.y_rot,
             
             left_down = evt.left_down,
             middle_down = evt.middle_down,
@@ -99,28 +106,28 @@ class MouseEvt(PositionEvt):
             shift_down = evt.shift_down)
 
 
+class MouseEnterEvt(ViewEvt):
+    """Defines an event which is fired if mouse enters window."""
+    
+    TYPE = EVENT.MOUSE_ENTER
+
+
+class MouseLeaveEvt(ViewEvt):
+    """Defines an event which is fired if mouse leaves window."""
+    
+    TYPE = EVENT.MOUSE_LEAVE
+
+
 class MouseMotionEvt(MouseEvt):
     """Defines an event which is fired if mouse moves."""
     
     TYPE = EVENT.MOUSE_MOTION
 
 
-class MouseDragEvt(MouseEvt):
-    """Defines an event which is fired if mouse moves with button pressed."""
-    
-    TYPE = EVENT.MOUSE_DRAG
-
-
 class MouseScrollEvt(MouseEvt):
     """Defines an event which is fired if mouse wheel rotates."""
     
     TYPE = EVENT.MOUSE_SCROLL
-
-
-class MouseLeaveEvt(MouseEvt):
-    """Defines an event which is fired if mouse leaves window."""
-    
-    TYPE = EVENT.MOUSE_LEAVE
 
 
 class LeftDownEvt(MouseEvt):
