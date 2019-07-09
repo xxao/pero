@@ -673,8 +673,7 @@ class CairoCanvas(Canvas):
         if prop_name is None or prop_name in ('text_color', 'text_alpha'):
             color = ColorProperties.get_color(self, "text_")
             if color is not UNDEF:
-                rgba = tuple(c / 255. for c in color.rgba)
-                self._font['for_color'] = rgba  # if color.alpha else None
+                self._font['for_color'] = color.rgba_r
         
         # update background color
         if prop_name is None or prop_name in ('text_bgr_color', 'text_bgr_alpha'):

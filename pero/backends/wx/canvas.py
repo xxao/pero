@@ -574,7 +574,7 @@ class WXCanvas(Canvas):
         if prop_name is None or prop_name == 'font_name':
             font_name = self.font_name
             if font_name is None:
-                font.FaceName = "" # self._default_font.FaceName
+                font.FaceName = ""  # self._default_font.FaceName
             elif font_name is not UNDEF:
                 font.FaceName = font_name
         
