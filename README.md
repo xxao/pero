@@ -1,11 +1,12 @@
 # Pero
 
 The main motivation behind the *pero* library is to provide unified API for multiple drawing backends like
-[wxPython](https://pypi.org/project/wxPython/), [PyCairo](https://pypi.org/project/pycairo/),
-[PyMuPDF](https://pypi.org/project/PyMuPDF/), [Pythonista](http://omz-software.com/pythonista/) (and possibly more),
-which is easy to understand and use. Beside the common drawing capabilities, numerous pre-build glyphs are available, as
-well as an easy to use path, matrix transformations etc. Depending on available backend libraries, drawings can be
-viewed directly or exported into various image formats.
+[PyQt5](https://pypi.org/project/PyQt5/), [wxPython](https://pypi.org/project/wxPython/),
+[PyCairo](https://pypi.org/project/pycairo/), [PyMuPDF](https://pypi.org/project/PyMuPDF/),
+[Pythonista](http://omz-software.com/pythonista/) (and possibly more), which is easy to understand and use. Beside the
+common drawing capabilities, numerous pre-build glyphs are available, as well as an easy to use path, matrix
+transformations etc. Depending on available backend libraries, drawings can be viewed directly or exported into various
+image formats.
 
 Ever since I discovered the wonderful [d3js](https://d3js.org) JavaScript library, I wanted to have the same amazing
 concept of dynamic properties within Python drawings. In fact, this has been the trigger to start working on the *pero*
@@ -84,6 +85,7 @@ img.show()
 - [Python 3.6+](https://www.python.org)
 - [Numpy](https://pypi.org/project/numpy/)
 - [PIL (Pillow)](https://pypi.org/project/Pillow/)
+- \[[PyQt5](https://pypi.org/project/PyQt5/)\]
 - \[[wxPython](https://pypi.org/project/wxPython/)\]
 - \[[PyCairo](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pycairo)\]
 - \[[PyMuPDF](https://pypi.org/project/PyMuPDF/)\]
@@ -141,6 +143,38 @@ img.export('image.png')
 # show in viewer
 img.show()
 ```
+
+### Using PyQt5
+
+Inside a *QWidget* you can create a *QPainter* and encapsulate it into the *pero* canvas:
+
+```python
+
+import pero
+from PyQt5.QtGui import QPainter
+
+# init size
+width = 200
+height = 200
+
+# init painter
+qp = QPainter()
+qp.begin(self)
+qp.setRenderHint(QPainter.Antialiasing)
+
+# init canvas
+canvas = pero.qt.QtCanvas(qp)
+
+# draw graphics
+canvas.line_color = "b"
+canvas.fill_color = "w"
+canvas.fill()
+canvas.draw_circle(100, 100, 75)
+
+# end drawing
+qp.end()
+```
+
 
 ### Using wxPython
 

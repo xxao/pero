@@ -18,6 +18,9 @@ except ImportError: pass
 try: from . import mupdf
 except ImportError: pass
 
+try: from . import qt
+except ImportError: pass
+
 try: from . import wx
 except ImportError: pass
 

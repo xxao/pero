@@ -50,6 +50,9 @@ def export(graphics, path, width=750, height=500, **options):
             if module == BACKEND.SVG:
                 from . import svg as backend
             
+            elif module == BACKEND.QT:
+                from . import qt as backend
+            
             elif module == BACKEND.WX:
                 from . import wx as backend
             
@@ -98,6 +101,14 @@ def show(graphics, title=None, width=750, height=500):
         height: float
             Image height in device units.
     """
+    
+    # show in Qt viewer
+    try:
+        from . import qt
+        qt.show(graphics, title, width, height)
+        return
+    except ImportError:
+        pass
     
     # show in WX viewer
     try:
@@ -153,7 +164,12 @@ def debug(graphics, canvas='wx', title="", width=750, height=500, **options):
     if canvas == 'show':
         show(graphics, title, width, height)
     
-    # render graphics into wx console
+    # render graphics into qt viewer
+    elif canvas == 'qt':
+        from . import qt
+        qt.show(graphics, title, width, height)
+    
+    # render graphics into wx viewer
     elif canvas == 'wx':
         from . import wx
         wx.show(graphics, title, width, height)

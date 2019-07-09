@@ -8,6 +8,7 @@ from .enum import Enum
 BACKEND = Enum(
     JSON = 'json',
     SVG = 'svg',
+    QT = 'qt',
     WX = 'wx',
     CAIRO = 'cairo',
     MUPDF = 'mupdf',
@@ -20,6 +21,9 @@ EXPORT_JSON = {
 # define image formats supported by SVG backend
 EXPORT_SVG = {
     '.svg'}
+
+# define image formats supported by QT backend
+EXPORT_QT = {}
 
 # define image formats supported by WX backend
 EXPORT_WX = {
@@ -60,6 +64,7 @@ EXPORT_PYTHONISTA = {
 EXPORT_FORMATS = {
     BACKEND.JSON: EXPORT_JSON,
     BACKEND.SVG: EXPORT_SVG,
+    BACKEND.QT: EXPORT_QT,
     BACKEND.WX: EXPORT_WX,
     BACKEND.CAIRO: EXPORT_CAIRO,
     BACKEND.MUPDF: EXPORT_MUPDF,
@@ -69,6 +74,7 @@ EXPORT_FORMATS = {
 EXPORT_PRIORITY = [
     BACKEND.JSON,
     BACKEND.SVG,
+    BACKEND.QT,
     BACKEND.WX,
     BACKEND.CAIRO,
     BACKEND.MUPDF,
