@@ -46,20 +46,24 @@ class DrawTest(pero.Graphics):
         y_grid = pero.ParallelGrid(line_color="lightgrey")
         
         # init series glyph
-        series_glyph = pero.Circle()
-        series_glyph.x = lambda d: x_scale.scale(d[0])
-        series_glyph.y = lambda d: y_scale.scale(d[1])
+        series_glyph = pero.Circle(
+            x = lambda d: x_scale.scale(d[0]),
+            y = lambda d: y_scale.scale(d[1]))
         
         # init labels glyph
-        label = pero.TextLabel(text_align=pero.LEFT, text_base=pero.MIDDLE, x_offset=10, text_color="grey")
-        label.x = lambda d: x_scale.scale(d[0])
-        label.y = lambda d: y_scale.scale(d[1])
-        label.z_index = lambda d: abs(d[1])
-        label.y_offset = lambda d: -10*d[1]
-        label.text = lambda d: "%.2f" % d[1]
+        label = pero.TextLabel(
+            x = lambda d: x_scale.scale(d[0]),
+            y = lambda d: y_scale.scale(d[1]),
+            z_index = lambda d: abs(d[1]),
+            x_offset = 10,
+            y_offset = lambda d: -10*d[1],
+            text = lambda d: "%.2f" % d[1],
+            text_align = pero.LEFT,
+            text_base = pero.MIDDLE,
+            text_color = "grey")
         
         # calc coordinates
-        padding = 60
+        padding = 50
         width, height = canvas.viewport.wh
         h_length = width - 2*padding
         v_length = height - 2*padding
@@ -103,10 +107,8 @@ class DrawTest(pero.Graphics):
         
         # draw labels
         labels = []
-        
         for y_data in (sin_data, cos_data):
-            for x, y in zip(x_data, y_data):
-                labels.append(label.clone(source=(x, y)))
+            labels += [label.clone(source=val) for val in zip(x_data, y_data)]
         
         pero.Labels(items=labels, clip=frame).draw(canvas)
 
