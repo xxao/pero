@@ -30,6 +30,14 @@ class DrawTest(pero.Graphics):
         y_scale = pero.LinScale(in_range=(0, 1), out_range=(0, canvas.viewport.h))
         z_scale = pero.GradientScale(in_range=(0, 1), out_range=pero.colors.YlOrBr)
         
+        # init marker glyph
+        marker = pero.Circle(
+            x = lambda d: x_scale.scale(d[0]),
+            y = lambda d: y_scale.scale(d[1]),
+            fill_color = lambda d: z_scale.scale(d[2]),
+            size = 8,
+            line_width = 0)
+        
         # init label glyph
         label = pero.TextLabel(
             x = lambda d: x_scale.scale(d[0]),
@@ -38,34 +46,22 @@ class DrawTest(pero.Graphics):
             text = lambda d: "(%.0f - %.0f)" % (x_scale.scale(d[0]), y_scale.scale(d[1])),
             font_size = 12)
         
-        # init labels
-        labels = []
-        for point in self._values:
-            labels.append(label.clone(source=point))
-        
-        # init container
+        # init container glyph
         container = pero.Labels(
-            items = labels,
             overlap = False,
             spacing = 4,
+            padding = 5,
             clip = canvas.viewport)
         
-        # init marker
-        marker = pero.Circle(
-            size = 8,
-            line_width = 0)
-        
         # draw markers
-        for x, y, z in self._values:
-            marker.draw(canvas,
-                x = x_scale.scale(x),
-                y = y_scale.scale(y),
-                fill_color = z_scale.scale(z))
+        for val in self._values:
+            marker.draw(canvas, source=val)
         
         # draw labels
-        container.draw(canvas)
+        labels = [label.clone(source=val) for val in self._values]
+        container.draw(canvas, items=labels)
 
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'wx', "Labels", 600, 600)
+    pero.debug(DrawTest(), 'show', "Labels", 600, 600)
