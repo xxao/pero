@@ -140,6 +140,35 @@ class ContinuousScale(Scale):
         return self.normalizer.denormalize(norm, self.in_range[0], self.in_range[1])
     
     
+    def normalize(self, value, *args, **kwargs):
+        """
+        Returns normalized value for given input value.
+        
+        Args:
+            value: int, float, (int,), (float,)
+                Input value(s) to be normalized as a single number or a sequence
+                of numbers.
+        
+        Returns:
+            int, float or numpy.ndarray
+                Normalized value(s).
+        """
+        
+        # apply array scaling
+        if isinstance(value, (numpy.ndarray, list, tuple)):
+            return self._normalize_array(value)
+        
+        # clip values outside
+        if self.clip and value <= self.in_range[0]:
+            return 0.
+        
+        if self.clip and value >= self.in_range[1]:
+            return 1.
+        
+        # normalize value
+        return self.normalizer.normalize(value, self.in_range[0], self.in_range[1])
+    
+    
     def _scale_array(self, value):
         """Returns corresponding output array for given input array."""
         
@@ -178,6 +207,23 @@ class ContinuousScale(Scale):
             numpy.clip(denorm, self.out_range[0], self.out_range[1], out=denorm)
         
         return denorm
+    
+    
+    def _normalize_array(self, value):
+        """Returns corresponding normalized array for given input array."""
+        
+        # check array
+        if not isinstance(value, numpy.ndarray):
+            value = numpy.array(value)
+        
+        # normalize values
+        norm = self.normalizer.normalize(value, self.in_range[0], self.in_range[1])
+        
+        # clip values
+        if self.clip:
+            numpy.clip(norm, 0, 1, out=norm)
+        
+        return norm
 
 
 class LinScale(ContinuousScale):
