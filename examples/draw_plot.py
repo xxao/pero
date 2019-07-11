@@ -90,20 +90,16 @@ class DrawTest(pero.Graphics):
         x_axis.draw(canvas, x=padding, y=height-padding, length=h_length, major_ticks=x_ticks_maj, minor_ticks=x_ticks_min)
         y_axis.draw(canvas, x=padding, y=padding, length=v_length, major_ticks=y_ticks_maj, minor_ticks=y_ticks_min)
         
-        # draw series
+        # apply clipping
         canvas.clip(pero.Path().rect(*frame.rect))
-        
+
+        # draw series
         for i, y_data in enumerate((sin_data, cos_data)):
-            
+            canvas.group()
             series_glyph.line_color = pero.colors.Pero[i]
             series_glyph.fill_color = pero.colors.Pero[i].opaque(.75)
-            
-            canvas.group()
-            for j in range(len(x_data)):
-                series_glyph.draw(canvas, source=(x_data[j], y_data[j]))
+            series_glyph.draw_many(canvas, zip(x_data, y_data))
             canvas.ungroup()
-        
-        canvas.unclip()
         
         # draw labels
         labels = []
@@ -111,6 +107,9 @@ class DrawTest(pero.Graphics):
             labels += [label.clone(source=val) for val in zip(x_data, y_data)]
         
         pero.Labels(items=labels, clip=frame).draw(canvas)
+        
+        # release clipping
+        canvas.unclip()
 
 
 # run test

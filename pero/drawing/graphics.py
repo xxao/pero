@@ -61,6 +61,33 @@ class Graphics(PropertySet):
         raise NotImplementedError("The 'draw' method is not implemented for '%s'." % self.__class__.__name__)
     
     
+    def draw_many(self, canvas, source, **overrides):
+        """
+        Uses given canvas to draw the graphics for each item in given sources.
+        In fact this is just a convenient shortcut to call the 'draw' method in
+        a for loop.
+        
+        Args:
+            canvas: pero.Canvas
+                Canvas to be used for rendering.
+            
+            source: (any,)
+                Collection of data source items to be used for calculating
+                callable properties.
+            
+            overrides: str:any pairs
+                Specific properties to be overwritten.
+        """
+        
+        # check source
+        if source is None or source is UNDEF:
+            return
+        
+        # draw items
+        for item in source:
+            self.draw(canvas, item, **overrides)
+    
+    
     def is_visible(self, source=UNDEF, overrides=None):
         """
         Returns True if current graphics is visible.
