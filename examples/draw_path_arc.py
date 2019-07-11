@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import numpy
 import pero
 
 
@@ -18,8 +17,8 @@ class DrawTest(pero.Graphics):
         canvas.fill()
         
         # init path
-        start_angle = numpy.deg2rad(30)
-        end_angle = numpy.deg2rad(100)
+        start_angle = pero.rads(30)
+        end_angle = pero.rads(100)
         clockwise = True
         
         # init coords

@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
 import pero
 
 
@@ -57,14 +56,14 @@ class DrawTest(pero.Graphics):
         
         # test ray arrow
         arrow = pero.RayArrow(start_head=start_head, end_head=end_head, line_width=line_width, line_color=line_color)
-        arrow.draw(canvas, x=x-25, y=y1, angle=math.radians(80), length=100)
+        arrow.draw(canvas, x=x-25, y=y1, angle=pero.rads(80), length=100)
         label.draw(canvas, x=x, y=y2+20, text="RayArrow")
         
         x += 100
         
         # test arc arrow
         arrow = pero.ArcArrow(start_head=start_head, end_head=end_head, line_width=line_width, line_color=line_color)
-        arrow.draw(canvas, x=x, y=0.5*(y1+y2), start_angle=math.radians(-160), end_angle=math.radians(40), radius=50, clockwise=True)
+        arrow.draw(canvas, x=x, y=0.5*(y1+y2), start_angle=pero.rads(-160), end_angle=pero.rads(40), radius=50, clockwise=True)
         label.draw(canvas, x=x, y=y2+20, text="ArcArrow")
         
         x += 120

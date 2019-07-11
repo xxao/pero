@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
 import pero
 
 
@@ -44,7 +43,7 @@ class DrawTest(pero.Graphics):
         
         # test arc
         glyph = pero.Arc(line_width=line_width, line_color=line_color, fill_color=fill_color)
-        glyph.draw(canvas, x=x, y=y, radius=20, start_angle=math.radians(-145), end_angle=math.radians(100))
+        glyph.draw(canvas, x=x, y=y, radius=20, start_angle=pero.rads(-145), end_angle=pero.rads(100))
         origin.draw(canvas, x=x, y=y)
         label.draw(canvas, x=x, y=y+30, text="Arc")
         
@@ -76,7 +75,7 @@ class DrawTest(pero.Graphics):
         
         # test ray
         glyph = pero.Ray(line_width=line_width, line_color=line_color, offset=5)
-        glyph.draw(canvas, x=x-15, y=y-15, length=45, angle=math.radians(45))
+        glyph.draw(canvas, x=x-15, y=y-15, length=45, angle=pero.rads(45))
         origin.draw(canvas, x=x-15, y=y-15)
         label.draw(canvas, x=x, y=y+30, text="Ray")
         
@@ -136,7 +135,7 @@ class DrawTest(pero.Graphics):
         
         # test wedge
         glyph = pero.Wedge(line_width=line_width, line_color=line_color, fill_color=fill_color)
-        glyph.draw(canvas, x=x, y=y, inner_radius=10, outer_radius=20, start_angle=math.radians(-145), end_angle=math.radians(100))
+        glyph.draw(canvas, x=x, y=y, inner_radius=10, outer_radius=20, start_angle=pero.rads(-145), end_angle=pero.rads(100))
         origin.draw(canvas, x=x, y=y)
         label.draw(canvas, x=x, y=y+30, text="Wedge")
 

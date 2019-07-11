@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
 import pero
 
 
@@ -29,8 +28,8 @@ class DrawTest(pero.Graphics):
             
             units = pero.DEG,
             radius = radius,
-            start_angle = math.radians(0),
-            end_angle = math.radians(360),
+            start_angle = pero.rads(0),
+            end_angle = pero.rads(360),
             line_width = 2,
             
             labels = [str(i) for i in range(0, 360, 30)],

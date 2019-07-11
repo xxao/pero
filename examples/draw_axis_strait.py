@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
 import pero
 
 
@@ -20,7 +19,7 @@ class DrawTest(pero.Graphics):
         # init coords
         padding = 30
         offset = 50
-        angles = list(map(math.radians, (0, 45, 90, 135, 225, -45, -90, -180)))
+        angles = list(map(pero.rads, (0, 45, 90, 135, 225, -45, -90, -180)))
         labels = ("0", "50", "100")
         splits = 5
         

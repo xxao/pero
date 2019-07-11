@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
 import pero
 
 
@@ -76,7 +75,7 @@ class DrawTest(pero.Graphics):
                 
                 for angle in range(0, 360, 30):
                     label = "%d" % angle
-                    angle = math.radians(angle)
+                    angle = pero.rads(angle)
                     canvas.draw_text_polar(label, x, y, radius, angle, position=position, rotation=rotation)
                 
                 x += 150

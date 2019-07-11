@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
 import pero
 
 
@@ -41,7 +40,7 @@ class DrawTest(pero.Graphics):
         x += 80
         
         # draw horizontal grid (angled)
-        grid = pero.ParallelGrid(ticks=ticks, length=40, angle=math.radians(15), line_color=line_color, orientation=pero.HORIZONTAL)
+        grid = pero.ParallelGrid(ticks=ticks, length=40, angle=pero.rads(15), line_color=line_color, orientation=pero.HORIZONTAL)
         grid.draw(canvas, x=x, y=y)
         origin.draw(canvas, x=x, y=y)
         
@@ -58,7 +57,7 @@ class DrawTest(pero.Graphics):
         x += 90
         
         # draw vertical grid (angled)
-        grid = pero.ParallelGrid(ticks=ticks, length=40, angle=math.radians(15), line_color=line_color, orientation=pero.VERTICAL)
+        grid = pero.ParallelGrid(ticks=ticks, length=40, angle=pero.rads(15), line_color=line_color, orientation=pero.VERTICAL)
         grid.draw(canvas, x=x, y=y)
         origin.draw(canvas, x=x, y=y)
         
@@ -78,7 +77,7 @@ class DrawTest(pero.Graphics):
         
         # draw radial grid
         ticks = (10, 20, 30, 40)
-        grid = pero.RadialGrid(ticks=ticks, start_angle=math.radians(-240), end_angle=math.radians(60), line_color=line_color)
+        grid = pero.RadialGrid(ticks=ticks, start_angle=pero.rads(-240), end_angle=pero.rads(60), line_color=line_color)
         grid.draw(canvas, x=x, y=y)
         origin.draw(canvas, x=x, y=y)
         label.draw(canvas, x=x, y=y+45, text="RadialGrid")
