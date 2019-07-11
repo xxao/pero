@@ -20,7 +20,7 @@ class Include(object):
     """
     
     
-    def __init__(self, prop_set, prefix="", dynamic=None, nullable=None, **overrides):
+    def __init__(self, prop_set, prefix="", dynamic=None, nullable=None, exclude=None, **overrides):
         """
         Initializes a new instance of Include.
         
@@ -40,6 +40,10 @@ class Include(object):
                 If set to True or False the value overwrites the original value
                 of the all included properties.
             
+            exclude: (str,)
+                Names of the properties to ignore. Original names without the
+                prefix must be used.
+            
             overrides: str:any pairs
                 Overwrites for default values of specific properties. Original
                 names without the prefix must be used.
@@ -54,6 +58,7 @@ class Include(object):
         self._prefix = prefix
         self._dynamic = dynamic
         self._nullable = nullable
+        self._exclude = set(exclude) if exclude else set()
         self._overrides = overrides
     
     
@@ -71,6 +76,10 @@ class Include(object):
         
         # clone properties
         for prop in self._property_set.properties():
+            
+            # skip if excluded
+            if prop.name in self._exclude:
+                continue
             
             # get name
             name = prop.name
