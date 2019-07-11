@@ -30,21 +30,18 @@ class DrawTest(pero.Graphics):
         y_scale = pero.LinScale(in_range=(0, 1), out_range=(0, canvas.viewport.h))
         z_scale = pero.GradientScale(in_range=(0, 1), out_range=pero.colors.YlOrBr)
         
+        # init label glyph
+        label = pero.TextLabel(
+            x = lambda d: x_scale.scale(d[0]),
+            y = lambda d: y_scale.scale(d[1]),
+            z_index = lambda d: d[2],
+            text = lambda d: "(%.0f - %.0f)" % (x_scale.scale(d[0]), y_scale.scale(d[1])),
+            font_size = 12)
+        
         # init labels
         labels = []
-        for x, y, z in self._values:
-            
-            x = x_scale.scale(x)
-            y = y_scale.scale(y)
-            
-            label = pero.TextLabel(
-                x = x,
-                y = y,
-                z_index = z,
-                text = "(%.0f,%.0f)" % (x, y),
-                font_size = 12)
-            
-            labels.append(label)
+        for point in self._values:
+            labels.append(label.clone(source=point))
         
         # init container
         container = pero.Labels(
