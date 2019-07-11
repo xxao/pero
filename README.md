@@ -45,7 +45,7 @@ img.fill_color = pero.colors.Black
 img.draw_circle(70, 85, 15)
 img.draw_circle(130, 85, 15)
 
-# eye brows
+# eyebrows
 img.line_color = pero.colors.Black
 img.fill_color = None
 img.line_width = 3
