@@ -609,7 +609,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         return name in self._held
     
     
-    def clone(self, source=UNDEF, overrides=None, native=True):
+    def clone(self, source=UNDEF, overrides=None, native=False):
         """
         Creates a shallow copy of current instance. A new pero.PropertySet
         is created with all the properties cloned, however, the actual values

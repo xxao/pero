@@ -34,7 +34,7 @@ class DrawTest(pero.Graphics):
         x_ticks_min = x_ticker.minor_ticks()
         x_labels = x_ticker.labels()
         x_axis = pero.StraitAxis(title="angle", labels=x_labels, title_offset=25, relative=False)
-        x_grid = pero.ParallelGrid(line_color="lightgray", orientation=pero.VERTICAL)
+        x_grid = pero.ParallelGrid(line_color="lightgrey", orientation=pero.VERTICAL)
         
         # init y-axis
         y_scale = pero.LinScale(in_range=y_range)
@@ -43,18 +43,27 @@ class DrawTest(pero.Graphics):
         y_ticks_min = y_ticker.minor_ticks()
         y_labels = y_ticker.labels()
         y_axis = pero.StraitAxis(title="fn(x)", labels=y_labels, title_offset=30, relative=False, position=pero.LEFT)
-        y_grid = pero.ParallelGrid(line_color="lightgray")
+        y_grid = pero.ParallelGrid(line_color="lightgrey")
         
         # init series glyph
         series_glyph = pero.Circle()
         series_glyph.x = lambda d: x_scale.scale(d[0])
         series_glyph.y = lambda d: y_scale.scale(d[1])
         
+        # init labels glyph
+        label = pero.TextLabel(text_align=pero.LEFT, text_base=pero.MIDDLE, x_offset=10, text_color="grey")
+        label.x = lambda d: x_scale.scale(d[0])
+        label.y = lambda d: y_scale.scale(d[1])
+        label.z_index = lambda d: abs(d[1])
+        label.y_offset = lambda d: -10*d[1]
+        label.text = lambda d: "%.2f" % d[1]
+        
         # calc coordinates
         padding = 60
         width, height = canvas.viewport.wh
         h_length = width - 2*padding
         v_length = height - 2*padding
+        frame = pero.Frame(padding, padding, h_length, v_length)
         
         # set scale range
         x_scale.out_range = (padding, width-padding)
@@ -78,7 +87,7 @@ class DrawTest(pero.Graphics):
         y_axis.draw(canvas, x=padding, y=padding, length=v_length, major_ticks=y_ticks_maj, minor_ticks=y_ticks_min)
         
         # draw series
-        canvas.clip(pero.Path().rect(padding, padding, h_length, v_length))
+        canvas.clip(pero.Path().rect(*frame.rect))
         
         for i, y_data in enumerate((sin_data, cos_data)):
             
@@ -91,6 +100,15 @@ class DrawTest(pero.Graphics):
             canvas.ungroup()
         
         canvas.unclip()
+        
+        # draw labels
+        labels = []
+        
+        for y_data in (sin_data, cos_data):
+            for x, y in zip(x_data, y_data):
+                labels.append(label.clone(source=(x, y)))
+        
+        pero.Labels(items=labels, clip=frame).draw(canvas)
 
 
 # run test
