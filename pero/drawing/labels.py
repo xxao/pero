@@ -162,7 +162,7 @@ class Labels(Glyph):
         padded = clip
         if padding:
             padded = clip.clone()
-            padded.pad(*padding)
+            padded.shrink(*padding)
         
         # apply clipping and prevent overlaps
         final = []

@@ -37,6 +37,7 @@ class Frame(object):
         self._bottom = y + height
         self._width = width
         self._height = height
+        
         self._reversed = False
         
         # check values
@@ -282,9 +283,9 @@ class Frame(object):
             self._bottom += y
     
     
-    def pad(self, top=0, right=0, bottom=0, left=0):
+    def shrink(self, top=0, right=0, bottom=0, left=0):
         """
-        Applies padding to current frame to each specified side.
+        Shrinks current frame on each specified side.
         
         Args:
             top: int, float or None
@@ -304,7 +305,34 @@ class Frame(object):
         self._right -= right
         self._top += top
         self._bottom -= bottom
-
+        
+        self._width = self._right - self._left
+        self._height = self._bottom - self._top
+    
+    
+    def expand(self, top=0, right=0, bottom=0, left=0):
+        """
+        Expands current frame on each specified side.
+        
+        Args:
+            top: int, float or None
+                Top padding.
+            
+            right: int, float or None
+                Right padding.
+            
+            bottom: int, float or None
+                Bottom padding.
+            
+            left: int, float or None
+                Left padding.
+        """
+        
+        self._left -= left
+        self._right += right
+        self._top -= top
+        self._bottom += bottom
+        
         self._width = self._right - self._left
         self._height = self._bottom - self._top
     

@@ -2,8 +2,17 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # load modules
+import math
 from .enum import Enum
 from .values import *
+
+# define pi
+PI = math.pi  # 180
+PI2 = math.pi/2  # 90
+PI3 = math.pi/3  # 60
+PI4 = math.pi/4  # 45
+PI6 = math.pi/6  # 30
+PI12 = math.pi/12  # 15
 
 # define engineering prefixes
 ENG_PREFIXES = {

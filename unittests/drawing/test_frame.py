@@ -51,11 +51,11 @@ class TestCase(unittest.TestCase):
         self.assertEqual(frame.height, 200)
     
     
-    def test_pad(self):
-        """Tests whether padding works correctly."""
+    def test_shrink(self):
+        """Tests whether shrinking works correctly."""
         
         frame = pero.Frame(10, 20, 100, 200)
-        frame.pad(1, 2, 3, 4)
+        frame.shrink(1, 2, 3, 4)
         
         self.assertEqual(frame.x1, 14)
         self.assertEqual(frame.y1, 21)
