@@ -31,22 +31,22 @@ class Frame(object):
         """
         
         # set values
-        self._left_x = x
-        self._top_y = y
-        self._right_x = x + width
-        self._bottom_y = y + height
+        self._left = x
+        self._top = y
+        self._right = x + width
+        self._bottom = y + height
         self._width = width
         self._height = height
         self._reversed = False
         
         # check values
-        if self._left_x > self._right_x:
-            self._left_x, self._right_x = self._right_x, self._left_x
+        if self._left > self._right:
+            self._left, self._right = self._right, self._left
             self._width *= -1
             self._reversed = True
         
-        if self._top_y > self._bottom_y:
-            self._top_y, self._bottom_y = self._bottom_y, self._top_y
+        if self._top > self._bottom:
+            self._top, self._bottom = self._bottom, self._top
             self._height *= -1
             self._reversed = True
     
@@ -54,21 +54,21 @@ class Frame(object):
     def __str__(self):
         """Gets standard string representation."""
         
-        return "%f, %f, %f, %f" % (self._left_x, self._top_y, self._width, self._height)
+        return "%f, %f, %f, %f" % (self._left, self._top, self._width, self._height)
     
     
     @property
     def x(self):
         """Gets x-coordinate of the left corner."""
         
-        return self._left_x
+        return self._left
     
     
     @property
     def y(self):
         """Gets y-coordinate of the top corner."""
         
-        return self._top_y
+        return self._top
     
     
     @property
@@ -86,82 +86,110 @@ class Frame(object):
     
     
     @property
+    def left(self):
+        """Gets x-coordinate of the left."""
+        
+        return self._left
+    
+    
+    @property
+    def right(self):
+        """Gets x-coordinate of the right."""
+        
+        return self._right
+    
+    
+    @property
+    def top(self):
+        """Gets y-coordinate of the top."""
+        
+        return self._top
+    
+    
+    @property
+    def bottom(self):
+        """Gets y-coordinate of the bottom."""
+        
+        return self._bottom
+    
+    
+    @property
     def center(self):
         """Gets coordinates of the center."""
         
         return (
-            0.5 * (self._left_x + self._right_x),
-            0.5 * (self._top_y + self._bottom_y))
+            0.5 * (self._left + self._right),
+            0.5 * (self._top + self._bottom))
     
     
     @property
     def x1(self):
         """Gets x-coordinate of the top left corner."""
         
-        return self._left_x
+        return self._left
     
     
     @property
     def y1(self):
         """Gets y-coordinate of the top left corner."""
         
-        return self._top_y
+        return self._top
     
     
     @property
     def x2(self):
         """Gets x-coordinate of the top right corner."""
         
-        return self._right_x
+        return self._right
     
     
     @property
     def y2(self):
         """Gets y-coordinate of the bottom right corner."""
         
-        return self._bottom_y
+        return self._bottom
     
     
     @property
     def cx(self):
         """Gets x-coordinate of the center."""
         
-        return 0.5 * (self._left_x + self._right_x)
+        return 0.5 * (self._left + self._right)
     
     
     @property
     def cy(self):
         """Gets y-coordinate of the center."""
         
-        return 0.5 * (self._top_y + self._bottom_y)
+        return 0.5 * (self._top + self._bottom)
     
     
     @property
     def tl(self):
         """Gets coordinates of the top-left corner."""
         
-        return self._left_x, self._top_y
+        return self._left, self._top
     
     
     @property
     def tr(self):
         """Gets coordinates of the top-right corner."""
         
-        return self._right_x, self._top_y
+        return self._right, self._top
     
     
     @property
     def bl(self):
         """Gets coordinates of the bottom-left corner."""
         
-        return self._left_x, self._bottom_y
+        return self._left, self._bottom
     
     
     @property
     def br(self):
         """Gets coordinates of the bottom-right corner."""
         
-        return self._right_x, self._bottom_y
+        return self._right, self._bottom
     
     
     @property
@@ -196,17 +224,17 @@ class Frame(object):
     def rect(self):
         """Gets rectangle as x, y, width, height."""
         
-        return self._left_x, self._top_y, self._width, self._height
+        return self._left, self._top, self._width, self._height
     
     
     @property
     def points(self):
         """Gets rectangle as p1, p2, p3, p3 points starting from top left."""
         
-        p1 = (self._left_x, self._top_y)
-        p2 = (self._right_x, self._top_y)
-        p3 = (self._right_x, self._bottom_y)
-        p4 = (self._left_x, self._bottom_y)
+        p1 = (self._left, self._top)
+        p2 = (self._right, self._top)
+        p3 = (self._right, self._bottom)
+        p4 = (self._left, self._bottom)
         
         return p1, p2, p3, p4
     
@@ -227,7 +255,7 @@ class Frame(object):
                 Cloned frame.
         """
         
-        frame = Frame(self._left_x, self._top_y, self._width, self._height)
+        frame = Frame(self._left, self._top, self._width, self._height)
         frame._reversed = self._reversed
         
         return frame
@@ -246,12 +274,39 @@ class Frame(object):
         """
         
         if x:
-            self._left_x += x
-            self._right_x += x
+            self._left += x
+            self._right += x
         
         if y:
-            self._top_y += y
-            self._bottom_y += y
+            self._top += y
+            self._bottom += y
+    
+    
+    def pad(self, top=0, right=0, bottom=0, left=0):
+        """
+        Applies padding to current frame to each specified side.
+        
+        Args:
+            top: int, float or None
+                Top padding.
+            
+            right: int, float or None
+                Right padding.
+            
+            bottom: int, float or None
+                Bottom padding.
+            
+            left: int, float or None
+                Left padding.
+        """
+        
+        self._left += left
+        self._right -= right
+        self._top += top
+        self._bottom -= bottom
+
+        self._width = self._right - self._left
+        self._height = self._bottom - self._top
     
     
     def extend(self, x=None, y=None, width=0, height=0):
@@ -278,21 +333,21 @@ class Frame(object):
         
         if x is not None:
             
-            left_x = min(self._left_x, self._right_x, x, x+width)
-            right_x = max(self._left_x, self._right_x, x, x+width)
+            left = min(self._left, self._right, x, x+width)
+            right = max(self._left, self._right, x, x+width)
             
-            self._left_x = left_x
-            self._right_x = right_x
-            self._width = right_x - left_x
+            self._left = left
+            self._right = right
+            self._width = right - left
         
         if y is not None:
             
-            top_y = min(self._top_y, self._bottom_y, y, y+height)
-            bottom_y = max(self._top_y, self._bottom_y, y, y+height)
+            top = min(self._top, self._bottom, y, y+height)
+            bottom = max(self._top, self._bottom, y, y+height)
             
-            self._top_y = top_y
-            self._bottom_y = bottom_y
-            self._height = bottom_y - top_y
+            self._top = top
+            self._bottom = bottom
+            self._height = bottom - top
     
     
     def union(self, other):
@@ -310,16 +365,16 @@ class Frame(object):
         """
         
         # get x and width
-        left_x = min(self._left_x, other._left_x)
-        right_x = max(self._right_x, other._right_x)
-        width = right_x - left_x
+        left = min(self._left, other._left)
+        right = max(self._right, other._right)
+        width = right - left
         
         # get y and height
-        top_y = min(self._top_y, other._top_y)
-        bottom_y = max(self._bottom_y, other._bottom_y)
-        height = bottom_y - top_y
+        top = min(self._top, other._top)
+        bottom = max(self._bottom, other._bottom)
+        height = bottom - top
         
-        return Frame(left_x, top_y, width, height)
+        return Frame(left, top, width, height)
     
     
     def intersection(self, other):
@@ -337,22 +392,22 @@ class Frame(object):
         """
         
         # get x and width
-        left_x = max(self._left_x, other._left_x)
-        right_x = min(self._right_x, other._right_x)
-        width = right_x - left_x
+        left = max(self._left, other._left)
+        right = min(self._right, other._right)
+        width = right - left
         
         if width <= 0:
             return None
         
         # get y and height
-        top_y = max(self._top_y, other._top_y)
-        bottom_y = min(self._bottom_y, other._bottom_y)
-        height = bottom_y - top_y
+        top = max(self._top, other._top)
+        bottom = min(self._bottom, other._bottom)
+        height = bottom - top
         
         if height <= 0:
             return None
         
-        return Frame(left_x, top_y, width, height)
+        return Frame(left, top, width, height)
     
     
     def contains(self, x, y):
@@ -371,7 +426,7 @@ class Frame(object):
                 Returns True if given point is inside, False otherwise.
         """
         
-        return self._left_x <= x <= self._right_x and self._top_y <= y <= self._bottom_y
+        return self._left <= x <= self._right and self._top <= y <= self._bottom
     
     
     def overlaps(self, other):
@@ -387,14 +442,14 @@ class Frame(object):
                 Returns True if any overlap exists, False otherwise.
         """
         
-        if not ((self._left_x <= other._left_x <= self._right_x)
-            or (self._left_x <= other._right_x <= self._right_x)
-            or (other._left_x <= self._left_x and other._right_x >= self._right_x)):
+        if not ((self._left <= other._left <= self._right)
+            or (self._left <= other._right <= self._right)
+            or (other._left <= self._left and other._right >= self._right)):
             return False
         
-        if not ((self._top_y <= other._top_y <= self._bottom_y)
-            or (self._top_y <= other._bottom_y <= self._bottom_y)
-            or (other._top_y <= self._top_y and other._bottom_y >= self._bottom_y)):
+        if not ((self._top <= other._top <= self._bottom)
+            or (self._top <= other._bottom <= self._bottom)
+            or (other._top <= self._top and other._bottom >= self._bottom)):
             return False
         
         return True

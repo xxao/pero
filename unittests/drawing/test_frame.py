@@ -51,6 +51,20 @@ class TestCase(unittest.TestCase):
         self.assertEqual(frame.height, 200)
     
     
+    def test_pad(self):
+        """Tests whether padding works correctly."""
+        
+        frame = pero.Frame(10, 20, 100, 200)
+        frame.pad(1, 2, 3, 4)
+        
+        self.assertEqual(frame.x1, 14)
+        self.assertEqual(frame.y1, 21)
+        self.assertEqual(frame.x2, 108)
+        self.assertEqual(frame.y2, 217)
+        self.assertEqual(frame.width, 94)
+        self.assertEqual(frame.height, 196)
+    
+    
     def test_extend_coordinate(self):
         """Tests whether extension by single coordinate works correctly."""
         
