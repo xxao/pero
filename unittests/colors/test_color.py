@@ -9,26 +9,57 @@ class TestCase(unittest.TestCase):
     """Test case for Color class."""
     
     
-    def test_constructor(self):
+    def test_valid_constructor(self):
         """Tests whether constructor works correctly."""
         
-        # test full specification
-        color = pero.Color(100,150,200,10,"Name")
+        # test individual channels
+        color = pero.Color(100, 150, 200, 10)
         
         self.assertEqual(color.red, 100)
         self.assertEqual(color.green, 150)
         self.assertEqual(color.blue, 200)
         self.assertEqual(color.alpha, 10)
-        self.assertEqual(color.name, "Name")
         
-        # test defaults
-        color = pero.Color(100,150,200)
+        color = pero.Color(100, 150, 200)
         
         self.assertEqual(color.red, 100)
         self.assertEqual(color.green, 150)
         self.assertEqual(color.blue, 200)
         self.assertEqual(color.alpha, 255)
-        self.assertEqual(color.name, None)
+        
+        # test tuple
+        color = pero.Color((100, 150, 200, 10))
+        
+        self.assertEqual(color.red, 100)
+        self.assertEqual(color.green, 150)
+        self.assertEqual(color.blue, 200)
+        self.assertEqual(color.alpha, 10)
+        
+        color = pero.Color((100, 150, 200))
+        
+        self.assertEqual(color.red, 100)
+        self.assertEqual(color.green, 150)
+        self.assertEqual(color.blue, 200)
+        self.assertEqual(color.alpha, 255)
+        
+        # test hex
+        color = pero.Color("#6496c80a")
+        
+        self.assertEqual(color.red, 100)
+        self.assertEqual(color.green, 150)
+        self.assertEqual(color.blue, 200)
+        self.assertEqual(color.alpha, 10)
+        
+        color = pero.Color("#6496c8")
+        
+        self.assertEqual(color.red, 100)
+        self.assertEqual(color.green, 150)
+        self.assertEqual(color.blue, 200)
+        self.assertEqual(color.alpha, 255)
+    
+    
+    def test_invalid_constructor(self):
+        """Tests whether constructor works correctly."""
         
         # test incorrect type
         with self.assertRaises(ValueError):
@@ -63,15 +94,15 @@ class TestCase(unittest.TestCase):
         """Tests whether equality comparer works correctly."""
         
         # test full equal
-        c1 = pero.Color(100, 150, 200, 255, "Name")
-        c2 = pero.Color(100, 150, 200, 255, "Name")
+        c1 = pero.Color(100, 150, 200, 255, name="Name")
+        c2 = pero.Color(100, 150, 200, 255, name="Name")
         
         self.assertEqual(c1, c2)
         self.assertEqual(c1, c2.rgba)
         
         # test equal channels
-        c1 = pero.Color(100, 150, 200, 255, "Name1")
-        c2 = pero.Color(100, 150, 200, 255, "Name2")
+        c1 = pero.Color(100, 150, 200, 255, name="Name1")
+        c2 = pero.Color(100, 150, 200, 255, name="Name2")
         
         self.assertEqual(c1, c2)
         self.assertEqual(c1, c2.rgba)
@@ -278,25 +309,25 @@ class TestCase(unittest.TestCase):
         """Tests whether color is correctly created from hex."""
         
         # test all channels
-        color = pero.Color.from_hex("#aabbccdd")
-        self.assertEqual(color.rgba, (170,187,204,221))
+        color = pero.Color("#aabbccdd")
+        self.assertEqual(color.rgba, (170, 187, 204, 221))
         
-        color = pero.Color.from_hex("#abcd")
-        self.assertEqual(color.rgba, (170,187,204,221))
+        color = pero.Color("#abcd")
+        self.assertEqual(color.rgba, (170, 187, 204, 221))
         
         # test without alpha
-        color = pero.Color.from_hex("#aabbcc")
-        self.assertEqual(color.rgba, (170,187,204,255))
+        color = pero.Color("#aabbcc")
+        self.assertEqual(color.rgba, (170, 187, 204, 255))
         
-        color = pero.Color.from_hex("#abc")
-        self.assertEqual(color.rgba, (170,187,204,255))
+        color = pero.Color("#abc")
+        self.assertEqual(color.rgba, (170, 187, 204, 255))
     
     
     def test_name_registering(self):
         """Tests whether new named colors are registered."""
         
         # init named color
-        model = pero.Color(0,0,0,0,"MyTransparent")
+        model = pero.Color(0, 0, 0, 0, name="MyTransparent")
         
         # test from name
         color = pero.Color.from_name('MyTransparent')

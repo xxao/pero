@@ -31,33 +31,67 @@ class Color(object, metaclass=ColorMeta):
     """
     
     
-    def __init__(self, red, green, blue, alpha=255., name=None):
+    def __init__(self, *args, name=None):
         """
         Initializes a new instance of Color.
         
         Args:
-            red: int
-                Red channel as a value in range 0 to 255.
-            
-            green: int
-                Green channel as a value in range 0 to 255.
-            
-            blue: int
-                Blue channel as a value in range 0 to 255.
-            
-            alpha: int
-                Alpha channel as a value in range 0 to 255.
+            args: (int, int, int), (int, int, int, int) or str
+                The RGB(A) channels can be provided as 3 or 4 integers for
+                individual channels, tuple of 3 or 4 integers or hex string with
+                leading '#'.
             
             name: str or None
                 Unique name to register.
         """
         
-        super(Color, self).__init__()
+        # init channels
+        channels = None
+        red, green, blue, alpha = (0, 0, 0, 255)
         
-        # check values
+        # convert from channels
+        if len(args) == 3 or len(args) == 4:
+            channels = args
+        
+        # convert from single value
+        elif len(args) == 1:
+            
+            # get value
+            value = args[0]
+            
+            # get channels
+            if isinstance(value, (list, tuple)):
+                channels = value
+            
+            # convert from hex
+            elif isinstance(value, str):
+                
+                # strip prefix
+                value = value.lstrip('#')
+                
+                # parse channels
+                if len(value) == 3 or len(value) == 4:
+                    channels = list(int(value[i]+value[i], 16) for i in range(0, len(value)))
+                
+                elif len(value) == 6 or len(value) == 8:
+                    channels = list(int(value[i:i+2], 16) for i in range(0, len(value), 2))
+        
+        # check channels
+        if channels is None or len(channels) < 3 or len(channels) > 4:
+            message = "Unrecognized color definition! -> %s" % (args,)
+            raise ValueError(message)
+        
+        # get channels
+        if len(channels) == 3:
+            red, green, blue = channels
+        
+        elif len(channels) == 4:
+            red, green, blue, alpha = channels
+        
+        # check channels
         for c in (red, green, blue, alpha):
             if not isinstance(c, (int, float)) or c < 0 or c > 255:
-                message = "Color channel must be a number between 0 and 255! -> (%s, %s, %s, %s)" % (red, green, blue, alpha)
+                message = "Color channels must be a number between 0 and 255! -> (%s, %s, %s, %s)" % (red, green, blue, alpha)
                 raise ValueError(message)
         
         # set values
@@ -66,7 +100,7 @@ class Color(object, metaclass=ColorMeta):
         self._blue = int(0.5 + blue)
         self._alpha = int(0.5 + alpha)
         self._name = name
-        
+
         # register color by name
         if name is not None:
             COLORS.add(self)
@@ -288,7 +322,7 @@ class Color(object, metaclass=ColorMeta):
         g = self._green + (255 - self._green) * factor
         b = self._blue + (255 - self._blue) * factor
         
-        return Color(r, g, b, self._alpha, name)
+        return Color(r, g, b, self._alpha, name=name)
     
     
     def darker(self, factor=0.2, name=None):
@@ -320,7 +354,7 @@ class Color(object, metaclass=ColorMeta):
         g = self._green * (1. - factor)
         b = self._blue * (1. - factor)
         
-        return Color(r, g, b, self._alpha, name)
+        return Color(r, g, b, self._alpha, name=name)
     
     
     def opaque(self, opacity=1, name=None):
@@ -349,7 +383,7 @@ class Color(object, metaclass=ColorMeta):
         # make color
         alpha = opacity * 255
         
-        return Color(self._red, self._green, self._blue, alpha, name)
+        return Color(self._red, self._green, self._blue, alpha, name=name)
     
     
     def trans(self, transparency=1, name=None):
@@ -378,7 +412,7 @@ class Color(object, metaclass=ColorMeta):
         # make color
         alpha = 255 - transparency * 255
         
-        return Color(self._red, self._green, self._blue, alpha, name)
+        return Color(self._red, self._green, self._blue, alpha, name=name)
     
     
     @staticmethod
@@ -403,21 +437,18 @@ class Color(object, metaclass=ColorMeta):
         
         # clone given color instance
         if isinstance(value, Color):
-            return Color(value.red, value.green, value.blue, value.alpha, name=name)
+            return Color(value.rgba, name=name)
         
         # convert from channels
         if isinstance(value, (list, tuple)):
-            if len(value) == 3:
-                return Color(value[0], value[1], value[2], name=name)
-            if len(value) == 4:
-                return Color(value[0], value[1], value[2], value[3], name=name)
+            return Color(value, name=name)
         
         # convert from string
         if isinstance(value, str):
             
             # convert from hex
             if value[0] == '#':
-                return Color.from_hex(value, name=name)
+                return Color(value, name=name)
             
             # use registered name
             return Color.from_name(value)
@@ -448,43 +479,6 @@ class Color(object, metaclass=ColorMeta):
         # name not found
         message = "Unknown color name specified! -> '%s'" % name
         raise ValueError(message)
-    
-    
-    @staticmethod
-    def from_hex(value, name=None):
-        """
-        Creates a color from hex value (e.g. #FFA500). The value can be provided
-        either as RGB or RGBA channels where all channels are defined by one or
-        two digits/characters. The value can be prefixed by '#'. The new color
-        is automatically registered for later use if the name is specified.
-        
-        Args:
-            value: str
-                Hex color representation.
-            
-            name: str or None
-                Unique name to register.
-        
-        Returns:
-            pero.Color
-                RGBA color.
-        """
-        
-        # strip prefix
-        color = value.lstrip('#')
-        
-        # parse channels
-        if len(color) == 3 or len(color) == 4:
-            channels = list(int(color[i]+color[i], 16) for i in range(0, len(color)))
-        
-        elif len(color) == 6 or len(color) == 8:
-            channels = list(int(color[i:i+2], 16) for i in range(0, len(color), 2))
-        
-        else:
-            message = "Unrecognized hex color value! -> %s" % value
-            raise ValueError(message)
-        
-        return Color(*channels, name=name)
     
     
     @staticmethod
@@ -526,7 +520,7 @@ class Color(object, metaclass=ColorMeta):
         if alpha_relative:
             a = int(a / 255.)
         
-        return Color(r, g, b, a, name)
+        return Color(r, g, b, a, name=name)
     
     
     @staticmethod
@@ -575,4 +569,4 @@ class Color(object, metaclass=ColorMeta):
         alpha = max(0., min(255., alpha))
         
         # make color
-        return Color(red, green, blue, alpha, name)
+        return Color(red, green, blue, alpha, name=name)

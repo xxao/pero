@@ -2,31 +2,19 @@
 
 ## Examples
 
-The *[pero.Color](color.md)* can be created in several ways. The class itself must be instantiated by providing integer
-values for each of the RGB channels, optional alpha channel and optional name to register within colors library.
+The *[pero.Color](color.md)* can be created by providing integer values for each of the RGB(A) channels.Those can be
+specified individually, as tuple or list or using hex code string. In addition, a unique name can be specified to
+register new color within colors library.
 
 ```python
 color = pero.Color(255, 165, 0, 255, name="Orange")
 color = pero.Color(255, 165, 0)
-```
 
-Since this is not always the most convenient way, simple utility methods are available to initialize a color from
-different formats. Those methods are typically used automatically, when a color is expected argument such as to
-initialize a *[pero.Palette](palette.md)* or *[pero.Gradient](gradient.md)*.
+color = pero.Color((255, 165, 0, 255), name="Orange")
+color = pero.Color((255, 165, 0))
 
-```python
-color = pero.Color.create((255, 165, 0, 255))
-color = pero.Color.create((255, 165, 0))
-
-color = pero.Color.create('#ffa500ff')
-color = pero.Color.create('#ffa500')
-
-color = pero.Color.create('Orange')
-
-color = pero.Color.from_hex('#ffa500ff')
-color = pero.Color.from_hex('#ffa500')
-
-color = pero.Color.from_name('Orange')
+color = pero.Color('#ffa500ff')
+color = pero.Color('#ffa500')
 ```
 
 There are many build-in colors, which can be accessed by their names directly from the *[pero.colors](readme.md)*
@@ -179,18 +167,6 @@ Gets the color from library by its registered name (case in-sensitive).
 
 - **name:** *str*  
   Registered color name.
-
-
-#### from_hex(value, name=None) -> *[pero.Color](color.md)*
-Creates a color from its hex value (e.g. #FFA500). The value can be provided either as RGB or RGBA channels where all
-channels are defined by one or two digits/characters. The value can be prefixed by '#'. The color is automatically
-registered for later use if the name is specified.
-
-- **value:** *str*  
-  Hex color representation.
-
-- **name:** *str* or *None*  
-  If the name is provided, it is used to register the color in the *[pero.COLORS](color.md)* library.
 
 
 #### from_int(value, alpha_first=False, alpha_relative=False, name=None) -> *[pero.Color](color.md)*
