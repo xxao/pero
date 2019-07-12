@@ -2,7 +2,7 @@
 
 ## Examples
 
-The *[pero.Color](color.md)* can be created by providing integer values for each of the RGB(A) channels.Those can be
+The *[pero.Color](color.md)* can be created by providing integer values for each of the RGB(A) channels. Those can be
 specified individually, as tuple or list or using hex code string. In addition, a unique name can be specified to
 register new color within colors library.
 
@@ -43,24 +43,27 @@ name are automatically registered and available. The default colors can also be 
 ![Registered palettes](images/colors.svg)
 
 
-## pero.Color(red, green, blue, alpha=255, name=None)
+## pero.Color(*args, name=None)
 
-Represents a color defined by red, green, blue and alpha channels.
+Represents a color defined by red, green, blue and alpha channels. Those can be specified individually, as tuple or list
+or using hex code string. In addition, a unique name can be specified to register new color within colors library.
 
-- **red:** *int*  
-  Red channel as a value in range 0 to 255.
-
-- **green:** *int*  
-  Green channel as a value in range 0 to 255.
-
-- **blue:** *int*  
-  Blue channel as a value in range 0 to 255.
-
-- **alpha:** *int*  
-  Alpha channel as a value in range 0 to 255.
+- **args:** *(int, int, int) or (int, int, int, int) or str*  
+  Red, green, blue and \[alpha\] channel as a values in range 0 to 255 or hex code string.
 
 - **name:** *str* or *None*  
   If the name is provided, it is used to register the color in the *[pero.COLORS](color.md)* library.
+
+```python
+color = pero.Color(255, 165, 0, 255, name="Orange")
+color = pero.Color(255, 165, 0)
+
+color = pero.Color((255, 165, 0, 255), name="Orange")
+color = pero.Color((255, 165, 0))
+
+color = pero.Color('#ffa500ff')
+color = pero.Color('#ffa500')
+```
 
 
 ### Properties
