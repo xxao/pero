@@ -44,8 +44,7 @@ class EvtHandler(object):
         """
         
         # get event type
-        if isinstance(evt_type, Event):
-            evt_type = evt_type.TYPE
+        evt_type = self._get_evt_type(evt_type)
         
         # register event
         if evt_type not in self._callbacks:
@@ -83,8 +82,7 @@ class EvtHandler(object):
         removed = False
         
         # get event type
-        if isinstance(evt_type, Event):
-            evt_type = evt_type.TYPE
+        evt_type = self._get_evt_type(evt_type)
         
         # get callbacks
         callbacks = self._callbacks.get(evt_type, None)
@@ -142,3 +140,17 @@ class EvtHandler(object):
             # check if canceled
             if evt.is_canceled():
                 return
+    
+    
+    def _get_evt_type(self, evt):
+        """Gets event type."""
+        
+        if type(evt) == str:
+            return evt
+        
+        if isinstance(evt, Event):
+            return evt.TYPE
+        
+        if issubclass(evt, Event):
+            return evt.TYPE
+

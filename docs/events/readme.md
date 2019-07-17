@@ -113,7 +113,7 @@ Defines an event which is fired if any property of a *[pero.PropertySet](../prop
 
 #### Class Properties:
 
-- **TYPE** -> *pero.PROPERTY_CHANGED*
+- **TYPE** -> *pero.EVENT.PROPERTY_CHANGED*
 
 #### Attributes:
 
@@ -135,7 +135,7 @@ Defines an event which is fired if any pen-related property of *[pro.Canvas](../
 
 #### Class Properties:
 
-- **TYPE** -> *pero.PEN_CHANGED*
+- **TYPE** -> *pero.EVENT.PEN_CHANGED*
 
 
 ### <a id="BrushChangedEvt" href="#BrushChangedEvt">#</a> pero.BrushChangedEvt(**kwargs)
@@ -146,7 +146,7 @@ Defines an event which is fired if any brush-related property of *[pro.Canvas](.
 
 #### Class Properties:
 
-- **TYPE** -> *pero.BRUSH_CHANGED*
+- **TYPE** -> *pero.EVENT.BRUSH_CHANGED*
 
 
 ### <a id="TextChangedEvt" href="#TextChangedEvt">#</a> pero.TextChangedEvt(**kwargs)
@@ -157,7 +157,7 @@ Defines an event which is fired if any text-related property of *[pro.Canvas](..
 
 #### Class Properties:
 
-- **TYPE** -> *pero.TEXT_CHANGED*
+- **TYPE** -> *pero.EVENT.TEXT_CHANGED*
 
 
 
@@ -169,7 +169,7 @@ Abstract base class for various types of *[pero.View](../backends/view.md)* even
 
 #### Class Properties:
 
-- **TYPE** -> *pero.VIEW*
+- **TYPE** -> *pero.EVENT.VIEW*
 
 #### Attributes:
 
@@ -190,7 +190,7 @@ Defines an event which is fired if *[pero.View](../backends/view.md)* size was c
 
 #### Class Properties:
 
-- **TYPE** -> *pero.SIZE*
+- **TYPE** -> *pero.EVENT.SIZE*
 
 #### Attributes:
 
@@ -209,7 +209,7 @@ Defines a generic event which is fired on any key-related event of *[pero.View](
 
 #### Class Properties:
 
-- **TYPE** -> *pero.KEY*
+- **TYPE** -> *pero.EVENT.KEY*
 
 #### Attributes:
 
@@ -243,7 +243,7 @@ Defines an event which is fired if a key is pressed inside *[pero.View](../backe
 
 #### Class Properties:
 
-- **TYPE** -> *pero.KEY_DOWN*
+- **TYPE** -> *pero.EVENT.KEY_DOWN*
 
 
 ### <a id="KeyUpEvt" href="#KeyUpEvt">#</a> pero.KeyUpEvt(**kwargs)
@@ -254,7 +254,7 @@ Defines an event which is fired if a key is released inside *[pero.View](../back
 
 #### Class Properties:
 
-- **TYPE** -> *pero.KEY_UP*
+- **TYPE** -> *pero.EVENT.KEY_UP*
 
 
 ### <a id="MouseEvt" href="#MouseEvt">#</a> pero.MouseEvt(**kwargs)
@@ -265,7 +265,7 @@ Defines a generic event which is fired on any mouse-related event of *[pero.View
 
 #### Class Properties:
 
-- **TYPE** -> *pero.MOUSE*
+- **TYPE** -> *pero.EVENT.MOUSE*
 
 #### Attributes:
 
@@ -310,7 +310,7 @@ Defines an event which is fired if mouse enters the *[pero.View](../backends/vie
 
 #### Class Properties:
 
-- **TYPE** -> *pero.MOUSE_ENTER*
+- **TYPE** -> *pero.EVENT.MOUSE_ENTER*
 
 ### <a id="MouseLeaveEvt" href="#MouseLeaveEvt">#</a> pero.MouseLeaveEvt(**kwargs)
 
@@ -320,7 +320,7 @@ Defines an event which is fired if mouse left the *[pero.View](../backends/view.
 
 #### Class Properties:
 
-- **TYPE** -> *pero.MOUSE_LEAVE*
+- **TYPE** -> *pero.EVENT.MOUSE_LEAVE*
 
 
 ### <a id="MouseMotionEvt" href="#MouseMotionEvt">#</a> pero.MouseMotionEvt(**kwargs)
@@ -331,7 +331,7 @@ Defines an event which is fired if mouse moves inside *[pero.View](../backends/v
 
 #### Class Properties:
 
-- **TYPE** -> *pero.MOUSE_MOTION*
+- **TYPE** -> *pero.EVENT.MOUSE_MOTION*
 
 
 ### <a id="MouseScrollEvt" href="#MouseScrollEvt">#</a> pero.MouseScrollEvt(**kwargs)
@@ -342,7 +342,7 @@ Defines an event which is fired if mouse wheel rotates inside *[pero.View](../ba
 
 #### Class Properties:
 
-- **TYPE** -> *pero.MOUSE_SCROLL*
+- **TYPE** -> *pero.EVENT.MOUSE_SCROLL*
 
 
 ### <a id="LeftDownEvt" href="#LeftDownEvt">#</a> pero.LeftDownEvt(**kwargs)
@@ -353,7 +353,7 @@ Defines an event which is fired if left-mouse button is pressed inside *[pero.Vi
 
 #### Class Properties:
 
-- **TYPE** -> *pero.LEFT_DOWN*
+- **TYPE** -> *pero.EVENT.LEFT_DOWN*
 
 
 ### <a id="LeftUpEvt" href="#LeftUpEvt">#</a> pero.LeftUpEvt(**kwargs)
@@ -363,7 +363,7 @@ Defines an event which is fired if left-mouse button is released inside *[pero.V
 
 #### Class Properties:
 
-- **TYPE** -> *pero.LEFT_UP*
+- **TYPE** -> *pero.EVENT.LEFT_UP*
 
 
 ### <a id="LeftDClickEvt" href="#LeftDClickEvt">#</a> pero.LeftDClickEvt(**kwargs)
@@ -374,7 +374,7 @@ Defines an event which is fired if left-mouse button is double-clicked inside *[
 
 #### Class Properties:
 
-- **TYPE** -> *pero.LEFT_DCLICK*
+- **TYPE** -> *pero.EVENT.LEFT_DCLICK*
 
 
 ### <a id="MiddleDownEvt" href="#MiddleDownEvt">#</a> pero.MiddleDownEvt(**kwargs)
@@ -385,7 +385,7 @@ Defines an event which is fired if middle-mouse button is pressed inside *[pero.
 
 #### Class Properties:
 
-- **TYPE** -> *pero.MIDDLE_DOWN*
+- **TYPE** -> *pero.EVENT.MIDDLE_DOWN*
 
 
 ### <a id="MiddleUpEvt" href="#MiddleUpEvt">#</a> pero.MiddleUpEvt(**kwargs)
@@ -396,7 +396,7 @@ Defines an event which is fired if middle-mouse button is released inside *[pero
 
 #### Class Properties:
 
-- **TYPE** -> *pero.MIDDLE_UP*
+- **TYPE** -> *pero.EVENT.MIDDLE_UP*
 
 
 ### <a id="MiddleDClickEvt" href="#MiddleDClickEvt">#</a> pero.MiddleDClickEvt(**kwargs)
@@ -406,7 +406,7 @@ Defines an event which is fired if middle-mouse button is double-clicked inside 
 
 #### Class Properties:
 
-- **TYPE** -> *pero.MIDDLE_DCLICK*
+- **TYPE** -> *pero.EVENT.MIDDLE_DCLICK*
 
 
 ### <a id="RightDownEvt" href="#RightDownEvt">#</a> pero.RightDownEvt(**kwargs)
@@ -417,7 +417,7 @@ Defines an event which is fired if right-mouse button is pressed inside *[pero.V
 
 #### Class Properties:
 
-- **TYPE** -> *pero.RIGHT_DOWN*
+- **TYPE** -> *pero.EVENT.RIGHT_DOWN*
 
 
 ### <a id="RightUpEvt" href="#RightUpEvt">#</a> pero.RightUpEvt(**kwargs)
@@ -428,7 +428,7 @@ Defines an event which is fired if right-mouse button is released inside *[pero.
 
 #### Class Properties:
 
-- **TYPE** -> *pero.RIGHT_UP*
+- **TYPE** -> *pero.EVENT.RIGHT_UP*
 
 
 ### <a id="RightDClickEvt" href="#RightDClickEvt">#</a> pero.RightDClickEvt(**kwargs)
@@ -439,4 +439,4 @@ Defines an event which is fired if right-mouse button is double-clicked inside *
 
 #### Class Properties:
 
-- **TYPE** -> *pero.RIGHT_DCLICK*
+- **TYPE** -> *pero.EVENT.RIGHT_DCLICK*
