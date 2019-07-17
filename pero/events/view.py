@@ -22,6 +22,8 @@ class ViewEvt(Event):
             The view main graphics.
     """
     
+    TYPE = EVENT.VIEW
+    
     
     def __init__(self, **kwargs):
         """Initializes a new instance of ViewEvt."""

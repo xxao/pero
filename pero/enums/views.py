@@ -56,6 +56,8 @@ EVENT = Enum(
     BRUSH_CHANGED = 'evt_brush',
     TEXT_CHANGED = 'evt_text',
     
+    VIEW = 'evt_view',
+    
     SIZE = 'evt_size',
     ZOOM = 'evt_zoom',
     

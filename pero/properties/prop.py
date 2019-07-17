@@ -196,6 +196,19 @@ class Property(object):
     
     
     @property
+    def name(self):
+        """
+        Gets property name.
+        
+        Returns:
+            str
+                Property name.
+        """
+        
+        return self._name or self.__class__.name
+    
+    
+    @property
     def types(self):
         """
         Gets allowed types.
@@ -232,19 +245,6 @@ class Property(object):
         """
         
         return self._nullable
-    
-    
-    @property
-    def name(self):
-        """
-        Gets property name.
-        
-        Returns:
-            str
-                Property name.
-        """
-        
-        return self._name or self.__class__.name
     
     
     @property
