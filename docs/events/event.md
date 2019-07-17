@@ -23,8 +23,19 @@ Sets current event as not canceled to allow following subscribers to be called.
 Returns True if the event has been canceled, False otherwise.
 
 
-## Property Events
+## Events
 
+- [pero.PropertyChangedEvt](#PropertyChangedEvt)
+- [pero.PenChangedEvt](#PenChangedEvt)
+- [pero.BrushChangedEvt](#BrushChangedEvt)
+- [pero.TextChangedEvt](#TextChangedEvt)
+- [pero.ViewEvt](#ViewEvt)
+- [pero.KeyEvt](#KeyEvt)
+- [pero.KeyDownEvt](#KeyDownEvt)
+- [pero.KeyUpEvt](#KeyUpEvt)
+
+
+## Property Events
 
 ### <a id="PropertyChangedEvt"></a> pero.PropertyChangedEvt(**kwargs)
 
@@ -81,8 +92,8 @@ Defines an event which is fired if any text-related property of *[pro.Canvas](..
 - **TYPE** -> *pero.TEXT_CHANGED*
 
 
-## View Events
 
+## View Events
 
 ### <a id="ViewEvt"></a> pero.ViewEvt(**kwargs)
 
@@ -106,7 +117,7 @@ The view, which fires the event.
 The view main graphics object.
 
 
-### <a id="SizeEvt"></a> SizeEvt(**kwargs)
+### <a id="SizeEvt"></a> pero.SizeEvt(**kwargs)
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt)
 
 Defines an event which is fired if *[pero.View](../backends/view.md)* size was changed.
@@ -124,7 +135,7 @@ New width of the view.
   New height of the view.
 
 
-### <a id="KeyEvt"></a> KeyEvt(**kwargs)
+### <a id="KeyEvt"></a> pero.KeyEvt(**kwargs)
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt)
 
@@ -134,7 +145,7 @@ Defines a generic event which is fired on any key-related event of *[pero.View](
 
 - **TYPE** -> *pero.KEY*
 
-### Attributes:
+#### Attributes:
 
 - **key** -> *int*  
 Key code.
@@ -158,7 +169,7 @@ Indicates Control key state.
 Indicates Shift key state.
 
 
-### <a id="KeyDownEvt"></a> KeyDownEvt(**kwargs)
+### <a id="KeyDownEvt"></a> pero.KeyDownEvt(**kwargs)
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [KeyEvt](#KeyEvt)
 
@@ -169,7 +180,7 @@ Defines an event which is fired if a key is pressed inside *[pero.View](../backe
 - **TYPE** -> *pero.KEY_DOWN*
 
 
-### <a id="KeyUpEvt"></a> KeyUpEvt(**kwargs)
+### <a id="KeyUpEvt"></a> pero.KeyUpEvt(**kwargs)
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [KeyEvt](#KeyEvt)
 
