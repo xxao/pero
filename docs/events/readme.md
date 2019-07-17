@@ -72,7 +72,7 @@ or until one of them cancels the event by calling the *cancel* method.
   callbacks are called in reversed order, so the last added callback will be called first. Calling of registered
   callbacks continues until all are called or until one of them cancels the event by calling *cancel* method.
 
-    - **evt:** *str* or *[pero.Event](#Event)*  
+    - **evt:** *[pero.Event](#Event)*  
     Event instance which should be processed.
 
     - **kwargs:** *{str: any}*  
