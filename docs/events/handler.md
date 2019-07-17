@@ -20,7 +20,7 @@ directly to the *fire* method.
 - **callback:** *callable*  
   Callback to be called when event is fired.
 
-- **kwargs:** *{str, any}*  
+- **kwargs:** *{str: any}*  
   Specific keyword arguments.
 
 
@@ -34,7 +34,7 @@ exactly all the arguments provided when the callback was attached. If not provid
 - **callback:** *callable*  
   Callback to be removed.
 
-- **kwargs:** *{str, any}*  
+- **kwargs:** *{str: any}*  
   Specific keyword arguments.
 
 
@@ -46,5 +46,5 @@ until all are called or until one of them cancels the event by calling *cancel* 
 - **evt:** *str* or *[pero.Event](event.md)*  
   Event instance which should be processed.
 
-- **kwargs:** *{str, any}*  
+- **kwargs:** *{str: any}*  
   Specific keyword arguments.
