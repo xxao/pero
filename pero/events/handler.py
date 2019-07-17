@@ -118,7 +118,7 @@ class EvtHandler(object):
         one of them cancels the event by calling 'cancel' method.
         
         Args:
-            evt: instance
+            evt: pero.Event
                 Event instance which should be processed.
             
             kwargs: str:any pairs
