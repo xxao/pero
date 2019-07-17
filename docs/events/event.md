@@ -1,6 +1,6 @@
 # Events
 
-### pero.Event(**kwargs)
+### <a name="Event">#</a> pero.Event(**kwargs)
 Abstract base class for various types of events. Each derived event class has to specify its unique *TYPE* property at
 least.
 
@@ -25,7 +25,9 @@ Returns True if the event has been canceled, False otherwise.
 
 ## Property Events
 
-### pero.PropertyChangedEvt(**kwargs)
+### <a name="PropertyChangedEvt">#</a> pero.PropertyChangedEvt(**kwargs)
+
+**Inheritance:** [Event](event.md#Event)
 
 Defines an event which is fired if any property of a *[pero.PropertySet](../properties/propset.md)* was changed.
 
@@ -45,7 +47,9 @@ Gets the original value of the changed property.
 Gets the new value of the changed property.
 
 
-### pero.PenChangedEvt(**kwargs)
+### <a name="PenChangedEvt">#</a> pero.PenChangedEvt(**kwargs)
+
+**Inheritance:** [Event](event.md#Event) <- [PropertyChangedEvt](event.md#PropertyChangedEvt)
 
 Defines an event which is fired if any pen-related property of *[pro.Canvas](../drawing/canvas.md)* was changed.
 
@@ -54,7 +58,9 @@ Defines an event which is fired if any pen-related property of *[pro.Canvas](../
 - **TYPE** -> *pero.PEN_CHANGED*
 
 
-### pero.BrushChangedEvt(**kwargs)
+### <a name="BrushChangedEvt">#</a> pero.BrushChangedEvt(**kwargs)
+
+**Inheritance:** [Event](event.md#Event) <- [PropertyChangedEvt](event.md#PropertyChangedEvt)
 
 Defines an event which is fired if any brush-related property of *[pro.Canvas](../drawing/canvas.md)* was changed.
 
@@ -63,7 +69,9 @@ Defines an event which is fired if any brush-related property of *[pro.Canvas](.
 - **TYPE** -> *pero.BRUSH_CHANGED*
 
 
-### pero.TextChangedEvt(**kwargs)
+### <a name="TextChangedEvt">#</a> pero.TextChangedEvt(**kwargs)
+
+**Inheritance:** [Event](event.md#Event) <- [PropertyChangedEvt](event.md#PropertyChangedEvt)
 
 Defines an event which is fired if any text-related property of *[pro.Canvas](../drawing/canvas.md)* was changed.
 
