@@ -1,6 +1,55 @@
 # Properties
 
-### <a id="Event" href="#Property">#</a> pero.Property(default=pero.UNDEF, types=(), dynamic=True, nullable=False)
+## Main Classes
+
+- [pero.Property](#Property)
+- [pero.PropertySet](#PropertySet)
+- [pero.Include](#Include)
+
+## Basic Properties
+
+- [pero.BoolProperty](#BoolProperty)
+- [pero.EnumProperty](#EnumProperty)
+- [pero.FuncProperty](#FuncProperty)
+- [pero.StringProperty](#StringProperty)
+- [pero.DictProperty](#DictProperty)
+
+## Numeric Properties
+
+- [pero.NumProperty](#NumProperty)
+- [pero.FloatProperty](#FloatProperty)
+- [pero.IntProperty](#IntProperty)
+- [pero.RangeProperty](#RangeProperty)
+- [pero.QuadProperty](#QuadProperty)
+
+## Collection Properties
+
+- [pero.IterProperty](#IterProperty)
+- [pero.ListProperty](#ListProperty)
+- [pero.SequenceProperty](#SequenceProperty)
+- [pero.SetProperty](#SetProperty)
+- [pero.TupleProperty](#TupleProperty)
+
+## Special Properties
+
+- [pero.ColorProperty](#ColorProperty)
+- [pero.PaletteProperty](#PaletteProperty)
+- [pero.GradientProperty](#GradientProperty)
+- [pero.DashProperty](#DashProperty)
+- [pero.MarkerProperty](#MarkerProperty)
+- [pero.HeadProperty](#HeadProperty)
+- [pero.FrameProperty](#FrameProperty)
+
+## Property Mixes
+
+- [pero.AngleProperties](#AngleProperties)
+- [pero.ColorProperties](#ColorProperties)
+- [pero.LineProperties](#LineProperties)
+- [pero.FillProperties](#FillProperties)
+- [pero.TextProperties](#TextProperties)
+
+
+### <a id="Property" href="#Property">#</a> pero.Property(default=pero.UNDEF, types=(), dynamic=True, nullable=False)
 
 Defines a generic property used in all [pero.PropertySet](#PropertySet) classes. The main purpose is to provide
 reasonable default value and possibility to allow certain types or values only. Specific derived implementations can be
@@ -52,7 +101,7 @@ provided data source. This allows properties to be dynamic and provide specific 
   this method and provide its own attributes as keyword arguments to this base method.
 
 
-### <a id="Event" href="#PropertySet">#</a> pero.PropertySet(**overrides)
+### <a id="PropertySet" href="#PropertySet">#</a> pero.PropertySet(**overrides)
 
 **Inheritance:** [EvtHandler](../events/readme.md#EvtHandler)
 
@@ -86,7 +135,7 @@ Abstract base class for all property-having classes.
     - **native:** *bool*  
       If set to True callable properties are returned directly without calling them with the source as argument.
 
-- **get_child_overrides(child_name, overrides)** -> *dict*  
+- **get_child_overrides(child_name, overrides)** -> *{str:any}*  
   Extracts the overrides for existing child property set. A property is considered as a child if it starts with given
   *child_name* followed by '_' and if it is not a direct property of current property set. E.g. if current set has a
   property 'marker', its line properties can be specified directly as 'marker_line_color'. However, this mechanism
@@ -254,7 +303,7 @@ Abstract base class for all property-having classes.
   Gets all available properties of the class.
 
 
-### <a id="Event" href="#Include">#</a> pero.Include(prop_set, prefix="", dynamic=None, nullable=None, exclude=None, **overrides)
+### <a id="Include" href="#Include">#</a> pero.Include(prop_set, prefix="", dynamic=None, nullable=None, exclude=None, **overrides)
 
 This class is used as a tool to include all available [pero.Properties](#Property) of another
 [pero.PropertySet](#PropertySet). The properties can be included with optional *prefix*, which is added then to the name
@@ -278,3 +327,460 @@ can also be changed for all the included property.
             
 - **overrides:** *{str:any}*  
   Overwrites for default values of specific properties. Original names without the prefix must be used.
+
+
+## Basic Properties
+
+### <a id="BoolProperty" href="#BoolProperty">#</a> pero.BoolProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a property allowing booleans only.
+
+- **default:** *bool*  
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="EnumProperty" href="#EnumProperty">#</a> pero.EnumProperty(default=UNDEF, enum=(), **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a generic property allowing predefined set of values only.
+
+- **default:** *any*  
+  Default value used to initialize the property.
+
+- **enum:** *(any,)*  
+  Collection of allowed values.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="FuncProperty" href="#FuncProperty">#</a> pero.FuncProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a property allowing functions and methods only.
+
+- **default:** *callable*  
+  Default value used to initialize the property.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="StringProperty" href="#StringProperty">#</a> pero.StringProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a property allowing strings only.
+
+- **default:** *str*  
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="DictProperty" href="#DictProperty">#</a> pero.DictProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a property allowing dicts only.
+
+- **default:** *{any:any}*  
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+## Numeric Properties
+
+### <a id="NumProperty" href="#NumProperty">#</a> pero.NumProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a numeric property allowing floats and integers only.
+
+- **default:** *int* or *float*  
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="FloatProperty" href="#FloatProperty">#</a> pero.FloatProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a property allowing floats only.
+
+- **default:** *float*  
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="IntProperty" href="#IntProperty">#</a> pero.IntProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a property allowing floats only.
+
+- **default:** *int*  
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="RangeProperty" href="#RangeProperty">#</a> pero.RangeProperty(default=UNDEF, minimum=None, maximum=None, minimum_incl=True, maximum_incl=True, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a generic property allowing numbers within specific range only.
+
+- **default:** *(int, int)* or *(float, float)*  
+  Default value used to initialize the property.
+
+- **minimum:** *int*, *float* or *None*  
+  Minimum allowed value.
+
+- **maximum:** *int*, *float* or *None*  
+  Maximum allowed value.
+
+- **minimum_incl:** *bool*  
+  Specifies whether the minimum value should be included (True) or excluded (False) from allowed range.
+
+- **maximum_incl:** *bool*  
+  Specifies whether the maximum value should be included (True) or excluded (False) from allowed range.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="QuadProperty" href="#QuadProperty">#</a> pero.QuadProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a property used for quad-sided connected values like margin, padding etc. The value must be provided as a single
+number or as a list or tuple of numbers defining individual values for top, right, bottom and left side. If only a
+single value is provided, it is used for all the sides. If two values are provided, the first value is set to top and
+bottom and the second value is set to left and right.
+
+- **default:** *int*  
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+## Collection Properties
+
+### <a id="IterProperty" href="#IterProperty">#</a> pero.IterProperty(default=UNDEF, intypes=(), **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a generic property allowing collections with specified types of inner elements.
+
+- **default:** *(any,)*  
+  Default value used to initialize the property.
+
+- **intypes:** *(type,)*  
+  Allowed types for collection elements. If empty, specific inner type is not required for inner elements.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="ListProperty" href="#ListProperty">#</a> pero.ListProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property) <- [IterProperty](#IterProperty)
+
+Defines a property allowing lists only.
+
+- **default:** *\[any,\]*  
+  Default value used to initialize the property.
+
+- **intypes:** *(type,)*  
+  Allowed types for collection elements. If empty, specific inner type is not required for inner elements.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="SequenceProperty" href="#SequenceProperty">#</a> pero.SequenceProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property) <- [IterProperty](#IterProperty)
+
+Defines a property allowing lists, tuples and numpy.ndarray only.
+
+- **default:** *(any,)*  
+  Default value used to initialize the property.
+
+- **intypes:** *(type,)*  
+  Allowed types for collection elements. If empty, specific inner type is not required for inner elements.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="SetProperty" href="#SetProperty">#</a> pero.SetProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property) <- [IterProperty](#IterProperty)
+
+Defines a property allowing sets only.
+
+- **default:** *(any,)*  
+  Default value used to initialize the property.
+
+- **intypes:** *(type,)*  
+  Allowed types for collection elements. If empty, specific inner type is not required for inner elements.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="TupleProperty" href="#TupleProperty">#</a> pero.TupleProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property) <- [IterProperty](#IterProperty)
+
+Defines a property allowing tuples only.
+
+- **default:** *(any,)*  
+  Default value used to initialize the property.
+
+- **intypes:** *(type,)*  
+  Allowed types for collection elements. If empty, specific inner type is not required for inner elements.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+## Special Properties
+
+### <a id="ColorProperty" href="#ColorProperty">#</a> pero.ColorProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a property, which simplifies a color definition by automatically creating a [pero.Color](../color/color.md)
+instance from various input options or registered name. See [color definition](../color/color.md) for more info.
+
+- **default:** *[color definition](../color/color.md)*  
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="PaletteProperty" href="#PaletteProperty">#</a> pero.PaletteProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a property, which simplifies a color palette definition by automatically creating a
+[pero.Palette](../color/palette.md) instance from various input options or registered palette name. See
+[palette definition](../color/palette.md) for more info.
+
+- **default:** *[palette definition](../color/palette.md)*  
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="GradientProperty" href="#GradientProperty">#</a> pero.GradientProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a property, which simplifies a color gradient definition by automatically creating a
+[pero.Gradient](../color/gradient.md) instance from various input options or registered gradient name. See
+[gradient definition](../color/gradient.md) for more info.
+
+- **default:** *[gradient definition](../color/gradient.md)*  
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="DashProperty" href="#DashProperty">#</a> pero.DashProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a line dash property. The value must be provided as a list or tuple of numbers defining the length of lines and
+spaces in-between.
+
+- **default:** *(int,)* or *(float,)*   
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+### <a id="MarkerProperty" href="#MarkerProperty">#</a> pero.MarkerProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a marker property, which simplifies a marker definition by converting specific symbols into an instance of
+corresponding *[pero.Marker](../drawing/markers.md)* glyph. Available symbols are defined by the
+[pero.MARKER](../enums/#MARKER) enum.
+
+- **default:** *str* or *[pero.Marker](../drawing/markers.md)*   
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+### <a id="HeadProperty" href="#HeadProperty">#</a> pero.HeadProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a head property, which simplifies a head definition by converting specific symbols into an instance of
+corresponding *[pero.Head](../drawing/arrows.md#Head)* glyph. Available symbols are defined by the
+[pero.HEAD](../enums/#HEAD) enum.
+
+- **default:** *str* or *[pero.Head](../drawing/arrows.md#Head)*   
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+### <a id="FrameProperty" href="#FrameProperty">#</a> pero.FrameProperty(default=UNDEF, **kwargs)
+
+**Inheritance:** [Property](#Property)
+
+Defines a frame property. The value must be provided as a [pero.Frame](../drawing/readme.md) or as a tuple or list of
+four numbers for left x, top y, width and height.
+
+- **default:** *(int, int, int, int)* or *[pero.Frame](../drawing/readme.md)*   
+  Default value used to initialize the property.
+
+- **dynamic:** *bool*  
+  Specifies whether the property can be defined as dynamic i.e. the actual value of the property is a function, which is
+  expected to give the final value from provided data source. Assigned function must provide expected value type.
+
+- **nullable:** *bool*  
+  Specifies whether the property value can be set to None.
+
+
+## Property Mixes
+
+### <a id="AngleProperties" href="#AngleProperties">#</a> pero.AngleProperties(**kwargs)
+
+**Inheritance:** [EvtHandler](../events/readme.md#EvtHandler) <- [PropertySet](#PropertySet)
+
+Collection of properties defining an angle value with its units.
+
+#### Properties
+
+- **angle:** *int* or *float*   
+  Specifies the angle value.
+
+- **angle_units:** *str*   
+  Specifies the angle units as any item from the [pero.ANGLE](../events/readme.md#ANGLE) enum.
+
+#### Static Methods
+
+- **get_angle(prop_set, prefix="", units=ANGLE.RAD, source=UNDEF, overrides=None)** -> *float*   
+  Retrieves current angle value from given [pero.PropertySet](#PropertySet) directly converted to requested units.
+        
+  -   **prop_set:** *[pero.PropertySet](#PropertySet)t*  
+      Property set from which to retrieve the angle.
+    
+  -   **prefix:** *str*  
+      Prefix applied to all angle properties.
+    
+  -   **units:** *str*  
+      Requested units of the angle as any item from the [pero.ANGLE](../events/readme.md#ANGLE) enum.
+    
+  -   **source:** *any*  
+      Data source to be used for retrieving the final value of callable properties.
+    
+  -   **overrides:** *{str:any}* or *None*  
+      Highest priority properties to be used instead of current values.

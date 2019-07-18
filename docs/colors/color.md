@@ -104,7 +104,7 @@ Gets RGBA channels as hex string prefixed by '#'.
 ### Methods
 
 
-#### lighter(factor=0.2, name=None) -> *[pero.Color](color.md)*  
+#### lighter(factor=0.2, name=None) -> *[pero.Color](color.md)*
 Creates derived color by making current color lighter. The factor specifies relative amount of white to be added, i.e. 1
 results in full white color while 0 makes no change. The new color is automatically registered for later use if the name
 is specified.

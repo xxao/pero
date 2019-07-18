@@ -5,6 +5,91 @@ inform any class derived from *[pero.PropertySet](../properties/readme.md#Proper
 the key and mouse events raised by *[pero.View](../backends/readme.md#View)*.
 
 
+## Main Classes
+
+- [pero.EvtHandler](#EvtHandler)
+- [pero.Event](#Event)
+
+
+## Property Events
+
+- [pero.PropertyChangedEvt](#PropertyChangedEvt)
+- [pero.PenChangedEvt](#PenChangedEvt)
+- [pero.BrushChangedEvt](#BrushChangedEvt)
+- [pero.TextChangedEvt](#TextChangedEvt)
+
+## View Events
+
+- [pero.ViewEvt](#ViewEvt)
+- [pero.SizeEvt](#SizeEvt)
+- [pero.KeyEvt](#KeyEvt)
+- [pero.KeyDownEvt](#KeyDownEvt)
+- [pero.KeyUpEvt](#KeyUpEvt)
+- [pero.MouseEvt](#MouseEvt)
+- [pero.MouseEnterEvt](#MouseEnterEvt)
+- [pero.MouseLeaveEvt](#MouseLeaveEvt)
+- [pero.MouseMotionEvt](#MouseMotionEvt)
+- [pero.MouseScrollEvt](#MouseScrollEvt)
+- [pero.LeftDownEvt](#LeftDownEvt)
+- [pero.LeftUpEvt](#LeftUpEvt)
+- [pero.LeftDClickEvt](#LeftDClickEvt)
+- [pero.MiddleDownEvt](#MiddleDownEvt)
+- [pero.MiddleUpEvt](#MiddleUpEvt)
+- [pero.MiddleDClickEvt](#MiddleDClickEvt)
+- [pero.RightDownEvt](#RightDownEvt)
+- [pero.RightUpEvt](#RightUpEvt)
+- [pero.RightDClickEvt](#RightDClickEvt)
+
+
+### <a id="EvtHandler" href="#EvtHandler">#</a> pero.EvtHandler()
+
+This class represents an event raising base class, to which specific callbacks can be attached to be called when
+appropriate *[pero.Event](#Event)* is fired. When specific event is fired, **bound callbacks are called in reversed
+order**, so the last added callback will be called first. Calling of registered callbacks continues until all are called
+or until one of them cancels the event by calling the *cancel* method.
+
+#### Methods:
+
+- **bind(evt_type, callback, \*\*kwargs)**  
+  Registers given callback for specific event. Additional keyword arguments can be specified to be always provided when
+  the event is fired. These arguments will be used as defaults but they can be overridden by the same argument provided
+  directly to the *fire* method.
+
+    - **evt_type:** *str* or *[pero.Event](#Event)*  
+    Specific event type to which the callback should be attached.
+
+    - **callback:** *callable*  
+    Callback to be called when event is fired.
+
+    - **kwargs:** *{str: any}*  
+    Specific keyword arguments.
+
+- **unbind(evt_type, callback, \*\*kwargs)**  
+  Removes given callback if registered for specified event. If additional keyword arguments are provided, they must
+  match exactly all the arguments provided when the callback was attached. If not provided, just the callback must
+  match.
+
+    - **evt_type:** *str* or *[pero.Event](#Event)*  
+    Specific event type to which the callback was attached.
+
+    - **callback:** *callable*  
+    Callback to be removed.
+
+    - **kwargs:** *{str: any}*  
+    Specific keyword arguments.
+
+- **fire(evt, callback, \*\*kwargs)**  
+  Fires given event by calling all registered callbacks with given params. When a specific event is fired, bound
+  callbacks are called in reversed order, so the last added callback will be called first. Calling of registered
+  callbacks continues until all are called or until one of them cancels the event by calling *cancel* method.
+
+    - **evt:** *[pero.Event](#Event)*  
+    Event instance which should be processed.
+
+    - **kwargs:** *{str: any}*  
+    Specific keyword arguments.
+
+
 ### <a id="Event" href="#Event">#</a> pero.Event(**kwargs)
 
 The *[pero.Event](#Event)* is an abstract base class, from which various types of events are derived. Each derived class
@@ -27,83 +112,7 @@ Sets current event as not canceled to allow following subscribers to be called.
 Returns True if the event has been canceled, False otherwise.
 
 
-### <a id="EvtHandler" href="#EvtHandler">#</a> pero.EvtHandler()
-
-This class represents an event raising base class, to which specific callbacks can be attached to be called when
-appropriate *[pero.Event](#Event)* is fired. When specific event is fired, **bound callbacks are called in reversed
-order**, so the last added callback will be called first. Calling of registered callbacks continues until all are called
-or until one of them cancels the event by calling the *cancel* method.
-
-
-#### Methods:
-
-- **bind(evt_type, callback, \*\*kwargs)**  
-  Registers given callback for specific event. Additional keyword arguments can be specified to be always provided when
-  the event is fired. These arguments will be used as defaults but they can be overridden by the same argument provided
-  directly to the *fire* method.
-
-    - **evt_type:** *str* or *[pero.Event](#Event)*  
-    Specific event type to which the callback should be attached.
-
-    - **callback:** *callable*  
-    Callback to be called when event is fired.
-
-    - **kwargs:** *{str: any}*  
-    Specific keyword arguments.
-
-
-- **unbind(evt_type, callback, \*\*kwargs)**  
-  Removes given callback if registered for specified event. If additional keyword arguments are provided, they must
-  match exactly all the arguments provided when the callback was attached. If not provided, just the callback must
-  match.
-
-    - **evt_type:** *str* or *[pero.Event](#Event)*  
-    Specific event type to which the callback was attached.
-
-    - **callback:** *callable*  
-    Callback to be removed.
-
-    - **kwargs:** *{str: any}*  
-    Specific keyword arguments.
-
-
-- **fire(evt, callback, \*\*kwargs)**  
-  Fires given event by calling all registered callbacks with given params. When a specific event is fired, bound
-  callbacks are called in reversed order, so the last added callback will be called first. Calling of registered
-  callbacks continues until all are called or until one of them cancels the event by calling *cancel* method.
-
-    - **evt:** *[pero.Event](#Event)*  
-    Event instance which should be processed.
-
-    - **kwargs:** *{str: any}*  
-    Specific keyword arguments.
-
-
-## Events
-
-- [pero.PropertyChangedEvt](#PropertyChangedEvt)
-- [pero.PenChangedEvt](#PenChangedEvt)
-- [pero.BrushChangedEvt](#BrushChangedEvt)
-- [pero.TextChangedEvt](#TextChangedEvt)
-- [pero.ViewEvt](#ViewEvt)
-- [pero.KeyEvt](#KeyEvt)
-- [pero.KeyDownEvt](#KeyDownEvt)
-- [pero.KeyUpEvt](#KeyUpEvt)
-- [pero.MouseEvt](#MouseEvt)
-- [pero.MouseEnterEvt](#MouseEnterEvt)
-- [pero.MouseLeaveEvt](#MouseLeaveEvt)
-- [pero.MouseMotionEvt](#MouseMotionEvt)
-- [pero.MouseScrollEvt](#MouseScrollEvt)
-- [pero.LeftDownEvt](#LeftDownEvt)
-- [pero.LeftUpEvt](#LeftUpEvt)
-- [pero.LeftDClickEvt](#LeftDClickEvt)
-- [pero.MiddleDownEvt](#MiddleDownEvt)
-- [pero.MiddleUpEvt](#MiddleUpEvt)
-- [pero.MiddleDClickEvt](#MiddleDClickEvt)
-- [pero.RightDownEvt](#RightDownEvt)
-- [pero.RightUpEvt](#RightUpEvt)
-- [pero.RightDClickEvt](#RightDClickEvt)
-
+## Property Events
 
 ### <a id="PropertyChangedEvt" href="#PropertyChangedEvt">#</a> pero.PropertyChangedEvt(**kwargs)
 
@@ -160,6 +169,8 @@ Defines an event which is fired if any text-related property of *[pro.Canvas](..
 - **TYPE** -> *pero.EVENT.TEXT_CHANGED*
 
 
+
+## View Events
 
 ### <a id="ViewEvt" href="#ViewEvt">#</a> pero.ViewEvt(**kwargs)
 
