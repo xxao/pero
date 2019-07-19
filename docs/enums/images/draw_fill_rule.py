@@ -3,7 +3,7 @@
 
 import pero
 
-img = pero.Image(width=330, height=180)
+img = pero.Image(width=350, height=180)
 
 img.fill_color = pero.colors.GhostWhite
 img.fill()
@@ -19,16 +19,15 @@ label = pero.Text(
     text_base = pero.TOP,
     text_align = pero.CENTER)
 
-path = pero.Path().move_to(0, -50).line_to(40, 50).line_to(-55, -10).line_to(55, -10).line_to(-40, 50).close()
+path = pero.Path.from_svg("M90 10 L137 155 L14 65 L163 65 L43 155 Z")
 mat = pero.Matrix()
 
-mat.translate(90, 70)
 img.draw_path(path.transformed(mat, pero.EVENODD))
-label.draw(img, x=90, y=70+60, text="pero.EVENODD")
+label.draw(img, x=90, y=160, text="pero.EVENODD")
 
-mat.translate(150, 0)
+mat.translate(170, 0)
 img.draw_path(path.transformed(mat, pero.WINDING))
-label.draw(img, x=240, y=70+60, text="pero.WINDING")
+label.draw(img, x=260, y=160, text="pero.WINDING")
 
 img.show()
 img.export('fill_rule.svg')

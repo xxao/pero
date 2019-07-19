@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 
-<svg xmlns="http://www.w3.org/2000/svg" width="330" height="180">
-  <rect x="0.0" y="0.0" width="330.0" height="180.0" stroke="#000000" stroke-width="0.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f8f8ff" />
+<svg xmlns="http://www.w3.org/2000/svg" width="350" height="180">
+  <rect x="0.0" y="0.0" width="350.0" height="180.0" stroke="#000000" stroke-width="0.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f8f8ff" />
   <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" fill-rule="evenodd" d="
-    M90.0 20.0
-    L130.0 120.0
-    L35.0 60.0
-    L145.0 60.0
-    L50.0 120.0
+    M90.0 10.0
+    L137.0 155.0
+    L14.0 65.0
+    L163.0 65.0
+    L43.0 155.0
     Z" />
-  <text x="31.5" y="145.0" font-family="Arial" font-size="16.200000000000003" text-anchor="left" fill="#000000" >pero.EVENODD</text>
+  <text x="46.0" y="171.0" font-family="Arial" font-size="12.0" fill="#000000" >pero.EVENODD</text>
   <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" fill-rule="nonzero" d="
-    M240.0 20.0
-    L280.0 120.0
-    L185.0 60.0
-    L295.0 60.0
-    L200.0 120.0
+    M260.0 10.0
+    L307.0 155.0
+    L184.0 65.0
+    L333.0 65.0
+    L213.0 155.0
     Z" />
-  <text x="186.5" y="145.0" font-family="Arial" font-size="16.200000000000003" text-anchor="left" fill="#000000" >pero.WINDING</text>
+  <text x="219.5" y="171.0" font-family="Arial" font-size="12.0" fill="#000000" >pero.WINDING</text>
 </svg>
