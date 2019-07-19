@@ -46,6 +46,9 @@ class Gradient(object, metaclass=GradientMeta):
             stops: (float,) or None
                 Sequence of stop positions for each color. If set to None,
                 equidistant stops are generated automatically using range 0 to 1.
+                If more than two colors are specified together with just two
+                numbers for stop, those are used as range to automatically
+                calculate equidistant stops for the range.
             
             name: str or None
                 Unique name to register.
