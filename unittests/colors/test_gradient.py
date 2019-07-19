@@ -21,7 +21,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(gradient.stops, stops)
         self.assertEqual(gradient.name, "Name")
         
-        # partial specification
+        # no name
         colors = (pero.Color.Red, pero.Color.Green, pero.Color.Blue)
         stops = (0, 0.5, 1)
         gradient = pero.Gradient(colors, stops)
@@ -30,10 +30,19 @@ class TestCase(unittest.TestCase):
         self.assertEqual(gradient.stops, stops)
         self.assertEqual(gradient.name, None)
         
-        # partial specification
+        # no stops
         colors = (pero.Color.Red, pero.Color.Green, pero.Color.Blue)
         stops = (0, 0.5, 1)
         gradient = pero.Gradient(colors)
+        
+        self.assertEqual(gradient.colors, colors)
+        self.assertEqual(gradient.stops, stops)
+        self.assertEqual(gradient.name, None)
+        
+        # stops range
+        colors = (pero.Color.Red, pero.Color.Green, pero.Color.Blue)
+        stops = (100, 150, 200)
+        gradient = pero.Gradient(colors, (100, 200))
         
         self.assertEqual(gradient.colors, colors)
         self.assertEqual(gradient.stops, stops)

@@ -218,7 +218,7 @@ class Gradient(object, metaclass=GradientMeta):
             return Gradient(self._colors, self._stops, name)
         
         # calc normalization
-        stops = Gradient.calc_stops(len(self._colors, start, end))
+        stops = Gradient.calc_stops(len(self._colors), start, end)
         
         # make gradient
         return Gradient(self._colors, stops, name)
