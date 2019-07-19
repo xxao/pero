@@ -86,19 +86,21 @@ class Gradient(object, metaclass=GradientMeta):
                 message = "Stop positions must be sorted! -> %s" % (stops,)
                 raise ValueError(message)
             
+            # use range
+            if len(colors) > 2 and len(stops) == 2:
+                stops = Gradient.calc_stops(len(colors), stops[0], stops[1])
+            
             # test same size
-            if len(colors) != len(stops):
+            elif len(colors) != len(stops):
                 message = "Number of colors and stops must be equal!"
                 raise ValueError(message)
-            
-            # format to float
-            stops = tuple(map(float, stops))
         
-        # generate stops
+        # generate normalized stops
         else:
-            stops = self._calc_stops(len(colors))
+            stops = Gradient.calc_stops(len(colors), 0., 1.)
         
-        self._stops = tuple(stops)
+        # set stops
+        self._stops = tuple(map(float, stops))
         
         # register gradient by name
         if name is not None:
@@ -216,36 +218,12 @@ class Gradient(object, metaclass=GradientMeta):
             return Gradient(self._colors, self._stops, name)
         
         # calc normalization
-        from_range = self._stops[-1] - self._stops[0]
-        to_range = end - start
+        stops = Gradient.calc_stops(len(self._colors, start, end))
         
-        stops = []
-        for stop in self._stops:
-            stop = start + to_range * float(stop - self._stops[0]) / from_range
-            stops.append(stop)
-        
+        # make gradient
         return Gradient(self._colors, stops, name)
-    
-    
-    def _calc_stops(self, size):
-        """Calculates equidistant stops for given number of colors."""
-        
-        if size == 0:
-            return ()
-        
-        stops = []
-        step = 1./(size-1)
-        
-        value = 0
-        while value < 1:
-            stops.append(value)
-            value += step
-        
-        stops.append(1.)
-        
-        return stops
-    
-    
+
+
     def _locate(self, items, x):
         """Locates nearest higher color."""
         
@@ -327,3 +305,23 @@ class Gradient(object, metaclass=GradientMeta):
         # name not found
         message = "Unknown gradient or palette name specified! -> '%s'" % name
         raise ValueError(message)
+    
+    
+    @staticmethod
+    def calc_stops(size, start=0., end=1.):
+        """Calculates equidistant stops for given number of colors."""
+        
+        if size == 0:
+            return ()
+        
+        stops = []
+        step = (end - start) / (size - 1)
+        
+        value = start
+        while value < end:
+            stops.append(value)
+            value += step
+        
+        stops.append(end)
+        
+        return stops
