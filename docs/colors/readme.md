@@ -1,4 +1,4 @@
-# Colors
+# Colors, Palettes and Gradients
 
 ## Main Classes
 
