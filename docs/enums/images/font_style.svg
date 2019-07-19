@@ -3,6 +3,6 @@
 
 <svg xmlns="http://www.w3.org/2000/svg" width="350" height="80">
   <rect x="0.0" y="0.0" width="350.0" height="80.0" stroke="#000000" stroke-width="0.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f8f8ff" />
-  <text x="30.0" y="48.0" font-family="Arial" font-size="21.6" text-anchor="left" fill="#000000" >pero.NORMAL</text>
-  <text x="200.0" y="48.0" font-family="Arial" font-size="21.6" font-style="italic" text-anchor="left" fill="#000000" >pero.ITALIC</text>
+  <text x="30.0" y="46.5" font-family="Arial" font-size="18.0" fill="#000000" >pero.NORMAL</text>
+  <text x="200.0" y="46.5" font-family="Arial" font-size="18.0" font-style="italic" fill="#000000" >pero.ITALIC</text>
 </svg>

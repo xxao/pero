@@ -9,7 +9,7 @@ img.fill_color = pero.colors.GhostWhite
 img.fill()
 
 label = pero.Text(
-    font_size = 12,
+    font_size = 14,
     font_family = pero.SANS,
     font_name = pero.UNDEF,
     text_base = pero.TOP,
@@ -30,17 +30,17 @@ y = 40
 
 mat = pero.Matrix().translate(x, y)
 pather.draw(img, path=path.transformed(mat), line_cap=pero.BUTT)
-label.draw(img, x=x+40, y=y+15, text="pero.BUTT")
+label.draw(img, x=x+40, y=y+20, text="pero.BUTT")
 
 x += 150
 mat = pero.Matrix().translate(x, y)
 pather.draw(img, path=path.transformed(mat), line_cap=pero.ROUND)
-label.draw(img, x=x+40, y=y+15, text="pero.ROUND")
+label.draw(img, x=x+40, y=y+20, text="pero.ROUND")
 
 x += 150
 mat = pero.Matrix().translate(x, y)
 pather.draw(img, path=path.transformed(mat), line_cap=pero.SQUARE)
-label.draw(img, x=x+40, y=y+15, text="pero.SQUARE")
+label.draw(img, x=x+40, y=y+20, text="pero.SQUARE")
 
 img.show()
 img.export('line_cap.svg')

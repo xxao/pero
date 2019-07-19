@@ -3,7 +3,7 @@
 
 <svg xmlns="http://www.w3.org/2000/svg" width="450" height="150">
   <rect x="0.0" y="0.0" width="450.0" height="150.0" stroke="#000000" stroke-width="0.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f8f8ff" />
-  <g id="tag_1765030734928" class="pather">
+  <g id="tag_4354793032" class="pather">
     <path stroke="#000000" stroke-width="15.0" stroke-linecap="butt" stroke-linejoin="miter" fill="#000000" fill-opacity="0.0" fill-rule="evenodd" d="
       M30.0 100.0
       L70.0 40.0
@@ -18,8 +18,8 @@
     <g class="controls">
     </g>
   </g>
-  <text x="27.0" y="130.0" font-family="Arial" font-size="16.200000000000003" text-anchor="left" fill="#000000" >pero.MITER</text>
-  <g id="tag_1765030734928" class="pather">
+  <text x="31.5" y="133.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.MITER</text>
+  <g id="tag_4354793032" class="pather">
     <path stroke="#000000" stroke-width="15.0" stroke-linecap="butt" stroke-linejoin="round" fill="#000000" fill-opacity="0.0" fill-rule="evenodd" d="
       M180.0 100.0
       L220.0 40.0
@@ -34,8 +34,8 @@
     <g class="controls">
     </g>
   </g>
-  <text x="172.0" y="130.0" font-family="Arial" font-size="16.200000000000003" text-anchor="left" fill="#000000" >pero.ROUND</text>
-  <g id="tag_1765030734928" class="pather">
+  <text x="178.0" y="133.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.ROUND</text>
+  <g id="tag_4354793032" class="pather">
     <path stroke="#000000" stroke-width="15.0" stroke-linecap="butt" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" fill-rule="evenodd" d="
       M330.0 100.0
       L370.0 40.0
@@ -50,5 +50,5 @@
     <g class="controls">
     </g>
   </g>
-  <text x="325.5" y="130.0" font-family="Arial" font-size="16.200000000000003" text-anchor="left" fill="#000000" >pero.BEVEL</text>
+  <text x="331.5" y="133.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.BEVEL</text>
 </svg>

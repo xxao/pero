@@ -3,7 +3,7 @@
 
 <svg xmlns="http://www.w3.org/2000/svg" width="650" height="350">
   <rect x="0.0" y="0.0" width="650.0" height="350.0" stroke="#000000" stroke-width="0.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f8f8ff" />
-  <g id="tag_2371548806056" class="arrow">
+  <g id="tag_4670065296" class="arrow">
     <line x1="45.0" y1="30.0" x2="95.0" y2="100.0" stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" />
     <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" fill-rule="evenodd" d="
       M46.44750458710726 44.929994322514105
@@ -16,9 +16,9 @@
       L81.34649334479171 93.78857858327234
       Z" />
   </g>
-  <text x="64.5" y="134.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >'-'</text>
-  <text x="20.5" y="151.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >pero.LineArrow</text>
-  <g id="tag_2371548806000" class="arrow">
+  <text x="64.5" y="133.0" font-family="Arial" font-size="14.0" fill="#000000" >&#x27;-&#x27;</text>
+  <text x="21.5" y="149.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.LineArrow</text>
+  <g id="tag_4670065464" class="arrow">
     <line x1="175.0" y1="30.0" x2="187.15537243668513" y2="98.93654271085457" stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" />
     <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" fill-rule="evenodd" d="
       M169.86969785011496 44.09538931178863
@@ -31,31 +31,31 @@
       L177.51355829138703 87.44587606406989
       Z" />
   </g>
-  <text x="185.0" y="134.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >'/'</text>
-  <text x="140.5" y="151.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >pero.RayArrow</text>
-  <g id="tag_2371548806056" class="arrow">
+  <text x="185.0" y="133.0" font-family="Arial" font-size="14.0" fill="#000000" >&#x27;/&#x27;</text>
+  <text x="142.5" y="149.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.RayArrow</text>
+  <g id="tag_4670065296" class="arrow">
     <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" fill-rule="evenodd" d="
       M272.4122951685637 51.31919426697324
       C279.967995540312 30.560078107429728 302.9216895734832 19.85659479681532 323.6808057330267 27.412295168563666
-      C344.4399218925702 34.96799554031201 355.14340520318467 57.9216895734832 347.5877048314363 78.68080573302672
+      C344.4399218925702 34.96799554031202 355.14340520318467 57.92168957348319 347.5877048314363 78.68080573302672
       C345.9918176187159 83.06546981397243 343.641064599559 87.13709347919809 340.6417777247591 90.71150438746156" />
     <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" fill-rule="evenodd" d="
-      M283.90296181534836 41.67738012167515
+      M283.90296181534836 41.67738012167514
       L272.4122951685637 51.31919426697324
       L269.8075725035597 36.54707797179012
       Z" />
     <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" fill-rule="evenodd" d="
-      M354.7371670365477 85.58120223757655
+      M354.7371670365477 85.58120223757653
       L340.6417777247591 90.71150438746157
       L343.24650038976307 75.93938809227845
       Z" />
   </g>
-  <text x="303.0" y="134.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >'c'</text>
-  <text x="262.5" y="151.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >pero.ArcArrow</text>
-  <g id="tag_2371560585872" class="arrow">
+  <text x="303.5" y="133.0" font-family="Arial" font-size="14.0" fill="#000000" >&#x27;c&#x27;</text>
+  <text x="264.5" y="149.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.ArcArrow</text>
+  <g id="tag_4670065464" class="arrow">
     <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" fill-rule="evenodd" d="
       M410.0 30.0
-      C436.29014626718185 21.55166753203094 464.4512474059889 36.015315371364366 472.899579873958 62.30546163854619
+      C436.29014626718185 21.55166753203094 464.4512474059889 36.01531537136436 472.899579873958 62.30546163854619
       C476.90362722149746 74.7655525294578 475.8626018679431 88.29888212566394 470.0 99.99999999999997" />
     <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" fill-rule="evenodd" d="
       M424.662056545383 33.166085573700116
@@ -68,9 +68,9 @@
       L469.11359466940195 85.02621338505563
       Z" />
   </g>
-  <text x="434.5" y="134.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >')'</text>
-  <text x="389.5" y="151.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >pero.BowArrow</text>
-  <g id="tag_2371560586152" class="arrow">
+  <text x="434.5" y="133.0" font-family="Arial" font-size="14.0" fill="#000000" >&#x27;)&#x27;</text>
+  <text x="391.5" y="149.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.BowArrow</text>
+  <g id="tag_4670065296" class="arrow">
     <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" fill-rule="evenodd" d="
       M545.0 30.0
       C587.5 47.5 552.5 82.5 595.0 100.0" />
@@ -85,9 +85,9 @@
       L580.1324556065599 101.98900068101742
       Z" />
   </g>
-  <text x="562.5" y="134.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >'~'</text>
-  <text x="514.0" y="151.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >pero.CurveArrow</text>
-  <g id="tag_2371560586320" class="arrow">
+  <text x="563.0" y="133.0" font-family="Arial" font-size="14.0" fill="#000000" >&#x27;~&#x27;</text>
+  <text x="516.0" y="149.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.CurveArrow</text>
+  <g id="tag_4670065464" class="arrow">
     <polyline points="70.0,200.0 100.0,200.0 100.0,270.0 130.0,270.0" stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" fill-rule="evenodd" />
     <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#b3b3ff" fill-rule="evenodd" d="
       M82.99038105676658 207.5
@@ -100,9 +100,9 @@
       L117.00961894323342 277.5
       Z" />
   </g>
-  <text x="93.0" y="304.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >'z'</text>
-  <text x="30.0" y="321.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >pero.ConnectorArrow</text>
-  <g id="tag_2371560586152" class="arrow">
+  <text x="93.5" y="303.0" font-family="Arial" font-size="14.0" fill="#000000" >&#x27;z&#x27;</text>
+  <text x="32.0" y="319.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.ConnectorArrow</text>
+  <g id="tag_4670065296" class="arrow">
     <path stroke="#0000ff" stroke-width="1.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" fill-rule="evenodd" d="
       M250.0 200.0
       C301.0 200.0 259.0 270.0 310.0 270.0" />
@@ -117,6 +117,6 @@
       L297.0096189432334 277.5
       Z" />
   </g>
-  <text x="273.0" y="304.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >'s'</text>
-  <text x="210.0" y="321.0" font-family="Arial" font-size="14.850000000000001" text-anchor="left" fill="#000000" >pero.ConnectorArrow</text>
+  <text x="273.5" y="303.0" font-family="Arial" font-size="14.0" fill="#000000" >&#x27;s&#x27;</text>
+  <text x="212.0" y="319.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.ConnectorArrow</text>
 </svg>

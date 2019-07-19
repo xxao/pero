@@ -9,7 +9,7 @@ img.fill_color = pero.colors.GhostWhite
 img.fill()
 
 label = pero.Text(
-    font_size = 12,
+    font_size = 14,
     font_family = pero.SANS,
     font_name = pero.UNDEF,
     text_base = pero.TOP,

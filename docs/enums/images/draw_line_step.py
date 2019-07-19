@@ -28,7 +28,7 @@ img.fill_color = pero.colors.GhostWhite
 img.fill()
 
 label = pero.Text(
-    font_size = 12,
+    font_size = 14,
     font_family = pero.SANS,
     font_name = pero.UNDEF,
     text_base = pero.TOP,
@@ -45,25 +45,25 @@ glyph = pero.Profile(
     marker_fill_color = pero.colors.Blue)
 
 glyph.draw(img, steps=pero.NONE, x=x_scale.scale(x_data), y=y_scale.scale(y_data), base=y_scale.scale(0))
-label.draw(img, x=x, y=y+50, text="pero.NONE")
+label.draw(img, x=x, y=y+60, text="pero.NONE")
 
 y += size + margin
 y_scale.out_range = (y+size-padding, y)
 
 glyph.draw(img, steps=pero.BEFORE, x=x_scale.scale(x_data), y=y_scale.scale(y_data), base=y_scale.scale(0))
-label.draw(img, x=x, y=y+50, text="pero.BEFORE")
+label.draw(img, x=x, y=y+60, text="pero.BEFORE")
 
 y += size + margin
 y_scale.out_range = (y+size-padding, y)
 
 glyph.draw(img, steps=pero.AFTER, x=x_scale.scale(x_data), y=y_scale.scale(y_data), base=y_scale.scale(0))
-label.draw(img, x=x, y=y+50, text="pero.AFTER")
+label.draw(img, x=x, y=y+60, text="pero.AFTER")
 
 y += size + margin
 y_scale.out_range = (y+size-padding, y)
 
 glyph.draw(img, steps=pero.MIDDLE, x=x_scale.scale(x_data), y=y_scale.scale(y_data), base=y_scale.scale(0))
-label.draw(img, x=x, y=y+50, text="pero.MIDDLE")
+label.draw(img, x=x, y=y+60, text="pero.MIDDLE")
 
 img.show()
 img.export('line_step.svg')

@@ -9,7 +9,7 @@ img.fill_color = pero.colors.GhostWhite
 img.fill()
 
 label = pero.Text(
-    font_size = 12,
+    font_size = 14,
     font_family = pero.SANS,
     font_name = pero.UNDEF,
     text_align = pero.CENTER,
@@ -44,7 +44,7 @@ for i, rotation in enumerate(rotations):
     text = "pero.%s" % rotations[rotation]
     label.draw(img, text=text, x=x, y=y+0.5*circle.size+50)
     
-    img.font_size = 10
+    img.font_size = 12
     for angle in range(0, 360, 45):
         text = "%d" % angle
         img.draw_text_polar(text, x, y, 0.55*circle.size, pero.rads(angle), rotation=rotation, position=pero.OUTSIDE)

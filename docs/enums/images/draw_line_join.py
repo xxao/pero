@@ -9,7 +9,7 @@ img.fill_color = pero.colors.GhostWhite
 img.fill()
 
 label = pero.Text(
-    font_size = 12,
+    font_size = 14,
     font_family = pero.SANS,
     font_name = pero.UNDEF,
     text_base = pero.TOP,
@@ -30,17 +30,17 @@ y = 100
 
 mat = pero.Matrix().translate(x, y)
 pather.draw(img, path=path.transformed(mat), line_join=pero.MITER)
-label.draw(img, x=x+40, y=y+15, text="pero.MITER")
+label.draw(img, x=x+40, y=y+20, text="pero.MITER")
 
 x += 150
 mat = pero.Matrix().translate(x, y)
 pather.draw(img, path=path.transformed(mat), line_join=pero.ROUND)
-label.draw(img, x=x+40, y=y+15, text="pero.ROUND")
+label.draw(img, x=x+40, y=y+20, text="pero.ROUND")
 
 x += 150
 mat = pero.Matrix().translate(x, y)
 pather.draw(img, path=path.transformed(mat), line_join=pero.BEVEL)
-label.draw(img, x=x+40, y=y+15, text="pero.BEVEL")
+label.draw(img, x=x+40, y=y+20, text="pero.BEVEL")
 
 img.show()
 img.export('line_join.svg')

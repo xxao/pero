@@ -4,53 +4,53 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="450">
   <rect x="0.0" y="0.0" width="600.0" height="450.0" stroke="#000000" stroke-width="0.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f8f8ff" />
   <circle cx="100.0" cy="100.0" r="50.0" stroke="#ff0000" stroke-width="2.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" />
-  <text x="58.5" y="206.0" font-family="Arial" font-size="16.200000000000003" text-anchor="left" fill="#000000" >pero.NONE</text>
-  <text x="155.0" y="105.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" >0</text>
-  <text x="138.89087296526012" y="151.89087296526012" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" >45</text>
-  <text x="92.0" y="168.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" >90</text>
-  <text x="37.109127034739885" y="151.89087296526012" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" >135</text>
-  <text x="20.999999999999993" y="105.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" >180</text>
-  <text x="37.10912703473987" y="58.109127034739885" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" >225</text>
-  <text x="87.99999999999999" y="41.99999999999999" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" >270</text>
-  <text x="138.89087296526012" y="58.10912703473987" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" >315</text>
+  <text x="63.5" y="205.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.NONE</text>
+  <text x="155.0" y="104.5" font-family="Arial" font-size="12.0" fill="#000000" >0</text>
+  <text x="138.89087296526012" y="149.89087296526012" font-family="Arial" font-size="12.0" fill="#000000" >45</text>
+  <text x="93.0" y="166.0" font-family="Arial" font-size="12.0" fill="#000000" >90</text>
+  <text x="40.109127034739885" y="149.89087296526012" font-family="Arial" font-size="12.0" fill="#000000" >135</text>
+  <text x="23.999999999999993" y="104.5" font-family="Arial" font-size="12.0" fill="#000000" >180</text>
+  <text x="40.10912703473987" y="59.109127034739885" font-family="Arial" font-size="12.0" fill="#000000" >225</text>
+  <text x="89.49999999999999" y="42.99999999999999" font-family="Arial" font-size="12.0" fill="#000000" >270</text>
+  <text x="138.89087296526012" y="59.10912703473987" font-family="Arial" font-size="12.0" fill="#000000" >315</text>
   <circle cx="300.0" cy="100.0" r="50.0" stroke="#ff0000" stroke-width="2.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" />
-  <text x="248.5" y="206.0" font-family="Arial" font-size="16.200000000000003" text-anchor="left" fill="#000000" >pero.FOLLOW</text>
-  <text x="355.0" y="105.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" >0</text>
-  <text x="338.89087296526014" y="143.89087296526012" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(45.0, 338.89087296526014, 138.89087296526012)">45</text>
-  <text x="300.0" y="160.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(90.0, 300.0, 155.0)">90</text>
-  <text x="237.1091270347399" y="143.89087296526012" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(-45.0, 261.1091270347399, 138.89087296526012)">135</text>
-  <text x="221.0" y="105.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" >180</text>
-  <text x="237.10912703473986" y="66.10912703473988" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(45.0, 261.10912703473986, 61.109127034739885)">225</text>
-  <text x="300.0" y="49.99999999999999" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(270.0, 300.0, 44.99999999999999)">270</text>
-  <text x="338.8908729652601" y="66.10912703473987" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(315.0, 338.8908729652601, 61.10912703473987)">315</text>
+  <text x="253.0" y="205.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.FOLLOW</text>
+  <text x="355.0" y="104.5" font-family="Arial" font-size="12.0" fill="#000000" >0</text>
+  <text x="338.89087296526014" y="143.39087296526012" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(45.0, 338.89087296526014, 138.89087296526012)">45</text>
+  <text x="300.0" y="159.5" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(90.0, 300.0, 155.0)">90</text>
+  <text x="240.1091270347399" y="143.39087296526012" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(-45.0, 261.1091270347399, 138.89087296526012)">135</text>
+  <text x="224.0" y="104.5" font-family="Arial" font-size="12.0" fill="#000000" >180</text>
+  <text x="240.10912703473986" y="65.60912703473988" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(45.0, 261.10912703473986, 61.109127034739885)">225</text>
+  <text x="300.0" y="49.49999999999999" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(270.0, 300.0, 44.99999999999999)">270</text>
+  <text x="338.8908729652601" y="65.60912703473987" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(315.0, 338.8908729652601, 61.10912703473987)">315</text>
   <circle cx="500.0" cy="100.0" r="50.0" stroke="#ff0000" stroke-width="2.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" />
-  <text x="443.5" y="206.0" font-family="Arial" font-size="16.200000000000003" text-anchor="left" fill="#000000" >pero.NATURAL</text>
-  <text x="551.0" y="97.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(90.0, 555.0, 100.0)">0</text>
-  <text x="530.8908729652601" y="151.89087296526012" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(-45.0, 538.8908729652601, 138.89087296526012)">45</text>
-  <text x="492.0" y="168.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" >90</text>
-  <text x="449.1091270347399" y="151.89087296526012" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(45.0, 461.1091270347399, 138.89087296526012)">135</text>
-  <text x="433.0" y="97.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(270.0, 445.0, 100.0)">180</text>
-  <text x="449.10912703473986" y="58.109127034739885" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(315.0, 461.10912703473986, 61.109127034739885)">225</text>
-  <text x="488.0" y="41.99999999999999" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(360.0, 500.0, 44.99999999999999)">270</text>
-  <text x="526.8908729652601" y="58.10912703473987" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(405.0, 538.8908729652601, 61.10912703473987)">315</text>
+  <text x="451.0" y="205.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.NATURAL</text>
+  <text x="551.5" y="98.0" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(90.0, 555.0, 100.0)">0</text>
+  <text x="531.8908729652601" y="149.89087296526012" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(-45.0, 538.8908729652601, 138.89087296526012)">45</text>
+  <text x="493.0" y="166.0" font-family="Arial" font-size="12.0" fill="#000000" >90</text>
+  <text x="450.6091270347399" y="149.89087296526012" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(45.0, 461.1091270347399, 138.89087296526012)">135</text>
+  <text x="434.5" y="98.0" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(270.0, 445.0, 100.0)">180</text>
+  <text x="450.60912703473986" y="59.109127034739885" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(315.0, 461.10912703473986, 61.109127034739885)">225</text>
+  <text x="489.5" y="42.99999999999999" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(360.0, 500.0, 44.99999999999999)">270</text>
+  <text x="528.3908729652601" y="59.10912703473987" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(405.0, 538.8908729652601, 61.10912703473987)">315</text>
   <circle cx="100.0" cy="320.0" r="50.0" stroke="#ff0000" stroke-width="2.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" />
-  <text x="43.0" y="426.0" font-family="Arial" font-size="16.200000000000003" text-anchor="left" fill="#000000" >pero.FACEOUT</text>
-  <text x="151.0" y="317.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(90.0, 155.0, 320.0)">0</text>
-  <text x="130.89087296526012" y="355.8908729652601" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(135.0, 138.89087296526012, 358.8908729652601)">45</text>
-  <text x="92.0" y="372.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(180.0, 100.0, 375.0)">90</text>
-  <text x="49.109127034739885" y="355.89087296526014" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(225.0, 61.109127034739885, 358.89087296526014)">135</text>
-  <text x="32.99999999999999" y="317.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(270.0, 44.99999999999999, 320.0)">180</text>
-  <text x="49.10912703473987" y="278.1091270347399" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(315.0, 61.10912703473987, 281.1091270347399)">225</text>
-  <text x="87.99999999999999" y="262.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(360.0, 99.99999999999999, 265.0)">270</text>
-  <text x="126.89087296526012" y="278.10912703473986" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(405.0, 138.89087296526012, 281.10912703473986)">315</text>
+  <text x="50.0" y="425.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.FACEOUT</text>
+  <text x="151.5" y="318.0" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(90.0, 155.0, 320.0)">0</text>
+  <text x="131.89087296526012" y="356.8908729652601" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(135.0, 138.89087296526012, 358.8908729652601)">45</text>
+  <text x="93.0" y="373.0" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(180.0, 100.0, 375.0)">90</text>
+  <text x="50.609127034739885" y="356.89087296526014" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(225.0, 61.109127034739885, 358.89087296526014)">135</text>
+  <text x="34.49999999999999" y="318.0" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(270.0, 44.99999999999999, 320.0)">180</text>
+  <text x="50.60912703473987" y="279.1091270347399" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(315.0, 61.10912703473987, 281.1091270347399)">225</text>
+  <text x="89.49999999999999" y="263.0" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(360.0, 99.99999999999999, 265.0)">270</text>
+  <text x="128.39087296526012" y="279.10912703473986" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(405.0, 138.89087296526012, 281.10912703473986)">315</text>
   <circle cx="300.0" cy="320.0" r="50.0" stroke="#ff0000" stroke-width="2.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#000000" fill-opacity="0.0" />
-  <text x="252.0" y="426.0" font-family="Arial" font-size="16.200000000000003" text-anchor="left" fill="#000000" >pero.FACEIN</text>
-  <text x="351.0" y="333.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(-90.0, 355.0, 320.0)">0</text>
-  <text x="330.89087296526014" y="371.8908729652601" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(-45.0, 338.89087296526014, 358.8908729652601)">45</text>
-  <text x="292.0" y="388.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" >90</text>
-  <text x="249.1091270347399" y="371.89087296526014" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(45.0, 261.1091270347399, 358.89087296526014)">135</text>
-  <text x="233.0" y="333.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(90.0, 245.0, 320.0)">180</text>
-  <text x="249.10912703473986" y="294.1091270347399" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(135.0, 261.10912703473986, 281.1091270347399)">225</text>
-  <text x="288.0" y="278.0" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(180.0, 300.0, 265.0)">270</text>
-  <text x="326.8908729652601" y="294.10912703473986" font-family="Arial" font-size="13.5" text-anchor="left" fill="#000000" transform="rotate(225.0, 338.8908729652601, 281.10912703473986)">315</text>
+  <text x="258.0" y="425.0" font-family="Arial" font-size="14.0" fill="#000000" >pero.FACEIN</text>
+  <text x="351.5" y="331.0" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(-90.0, 355.0, 320.0)">0</text>
+  <text x="331.89087296526014" y="369.8908729652601" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(-45.0, 338.89087296526014, 358.8908729652601)">45</text>
+  <text x="293.0" y="386.0" font-family="Arial" font-size="12.0" fill="#000000" >90</text>
+  <text x="250.6091270347399" y="369.89087296526014" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(45.0, 261.1091270347399, 358.89087296526014)">135</text>
+  <text x="234.5" y="331.0" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(90.0, 245.0, 320.0)">180</text>
+  <text x="250.60912703473986" y="292.1091270347399" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(135.0, 261.10912703473986, 281.1091270347399)">225</text>
+  <text x="289.5" y="276.0" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(180.0, 300.0, 265.0)">270</text>
+  <text x="328.3908729652601" y="292.10912703473986" font-family="Arial" font-size="12.0" fill="#000000" transform="rotate(225.0, 338.8908729652601, 281.10912703473986)">315</text>
 </svg>
