@@ -105,7 +105,34 @@ provided data source. This allows properties to be dynamic and provide specific 
 
 **Inheritance:** [EvtHandler](../events/readme.md#EvtHandler)
 
-Abstract base class for all property-having classes.
+This class provides an abstract base for all property-having classes.
+
+```python
+import pero
+
+# define set
+class MyPropertySet(pero.PropertySet):
+    
+    name = pero.StringProperty(pero.UNDEF)
+    x = pero.NumProperty(0)
+    y = pero.NumProperty(0)
+
+# instantiate with overrides
+my_set = MyPropertySet(name="Glyph")
+
+# set dynamic properties
+my_set.x = lambda d: d[0]
+my_set.y = lambda d: d[1]
+
+# get property
+name = my_set.name
+name = my_set.get_property('name')
+
+# get dynamic properties
+point = (10, 20)
+x = my_set.get_property('x', point)
+y = my_set.get_property('y', point)
+```
 
 #### Methods:
 
@@ -328,6 +355,20 @@ can also be changed for all the included property
 - **overrides:** *{str:any}*  
   Overwrites for default values of specific properties. Original names without the prefix must be used.
 
+
+```python
+import pero
+
+class MyPropertySet(pero.PropertySet):
+    
+    # this registers all properties of pero.LineProperties prefixed by 'horizontal_'
+    # e.g. horizontal_line_width = 2
+    horizontal_pen = pero.Include(pero.LineProperties, prefix="horizontal_", line_width=2)
+    
+    # this again registers all properties of pero.LineProperties now prefixed by 'vertical_'
+    # e.g. vertical_line_width = 2
+    vertical_pen = pero.Include(pero.LineProperties, prefix="vertical_", line_width=1)
+```
 
 ## Basic Properties
 

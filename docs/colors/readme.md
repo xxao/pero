@@ -25,6 +25,8 @@ or using hex code string. In addition, a unique name can be specified to registe
   If the name is provided, it is used to register the color in the *[pero.COLORS](#COLORS)* library.
 
 ```python
+import pero
+
 # by individual channels
 color = pero.Color(255, 165, 0, 255, name="Orange")
 color = pero.Color(255, 165, 0)
@@ -182,6 +184,8 @@ Represents a color palette defined by a series of colors.
   If the name is provided, it is used to register the palette in the *[pero.PALETTES](#PALETTES)* library.
 
 ```python
+import pero
+
 # by hex codes
 palette = pero.Palette(('#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#a6761d', '#666666'), name='Dark')
 
@@ -269,6 +273,8 @@ Represents a gradient color generator defined by series of colors and their posi
   If the name is provided, it is used to register the gradient in the *[pero.GRADIENTS](#GRADIENTS)* library.
 
 ```python
+import pero
+
 # by palette and range
 gradient = pero.Gradient(pero.Palette.Blues, stops=(0, 100), name='Blues')
 
