@@ -161,47 +161,47 @@ Used to define a way to align text labels around a circle according to their ang
 
 ### <a id="MARKER" href="#MARKER">#</a> pero.MARKER
 
-Used to specify a marker glyph type shortcut for pero.MarkerProperty.
+Used to specify a marker glyph type shortcut to create [pero.Marker](../drawing/marker.md#Marker).
 
 ![Markers](images/markers.svg)
 
-- Use the "*" character for pero.Asterisk marker.
-- Use the "o" character for pero.Circle marker.
-- Use the "x" character for pero.Cross marker.
-- Use the "+" character for pero.Plus marker.
-- Use the "t" character for pero.Triangle marker.
-- Use the "s" character for pero.Square marker.
-- Use the "d" character for pero.Diamond marker.
-- Use the "p" character for pero.Pentagon marker.
-- Use the "h" character for pero.Hexagon marker.
+- Use the "*" character for [pero.Asterisk](../drawing/marker.md#Asterisk) marker.
+- Use the "o" character for [pero.Circle](../drawing/marker.md#Circle) marker.
+- Use the "x" character for [pero.Cross](../drawing/marker.md#Cross) marker.
+- Use the "+" character for [pero.Plus](../drawing/marker.md#Plus) marker.
+- Use the "t" character for [pero.Triangle](../drawing/marker.md#Triangle) marker.
+- Use the "s" character for [pero.Square](../drawing/marker.md#Square) marker.
+- Use the "d" character for [pero.Diamond](../drawing/marker.md#Diamond) marker.
+- Use the "p" character for [pero.Pentagon](../drawing/marker.md#Pentagon) marker.
+- Use the "h" character for [pero.Hexagon](../drawing/marker.md#Hexagon) marker.
 
 
 ### <a id="ARROWS" href="#ARROWS">#</a> pero.ARROWS
 
-Used to specify an arrow type shortcut to create pero.Arrow.
+Used to specify an arrow glyph type shortcut to create [pero.Arrow](../drawing/arrow.md#Arrow).
 
 ![Arrows](images/arrows.svg)
 
-- Use the "c" character for pero.ArcArrow arrow.
-- Use the ")" character for pero.BowArrow arrow.
-- Use the "~" character for pero.CurveArrow arrow.
-- Use the "-" character for pero.LineArrow arrow.
-- Use the "/" character for pero.RayArrow arrow.
-- Use the "z" character for line pero.ConnectorArrow arrow.
-- Use the "s" character for curve pero.ConnectorArrow arrow.
+- Use the "c" character for [pero.ArcArrow](../drawing/arrow.md#ArcArrow) arrow.
+- Use the ")" character for [pero.BowArrow](../drawing/arrow.md#BowArrow) arrow.
+- Use the "~" character for [pero.CurveArrow](../drawing/arrow.md#CurveArrow) arrow.
+- Use the "-" character for [pero.LineArrow](../drawing/arrow.md#LineArrow) arrow.
+- Use the "/" character for [pero.RayArrow](../drawing/arrow.md#RayArrow) arrow.
+- Use the "z" character for line [pero.ConnectorArrow](../drawing/arrow.md#ConnectorArrow) arrow.
+- Use the "s" character for curve [pero.ConnectorArrow](../drawing/arrow.md#ConnectorArrow) arrow.
 
 
 ### <a id="HEADS" href="#HEADS">#</a> pero.HEADS
 
-Used to specify an arrow head type shortcut for pero.HeadProperty.
+Used to specify an arrow head type shortcut to create [pero.Head](../drawing/arrow.md#Head).
 
 ![Arrow Heads](images/heads.svg)
 
-- Use the "o" character for pero.CircleHead arrow head.
-- Use the "\|" character for pero.LineHead arrow head.
-- Use the "<\|" or "\|>" characters for pero.NormalHead arrow head.
-- Use the "<" or ">" characters for pero.OpenHead arrow head.
-- Use the "<<" or ">>" characters for pero.VeeHead arrow head.
+- Use the "o" character for [pero.CircleHead](../drawing/arrow.md#CircleHead) arrow head.
+- Use the "\|" character for [pero.LineHead](../drawing/arrow.md#LineHead) arrow head.
+- Use the "<\|" or "\|>" characters for [pero.NormalHead](../drawing/arrow.md#NormalHead) arrow head.
+- Use the "<" or ">" characters for [pero.OpenHead](../drawing/arrow.md#OpenHead) arrow head.
+- Use the "<<" or ">>" characters for [pero.VeeHead](../drawing/arrow.md#VeeHead) arrow head.
 
 
 ## Position Enums

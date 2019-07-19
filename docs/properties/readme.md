@@ -699,10 +699,10 @@ spaces in-between.
 **Inheritance:** [Property](#Property)
 
 Defines a marker property, which simplifies a marker definition by converting specific symbols into an instance of
-corresponding *[pero.Marker](../drawing/markers.md#Marker)* glyph. Available symbols are defined by the
+corresponding *[pero.Marker](../drawing/marker.md#Marker)* glyph. Available symbols are defined by the
 [pero.MARKER](../enums/readme.md#MARKER) enum.
 
-- **default:** *str* or *[pero.Marker](../drawing/markers.md#Marker)*   
+- **default:** *str* or *[pero.Marker](../drawing/marker.md#Marker)*   
   Default value used to initialize the property.
 
 - **dynamic:** *bool*  
@@ -718,10 +718,10 @@ corresponding *[pero.Marker](../drawing/markers.md#Marker)* glyph. Available sym
 **Inheritance:** [Property](#Property)
 
 Defines a head property, which simplifies a head definition by converting specific symbols into an instance of
-corresponding *[pero.Head](../drawing/arrows.md#Head)* glyph. Available symbols are defined by the
+corresponding *[pero.Head](../drawing/arrow.md#Head)* glyph. Available symbols are defined by the
 [pero.HEAD](../enums/readme.md#HEAD) enum.
 
-- **default:** *str* or *[pero.Head](../drawing/arrows.md#Head)*   
+- **default:** *str* or *[pero.Head](../drawing/arrow.md#Head)*   
   Default value used to initialize the property.
 
 - **dynamic:** *bool*  
