@@ -112,8 +112,8 @@ Abstract base class for all property-having classes.
 - **has_property(name)** -> *bool*  
   Returns True if specified property exists, False otherwise.
 
-    - **name:** *str*  
-    Name of the property to check.
+  -   **name:** *str*  
+      Name of the property to check.
 
 - **get_property(name, source=UNDEF, overrides=None, native=False)** -> *any*  
   Gets the value of specified property. If specified property is available within *overrides* the value in *overrides*
@@ -123,16 +123,16 @@ Abstract base class for all property-having classes.
     In some specific cases it might be useful to retrieve the callable function itself, i.e. without applying it onto
     given source. This can be achieved by setting the *native* argument to True.
 
-    - **name:** *str*  
+  -   **name:** *str*  
       Name of the property to check.
     
-    - **source:** *any*  
+  -   **source:** *any*  
       Data source to be used for retrieving the final value of callable property.
     
-    - **overrides:** *dict* or *None*  
+  -   **overrides:** *dict* or *None*  
       Highest priority properties to be used instead of current value.
     
-    - **native:** *bool*  
+  -   **native:** *bool*  
       If set to True callable properties are returned directly without calling them with the source as argument.
 
 - **get_child_overrides(child_name, overrides)** -> *{str:any}*  
@@ -141,160 +141,160 @@ Abstract base class for all property-having classes.
   property 'marker', its line properties can be specified directly as 'marker_line_color'. However, this mechanism
   assumes the child property to be also derived from pero.PropertySet and it must be initialized already.
 
-    - **child_name:** *str*  
+  -   **child_name:** *str*  
       Name of the property to check.
     
-    - **overrides:** *dict* or *None*  
+  -   **overrides:** *dict* or *None*  
       Overrides to extract the child from.
 
 - **set_property(name, value, raise_error=True)**  
     Sets given value for a property specified by given name.
     
-    In some cases it might be useful to initialize also some properties of a child property set directly along the current
-    one. Therefore, if the property name is not found within current property set its name is split by '_' and it tries to
-    search for a property matching the left side of the split. If such property is found in current property set, then the
-    right part of the split is used to set the child property. E.g. if current set has a property 'marker', its line
-    properties can be set directly as 'marker_line_color'. However, this mechanism assumes the child property to be also
-    derived from pero.PropertySet and it must be initialized already.
+    In some cases it might be useful to initialize also some properties of a child property set directly along the
+    current one. Therefore, if the property name is not found within current property set its name is split by '_' and
+    it tries to search for a property matching the left side of the split. If such property is found in current property
+    set, then the right part of the split is used to set the child property. E.g. if current set has a property
+    'marker', its line properties can be set directly as 'marker_line_color'. However, this mechanism assumes the child
+    property to be also derived from pero.PropertySet and it must be initialized already.
     
-    - **name:** *str*  
+  -   **name:** *str*  
       Name of the property to be set.
     
-    - **value:** *any*  
+  -   **value:** *any*  
       Property value to be set.
     
-    - **raise_error:** *bool*  
+  -   **raise_error:** *bool*  
       If set to True, an error is raised if unknown property is about to be set.
 
 - **set_properties(properties, raise_error=True)**  
     Sets multiple properties in a batch using name:value dictionary.
 
-    In some cases it might be useful to initialize also some properties of a child property set directly along the current
-    one. Therefore, if the property name is not found within current property set its name is split by '_' and it tries to
-    search for a property matching the left side of the split. If such property is found in current property set, then the
-    right part of the split is used to set the child property. E.g. if current set has a property 'marker', its line
-    properties can be set directly as 'marker_line_color'. However, this mechanism assumes the child property to be also
-    derived from pero.PropertySet and it must be initialized already.
+    In some cases it might be useful to initialize also some properties of a child property set directly along the
+    current one. Therefore, if the property name is not found within current property set its name is split by '_' and
+    it tries to search for a property matching the left side of the split. If such property is found in current property
+    set, then the right part of the split is used to set the child property. E.g. if current set has a property
+    'marker', its line properties can be set directly as 'marker_line_color'. However, this mechanism assumes the child
+    property to be also derived from pero.PropertySet and it must be initialized already.
     
-    - **properties:** *{str:any}*  
+  -   **properties:** *{str:any}*  
       Properties names and values to be set.
     
-    - **raise_error:** *bool*  
+  -   **raise_error:** *bool*  
       If set to True, an error is raised if unknown property is about to be set.
 
 - **set_properties_from(prop_set, src_prefix="", dst_prefix="", source=UNDEF, overrides=None, native=False)**  
     Sets values of all shared properties (i.e. having the same name) from given property set to current property set.
     
-    If any property is available within *overrides* the value in *overrides* is used instead of current one. If allowed and
-    the value is callable but still not of the requested type, given *source* is provided as argument for calling it and
-    returned value is finally used.
+    If any property is available within *overrides* the value in *overrides* is used instead of current one. If allowed
+    and the value is callable but still not of the requested type, given *source* is provided as argument for calling it
+    and returned value is finally used.
     
-    In some cases it might be useful to retrieve the callable function itself, without applying it onto given source. This
-    can be achieved by setting the *native* argument to True.
+    In some cases it might be useful to retrieve the callable function itself, without applying it onto given source.
+    This can be achieved by setting the *native* argument to True.
     
-    - **prop_set:** *[pero.PropertySet](readme.md#PropertySet)*  
+  -   **prop_set:** *[pero.PropertySet](#PropertySet)*  
       Property set from which to retrieve the properties.
     
-    - **src_prefix:** *str*  
+  -   **src_prefix:** *str*  
       Prefix used for shared properties in the source set. Shared properties without this prefix will be skipped.
     
-    - **dst_prefix:** *str*  
+  -   **dst_prefix:** *str*  
       Prefix used for shared properties in the destination set. Shared properties without this prefix will be skipped.
     
-    - **source:** *any*  
+  -   **source:** *any*  
       Data source to be used for retrieving the final value of callable properties.
     
-    - **overrides:** *dict* or *None*  
+  -   **overrides:** *dict* or *None*  
       Highest priority properties to be used instead of current values.
     
-    - **native:** *bool*  
+  -   **native:** *bool*  
       If set to True callable properties are returned directly without calling them with the source as argument.
 
 - **set_properties_to(prop_set, src_prefix="", dst_prefix="", source=UNDEF, overrides=None, native=False)**  
     Sets values of all shared properties (i.e. having the same name) from current property set to given property set.
 
-    If any property is available within *overrides* the value in *overrides* is used instead of current one. If allowed and
-    the value is callable but still not of the requested type, given *source* is provided as argument for calling it and
-    returned value is finally used.
+    If any property is available within *overrides* the value in *overrides* is used instead of current one. If allowed
+    and the value is callable but still not of the requested type, given *source* is provided as argument for calling it
+    and returned value is finally used.
     
-    In some cases it might be useful to retrieve the callable function itself, without applying it onto given source. This
-    can be achieved by setting the *native* argument to True.
+    In some cases it might be useful to retrieve the callable function itself, without applying it onto given source.
+    This can be achieved by setting the *native* argument to True.
     
-    - **prop_set:** *[pero.PropertySet](readme.md#PropertySet)*  
+  -   **prop_set:** *[pero.PropertySet](#PropertySet)*  
       Property set to which to the properties should be set.
     
-    - **src_prefix:** *str*  
+  -   **src_prefix:** *str*  
       Prefix used for shared properties in the source set. Shared properties without this prefix will be skipped.
     
-    - **dst_prefix:** *str*  
+  -   **dst_prefix:** *str*  
       Prefix used for shared properties in the destination set. Shared properties without this prefix will be skipped.
     
-    - **source:** *any*  
+  -   **source:** *any*  
       Data source to be used for retrieving the final value of callable properties.
     
-    - **overrides:** *dict* or *None*  
-      Highest priority properties to be used instead of current values.
+  -   **overrides:** *dict* or *None*  
+      Highest priority properties to be used instead of current values 
     
-    - **native:** *bool*  
+  -   **native:** *bool*  
       If set to True callable properties are returned directly without calling them with the source as argument.
 
 - **lock_property(name, lock=True, raise_error=True)**  
   Locks or unlocks specified property to disable or re-enable further changes. This is typically used for properties,
   which must be provided upon a class initialization and must stay intact after that.
     
-    - **name:** *str*  
+  -   **name:** *str*  
       Name of the property to be set.
     
-    - **lock:** *bool*  
-      Specifies whether the property should be locked (True) or unlocked (False).
+  -   **lock:** *bool*  
+      Specifies whether the property should be locked (True) or unlocked (False) 
     
-    - **raise_error:** *bool*  
+  -   **raise_error:** *bool*  
       If set to True, an error is raised if unknown property is about to be locked.
 
 - **hold_property(name, hold=True, raise_error=True)**  
   Holds or releases specified property, which means its current value stays unchanged if the new value to be set is
-  undefined (pero.UNDEF). This is used for several properties of the [pero.Canvas](../drawing/canvas.md) so that the
-  values are never set to undefined state.
+  undefined (pero.UNDEF). This is used for several properties of the [pero.Canvas](../drawing/canvas.md#Canvas) so that
+  the values are never set to undefined state.
     
-    - **name:** *str*  
+  -   **name:** *str*  
       Name of the property to be set.
     
-    - **lock:** *bool*  
+  -   **lock:** *bool*  
       Specifies whether the property should be locked (True) or unlocked (False).
     
-    - **raise_error:** *bool*  
+  -   **raise_error:** *bool*  
       If set to True, an error is raised if unknown property is about to be held.
 
 - **is_property_locked(name)** -> *bool*  
   Returns True if specified property is locked, False otherwise.
     
-    - **name:** *str*  
+  -   **name:** *str*  
       Name of the property to check.
 
 - **is_property_held(name)** -> *bool*  
   Returns True if specified property is held, False otherwise.
     
-    - **name:** *str*  
+  -   **name:** *str*  
       Name of the property to check.
 
 - **clone(name, source=UNDEF, overrides=None, native=False)** -> *any*  
   Creates a shallow copy of current instance. A new [pero.PropertySet](#PropertySet) is created with all the properties
   cloned, however, the actual values of the properties are just copied, not cloned.
     
-    If any property is available within *overrides* the value in *overrides* is used instead of current one. If allowed and
-    the value is callable but still not of the requested type, given 'source' is provided as argument for calling it and
-    returned value is finally used.
+    If any property is available within *overrides* the value in *overrides* is used instead of current one. If allowed
+    and the value is callable but still not of the requested type, given 'source' is provided as argument for calling it
+    and returned value is finally used.
     
-    In some cases it might be useful to retrieve the callable function itself, without applying it onto given source. This
-    can be achieved by setting the *native* argument to True.
+    In some cases it might be useful to retrieve the callable function itself, without applying it onto given source.
+    This can be achieved by setting the *native* argument to True 
     
-    - **source:** *any*  
+  -   **source:** *any*  
       Data source to be used for retrieving the final value of callable properties.
     
-    - **overrides:** *dict* or *None*  
+  -   **overrides:** *dict* or *None*  
       Highest priority properties to be used instead of current values.
     
-    - **native:** *bool*  
+  -   **native:** *bool*  
       If set to True callable properties are set directly without calling them with the source as argument.
   
 #### Class Methods:
@@ -308,7 +308,7 @@ Abstract base class for all property-having classes.
 This class is used as a tool to include all available [pero.Properties](#Property) of another
 [pero.PropertySet](#PropertySet). The properties can be included with optional *prefix*, which is added then to the name
 of each included property, and custom defaults provided as *overrides*. In addition the *dynamic* and *nullable* flags
-can also be changed for all the included property.
+can also be changed for all the included property 
 
 - **prop_set:** *[pero.PropertySet](#PropertySet)*  
   Property set class from which to include all the properties.
@@ -625,10 +625,10 @@ Defines a property allowing tuples only.
 
 **Inheritance:** [Property](#Property)
 
-Defines a property, which simplifies a color definition by automatically creating a [pero.Color](../color/color.md)
-instance from various input options or registered name. See [color definition](../color/color.md) for more info.
+Defines a property, which simplifies a color definition by automatically creating a [pero.Color](../colors/readme.md#Color)
+instance from various input options or registered name. See [color definition](../colors/readme.md#Color) for more info.
 
-- **default:** *[color definition](../color/color.md)*  
+- **default:** *[color definition](../colors/readme.md#Color)*  
   Default value used to initialize the property.
 
 - **dynamic:** *bool*  
@@ -644,10 +644,10 @@ instance from various input options or registered name. See [color definition](.
 **Inheritance:** [Property](#Property)
 
 Defines a property, which simplifies a color palette definition by automatically creating a
-[pero.Palette](../color/palette.md) instance from various input options or registered palette name. See
-[palette definition](../color/palette.md) for more info.
+[pero.Palette](../colors/readme.md#Palette) instance from various input options or registered palette name. See
+[palette definition](../colors/readme.md#Palette) for more info.
 
-- **default:** *[palette definition](../color/palette.md)*  
+- **default:** *[palette definition](../colors/readme.md#Palette)*  
   Default value used to initialize the property.
 
 - **dynamic:** *bool*  
@@ -663,10 +663,10 @@ Defines a property, which simplifies a color palette definition by automatically
 **Inheritance:** [Property](#Property)
 
 Defines a property, which simplifies a color gradient definition by automatically creating a
-[pero.Gradient](../color/gradient.md) instance from various input options or registered gradient name. See
-[gradient definition](../color/gradient.md) for more info.
+[pero.Gradient](../colors/readme.md#Gradient) instance from various input options or registered gradient name. See
+[gradient definition](../colors/readme.md#Gradient) for more info.
 
-- **default:** *[gradient definition](../color/gradient.md)*  
+- **default:** *[gradient definition](../colors/readme.md#Gradient)*  
   Default value used to initialize the property.
 
 - **dynamic:** *bool*  
@@ -699,10 +699,10 @@ spaces in-between.
 **Inheritance:** [Property](#Property)
 
 Defines a marker property, which simplifies a marker definition by converting specific symbols into an instance of
-corresponding *[pero.Marker](../drawing/markers.md)* glyph. Available symbols are defined by the
-[pero.MARKER](../enums/#MARKER) enum.
+corresponding *[pero.Marker](../drawing/markers.md#Marker)* glyph. Available symbols are defined by the
+[pero.MARKER](../enums/readme.md#MARKER) enum.
 
-- **default:** *str* or *[pero.Marker](../drawing/markers.md)*   
+- **default:** *str* or *[pero.Marker](../drawing/markers.md#Marker)*   
   Default value used to initialize the property.
 
 - **dynamic:** *bool*  
@@ -719,7 +719,7 @@ corresponding *[pero.Marker](../drawing/markers.md)* glyph. Available symbols ar
 
 Defines a head property, which simplifies a head definition by converting specific symbols into an instance of
 corresponding *[pero.Head](../drawing/arrows.md#Head)* glyph. Available symbols are defined by the
-[pero.HEAD](../enums/#HEAD) enum.
+[pero.HEAD](../enums/readme.md#HEAD) enum.
 
 - **default:** *str* or *[pero.Head](../drawing/arrows.md#Head)*   
   Default value used to initialize the property.
@@ -735,10 +735,10 @@ corresponding *[pero.Head](../drawing/arrows.md#Head)* glyph. Available symbols 
 
 **Inheritance:** [Property](#Property)
 
-Defines a frame property. The value must be provided as a [pero.Frame](../drawing/readme.md) or as a tuple or list of
-four numbers for left x, top y, width and height.
+Defines a frame property. The value must be provided as a [pero.Frame](../drawing/frame.md#Frame) or as a tuple or list
+of four numbers for left x, top y, width and height.
 
-- **default:** *(int, int, int, int)* or *[pero.Frame](../drawing/readme.md)*   
+- **default:** *(int, int, int, int)* or *[pero.Frame](../drawing/frame.md#Frame)*   
   Default value used to initialize the property.
 
 - **dynamic:** *bool*  
@@ -763,7 +763,7 @@ Collection of properties defining an angle value with its units.
   Specifies the angle value.
 
 - **angle_units:** *str*   
-  Specifies the angle units as any item from the [pero.ANGLE](../events/readme.md#ANGLE) enum.
+  Specifies the angle units as any item from the [pero.ANGLE](../enums/readme.md#ANGLE) enum.
 
 #### Static Methods
 
@@ -777,7 +777,7 @@ Collection of properties defining an angle value with its units.
       Prefix applied to all angle properties.
     
   -   **units:** *str*  
-      Requested units of the angle as any item from the [pero.ANGLE](../events/readme.md#ANGLE) enum.
+      Requested units of the angle as any item from the [pero.ANGLE](../enums/readme.md#ANGLE) enum.
     
   -   **source:** *any*  
       Data source to be used for retrieving the final value of callable properties.
@@ -793,9 +793,9 @@ Collection of properties defining a color.
 
 #### Properties
 
-- **color:** *[color definition](../color/color.md)**   
-  Specifies the color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/color.md). If the color is set
-  to *None*, transparent color is set instead.
+- **color:** *[color definition](../colors/readme.md#Color)**   
+  Specifies the color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/readme.md#Color). If the color
+  is set to *None*, transparent color is set instead.
 
 - **alpha:** *int*   
   Specifies the color alpha channel as a value between 0 and 255, where 0 means fully transparent and 255 fully opaque.
@@ -803,8 +803,8 @@ Collection of properties defining a color.
 
 #### Static Methods
 
-- **get_color(prop_set, prefix="", source=UNDEF, overrides=None)** -> *[pero.Color](../colors/color.md)*   
-  Retrieves current color value from given [pero.PropertySet](#PropertySet) with the alpha property automatically 
+- **get_color(prop_set, prefix="", source=UNDEF, overrides=None)** -> *[pero.Color](../colors/readme.md#Color)*   
+  Retrieves current color value from given [pero.PropertySet](#PropertySet) with the alpha property automatically
   applied.
         
   -   **prop_set:** *[pero.PropertySet](#PropertySet)*  
@@ -827,8 +827,8 @@ Collection of properties defining a line or pen style.
 
 #### Properties
 
-- **line_color:** *[color definition](../color/color.md)*  
-  Specifies the line color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/color.md).
+- **line_color:** *[color definition](../colors/readme.md#Color)*  
+  Specifies the line color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/readme.md#Color).
 
 - **line_alpha:** *int*  
   Specifies the line color alpha channel as a value between 0 and 255, where 0 is fully transparent and 255 fully
@@ -858,8 +858,8 @@ Collection of properties defining a fill or brush style.
 
 #### Properties
 
-- **fill_color:** *[color definition](../color/color.md)*  
-  Specifies the fill color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/color.md).
+- **fill_color:** *[color definition](../colors/readme.md#Color)*  
+  Specifies the fill color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/readme.md#Color).
 
 - **fill_alpha:** *int*  
   Specifies the fill color alpha channel as a value between 0 and 255, where 0 is fully transparent and 255 fully
@@ -902,15 +902,15 @@ Collection of properties defining a text style.
   Specifies the text baseline as any item from the [pero.TEXT_BASELINE](../enums/readme.md#TEXT_BASELINE) enum or None
   to reset to default baseline.
         
-- **text_color:** *[color definition](../color/color.md)*  
-  Specifies the text foreground color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/color.md).
+- **text_color:** *[color definition](../colors/readme.md#Color)*  
+  Specifies the text foreground color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/readme.md#Color).
         
 - **text_alpha:** *int*  
   Specifies the text foreground alpha channel as a value between 0 and 255, where 0 is fully transparent and 255 fully
   opaque. If this value is set, it will overwrite the alpha channel of the final text color.
         
-- **text_bgr_color:** *[color definition](../color/color.md)*  
-  Specifies the text background color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/color.md).
+- **text_bgr_color:** *[color definition](../colors/readme.md#Color)*  
+  Specifies the text background color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/readme.md#Color).
         
 - **text_bgr_alpha: *int*  
   Specifies the text background alpha channel as a value between 0 and 255, where 0 is fully transparent and 255 fully

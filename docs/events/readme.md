@@ -55,39 +55,39 @@ or until one of them cancels the event by calling the *cancel* method.
   the event is fired. These arguments will be used as defaults but they can be overridden by the same argument provided
   directly to the *fire* method.
 
-    - **evt_type:** *str* or *[pero.Event](#Event)*  
-    Specific event type to which the callback should be attached.
+  -   **evt_type:** *str* or *[pero.Event](#Event)*  
+      Specific event type to which the callback should be attached.
 
-    - **callback:** *callable*  
-    Callback to be called when event is fired.
+  -   **callback:** *callable*  
+      Callback to be called when event is fired.
 
-    - **kwargs:** *{str: any}*  
-    Specific keyword arguments.
+  -   **kwargs:** *{str: any}*  
+      Specific keyword arguments.
 
 - **unbind(evt_type, callback, \*\*kwargs)**  
   Removes given callback if registered for specified event. If additional keyword arguments are provided, they must
   match exactly all the arguments provided when the callback was attached. If not provided, just the callback must
   match.
 
-    - **evt_type:** *str* or *[pero.Event](#Event)*  
-    Specific event type to which the callback was attached.
+  -   **evt_type:** *str* or *[pero.Event](#Event)*  
+      Specific event type to which the callback was attached.
 
-    - **callback:** *callable*  
-    Callback to be removed.
+  -   **callback:** *callable*  
+      Callback to be removed.
 
-    - **kwargs:** *{str: any}*  
-    Specific keyword arguments.
+  -   **kwargs:** *{str: any}*  
+      Specific keyword arguments.
 
 - **fire(evt, callback, \*\*kwargs)**  
   Fires given event by calling all registered callbacks with given params. When a specific event is fired, bound
   callbacks are called in reversed order, so the last added callback will be called first. Calling of registered
   callbacks continues until all are called or until one of them cancels the event by calling *cancel* method.
 
-    - **evt:** *[pero.Event](#Event)*  
-    Event instance which should be processed.
+  -   **evt:** *[pero.Event](#Event)*  
+      Event instance which should be processed.
 
-    - **kwargs:** *{str: any}*  
-    Specific keyword arguments.
+  -   **kwargs:** *{str: any}*  
+      Specific keyword arguments.
 
 
 ### <a id="Event" href="#Event">#</a> pero.Event(**kwargs)
@@ -98,18 +98,18 @@ must define its unique *TYPE* property, which can be used to bind specific event
 #### Class Properties:
 
 - **TYPE -> str**  
-Specifies the event type.
+  Specifies the event type.
 
 #### Methods:
 
 - **cancel()**  
-Sets current event as canceled to prevent following subscribers to be called.
+  Sets current event as canceled to prevent following subscribers to be called.
 
 - **resume()**  
-Sets current event as not canceled to allow following subscribers to be called.
+  Sets current event as not canceled to allow following subscribers to be called.
 
 - **is_canceled() -> *bool***  
-Returns True if the event has been canceled, False otherwise.
+  Returns True if the event has been canceled, False otherwise.
 
 
 ## Property Events
@@ -127,13 +127,13 @@ Defines an event which is fired if any property of a *[pero.PropertySet](../prop
 #### Attributes:
 
 - **name** -> *str*  
-Gets the name of the changed property.
+  Gets the name of the changed property.
 
 - **old_value** -> *any*  
-Gets the original value of the changed property.
+  Gets the original value of the changed property.
 
 - **new_value** -> *any*  
-Gets the new value of the changed property.
+  Gets the new value of the changed property.
 
 
 ### <a id="PenChangedEvt" href="#PenChangedEvt">#</a> pero.PenChangedEvt(**kwargs)
@@ -185,13 +185,13 @@ Abstract base class for various types of *[pero.View](../backends/view.md)* even
 #### Attributes:
 
 - **native** -> *any*  
-Native event fired by the view.
+  Native event fired by the view.
 
 - **view** -> *[pero.View](../backends/view.md)*  
-The view, which fires the event.
+  The view, which fires the event.
 
 - **graphics** -> *[pero.Graphics](../drawing/graphics.md)*  
-The view main graphics object.
+  The view main graphics object.
 
 
 ### <a id="SizeEvt" href="#SizeEvt">#</a> pero.SizeEvt(**kwargs)
@@ -206,7 +206,7 @@ Defines an event which is fired if *[pero.View](../backends/view.md)* size was c
 #### Attributes:
 
 - **width** -> *int*  
-New width of the view.
+  New width of the view.
 
 - **height** -> *int*  
   New height of the view.
@@ -225,32 +225,32 @@ Defines a generic event which is fired on any key-related event of *[pero.View](
 #### Attributes:
 
 - **key** -> *int*  
-Key code.
+  Key code.
 
 - **char** -> *str*  
-Character string or None if not character.
+  Character string or None if not character.
 
 - **pressed** -> *bool*  
-Indicates the key pressed state.
+  Indicates the key pressed state.
 
 - **alt_down** -> *bool*  
-Indicates Alt key state.
+  Indicates Alt key state.
 
 - **cmd_down** -> *bool*  
-Indicates Command key state.
+  Indicates Command key state.
 
 - **ctrl_down** -> *bool*  
-Indicates Control key state.
+  Indicates Control key state.
 
 - **shift_down** -> *bool*  
-Indicates Shift key state.
+  Indicates Shift key state.
 
 
 ### <a id="KeyDownEvt" href="#KeyDownEvt">#</a> pero.KeyDownEvt(**kwargs)
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [KeyEvt](#KeyEvt)
 
-Defines an event which is fired if a key is pressed inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if a key is pressed inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -261,7 +261,7 @@ Defines an event which is fired if a key is pressed inside *[pero.View](../backe
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [KeyEvt](#KeyEvt)
 
-Defines an event which is fired if a key is released inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if a key is released inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -272,7 +272,7 @@ Defines an event which is fired if a key is released inside *[pero.View](../back
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt)
 
-Defines a generic event which is fired on any mouse-related event of *[pero.View](../backends/view.md)*.
+Defines a generic event which is fired on any mouse-related event of *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -281,43 +281,43 @@ Defines a generic event which is fired on any mouse-related event of *[pero.View
 #### Attributes:
 
 - **x_pos** -> *float*  
-Cursor x-coordinate in device units.
+  Cursor x-coordinate in device units.
 
 - **y_pos** -> *float*  
-Cursor y-coordinate in device units.
+  Cursor y-coordinate in device units.
 
 - **x_rot** -> *float*  
-Mouse wheel rotation in x-direction.
+  Mouse wheel rotation in x-direction.
 
 - **y_rot** -> *float*  
-Mouse wheel rotation in y-direction.
+  Mouse wheel rotation in y-direction.
 
 - **left_down** -> *bool*  
-Indicates left mouse button key state.
+  Indicates left mouse button key state.
 
 - **middle_down** -> *bool*  
-Indicates middle mouse button key state.
+  Indicates middle mouse button key state.
 
 - **right_down** -> *bool*  
-Indicates right mouse button key state.
+  Indicates right mouse button key state.
 
 - **alt_down** -> *bool*  
-Indicates Alt key state.
+  Indicates Alt key state.
 
 - **cmd_down** -> *bool*  
-Indicates Command key state.
+  Indicates Command key state.
 
 - **ctrl_down** -> *bool*  
-Indicates Control key state.
+  Indicates Control key state.
 
 - **shift_down** -> *bool*  
-Indicates Shift key state.
+  Indicates Shift key state.
 
 ### <a id="MouseEnterEvt" href="#MouseEnterEvt">#</a> MouseEnterEvt(**kwargs)
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if mouse enters the *[pero.View](../backends/view.md)*.
+Defines an event which is fired if mouse enters the *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -327,7 +327,7 @@ Defines an event which is fired if mouse enters the *[pero.View](../backends/vie
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if mouse left the *[pero.View](../backends/view.md)*.
+Defines an event which is fired if mouse left the *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -338,7 +338,7 @@ Defines an event which is fired if mouse left the *[pero.View](../backends/view.
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if mouse moves inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if mouse moves inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -349,7 +349,7 @@ Defines an event which is fired if mouse moves inside *[pero.View](../backends/v
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if mouse wheel rotates inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if mouse wheel rotates inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -360,7 +360,7 @@ Defines an event which is fired if mouse wheel rotates inside *[pero.View](../ba
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if left-mouse button is pressed inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if left-mouse button is pressed inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -370,7 +370,7 @@ Defines an event which is fired if left-mouse button is pressed inside *[pero.Vi
 ### <a id="LeftUpEvt" href="#LeftUpEvt">#</a> pero.LeftUpEvt(**kwargs)
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if left-mouse button is released inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if left-mouse button is released inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -381,7 +381,7 @@ Defines an event which is fired if left-mouse button is released inside *[pero.V
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if left-mouse button is double-clicked inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if left-mouse button is double-clicked inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -392,7 +392,7 @@ Defines an event which is fired if left-mouse button is double-clicked inside *[
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if middle-mouse button is pressed inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if middle-mouse button is pressed inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -403,7 +403,7 @@ Defines an event which is fired if middle-mouse button is pressed inside *[pero.
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if middle-mouse button is released inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if middle-mouse button is released inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -413,7 +413,7 @@ Defines an event which is fired if middle-mouse button is released inside *[pero
 ### <a id="MiddleDClickEvt" href="#MiddleDClickEvt">#</a> pero.MiddleDClickEvt(**kwargs)
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if middle-mouse button is double-clicked inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if middle-mouse button is double-clicked inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -424,7 +424,7 @@ Defines an event which is fired if middle-mouse button is double-clicked inside 
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if right-mouse button is pressed inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if right-mouse button is pressed inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -435,7 +435,7 @@ Defines an event which is fired if right-mouse button is pressed inside *[pero.V
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if right-mouse button is released inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if right-mouse button is released inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 
@@ -446,7 +446,7 @@ Defines an event which is fired if right-mouse button is released inside *[pero.
 
 **Inheritance:** [Event](#Event) <- [ViewEvt](#ViewEvt) <- [MouseEvt](#MouseEvt)
 
-Defines an event which is fired if right-mouse button is double-clicked inside *[pero.View](../backends/view.md)*.
+Defines an event which is fired if right-mouse button is double-clicked inside *[pero.View](../backends/view.md#View)*.
 
 #### Class Properties:
 

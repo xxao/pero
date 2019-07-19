@@ -1,14 +1,14 @@
-# pero.enums
+# Enums
 
 There are several constants used throughout the *pero* library to define
 angle units, various text properties, line and fill properties,
 shortcuts to create predefined glyphs or to position objects relative to
-each other. These constants are all defined in the *pero.enums* module.
+each other.
 
 
 ## Drawing Enums
 
-### pero.ANGLE
+### <a id="ANGLE" href="#ANGLE">#</a> pero.ANGLE
 
 Used to specify angle units.
 
@@ -16,7 +16,7 @@ Used to specify angle units.
 - **pero.RAD**: Angle defined in radians.
 
 
-### pero.LINE_CAP
+### <a id="LINE_CAP" href="#LINE_CAP">#</a> pero.LINE_CAP
 
 Used to specify a shape to be used at line ends.
 
@@ -28,7 +28,7 @@ Used to specify a shape to be used at line ends.
   form round endpoints.
 
 
-### pero.LINE_JOIN
+### <a id="LINE_JOIN" href="#LINE_JOIN">#</a> pero.LINE_JOIN
 
 Used to specify a line join style.
 
@@ -39,7 +39,7 @@ Used to specify a line join style.
 - **pero.ROUND**: A line join is filled by circle to form round join.
 
 
-### pero.LINE_STYLE
+### <a id="LINE_STYLE" href="#LINE_STYLE">#</a> pero.LINE_STYLE
 
 Used to specify a line style.
 
@@ -52,7 +52,7 @@ Used to specify a line style.
 - **pero.CUSTOM**: A line is drawn according to definition given by 'line_dash'.
 
 
-### pero.FILL_STYLE
+### <a id="FILL_STYLE" href="#FILL_STYLE">#</a> pero.FILL_STYLE
 
 Used to specify a filling style.
 
@@ -60,7 +60,7 @@ Used to specify a filling style.
 - **pero.TRANS**: Uses transparent color to draw fills.
 
 
-### pero.FILL_RULE
+### <a id="FILL_RULE" href="#FILL_RULE">#</a> pero.FILL_RULE
 Used to specify a path filling rule.
 
 ![Fill Rule](images/fill_rule.svg)
@@ -69,7 +69,7 @@ Used to specify a path filling rule.
 - **pero.WINDING**: Fills a whole enclosed area.
 
 
-### pero.LINE_STEP
+### <a id="LINE_STEP" href="#LINE_STEP">#</a> pero.LINE_STEP
 
 Used to specify a profile line steps style.
 
@@ -83,7 +83,7 @@ Used to specify a profile line steps style.
 
 ## Text Enums
 
-### pero.FONT_FAMILY
+### <a id="FONT_FAMILY" href="#FONT_FAMILY">#</a> pero.FONT_FAMILY
 
 Used to specify a font family, rather then exact font to use.
 
@@ -94,7 +94,7 @@ Used to specify a font family, rather then exact font to use.
 - **pero.MONO**: Default monospaced font will be used (e.g. Courier).
 
 
-### pero.FONT_STYLE
+### <a id="FONT_STYLE" href="#FONT_STYLE">#</a> pero.FONT_STYLE
 
 Used to specify a font style to use.
 
@@ -104,7 +104,7 @@ Used to specify a font style to use.
 - **pero.ITALIC**: Italic font style variant will be used.
 
 
-### pero.FONT_WEIGHT
+### <a id="FONT_WEIGHT" href="#FONT_WEIGHT">#</a> pero.FONT_WEIGHT
 
 Used to specify a font weight to use. Note that not all values are supported by all backends and the closest value might
 be used instead (e.g. pero.HEAVY falls to pero.BOLD).
@@ -122,7 +122,7 @@ be used instead (e.g. pero.HEAVY falls to pero.BOLD).
 - **pero.THIN**: Thin font weight variant will be used.
 
 
-### pero.TEXT_ALIGN
+### <a id="TEXT_ALIGN" href="#TEXT_ALIGN">#</a> pero.TEXT_ALIGN
 
 Used to specify a text horizontal alignment.
 
@@ -133,7 +133,7 @@ Used to specify a text horizontal alignment.
 - **pero.RIGHT**: Uses the text right side as anchor.
 
 
-### pero.TEXT_BASELINE
+### <a id="TEXT_BASELINE" href="#TEXT_BASELINE">#</a> pero.TEXT_BASELINE
 
 Used to specify a text vertical alignment.
 
@@ -144,7 +144,7 @@ Used to specify a text vertical alignment.
 - **pero.BOTTOM**: Uses the text bottom side as anchor.
 
 
-### pero.TEXT_ROTATION
+### <a id="TEXT_ROTATION" href="#TEXT_ROTATION">#</a> pero.TEXT_ROTATION
 
 Used to define a way to align text labels around a circle according to their angle.
 
@@ -159,7 +159,7 @@ Used to define a way to align text labels around a circle according to their ang
 
 ## Glyphs Enums
 
-### pero.MARKER
+### <a id="MARKER" href="#MARKER">#</a> pero.MARKER
 
 Used to specify a marker glyph type shortcut for pero.MarkerProperty.
 
@@ -176,7 +176,7 @@ Used to specify a marker glyph type shortcut for pero.MarkerProperty.
 - Use the "h" character for pero.Hexagon marker.
 
 
-### pero.ARROWS
+### <a id="ARROWS" href="#ARROWS">#</a> pero.ARROWS
 
 Used to specify an arrow type shortcut to create pero.Arrow.
 
@@ -191,7 +191,7 @@ Used to specify an arrow type shortcut to create pero.Arrow.
 - Use the "s" character for curve pero.ConnectorArrow arrow.
 
 
-### pero.HEADS
+### <a id="HEADS" href="#HEADS">#</a> pero.HEADS
 
 Used to specify an arrow head type shortcut for pero.HeadProperty.
 
@@ -206,7 +206,7 @@ Used to specify an arrow head type shortcut for pero.HeadProperty.
 
 ## Position Enums
 
-### pero.ORIENTATION
+### <a id="ORIENTATION" href="#ORIENTATION">#</a> pero.ORIENTATION
 
 Used to specify an object orientation.
 
@@ -214,7 +214,7 @@ Used to specify an object orientation.
 - **pero.VERTICAL**
 
 
-### pero.POSITION_LR
+### <a id="POSITION_LR" href="#POSITION_LR">#</a> pero.POSITION_LR
 
 Used to specify an object horizontal position.
 
@@ -222,7 +222,7 @@ Used to specify an object horizontal position.
 - **pero.RIGHT**
 
 
-### pero.POSITION_LRC
+### <a id="POSITION_LRC" href="#POSITION_LRC">#</a> pero.POSITION_LRC
 
 Used to specify an object horizontal position.
 
@@ -231,7 +231,7 @@ Used to specify an object horizontal position.
 - **pero.CENTER**
 
 
-### pero.POSITION_TB
+### <a id="POSITION_TB" href="#POSITION_TB">#</a> pero.POSITION_TB
 
 Used to specify an object vertical position.
 
@@ -239,7 +239,7 @@ Used to specify an object vertical position.
 - **pero.BOTTOM**
 
 
-### pero.POSITION_TBC
+### <a id="POSITION_TBC" href="#POSITION_TBC">#</a> pero.POSITION_TBC
 
 Used to specify an object vertical position.
 
@@ -248,7 +248,7 @@ Used to specify an object vertical position.
 - **pero.CENTER**
 
 
-### pero.POSITION_LRTB
+### <a id="POSITION_LRTB" href="#POSITION_LRTB">#</a> pero.POSITION_LRTB
 
 Used to specify an object cross position.
 
@@ -258,7 +258,7 @@ Used to specify an object cross position.
 - **pero.BOTTOM**
 
 
-### pero.POSITION_LRTBC
+### <a id="POSITION_LRTBC" href="#POSITION_LRTBC">#</a> pero.POSITION_LRTBC
 
 Used to specify an object cross position.
 
@@ -269,7 +269,7 @@ Used to specify an object cross position.
 - **pero.CENTER**
 
 
-### pero.POSITION_IOC
+### <a id="POSITION_IOC" href="#POSITION_IOC">#</a> pero.POSITION_IOC
 
 Used to specify an object relative position.
 
@@ -278,7 +278,7 @@ Used to specify an object relative position.
 - **pero.CENTER**
 
 
-### pero.POSITION_SEM
+### <a id="POSITION_SEM" href="#POSITION_SEM">#</a> pero.POSITION_SEM
 
 Used to specify an object relative position.
 
@@ -287,7 +287,7 @@ Used to specify an object relative position.
 - **pero.MIDDLE**
 
 
-### pero.POSITION_TL
+### <a id="POSITION_TL" href="#POSITION_TL">#</a> pero.POSITION_TL
 
 Used to specify an object corner position.
 
@@ -295,7 +295,7 @@ Used to specify an object corner position.
 - **pero.LEFT**
 
 
-### pero.POSITION_TR
+### <a id="POSITION_TR" href="#POSITION_TR">#</a> pero.POSITION_TR
 
 Used to specify an object corner position.
 
@@ -303,7 +303,7 @@ Used to specify an object corner position.
 - **pero.RIGHT**
 
 
-### pero.POSITION_BL
+### <a id="POSITION_BL" href="#POSITION_BL">#</a> pero.POSITION_BL
 
 Used to specify an object corner position.
 
@@ -311,7 +311,7 @@ Used to specify an object corner position.
 - **pero.LEFT**
 
 
-### pero.POSITION_BR
+### <a id="POSITION_BR" href="#POSITION_BR">#</a> pero.POSITION_BR
 
 Used to specify an object corner position.
 
@@ -319,7 +319,7 @@ Used to specify an object corner position.
 - **pero.RIGHT**
 
 
-### pero.POSITION_COMPASS
+### <a id="POSITION_COMPASS" href="#POSITION_COMPASS">#</a> pero.POSITION_COMPASS
 
 Used to specify an object compass-like position.
 
