@@ -770,7 +770,7 @@ Collection of properties defining an angle value with its units.
 - **get_angle(prop_set, prefix="", units=ANGLE.RAD, source=UNDEF, overrides=None)** -> *float*   
   Retrieves current angle value from given [pero.PropertySet](#PropertySet) directly converted to requested units.
         
-  -   **prop_set:** *[pero.PropertySet](#PropertySet)t*  
+  -   **prop_set:** *[pero.PropertySet](#PropertySet)*  
       Property set from which to retrieve the angle.
     
   -   **prefix:** *str*  
@@ -784,3 +784,144 @@ Collection of properties defining an angle value with its units.
     
   -   **overrides:** *{str:any}* or *None*  
       Highest priority properties to be used instead of current values.
+
+### <a id="ColorProperties" href="#ColorProperties">#</a> pero.ColorProperties(**kwargs)
+
+**Inheritance:** [EvtHandler](../events/readme.md#EvtHandler) <- [PropertySet](#PropertySet)
+
+Collection of properties defining a color.
+
+#### Properties
+
+- **color:** *[color definition](../color/color.md)**   
+  Specifies the color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/color.md). If the color is set
+  to *None*, transparent color is set instead.
+
+- **alpha:** *int*   
+  Specifies the color alpha channel as a value between 0 and 255, where 0 means fully transparent and 255 fully opaque.
+  If this value is set, it will overwrite the alpha channel in the final color.
+
+#### Static Methods
+
+- **get_color(prop_set, prefix="", source=UNDEF, overrides=None)** -> *[pero.Color](../colors/color.md)*   
+  Retrieves current color value from given [pero.PropertySet](#PropertySet) with the alpha property automatically 
+  applied.
+        
+  -   **prop_set:** *[pero.PropertySet](#PropertySet)*  
+      Property set from which to retrieve the color.
+    
+  -   **prefix:** *str*  
+      Prefix applied to all color properties.
+    
+  -   **source:** *any*  
+      Data source to be used for retrieving the final value of callable properties.
+    
+  -   **overrides:** *{str:any}* or *None*  
+      Highest priority properties to be used instead of current values.
+
+### <a id="LineProperties" href="#LineProperties">#</a> pero.LineProperties(**kwargs)
+
+**Inheritance:** [EvtHandler](../events/readme.md#EvtHandler) <- [PropertySet](#PropertySet)
+
+Collection of properties defining a line or pen style.
+
+#### Properties
+
+- **line_color:** *[color definition](../color/color.md)*  
+  Specifies the line color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/color.md).
+
+- **line_alpha:** *int*  
+  Specifies the line color alpha channel as a value between 0 and 255, where 0 is fully transparent and 255 fully
+  opaque. If this value is set, it will overwrite the alpha channel in the final line color.
+        
+- **line_width:** *int* or *float*  
+  Specifies the line width.
+        
+- **line_style:** *str*  
+  Specifies the line drawing style as any item from the [pero.LINE_STYLE](../enums/readme.md#LINE_STYLE) enum.
+        
+- **line_dash:** *(float,)*  
+  Specifies the line dash style as a collection of numbers defining the lengths of lines and spaces in-between.
+  Specified value is used if the 'line_style' property is set to *pero.LINE_STYLE.CUSTOM*.
+        
+- **line_cap:** *str*  
+  Specifies the line ends shape as any item from the [pero.LINE_CAP](../enums/readme.md#LINE_CAP) enum.
+        
+- **line_join:** *str*  
+  Specifies the line corners shape as any item from the [pero.LINE_JOIN](../enums/readme.md#LINE_JOIN) enum.
+
+### <a id="FillProperties" href="#FillProperties">#</a> pero.FillProperties(**kwargs)
+
+**Inheritance:** [EvtHandler](../events/readme.md#EvtHandler) <- [PropertySet](#PropertySet)
+
+Collection of properties defining a fill or brush style.
+
+#### Properties
+
+- **fill_color:** *[color definition](../color/color.md)*  
+  Specifies the fill color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/color.md).
+
+- **fill_alpha:** *int*  
+  Specifies the fill color alpha channel as a value between 0 and 255, where 0 is fully transparent and 255 fully
+  opaque. If this value is set, it will overwrite the alpha channel in the final fill color.
+        
+- **fill_style:** *str*  
+  Specifies the fill style as any item from the [pero.FILL_STYLE](../enums/readme.md#FILL_STYLE) enum.
+
+### <a id="TextProperties" href="#TextProperties">#</a> pero.TextProperties(**kwargs)
+
+**Inheritance:** [EvtHandler](../events/readme.md#EvtHandler) <- [PropertySet](#PropertySet)
+
+Collection of properties defining a text style.
+
+#### Properties
+
+- **font_size:** *int*  
+  Specifies the font size or None to reset to default size.
+        
+- **font_name:** *str*  
+  Specifies an existing font name or None to reset to default family.
+        
+- **font_family:** *str*  
+  Specifies the font family as any item from the [pero.FONT_FAMILY](../enums/readme.md#FONT_FAMILY) enum or None to
+  reset to default family.
+
+- **font_style:** *str*  
+  Specifies the font style as any item from the [pero.FONT_STYLE](../enums/readme.md#FONT_STYLE) enum or None to reset
+  to default style.
+
+- **font_weight:** *str*  
+  Specifies the font weight as any item from the [pero.FONT_WEIGHT](../enums/readme.md#FONT_WEIGHT) enum or None to
+  reset to default weight.
+        
+- **text_align:** *str*  
+  Specifies the text alignment as any item from the [pero.TEXT_ALIGN](../enums/readme.md#TEXT_ALIGN) enum or None to
+  reset to default alignment.
+        
+- **text_base:** *str*  
+  Specifies the text baseline as any item from the [pero.TEXT_BASELINE](../enums/readme.md#TEXT_BASELINE) enum or None
+  to reset to default baseline.
+        
+- **text_color:** *[color definition](../color/color.md)*  
+  Specifies the text foreground color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/color.md).
+        
+- **text_alpha:** *int*  
+  Specifies the text foreground alpha channel as a value between 0 and 255, where 0 is fully transparent and 255 fully
+  opaque. If this value is set, it will overwrite the alpha channel of the final text color.
+        
+- **text_bgr_color:** *[color definition](../color/color.md)*  
+  Specifies the text background color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/color.md).
+        
+- **text_bgr_alpha: *int*  
+  Specifies the text background alpha channel as a value between 0 and 255, where 0 is fully transparent and 255 fully
+  opaque. If this value is set, it will overwrite the alpha channel of the final text background color.
+        
+- **text_split:** *bool*  
+  Specifies whether the text should be first split into individual lines. This requires corresponding 'text_splitter'
+  property to be set.
+        
+- **text_splitter:** *str*  
+  Specifies the character(s) to be used for splitting a text into individual lines.
+        
+- **text_spacing:** *float*  
+  Specifies additional space to be inserted between text lines as multiplier of line height.
