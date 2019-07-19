@@ -3,6 +3,7 @@
 
 # load modules
 from .enum import Enum
+from .values import *
 
 # define keys
 KEY = Enum(
@@ -49,40 +50,30 @@ MODIFIER_KEYS = {
 
 # define events
 EVENT = Enum(
-    
-    PROPERTY_CHANGED = 'evt_prop',
-    
-    PEN_CHANGED = 'evt_pen',
-    BRUSH_CHANGED = 'evt_brush',
-    TEXT_CHANGED = 'evt_text',
-    
-    VIEW = 'evt_view',
-    
-    SIZE = 'evt_size',
-    ZOOM = 'evt_zoom',
-    
-    KEY = 'evt_key',
-    KEY_DOWN = 'evt_key_down',
-    KEY_UP = 'evt_key_up',
-    
-    MOUSE = 'evt_mouse',
-    MOUSE_MOTION = 'evt_motion',
-    MOUSE_SCROLL = 'evt_scroll',
-    
-    MOUSE_ENTER ='evt_enter',
-    MOUSE_LEAVE = 'evt_leave',
-    
-    LEFT_DOWN = 'evt_left_down',
-    LEFT_UP = 'evt_left_up',
-    LEFT_DCLICK = 'evt_left_dclick',
-    
-    MIDDLE_DOWN = 'evt_middle_down',
-    MIDDLE_UP = 'evt_middle_up',
-    MIDDLE_DCLICK = 'evt_middle_dclick',
-    
-    RIGHT_DOWN = 'evt_right_down',
-    RIGHT_UP = 'evt_right_up',
-    RIGHT_DCLICK = 'evt_right_dclick')
+    PROPERTY_CHANGED = EVT_PROPERTY_CHANGED,
+    PEN_CHANGED = EVT_PEN_CHANGED,
+    BRUSH_CHANGED = EVT_BRUSH_CHANGED,
+    TEXT_CHANGED = EVT_TEXT_CHANGED,
+    VIEW = EVT_VIEW,
+    SIZE = EVT_SIZE,
+    ZOOM = EVT_ZOOM,
+    KEY = EVT_KEY,
+    KEY_DOWN = EVT_KEY_DOWN,
+    KEY_UP = EVT_KEY_UP,
+    MOUSE = EVT_MOUSE,
+    MOUSE_MOTION = EVT_MOUSE_MOTION,
+    MOUSE_SCROLL = EVT_MOUSE_SCROLL,
+    MOUSE_ENTER = EVT_MOUSE_ENTER,
+    MOUSE_LEAVE = EVT_MOUSE_LEAVE,
+    LEFT_DOWN = EVT_LEFT_DOWN,
+    LEFT_UP = EVT_LEFT_UP,
+    LEFT_DCLICK = EVT_LEFT_DCLICK,
+    MIDDLE_DOWN = EVT_MIDDLE_DOWN,
+    MIDDLE_UP = EVT_MIDDLE_UP,
+    MIDDLE_DCLICK = EVT_MIDDLE_DCLICK,
+    RIGHT_DOWN = EVT_RIGHT_DOWN,
+    RIGHT_UP = EVT_RIGHT_UP,
+    RIGHT_DCLICK = EVT_RIGHT_DCLICK)
 
 # define cursors
 CURSOR = Enum(

@@ -107,8 +107,18 @@ provided data source. This allows properties to be dynamic and provide specific 
 
 This class provides an abstract base for all property-having classes.
 
+Since the *[pero.PropertySet](#PropertySet)* is derived from *[pero.EvtHandler](../events/readme.md#EvtHandler)* it
+behaves like an event manager itself. By default this is used to fire the
+[pero.PropertyChangedEvt](../events/readme.md#PropertyChangedEvt) event every time a property value is changed. This
+event can be bound using the *bind* method together with
+[pero.EVENT.PROPERTY_CHANGED](../events/readme.md#PropertyChangedEvt) type.
+
 ```python
 import pero
+
+# init property monitor
+def monitor(evt):
+    print("%s: %s -> %s", (evt.name, evt.old_value, evt.new_value))
 
 # define set
 class MyPropertySet(pero.PropertySet):
@@ -119,6 +129,9 @@ class MyPropertySet(pero.PropertySet):
 
 # instantiate with overrides
 my_set = MyPropertySet(name="Glyph")
+
+# set monitor for property changes
+my_set.bind(pero.EVT_PROPERTY_CHANGED, monitor)
 
 # set dynamic properties
 my_set.x = lambda d: d[0]
