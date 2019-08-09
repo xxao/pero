@@ -292,14 +292,14 @@ gradient = pero.GRADIENTS.Blues
 
 #### Properties
 
-- **name -> *str* or *None*
-Gets the gradient name or *None* if note set.
+- **name** -> *str* or *None*  
+  Gets the gradient name or *None* if note set.
 
-- **colors -> *([pero.Color](#Color),)*
-Gets a tuple of gradient colors.
+- **colors** -> *([pero.Color](#Color),)*  
+  Gets a tuple of gradient colors.
 
-- **stops -> *(float,)*
-Gets a tuple of color positions.
+- **stops** -> *(float,)*  
+  Gets a tuple of color positions.
 
 #### Methods
 

@@ -972,7 +972,7 @@ Collection of properties defining a text style.
 - **text_bgr_color:** *[color definition](../colors/readme.md#Color)*  
   Specifies the text background color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/readme.md#Color).
         
-- **text_bgr_alpha: *int*  
+- **text_bgr_alpha:** *int*  
   Specifies the text background alpha channel as a value between 0 and 255, where 0 is fully transparent and 255 fully
   opaque. If this value is set, it will overwrite the alpha channel of the final text background color.
         
