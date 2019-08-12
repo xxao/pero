@@ -5,7 +5,7 @@
 import ui
 from ...properties import *
 from ...colors import Transparent, Black
-from ...drawing import Canvas, Matrix
+from ...drawing import Canvas, Matrix, ClipState
 from .enums import *
 
 
@@ -212,6 +212,10 @@ class UICanvas(Canvas):
         Args:
             path: pero.Path
                 Path to be used for clipping.
+        
+        Returns:
+            pero.ClipState
+                Clipping state context manager.
         """
         
         # apply scaling and offset
@@ -232,6 +236,9 @@ class UICanvas(Canvas):
         
         # remember clipping state
         self._clipping.append(state)
+        
+        # return state
+        return ClipState(self)
     
     
     def unclip(self):

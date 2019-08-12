@@ -50,7 +50,7 @@ class DrawTest(pero.Graphics):
         y = 50
         
         # translate
-        canvas.set_viewport(x, y)
+        canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
         
@@ -61,7 +61,7 @@ class DrawTest(pero.Graphics):
         x += 100
         
         # ray
-        canvas.set_viewport(x, y)
+        canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
         
@@ -72,7 +72,7 @@ class DrawTest(pero.Graphics):
         x += 100
         
         # rotate from origin
-        canvas.set_viewport(x, y)
+        canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
         
@@ -83,7 +83,7 @@ class DrawTest(pero.Graphics):
         x += 100
         
         # rotate from point
-        canvas.set_viewport(x, y)
+        canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
         
@@ -96,7 +96,7 @@ class DrawTest(pero.Graphics):
         y += 120
         
         # scale from origin
-        canvas.set_viewport(x, y)
+        canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
         
@@ -107,7 +107,7 @@ class DrawTest(pero.Graphics):
         x += 100
         
         # scale from point
-        canvas.set_viewport(x, y)
+        canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
         
@@ -119,7 +119,7 @@ class DrawTest(pero.Graphics):
         x += 100
         
         # skew from origin
-        canvas.set_viewport(x, y)
+        canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
         
@@ -130,7 +130,7 @@ class DrawTest(pero.Graphics):
         x += 100
         
         # skew from point
-        canvas.set_viewport(x, y)
+        canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
         
@@ -153,7 +153,7 @@ class DrawTest(pero.Graphics):
         ghost.path = path
         
         # flip horizontally from origin
-        canvas.set_viewport(x, y)
+        canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
         
@@ -164,7 +164,7 @@ class DrawTest(pero.Graphics):
         x += 100
         
         # flip horizontally from point
-        canvas.set_viewport(x, y)
+        canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
         
@@ -176,7 +176,7 @@ class DrawTest(pero.Graphics):
         x += 100
         
         # flip vertically from origin
-        canvas.set_viewport(x, y)
+        canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
         
@@ -187,7 +187,7 @@ class DrawTest(pero.Graphics):
         x += 100
         
         # flip vertically from point
-        canvas.set_viewport(x, y)
+        canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
         

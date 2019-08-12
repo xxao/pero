@@ -7,7 +7,7 @@ import wx
 from ...enums import *
 from ...properties import *
 from ...colors import Transparent
-from ...drawing import Canvas, Path, Matrix
+from ...drawing import Canvas, Path, Matrix, ClipState
 from .enums import *
 
 
@@ -408,6 +408,10 @@ class WXCanvas(Canvas):
         Args:
             path: pero.Path
                 Path to be used for clipping.
+        
+        Returns:
+            pero.ClipState
+                Clipping state context manager.
         """
         
         # apply scaling and offset
@@ -422,6 +426,9 @@ class WXCanvas(Canvas):
         
         # remember clipping
         self._clipping.append(rect)
+        
+        # return state
+        return ClipState(self)
     
     
     def unclip(self):

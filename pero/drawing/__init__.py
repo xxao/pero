@@ -8,7 +8,7 @@ from . import np
 from .fonts import Font, FontManager, FONTS
 from .frame import Frame
 from .graphics import Graphics
-from .canvas import Canvas
+from .canvas import Canvas, ClipState, GroupState, ViewState
 from .matrix import Matrix
 from .bezier import Bezier
 from .path import Path

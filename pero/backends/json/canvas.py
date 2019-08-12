@@ -6,7 +6,7 @@ import json
 from ...enums import *
 from ...colors import Color
 from ...properties import UNDEF
-from ...drawing import Canvas
+from ...drawing import Canvas, ClipState, GroupState
 
 
 class JsonCanvas(Canvas):
@@ -27,44 +27,6 @@ class JsonCanvas(Canvas):
         
         # set overrides
         self.set_properties(overrides)
-    
-    
-    def set_viewport(self, x=None, y=None, width=None, height=None, relative=False):
-        """
-        Sets rectangular region currently used for drawing. This provides an
-        easy way to draw complex graphics at specific position of the
-        canvas without adjusting the coordinates of the graphics. It is achieved
-        by changing the origin coordinates and the logical width and height of
-        the canvas.
-        
-        Args:
-            x: int or float
-                X-coordinate of the top-left corner.
-            
-            y: int or float
-                Y-coordinate of the top-left corner.
-            
-            width: int, float or None
-                Full width of the viewport.
-            
-            height: int, float or None
-                Full height of the viewport.
-            
-            relative: bool
-                If set to True the new viewport is applied relative to current
-                one.
-        """
-        
-        # set to base
-        super(JsonCanvas, self).set_viewport(x, y, width, height, relative)
-        
-        # store command
-        self._store_command('set_viewport', {
-            'x': x,
-            'y': y,
-            'width': width,
-            'height': height,
-            'relative': relative})
     
     
     def get_json(self):
@@ -302,6 +264,50 @@ class JsonCanvas(Canvas):
         self._store_command('fill')
     
     
+    def view(self, x=None, y=None, width=None, height=None, relative=False):
+        """
+        Sets rectangular region currently used for drawing. This provides an
+        easy way to draw complex graphics at specific position of the
+        canvas without adjusting the coordinates of the graphics. It is achieved
+        by changing the origin coordinates and the logical width and height of
+        the canvas.
+        
+        Args:
+            x: int or float
+                X-coordinate of the top-left corner.
+            
+            y: int or float
+                Y-coordinate of the top-left corner.
+            
+            width: int, float or None
+                Full width of the viewport.
+            
+            height: int, float or None
+                Full height of the viewport.
+            
+            relative: bool
+                If set to True the new viewport is applied relative to current
+                one.
+        
+        Returns:
+            pero.ViewState
+                Viewport state context manager.
+        """
+        
+        # set to base
+        state = super(JsonCanvas, self).view(x, y, width, height, relative)
+        
+        # store command
+        self._store_command('view', {
+            'x': x,
+            'y': y,
+            'width': width,
+            'height': height,
+            'relative': relative})
+        
+        return state
+    
+    
     def clip(self, path):
         """
         Sets clipping path as intersection with current one.
@@ -309,6 +315,10 @@ class JsonCanvas(Canvas):
         Args:
             path: pero.Path
                 Path to be used for clipping.
+        
+        Returns:
+            pero.ClipState
+                Clipping state context manager.
         """
         
         # get path dump
@@ -316,6 +326,9 @@ class JsonCanvas(Canvas):
         
         # store command
         self._store_command('clip', {'path': path})
+        
+        # return state
+        return ClipState(self)
     
     
     def unclip(self):
@@ -335,12 +348,19 @@ class JsonCanvas(Canvas):
             
             class_tag:
                 Class of the group.
+        
+        Returns:
+            pero.GroupState
+                Grouping state context manager.
         """
         
         # store command
         self._store_command('group', {
             'id_tag': id_tag,
             'class_tag': class_tag})
+        
+        # return state
+        return GroupState(self)
     
     
     def ungroup(self):

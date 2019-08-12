@@ -7,7 +7,7 @@ from PyQt5.QtCore import QPoint, QLineF
 from PyQt5.QtGui import QColor, QPen, QBrush, QPainterPath, QFontMetrics
 from ...enums import *
 from ...properties import *
-from ...drawing import Canvas, Path, Matrix
+from ...drawing import Canvas, Path, Matrix, ClipState
 from .enums import *
 
 
@@ -392,6 +392,10 @@ class QtCanvas(Canvas):
         Args:
             path: pero.Path
                 Path to be used for clipping.
+        
+        Returns:
+            pero.ClipState
+                Clipping state context manager.
         """
         
         # apply scaling and offset
@@ -408,6 +412,9 @@ class QtCanvas(Canvas):
         
         # set as clipping
         self._dc.setClipPath(qt_path, Qt.IntersectClip)
+        
+        # return state
+        return ClipState(self)
     
     
     def unclip(self):

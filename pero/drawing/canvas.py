@@ -207,65 +207,6 @@ class Canvas(PropertySet):
         return self._viewport
     
     
-    def set_viewport(self, x=None, y=None, width=None, height=None, relative=False):
-        """
-        Sets rectangular region currently used for drawing. This provides an
-        easy way to draw complex graphics at specific position of the
-        canvas without adjusting the coordinates of the graphics. It is achieved
-        by changing the origin coordinates and the logical width and height of
-        the canvas.
-        
-        Args:
-            x: int or float
-                X-coordinate of the top-left corner.
-            
-            y: int or float
-                Y-coordinate of the top-left corner.
-            
-            width: int, float or None
-                Full width of the viewport.
-            
-            height: int, float or None
-                Full height of the viewport.
-            
-            relative: bool
-                If set to True the new viewport is applied relative to current
-                one.
-        """
-        
-        # reset to full
-        if x is None and y is None:
-            self._viewport = None
-            self._offset = numpy.array((0, 0))
-            return
-        
-        # get current viewport
-        viewport = self.viewport
-        
-        # make relative
-        if relative:
-            x = (x or 0) + viewport.x
-            y = (y or 0) + viewport.y
-        
-        # get origin
-        if x is None:
-            x = 0
-        if y is None:
-            y = 0
-        
-        # get width
-        if width is None:
-            width = viewport.width
-        
-        # get height
-        if height is None:
-            height = viewport.height
-        
-        # set viewport
-        self._viewport = Frame(x, y, width, height)
-        self._offset = numpy.array((x, y))
-    
-    
     def set_pen_by(self, prop_set, prefix="", source=UNDEF, overrides=None):
         """
         Extracts and applies all line properties from given property set.
@@ -1040,19 +981,94 @@ class Canvas(PropertySet):
         self.line_width = line_width
     
     
+    def view(self, x=None, y=None, width=None, height=None, relative=False):
+        """
+        Sets rectangular region currently used for drawing. This provides an
+        easy way to draw complex graphics at specific position of the canvas
+        without adjusting the coordinates of the graphics. It is achieved
+        by changing the origin coordinates and the logical width and height of
+        the canvas.
+        
+        Args:
+            x: int or float
+                X-coordinate of the top-left corner.
+            
+            y: int or float
+                Y-coordinate of the top-left corner.
+            
+            width: int, float or None
+                Full width of the viewport.
+            
+            height: int, float or None
+                Full height of the viewport.
+            
+            relative: bool
+                If set to True the new viewport is applied relative to current
+                one.
+        
+        Returns:
+            pero.ViewState
+                Viewport state context manager.
+        """
+        
+        # get current viewport
+        viewport = self.viewport
+        
+        # init state
+        state = ViewState(self, viewport)
+        
+        # reset to full
+        if x is None and y is None:
+            self._viewport = None
+            self._offset = numpy.array((0, 0))
+            return state
+        
+        # get origin
+        if x is None:
+            x = 0
+        if y is None:
+            y = 0
+        
+        # make relative
+        if relative:
+            x += viewport.x
+            y += viewport.y
+        
+        # get width
+        if width is None:
+            width = viewport.width
+        
+        # get height
+        if height is None:
+            height = viewport.height
+        
+        # set viewport
+        self._viewport = Frame(x, y, width, height)
+        self._offset = numpy.array((x, y))
+        
+        # return state
+        return state
+    
+    
     def clip(self, path):
         """
         Sets clipping path as intersection with current one.
         
         This method needs be overwritten by specific backend to provide native
-        implementation for clipping.
+        implementation for clipping. The method is expected to return a
+        pero.ClipState instance so it can be used within 'with' statement.
         
         Args:
             path: pero.Path
                 Path to be used for clipping.
+        
+        Returns:
+            pero.ClipState
+                Clipping state context manager.
         """
         
-        pass
+        # return state
+        return ClipState(self)
     
     
     def unclip(self):
@@ -1071,7 +1087,8 @@ class Canvas(PropertySet):
         Opens new drawing group.
         
         This method needs be overwritten by specific backend to provide native
-        implementation for objects grouping.
+        implementation for objects grouping. The method is expected to return a
+        pero.GroupState instance so it can be used within 'with' statement.
         
         Args:
             id_tag: str
@@ -1079,9 +1096,14 @@ class Canvas(PropertySet):
             
             class_tag:
                 Class of the group.
+        
+        Returns:
+            pero.GroupState
+                Grouping state context manager.
         """
         
-        pass
+        # return state
+        return GroupState(self)
     
     
     def ungroup(self):
@@ -1168,3 +1190,82 @@ class Canvas(PropertySet):
         # update current text
         if evt.name in self._text_properties or evt.name == 'font_scale':
             self.fire(TextChangedEvt.from_evt(evt))
+
+
+class CanvasState(object):
+    """
+    Allows using 'with' statement for canvas state methods like 'view', 'clip'
+    or 'group'.
+    """
+    
+    def __init__(self, canvas, *args, **kwargs):
+        """
+        Initializes a new instance of CanvasState.
+        
+        Args:
+            canvas: pero.Canvas
+                Current canvas.
+        """
+        
+        self._canvas = canvas
+    
+    
+    def __enter__(self):
+        """The 'with' statement started."""
+        
+        return self
+    
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """The 'with' statement ended."""
+        
+        pass
+
+
+class ClipState(CanvasState):
+    """Allows using 'with' statement for canvas 'clip' method."""
+    
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Removes clipping when 'with' statement ended."""
+        
+        self._canvas.unclip()
+
+
+class GroupState(CanvasState):
+    """Allows using 'with' statement for canvas 'group' method."""
+    
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Removes grouping when 'with' statement ended."""
+        
+        self._canvas.ungroup()
+
+
+class ViewState(CanvasState):
+    """Allows using 'with' statement for canvas 'view' method."""
+    
+    
+    def __init__(self, canvas, viewport, *args, **kwargs):
+        """
+        Initializes a new instance of ViewState.
+        
+        Args:
+            canvas: pero.Canvas
+                Current canvas.
+            
+            viewport: pero.Frame or None
+                Viewport state to keep.
+        """
+        
+        super(ViewState, self).__init__(canvas)
+        self._viewport = viewport
+    
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Resets original viewport when 'with' statement ended."""
+        
+        if self._viewport is None:
+            self._canvas.view(None)
+        else:
+            self._canvas.view(*self._viewport.rect)

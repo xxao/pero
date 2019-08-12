@@ -306,47 +306,47 @@ class DrawTest(pero.Graphics):
         curve = pero.Bezier(100, 25, 10, 90, 110, 100, 150, 195)
         
         # draw tests
-        canvas.set_viewport(20, 20, relative=True)
+        canvas.view(20, 20, relative=True)
         self.draw_hull(canvas, curve)
         label.draw(canvas, text="Hull")
         
-        canvas.set_viewport(170, 0, relative=True)
+        canvas.view(170, 0, relative=True)
         self.draw_slice(canvas, curve)
         label.draw(canvas, text="Slice")
         
-        canvas.set_viewport(170, 0, relative=True)
+        canvas.view(170, 0, relative=True)
         self.draw_extremes(canvas, curve)
         label.draw(canvas, text="Extremes")
         
-        canvas.set_viewport(170, 0, relative=True)
+        canvas.view(170, 0, relative=True)
         self.draw_normals(canvas, curve)
         label.draw(canvas, text="Normals")
         
-        canvas.set_viewport(170, 0, relative=True)
+        canvas.view(170, 0, relative=True)
         self.draw_inflections(canvas, curve)
         label.draw(canvas, text="Inflections")
         
-        canvas.set_viewport(170, 0, relative=True)
+        canvas.view(170, 0, relative=True)
         self.draw_reduce(canvas, curve)
         label.draw(canvas, text="Reduced")
         
-        canvas.set_viewport(20, 270, relative=False)
+        canvas.view(20, 270, relative=False)
         self.draw_projections(canvas, curve)
         label.draw(canvas, text="Projections")
         
-        canvas.set_viewport(170, 0, relative=True)
+        canvas.view(170, 0, relative=True)
         self.draw_cuts(canvas, curve)
         label.draw(canvas, text="XY Cuts")
         
-        canvas.set_viewport(170, 0, relative=True)
+        canvas.view(170, 0, relative=True)
         self.draw_intersects_line(canvas, curve)
         label.draw(canvas, text="Line Intersections")
         
-        canvas.set_viewport(170, 0, relative=True)
+        canvas.view(170, 0, relative=True)
         self.draw_intersects_curve(canvas, curve)
         label.draw(canvas, text="Curve Intersections")
         
-        canvas.set_viewport(170, 0, relative=True)
+        canvas.view(170, 0, relative=True)
         self.draw_intersects_self(canvas)
         label.draw(canvas, text="Self Intersections")
 

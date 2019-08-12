@@ -5,7 +5,7 @@
 import cairo
 import numpy
 from ...properties import *
-from ...drawing import Canvas, Path, Matrix
+from ...drawing import Canvas, Path, Matrix, ClipState
 from .enums import *
 
 
@@ -474,6 +474,10 @@ class CairoCanvas(Canvas):
         Args:
             path: pero.Path
                 Path to be used for clipping.
+        
+        Returns:
+            pero.ClipState
+                Clipping state context manager.
         """
         
         # apply scaling and offset
@@ -490,6 +494,9 @@ class CairoCanvas(Canvas):
         
         # set as clipping
         self._dc.clip()
+        
+        # return state
+        return ClipState(self)
     
     
     def unclip(self):

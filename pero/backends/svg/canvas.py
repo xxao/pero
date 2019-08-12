@@ -5,7 +5,7 @@
 import numpy
 import html
 from ...properties import *
-from ...drawing import Canvas, Path, Matrix
+from ...drawing import Canvas, Path, Matrix, ClipState, GroupState
 from .enums import *
 
 # define constants
@@ -446,30 +446,6 @@ class SVGCanvas(Canvas):
             self._commands.append(command)
     
     
-    def group(self, id_tag=None, class_tag=None):
-        """
-        Opens new drawing group.
-        
-        Args:
-            id_tag: str
-                Unique id of the group.
-            
-            class_tag:
-                Class of the group.
-        """
-        
-        # make command
-        id_tag = ' id="%s"' % id_tag if id_tag else ""
-        class_tag = ' class="%s"' % class_tag if class_tag else ""
-        command = self._indent + '<g%s%s>' % (id_tag, class_tag)
-        
-        # add command
-        self._commands.append(command)
-        
-        # increase indentation
-        self._indent += _INDENT
-    
-    
     def clip(self, path):
         """
         Sets clipping path as intersection with current one.
@@ -477,6 +453,10 @@ class SVGCanvas(Canvas):
         Args:
             path: pero.Path
                 Path to be used for clipping.
+        
+        Returns:
+            pero.ClipState
+                Clipping state context manager.
         """
         
         # apply scaling and offset
@@ -497,6 +477,9 @@ class SVGCanvas(Canvas):
         
         # increase indentation
         self._indent += _INDENT
+        
+        # return state
+        return ClipState(self)
     
     
     def unclip(self):
@@ -507,6 +490,37 @@ class SVGCanvas(Canvas):
         
         # add command
         self._commands.append(self._indent + '</g>')
+    
+    
+    def group(self, id_tag=None, class_tag=None):
+        """
+        Opens new drawing group.
+        
+        Args:
+            id_tag: str
+                Unique id of the group.
+            
+            class_tag:
+                Class of the group.
+        
+        Returns:
+            pero.GroupState
+                Grouping state context manager.
+        """
+        
+        # make command
+        id_tag = ' id="%s"' % id_tag if id_tag else ""
+        class_tag = ' class="%s"' % class_tag if class_tag else ""
+        command = self._indent + '<g%s%s>' % (id_tag, class_tag)
+        
+        # add command
+        self._commands.append(command)
+        
+        # increase indentation
+        self._indent += _INDENT
+        
+        # return state
+        return GroupState(self)
     
     
     def ungroup(self):

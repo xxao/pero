@@ -82,112 +82,112 @@ class DrawTest(pero.Graphics):
         limit = False
         
         # left
-        canvas.set_viewport(100, 100)
+        canvas.view(100, 100)
         self.draw_test(canvas, (0, 0), (-50, 0), (-50, 50), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (-50, 0), (0, 50), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (-50, 0), (50, 50), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (-50, 0), (50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(150, relative=True)
+        canvas.view(150, relative=True)
         self.draw_test(canvas, (0, 0), (-50, 0), (50, -50), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (-50, 0), (0, -50), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (-50, 0), (-50, -50), radius, angle, finalize, limit)
         
         # left reversed
-        canvas.set_viewport(100, 200)
+        canvas.view(100, 200)
         self.draw_test(canvas, (0, 0), (-50, 50), (-50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (0, 50), (-50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (50, 50), (-50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (50, 0), (-50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(150, relative=True)
+        canvas.view(150, relative=True)
         self.draw_test(canvas, (0, 0), (50, -50), (-50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (0, -50), (-50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (-50, -50), (-50, 0), radius, angle, finalize, limit)
         
         # right
-        canvas.set_viewport(50, 350)
+        canvas.view(50, 350)
         self.draw_test(canvas, (0, 0), (50, 0), (50, 50), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (50, 0), (0, 50), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (50, 0), (-50, 50), radius, angle, finalize, limit)
         
-        canvas.set_viewport(150, relative=True)
+        canvas.view(150, relative=True)
         self.draw_test(canvas, (0, 0), (50, 0), (-50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (50, 0), (-50, -50), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (50, 0), (0, -50), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (50, 0), (50, -50), radius, angle, finalize, limit)
         
         # right reversed
-        canvas.set_viewport(50, 450)
+        canvas.view(50, 450)
         self.draw_test(canvas, (0, 0), (50, 50), (50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (0, 50), (50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (-50, 50), (50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(150, relative=True)
+        canvas.view(150, relative=True)
         self.draw_test(canvas, (0, 0), (-50, 0), (50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (-50, -50), (50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (0, -50), (50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (50, -50), (50, 0), radius, angle, finalize, limit)
         
         # overlaps
-        canvas.set_viewport(50, 600)
+        canvas.view(50, 600)
         self.draw_test(canvas, (0, 0), (50, 50), (50, 50), radius, angle, finalize, limit)
         
-        canvas.set_viewport(70, relative=True)
+        canvas.view(70, relative=True)
         self.draw_test(canvas, (0, 0), (0, 0), (50, 0), radius, angle, finalize, limit)
         
-        canvas.set_viewport(100, relative=True)
+        canvas.view(100, relative=True)
         self.draw_test(canvas, (0, 0), (50, 50), (0, 0), radius, angle, finalize, limit)
         
         # no radius
-        canvas.set_viewport(150, relative=True)
+        canvas.view(150, relative=True)
         self.draw_test(canvas, (0, 0), (-50, 0), (-50, 50), None, angle, finalize, limit)
         
         # over limit
-        canvas.set_viewport(150, relative=True)
+        canvas.view(150, relative=True)
         self.draw_test(canvas, (0, 0), (-50, 0), (-50, 50), 50, angle, finalize, limit)
         
-        canvas.set_viewport(50, relative=True)
+        canvas.view(50, relative=True)
         self.draw_test(canvas, (0, 0), (50, 0), (50, 50), 50, angle, finalize, limit)
 
 

@@ -122,25 +122,21 @@ class DrawTest(pero.Graphics):
         self.y_axis.draw(canvas, x=padding, y=padding, length=v_length, major_ticks=y_ticks_maj, minor_ticks=y_ticks_min)
         
         # apply clipping
-        canvas.clip(pero.Path().rect(*frame.rect))
-        
-        # draw series
-        for i, y_data in enumerate((self.sin_data, self.cos_data)):
-            canvas.group()
-            self.marker.line_color = pero.colors.Pero[i]
-            self.marker.fill_color = pero.colors.Pero[i].opaque(.75)
-            self.marker.draw_many(canvas, zip(self.x_data, y_data))
-            canvas.ungroup()
-        
-        # draw labels
-        labels = []
-        for y_data in (self.sin_data, self.cos_data):
-            labels += [self.label.clone(source=val) for val in zip(self.x_data, y_data)]
-        
-        self.labels.draw(canvas, items=labels, clip=frame)
-        
-        # release clipping
-        canvas.unclip()
+        with canvas.clip(pero.Path().rect(*frame.rect)):
+            
+            # draw series
+            for i, y_data in enumerate((self.sin_data, self.cos_data)):
+                with canvas.group():
+                    self.marker.line_color = pero.colors.Pero[i]
+                    self.marker.fill_color = pero.colors.Pero[i].opaque(.75)
+                    self.marker.draw_many(canvas, zip(self.x_data, y_data))
+            
+            # draw labels
+            labels = []
+            for y_data in (self.sin_data, self.cos_data):
+                labels += [self.label.clone(source=val) for val in zip(self.x_data, y_data)]
+            
+            self.labels.draw(canvas, items=labels, clip=frame)
 
 
 # run test

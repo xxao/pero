@@ -684,16 +684,8 @@ class Cell(Graphics):
         
         # draw graphics
         if graphics:
-            
-            # set viewport
-            last_viewport = canvas.viewport
-            canvas.set_viewport(*content.rect, relative=True)
-            
-            # draw graphics
-            graphics.draw(canvas)
-            
-            # reset viewport
-            canvas.set_viewport(*last_viewport.rect, relative=False)
+            with canvas.view(*content.rect, relative=True):
+                graphics.draw(canvas)
         
         # revert clipping
         if clip:
