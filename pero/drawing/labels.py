@@ -56,6 +56,89 @@ class Label(Glyph):
         raise NotImplementedError("The 'get_bbox' method is not implemented for '%s'." % self.__class__.__name__)
 
 
+class TextLabel(Label):
+    """
+    Defines a simple text label glyph.
+    
+    Properties:
+        
+        text: str, callable, None or UNDEF
+            Specifies the text to be drawn.
+        
+        text properties:
+            Includes pero.TextProperties to specify the text properties.
+        
+        angle properties:
+            Includes pero.AngleProperties to specify the text angle.
+    """
+    
+    text = StringProperty(UNDEF)
+    font = Include(TextProperties, text_bgr_color="#fffb", text_align=TEXT_ALIGN.CENTER, text_base=TEXT_BASELINE.BOTTOM)
+    angle = Include(AngleProperties)
+    
+    y_offset = NumProperty(-5)
+    
+    
+    def get_bbox(self, canvas, source=UNDEF, **overrides):
+        """Gets glyph bounding box."""
+        
+        # check if visible
+        if not self.is_visible(source, overrides):
+            return None
+        
+        # get properties
+        x = self.get_property('x', source, overrides)
+        y = self.get_property('y', source, overrides)
+        x_offset = self.get_property('x_offset', source, overrides)
+        y_offset = self.get_property('y_offset', source, overrides)
+        text = self.get_property('text', source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        
+        # check data
+        if not text:
+            return None
+        
+        # set text
+        canvas.set_text_by(self, source=source, overrides=overrides)
+        
+        # apply offset
+        x += x_offset or 0
+        y += y_offset or 0
+        
+        # get bounding box
+        return canvas.get_text_bbox(text, x, y, angle)
+    
+    
+    def draw(self, canvas, source=UNDEF, **overrides):
+        """Uses given canvas to draw label."""
+        
+        # check if visible
+        if not self.is_visible(source, overrides):
+            return
+        
+        # get properties
+        x = self.get_property('x', source, overrides)
+        y = self.get_property('y', source, overrides)
+        x_offset = self.get_property('x_offset', source, overrides)
+        y_offset = self.get_property('y_offset', source, overrides)
+        text = self.get_property('text', source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        
+        # check data
+        if not text:
+            return
+        
+        # set text
+        canvas.set_text_by(self, source=source, overrides=overrides)
+        
+        # check offset
+        x_offset = x_offset or 0
+        y_offset = y_offset or 0
+        
+        # draw text
+        canvas.draw_text(text, x+x_offset, y+y_offset, angle)
+
+
 class Labels(Glyph):
     """
     Labels container provides a simple tool to draw all given labels at once in
@@ -219,86 +302,3 @@ class Labels(Glyph):
             area.append(bbox)
         
         return final
-
-
-class TextLabel(Label):
-    """
-    Defines a simple text label glyph.
-    
-    Properties:
-        
-        text: str, callable, None or UNDEF
-            Specifies the text to be drawn.
-        
-        text properties:
-            Includes pero.TextProperties to specify the text properties.
-        
-        angle properties:
-            Includes pero.AngleProperties to specify the text angle.
-    """
-    
-    text = StringProperty(UNDEF)
-    font = Include(TextProperties, text_bgr_color="#fffb", text_align=TEXT_ALIGN.CENTER, text_base=TEXT_BASELINE.BOTTOM)
-    angle = Include(AngleProperties)
-    
-    y_offset = NumProperty(-5)
-    
-    
-    def get_bbox(self, canvas, source=UNDEF, **overrides):
-        """Gets glyph bounding box."""
-        
-        # check if visible
-        if not self.is_visible(source, overrides):
-            return None
-        
-        # get properties
-        x = self.get_property('x', source, overrides)
-        y = self.get_property('y', source, overrides)
-        x_offset = self.get_property('x_offset', source, overrides)
-        y_offset = self.get_property('y_offset', source, overrides)
-        text = self.get_property('text', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
-        
-        # check data
-        if not text:
-            return None
-        
-        # set text
-        canvas.set_text_by(self, source=source, overrides=overrides)
-        
-        # apply offset
-        x += x_offset or 0
-        y += y_offset or 0
-        
-        # get bounding box
-        return canvas.get_text_bbox(text, x, y, angle)
-    
-    
-    def draw(self, canvas, source=UNDEF, **overrides):
-        """Uses given canvas to draw label."""
-        
-        # check if visible
-        if not self.is_visible(source, overrides):
-            return
-        
-        # get properties
-        x = self.get_property('x', source, overrides)
-        y = self.get_property('y', source, overrides)
-        x_offset = self.get_property('x_offset', source, overrides)
-        y_offset = self.get_property('y_offset', source, overrides)
-        text = self.get_property('text', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
-        
-        # check data
-        if not text:
-            return
-        
-        # set text
-        canvas.set_text_by(self, source=source, overrides=overrides)
-        
-        # check offset
-        x_offset = x_offset or 0
-        y_offset = y_offset or 0
-        
-        # draw text
-        canvas.draw_text(text, x+x_offset, y+y_offset, angle)

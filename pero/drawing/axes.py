@@ -204,7 +204,7 @@ class StraitAxis(Axis):
     title_position = EnumProperty(POSITION.MIDDLE, enum=POSITION_SEM)
     title_offset = NumProperty(25)
     title_flip = BoolProperty(False)
-    title_text = Include(TextProperties, prefix="title_", font_weight=FONT_WEIGHT.BOLD, text_align=UNDEF, text_base=UNDEF)
+    title_text = Include(TextProperties, prefix="title_", font_weight=FONT_WEIGHT.BOLD, font_size=12, text_align=UNDEF, text_base=UNDEF)
     title_angle = Include(AngleProperties, prefix="title_", angle=UNDEF)
     
     label_angle = Include(AngleProperties, prefix="label_")
