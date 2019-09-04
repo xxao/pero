@@ -2,6 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # import modules
+import numpy
 from .scale import Scale
 from ..enums import *
 from ..properties import *
@@ -52,6 +53,10 @@ class LevelScale(Scale):
                 Corresponding level.
         """
         
+        # apply array scaling
+        if isinstance(value, (numpy.ndarray, list, tuple)):
+            return tuple(map(self.scale, value))
+        
         # get index of the same or nearest bigger
         idx = 0
         hi = min(len(self.in_range), len(self.out_range))
@@ -83,6 +88,10 @@ class LevelScale(Scale):
             threshold: float
                 Maximum threshold of the level.
         """
+        
+        # apply array scaling
+        if isinstance(value, (numpy.ndarray, list, tuple)):
+            return tuple(map(self.invert, value))
         
         # init index map
         if self._levels_idx is None:

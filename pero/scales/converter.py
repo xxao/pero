@@ -2,6 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # import modules
+import numpy
 from ..enums import *
 from ..properties import *
 
@@ -41,9 +42,15 @@ class Converter(PropertySet):
                 Converted value.
         """
         
+        # apply array scaling
+        if isinstance(value, (numpy.ndarray, list, tuple)):
+            return tuple(map(self.scale, value))
+        
+        # no function defined
         if self.forward is UNDEF:
             return None
         
+        # convert
         return self.forward(value)
     
     
@@ -60,7 +67,13 @@ class Converter(PropertySet):
                 Reversed value.
         """
         
+        # apply array scaling
+        if isinstance(value, (numpy.ndarray, list, tuple)):
+            return tuple(map(self.invert, value))
+
+        # no function defined
         if self.reverse is UNDEF:
             return None
         
+        # convert
         return self.reverse(value)

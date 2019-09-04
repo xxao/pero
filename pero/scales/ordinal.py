@@ -2,6 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # import modules
+import numpy
 from .scale import Scale
 from ..enums import *
 from ..properties import *
@@ -71,6 +72,10 @@ class OrdinalScale(Scale):
                 Scaled value.
         """
         
+        # apply array scaling
+        if isinstance(value, (numpy.ndarray, list, tuple)):
+            return tuple(map(self.scale, value))
+        
         # check output
         if len(self.out_range) == 0:
             return self.default
@@ -117,6 +122,10 @@ class OrdinalScale(Scale):
             any
                 Inverted value.
         """
+        
+        # apply array scaling
+        if isinstance(value, (numpy.ndarray, list, tuple)):
+            return tuple(map(self.invert, value))
         
         # init index map
         if self._out_range_idx is None:

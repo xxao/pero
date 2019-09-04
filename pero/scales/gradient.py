@@ -77,6 +77,10 @@ class GradientScale(Scale):
                 Output color.
         """
         
+        # apply array scaling
+        if isinstance(value, (numpy.ndarray, list, tuple)):
+            return tuple(map(self.scale, value))
+        
         # normalize value
         norm = self.normalizer.normalize(value, self.in_range[0], self.in_range[1])
         
