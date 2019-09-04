@@ -45,7 +45,7 @@ class LevelScale(Scale):
         Returns corresponding output level for given input value.
         
         Args:
-            value: float
+            value: float or (float,)
                 Input value to be converted into level.
         
         Returns:
@@ -81,7 +81,7 @@ class LevelScale(Scale):
         Returns maximum threshold value for given level.
         
         Args:
-            value: any
+            value: any or (any,)
                 Level value.
         
         Returns:

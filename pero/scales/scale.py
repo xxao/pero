@@ -17,6 +17,10 @@ class Scale(PropertySet):
     range and the 'invert' method, which converts from the output range to input
     range.
     
+    To convert more data conveniently and/or efficiently, the scales can convert
+    not only a single value but whole sequence such as list or numpy.array at
+    once. For custom scales be sure this functionality is kept.
+    
     Properties:
         
         in_range: (any,), None or UNDEF

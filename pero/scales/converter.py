@@ -34,7 +34,7 @@ class Converter(PropertySet):
         Returns corresponding converted value for given input value.
         
         Args:
-            value: any
+            value: any or (any,)
                 Input value to be scaled.
         
         Returns:
@@ -59,7 +59,7 @@ class Converter(PropertySet):
         Returns corresponding reversed value for given output value.
         
         Args:
-            value: any
+            value: any or (any,)
                 Output value to be inverted.
         
         Returns:

@@ -33,7 +33,7 @@ class ContinuousScale(Scale):
     
     To convert more data efficiently, the scale can convert not only a single
     value but whole sequence such as list or numpy.array at once. For custom
-    scale be ensure this functionality is supported by both interpolators.
+    scale be sure this functionality is supported by both interpolators.
     
     Properties:
         

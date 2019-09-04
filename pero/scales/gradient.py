@@ -69,7 +69,7 @@ class GradientScale(Scale):
         Returns corresponding output color for given input value.
         
         Args:
-            value: float
+            value: float or (float,)
                 Input value to be scaled.
         
         Returns:

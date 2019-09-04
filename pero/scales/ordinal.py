@@ -64,7 +64,7 @@ class OrdinalScale(Scale):
         Returns corresponding output value for given input value.
         
         Args:
-            value: any
+            value: any or (any,)
                 Input value to be scaled.
         
         Returns:
@@ -115,7 +115,7 @@ class OrdinalScale(Scale):
         Returns corresponding input value for given output value.
         
         Args:
-            value: any
+            value: any or (any,)
                 Output value to be inverted.
         
         Returns:
