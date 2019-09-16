@@ -18,8 +18,8 @@ class ViewEvt(Event):
         view: pero.View
             The view, which fires the event.
             
-        graphics: pero.Graphics
-            The view main graphics.
+        control: pero.Control
+            The control which fired the event.
     """
     
     TYPE = EVENT.VIEW
@@ -30,7 +30,7 @@ class ViewEvt(Event):
         
         self.native = None
         self.view = None
-        self.graphics = None
+        self.control = None
         
         super(ViewEvt, self).__init__(**kwargs)
     
@@ -52,7 +52,7 @@ class ViewEvt(Event):
         return cls(
             native = evt.native,
             view = evt.view,
-            graphics = evt.graphics)
+            control = evt.control)
 
 
 class SizeEvt(ViewEvt):
@@ -77,3 +77,9 @@ class SizeEvt(ViewEvt):
         self.height = None
         
         super(SizeEvt, self).__init__(**kwargs)
+
+
+class ZoomEvt(ViewEvt):
+    """Defines an event which is fired if axes ranges were changed."""
+    
+    TYPE = EVENT.ZOOM

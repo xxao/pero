@@ -88,7 +88,7 @@ class MouseEvt(ViewEvt):
             
             native = evt.native,
             view = evt.view,
-            graphics = evt.graphics,
+            control = evt.control,
             
             x_pos = evt.x_pos,
             y_pos = evt.y_pos,

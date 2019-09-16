@@ -5,18 +5,156 @@
 import sys
 from ..enums import *
 from ..properties import *
-from ..drawing import Graphics, Tooltip
+from ..drawing import Graphics, Tooltip, TextTooltip
 from .tool import Tool
 
 
-class View(PropertySet):
+class View(object):
+    """Abstract base class for specific backend implementations of views."""
+    
+    
+    def __init__(self):
+        """Initializes a new instance of View."""
+        
+        self._control = None
+    
+    
+    @property
+    def control(self):
+        """
+        Gets current control.
+        
+        Returns:
+            pero.Control or None
+        """
+        
+        return self._control
+    
+    
+    def set_control(self, control):
+        """
+        Sets current control.
+        
+        Args:
+            control: pero.Control or None
+                Specific control to be set.
+        """
+        
+        # reset control
+        if control is None:
+            
+            # remove parent link
+            if self._control is not None:
+                self._control.parent = None
+            
+            # reset control
+            self._control = None
+            return
+        
+        # check control
+        if not isinstance(control, Control):
+            message = "Control must be of type 'pero.Control'! -> %s" % type(control)
+            raise TypeError(message)
+        
+        # set control
+        self._control = control
+        
+        # set parent
+        self._control.parent = self
+    
+    
+    def set_cursor(self, cursor):
+        """
+        This method should be overridden to provide specific mechanism to set
+        given mouse cursor.
+        
+        Args:
+            cursor: pero.CURSOR
+                Cursor type to be set. The value must be an item from the
+                pero.CURSOR enum.
+        """
+        
+        raise NotImplementedError("The 'set_cursor' method is not implemented for '%s'." % self.__class__.__name__)
+    
+    
+    def refresh(self, **overrides):
+        """
+        Refreshes current control by calling the draw method.
+        
+        Args:
+            overrides: str:any pairs
+                Specific properties of current graphics to be overwritten.
+        """
+        
+        self.draw_control(**overrides)
+    
+    
+    def draw_control(self, canvas=None, **overrides):
+        """
+        This method should be overridden to provide specific drawing mechanism
+        and canvas creation to finally draw current control graphics.
+        
+        Args:
+            canvas: pero.Canvas or None
+                Specific canvas to draw the graphics on.
+            
+            overrides: str:any pairs
+                Specific properties of current control graphics to be
+                overwritten.
+        """
+        
+        raise NotImplementedError("The 'draw_control' method is not implemented for '%s'." % self.__class__.__name__)
+    
+    
+    def draw_tooltip(self, text):
+        """
+        This method should be overridden to show given text using native system
+        tooltip.
+        
+        Args:
+            text: str
+                Tooltip text to be shown.
+        """
+        
+        raise NotImplementedError("The 'draw_tooltip' method is not implemented for '%s'." % self.__class__.__name__)
+    
+    
+    def draw_overlay(self, func=None, **overrides):
+        """
+        This method should be overridden to provide specific drawing mechanism
+        and canvas creation to finally call given function to draw cursor rubber
+        band overlay over the current graphics.
+        
+        Specified function is expected to be called with a canvas as the first
+        argument followed by given overrides (i.e. func(canvas, **overrides)).
+        
+        It is expected that current overlay is just cleared if this method is
+        called without any parameter.
+        
+        Args:
+            func: callable or None
+                Method to be called to draw the overlay.
+                
+            overrides: str:any pairs
+                Specific properties of the drawing method to be overwritten.
+        """
+        
+        raise NotImplementedError("The 'draw_overlay' method is not implemented for '%s'." % self.__class__.__name__)
+
+
+class Control(PropertySet):
     """
-    Abstract base class for interactive views.
+    Abstract base class for interactive controls.
     
     Properties:
         
+        parent: pero.View
+            Provides a link to parent native backend implementation of a view.
+            This link is set automatically once current control is set to
+            specific view.
+        
         graphics: pero.Graphics, None or UNDEF
-            Main graphics to display within the view.
+            Main graphics to display within the control.
         
         tooltip: pero.Tooltip, None or UNDEF
             Specifies the glyph to be used for mouse tooltip drawing. If not
@@ -50,6 +188,7 @@ class View(PropertySet):
             currently assigned.
     """
     
+    parent = Property(None, types=View, dynamic=False, nullable=True)
     graphics = Property(None, types=Graphics, dynamic=False, nullable=True)
     tooltip = Property(UNDEF, types=Tooltip, dynamic=False, nullable=True)
     main_tool = Property(UNDEF, types=Tool, dynamic=False, nullable=True)
@@ -58,23 +197,25 @@ class View(PropertySet):
     right_tool = Property(UNDEF, types=Tool, dynamic=False, nullable=True)
     
     
-    def __init__(self):
-        """Initializes a new instance of View."""
+    def __init__(self, **overrides):
+        """Initializes a new instance of Control."""
         
-        super(View, self).__init__()
+        super(Control, self).__init__(**overrides)
+        
+        # init buffers
+        self._cursor = CURSOR.ARROW
         
         # init tooltip glyph
         if self.tooltip is UNDEF:
-            self.tooltip = Tooltip()
+            self.tooltip = TextTooltip()
         
         # bind events
-        self.bind(EVENT.PROPERTY_CHANGED, self._on_view_property_changed)
+        self.bind(EVENT.PROPERTY_CHANGED, self._on_control_property_changed)
     
     
     def set_cursor(self, cursor):
         """
-        This method should be overridden to provide specific mechanism to set
-        given mouse cursor.
+        Sets given cursor to parent view.
         
         Args:
             cursor: pero.CURSOR
@@ -82,12 +223,21 @@ class View(PropertySet):
                 pero.CURSOR enum.
         """
         
-        raise NotImplementedError("The 'set_cursor' method is not implemented for '%s'." % self.__class__.__name__)
+        # check current
+        if self._cursor == cursor:
+            return
+        
+        # remember cursor
+        self._cursor = cursor
+        
+        # set to parent
+        if self.parent:
+            self.parent.set_cursor(cursor)
     
     
     def refresh(self, **overrides):
         """
-        Refreshes current view by calling the draw method.
+        Refreshes current control by calling the draw method.
         
         Args:
             overrides: str:any pairs
@@ -99,11 +249,7 @@ class View(PropertySet):
     
     def draw(self, canvas=None, **overrides):
         """
-        This method should be overridden to provide specific drawing mechanism
-        and canvas creation to finally draw current graphics.
-        
-        The overrides values should be directly forwarded into current graphics
-        drawing method.
+        Draws current control using parent view or directly.
         
         Args:
             canvas: pero.Canvas or None
@@ -113,13 +259,35 @@ class View(PropertySet):
                 Specific properties of current graphics to be overwritten.
         """
         
-        raise NotImplementedError("The 'draw' method is not implemented for '%s'." % self.__class__.__name__)
+        # draw by parent
+        if self.parent:
+            self.parent.draw_control(canvas, **overrides)
+        
+        # draw directly
+        elif self.graphics and canvas is not None:
+            self.graphics.draw(canvas, **overrides)
+    
+    
+    def draw_graphics(self, canvas, **overrides):
+        """
+        Draws current graphics using given canvas.
+        
+        Args:
+            canvas: pero.Canvas
+                Specific canvas to draw the graphics on.
+            
+            overrides: str:any pairs
+                Specific properties of current graphics to be overwritten.
+        """
+        
+        if self.graphics:
+            self.graphics.draw(canvas, **overrides)
     
     
     def draw_tooltip(self, canvas, **overrides):
         """
         Draws a tooltip either by custom glyph specified by the 'tooltip'
-        property or using a system method.
+        property or using a system method of parent view.
         
         If the custom glyph is used all the overrides are given directly to its
         drawing method (e.g. to display specific text use text='my tooltip').
@@ -147,28 +315,13 @@ class View(PropertySet):
         text = overrides.get('text', "")
         
         # use system tooltip
-        if text:
-            self.draw_system_tooltip(text)
-    
-    
-    def draw_system_tooltip(self, text):
-        """
-        This method should be overridden to show given text using a system
-        tooltip.
-        
-        Args:
-            text: str
-                Tooltip text to be shown.
-        """
-        
-        raise NotImplementedError("The 'draw_system_tooltip' method is not implemented for '%s'." % self.__class__.__name__)
+        if self.parent:
+            self.parent.draw_tooltip(text)
     
     
     def draw_overlay(self, func=None, **overrides):
         """
-        This method should be overridden to provide specific drawing mechanism
-        and canvas creation to finally call given function to draw cursor rubber
-        band overlay over the current graphics.
+        Draws cursor rubber band overlay using parent view.
         
         Specified function is expected to be called with a canvas as the first
         argument followed by given overrides (i.e. func(canvas, **overrides)).
@@ -184,7 +337,8 @@ class View(PropertySet):
                 Specific properties of the drawing method to be overwritten.
         """
         
-        raise NotImplementedError("The 'draw_overlay' method is not implemented for '%s'." % self.__class__.__name__)
+        if self.parent:
+            self.parent.draw_overlay(func, **overrides)
     
     
     def _set_tool(self, new_tool, old_tool=None, left=False, right=False):
@@ -231,7 +385,7 @@ class View(PropertySet):
             self.bind(EVENT.RIGHT_DCLICK, new_tool.on_mouse_dclick)
     
     
-    def _on_view_property_changed(self, evt):
+    def _on_control_property_changed(self, evt):
         """Called after any property has changed."""
         
         # main tool changed

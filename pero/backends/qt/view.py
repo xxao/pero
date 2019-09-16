@@ -24,9 +24,6 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         
         self.setMouseTracking(True)
         
-        # init buffers
-        self._cursor = CURSOR.ARROW
-        
         # set window events
         self.paintEvent = self._on_paint
         self.resizeEvent = self._on_size
@@ -54,10 +51,6 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
                 Cursor type to be set as any item from the pero.CURSOR enum.
         """
         
-        # check current
-        if self._cursor == cursor:
-            return
-        
         # get qt cursor
         qt_cursor = cursor
         if qt_cursor in QT_CURSORS:
@@ -65,37 +58,35 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         
         # set cursor
         self.setCursor(qt_cursor)
-        
-        # remember cursor
-        self._cursor = cursor
     
     
-    def draw(self, canvas=None, **overrides):
+    def draw_control(self, canvas=None, **overrides):
         """
-        Draws current graphics into specified or newly created canvas.
+        Draws current control graphics into specified or newly created canvas.
         
         Args:
             canvas: pero.Canvas or None
-                Specific canvas to draw the graphics on.
+                Specific canvas to draw the control on.
             
             overrides: str:any pairs
-                Specific properties of current graphics to be overwritten.
+                Specific properties of current control graphics to be
+                overwritten.
         """
         
-        # check graphics
-        if not self.graphics:
+        # check control
+        if not self.control:
             return
         
         # draw to given canvas
         if canvas is not None:
-            self.graphics.draw(canvas, **overrides)
+            self.control.draw_graphics(canvas, **overrides)
             return
         
         # update screen
         self.repaint()
     
     
-    def draw_system_tooltip(self, text):
+    def draw_tooltip(self, text):
         """
         Shows given text as a system tooltip.
         
@@ -135,7 +126,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
             
             native = evt,
             view = self,
-            graphics = self.graphics)
+            control = self.control)
         
         return view_evt
     
@@ -148,7 +139,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
             
             native = evt,
             view = self,
-            graphics = self.graphics,
+            control = self.control,
             
             key = evt.key(),
             char = evt.text(),
@@ -169,7 +160,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
             
             native = evt,
             view = self,
-            graphics = self.graphics,
+            control = self.control,
             
             x_pos = evt.x(),
             y_pos = evt.y(),
@@ -199,7 +190,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         canvas = QtCanvas(qp)
         
         # draw
-        self.draw(canvas)
+        self.draw_control(canvas)
         
         # end drawing
         qp.end()
@@ -214,20 +205,21 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         height = max(1, size.height())
         
         # draw graphics
-        self.draw()
+        self.draw_control()
         
         # make size event
         size_evt = SizeEvt(
             
             native = evt,
             view = self,
-            graphics = self.graphics,
+            control = self.control,
             
             width = width,
             height = height)
         
         # fire event
-        self.fire(size_evt)
+        if self.control:
+            self.control.fire(size_evt)
     
     
     def _on_key_down(self, evt):
@@ -241,7 +233,8 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         key_evt.pressed = True
         
         # fire event
-        self.fire(key_evt)
+        if self.control:
+            self.control.fire(key_evt)
     
     
     def _on_key_up(self, evt):
@@ -255,7 +248,8 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         key_evt.pressed = False
         
         # fire event
-        self.fire(key_evt)
+        if self.control:
+            self.control.fire(key_evt)
     
     
     def _on_mouse_move(self, evt):
@@ -268,7 +262,8 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         mouse_evt = MouseMotionEvt.from_evt(mouse_evt)
         
         # fire event
-        self.fire(mouse_evt)
+        if self.control:
+            self.control.fire(mouse_evt)
     
     
     def _on_mouse_wheel(self, evt):
@@ -290,7 +285,8 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         mouse_evt.y_rot = rotation.y()
         
         # fire event
-        self.fire(mouse_evt)
+        if self.control:
+            self.control.fire(mouse_evt)
     
     
     def _on_mouse_enter(self, evt):
@@ -303,7 +299,8 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         view_evt = MouseEnterEvt.from_evt(view_evt)
         
         # fire event
-        self.fire(view_evt)
+        if self.control:
+            self.control.fire(view_evt)
     
     
     def _on_mouse_leave(self, evt):
@@ -316,7 +313,8 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         view_evt = MouseLeaveEvt.from_evt(view_evt)
         
         # fire event
-        self.fire(view_evt)
+        if self.control:
+            self.control.fire(view_evt)
     
     
     def _on_mouse_down(self, evt):
@@ -339,7 +337,8 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         self.setFocus(Qt.MouseFocusReason)
         
         # fire event
-        self.fire(mouse_evt)
+        if self.control:
+            self.control.fire(mouse_evt)
     
     
     def _on_mouse_up(self, evt):
@@ -359,7 +358,8 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
             mouse_evt = RightUpEvt.from_evt(mouse_evt)
         
         # fire event
-        self.fire(mouse_evt)
+        if self.control:
+            self.control.fire(mouse_evt)
     
     
     def _on_mouse_dclick(self, evt):
@@ -379,4 +379,5 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
             mouse_evt = RightDClickEvt.from_evt(mouse_evt)
         
         # fire event
-        self.fire(mouse_evt)
+        if self.control:
+            self.control.fire(mouse_evt)

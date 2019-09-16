@@ -69,7 +69,7 @@ class KeyEvt(ViewEvt):
             
             native = evt.native,
             view = evt.view,
-            graphics = evt.graphics,
+            control = evt.control,
             
             key = evt.key,
             char = evt.char,

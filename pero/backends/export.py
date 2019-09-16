@@ -89,7 +89,7 @@ def show(graphics, title=None, width=750, height=500):
     graphics 'draw' method.
     
     Args:
-        graphics: pero.Graphics
+        graphics: pero.Control or pero.Graphics
             Graphics to be drawn.
         
         title: str or None
@@ -138,7 +138,7 @@ def debug(graphics, canvas='wx', title="", width=750, height=500, **options):
     directory using 'test' and appropriate format as the name.
     
     Args:
-        graphics: pero.Graphics
+        graphics: pero.Control or pero.Graphics
             Graphics to be drawn.
         
         canvas: str

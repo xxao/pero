@@ -29,7 +29,6 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         self._dc_overlay_empty = True
         self._dc_size = None
         self._use_buffer = wx.Platform == '__WXMSW__'
-        self._cursor = CURSOR.ARROW
         
         # set window events
         self.Bind(wx.EVT_PAINT, self._on_paint)
@@ -67,10 +66,6 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
                 Cursor type to be set as any item from the pero.CURSOR enum.
         """
         
-        # check current
-        if self._cursor == cursor:
-            return
-        
         # get wx cursor
         wx_cursor = cursor
         
@@ -82,30 +77,28 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         
         # set cursor
         self.SetCursor(wx_cursor)
-        
-        # remember cursor
-        self._cursor = cursor
     
     
-    def draw(self, canvas=None, **overrides):
+    def draw_control(self, canvas=None, **overrides):
         """
-        Draws current graphics into specified or newly created canvas.
+        Draws current control graphics into specified or newly created canvas.
         
         Args:
             canvas: pero.Canvas or None
-                Specific canvas to draw the graphics on.
+                Specific canvas to draw the control on.
             
             overrides: str:any pairs
-                Specific properties of current graphics to be overwritten.
+                Specific properties of current control graphics to be
+                overwritten.
         """
         
-        # check graphics
-        if not self.graphics:
+        # check control
+        if not self.control:
             return
         
-        # draw to given canvas
+        # draw into given canvas
         if canvas is not None:
-            self.graphics.draw(canvas, **overrides)
+            self.control.draw_graphics(canvas, **overrides)
             return
         
         # draw into buffer
@@ -118,8 +111,8 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             # init canvas
             canvas = self._make_canvas(dc)
             
-            # draw graphics
-            self.graphics.draw(canvas, **overrides)
+            # draw
+            self.control.draw_graphics(canvas, **overrides)
             del dc
             
             # reset overlay
@@ -130,7 +123,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         self.Update()
     
     
-    def draw_system_tooltip(self, text):
+    def draw_tooltip(self, text):
         """
         Shows given text as a system tooltip.
         
@@ -202,7 +195,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         else:
             dc = wx.PaintDC(self)
             canvas = self._make_canvas(dc)
-            self.draw(canvas)
+            self.draw_control(canvas)
             self._dc_overlay.Reset()
     
     
@@ -220,21 +213,22 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         # make new off-screen bitmap
         self._dc_buffer = wx.Bitmap(width, height)
         
-        # draw graphics
-        self.draw()
+        # draw control
+        self.draw_control()
         
         # make size event
         size_evt = SizeEvt(
             
             native = evt,
             view = self,
-            graphics = self.graphics,
+            control = self.control,
             
             width = width,
             height = height)
         
         # fire event
-        self.fire(size_evt)
+        if self.control:
+            self.control.fire(size_evt)
     
     
     def _on_key(self, evt):
@@ -257,7 +251,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             
             native = evt,
             view = self,
-            graphics = self.graphics,
+            control = self.control,
             
             key = key,
             char = char,
@@ -278,7 +272,8 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             key_evt = KeyUpEvt.from_evt(key_evt)
         
         # fire event
-        self.fire(key_evt)
+        if self.control:
+            self.control.fire(key_evt)
     
     
     def _on_mouse(self, evt):
@@ -292,12 +287,13 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             
             native = evt,
             view = self,
-            graphics = self.graphics,
+            control = self.control,
             
             x_pos = x,
             y_pos = y,
             
             x_rot = evt.GetWheelRotation(),
+            y_rot = evt.GetWheelRotation(),
             
             left_down = evt.LeftIsDown(),
             middle_down = evt.MiddleIsDown(),
@@ -359,7 +355,8 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             except: pass
         
         # fire event
-        self.fire(mouse_evt)
+        if self.control:
+            self.control.fire(mouse_evt)
     
     
     def _make_canvas(self, dc):

@@ -2,11 +2,23 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # import modules
-from ..properties import PropertySet
+from ..properties import UNDEF, PropertySet, SetProperty
 
 
 class Tool(PropertySet):
     """Abstract base class for interactivity tools."""
+    
+    keys = SetProperty(UNDEF, dynamic=False)
+    
+    
+    def __init__(self, **overrides):
+        """Initializes a new instance of Tool."""
+        
+        super(Tool, self).__init__(**overrides)
+        
+        # init buffers
+        if self.keys == UNDEF:
+            self.keys = set()
     
     
     def on_key_down(self, evt):
@@ -19,7 +31,8 @@ class Tool(PropertySet):
                 Event to process.
         """
         
-        pass
+        # remember key
+        self.keys.add(evt.key)
     
     
     def on_key_up(self, evt):
@@ -32,7 +45,8 @@ class Tool(PropertySet):
                 Event to process.
         """
         
-        pass
+        # remove key
+        self.keys.discard(evt.key)
     
     
     def on_mouse_enter(self, evt):
@@ -58,7 +72,8 @@ class Tool(PropertySet):
                 Event to process.
         """
         
-        pass
+        # clear keys
+        self.keys = set()
     
     
     def on_mouse_motion(self, evt):

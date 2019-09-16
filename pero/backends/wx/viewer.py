@@ -4,6 +4,8 @@
 # import modules
 import wx
 
+from ...drawing import Graphics
+from ..view import Control
 from .view import WXView
 
 
@@ -50,15 +52,15 @@ class WXViewer(wx.App):
         self._frame.SetTitle(title or "")
     
     
-    def set_graphics(self, graphics):
+    def set_content(self, content):
         """
-        Sets graphics to draw.
+        Sets content to draw.
         
         Args:
-            graphics: pero.WXView or pero.Graphics
+            content: pero.WXView, pero.Control or pero.Graphics
         """
         
-        self._frame.set_graphics(graphics)
+        self._frame.set_content(content)
     
     
     def show(self):
@@ -96,20 +98,29 @@ class WXViewFrame(wx.Frame):
         self.SetMinSize((100, 100))
     
     
-    def set_graphics(self, graphics):
+    def set_content(self, content):
         """
-        Sets graphics to draw.
+        Sets content to draw.
         
         Args:
-            graphics: pero.WXView or pero.Graphics
+            content: pero.WXView, pero.Control or pero.Graphics
         """
         
         # init view
-        if isinstance(graphics, WXView):
-            self._view = graphics
-        else:
+        if isinstance(content, WXView):
+            self._view = content
+        
+        elif isinstance(content, Control):
             self._view = WXView(self._panel)
-            self._view.graphics = graphics
+            self._view.set_control(content)
+        
+        elif isinstance(content, Graphics):
+            self._view = WXView(self._panel)
+            self._view.set_control(Control(graphics=content))
+        
+        else:
+            message = "Unknown content type! -> %s" % type(content)
+            raise TypeError(message)
         
         # clean sizer
         self._panel.Sizer.Clear(True)

@@ -40,7 +40,7 @@ def show(graphics, title=None, width=750, height=500):
     Shows given graphics in the viewer app.
     
     Args:
-        graphics: pero.Graphics
+        graphics: pero.Control or pero.Graphics
             Graphics to be shown.
         
         title: str or None
@@ -69,7 +69,7 @@ def show(graphics, title=None, width=750, height=500):
     window.set_size((width, height))
     
     # set graphics
-    window.set_graphics(graphics)
+    window.set_content(graphics)
     
     # draw graphics
     window.refresh()

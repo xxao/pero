@@ -4,6 +4,8 @@
 # import modules
 from PyQt5.QtWidgets import QWidget, QDesktopWidget, QHBoxLayout
 
+from ...drawing import Graphics
+from ..view import Control
 from .view import QtView
 
 
@@ -59,20 +61,29 @@ class QtViewer(QWidget):
         self.setWindowTitle(title or "")
     
     
-    def set_graphics(self, graphics):
+    def set_content(self, content):
         """
-        Sets graphics to draw.
+        Sets content to draw.
         
         Args:
-            graphics: pero.QtView or pero.Graphics
+            content: pero.QtView, pero.Control or pero.Graphics
         """
         
         # init view
-        if isinstance(graphics, QtView):
-            self._view = graphics
-        else:
+        if isinstance(content, QtView):
+            self._view = content
+        
+        elif isinstance(content, Control):
             self._view = QtView(self)
-            self._view.graphics = graphics
+            self._view.set_control(content)
+        
+        elif isinstance(content, Graphics):
+            self._view = QtView(self)
+            self._view.set_control(Control(graphics=content))
+        
+        else:
+            message = "Unknown content type! -> %s" % type(content)
+            raise TypeError(message)
         
         # clean sizer
         if self._view is not None:

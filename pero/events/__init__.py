@@ -6,7 +6,7 @@ from .handler import EvtHandler
 from .event import Event
 from .prop import PropertyChangedEvt
 from .canvas import PenChangedEvt, BrushChangedEvt, TextChangedEvt
-from .view import ViewEvt, SizeEvt
+from .view import ViewEvt, SizeEvt, ZoomEvt
 from .mouse import MouseEvt, MouseEnterEvt, MouseLeaveEvt
 from .mouse import MouseMotionEvt, MouseScrollEvt
 from .mouse import LeftDownEvt, LeftUpEvt, LeftDClickEvt
