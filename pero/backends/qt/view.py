@@ -21,7 +21,6 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         # init base
         super(QtView, self).__init__(parent)
         View.__init__(self)
-        
         self.setMouseTracking(True)
         
         # set window events
@@ -60,35 +59,9 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         self.setCursor(qt_cursor)
     
     
-    def draw_control(self, canvas=None, **overrides):
+    def set_tooltip(self, text):
         """
-        Draws current control graphics into specified or newly created canvas.
-        
-        Args:
-            canvas: pero.Canvas or None
-                Specific canvas to draw the control on.
-            
-            overrides: str:any pairs
-                Specific properties of current control graphics to be
-                overwritten.
-        """
-        
-        # check control
-        if not self.control:
-            return
-        
-        # draw to given canvas
-        if canvas is not None:
-            self.control.draw_graphics(canvas, **overrides)
-            return
-        
-        # update screen
-        self.repaint()
-    
-    
-    def draw_tooltip(self, text):
-        """
-        Shows given text as a system tooltip.
+        Sets given text as a system tooltip.
         
         Args:
             text: str
@@ -98,21 +71,45 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         self.setToolTip(text)
     
     
-    def draw_overlay(self, func=None, **overrides):
+    def draw_control(self, canvas=None):
+        """
+        Draws current control graphics into specified or newly created canvas.
+        
+        Args:
+            canvas: pero.Canvas or None
+                Specific canvas to draw the control on. If se to None, this
+                method is responsible to initialize one.
+        """
+        
+        # check control
+        if self.control is None:
+            return
+        
+        # draw to given canvas
+        if canvas is not None:
+            self.control.draw(canvas)
+            return
+        
+        # update screen
+        self.repaint()
+    
+    
+    def draw_overlay(self, func=None, **kwargs):
         """
         Draws cursor rubber band overlay.
         
         Specified function is expected to be called with a canvas as the first
-        argument followed by given overrides (i.e. func(canvas, **overrides)).
+        argument followed by given overrides (i.e. func(canvas, **kwargs)).
         If the 'func' parameter is set to None current overlay is cleared.
         
         Args:
             func: callable or None
-                Method to be called to draw the overlay or None to clear
-                current.
+                Drawing function to be called to draw the overlay. If set to
+                None, current overlay will be cleared.
                 
-            overrides: str:any pairs
-                Specific properties of the drawing method to be overwritten.
+            kwargs: str:any pairs
+                Keyword arguments, which should be provided to the given drawing
+                function.
         """
         
         pass
@@ -189,7 +186,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         # init canvas
         canvas = QtCanvas(qp)
         
-        # draw
+        # draw control
         self.draw_control(canvas)
         
         # end drawing
@@ -204,7 +201,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         width = max(1, size.width())
         height = max(1, size.height())
         
-        # draw graphics
+        # draw control
         self.draw_control()
         
         # make size event
@@ -218,7 +215,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
             height = height)
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(size_evt)
     
     
@@ -233,7 +230,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         key_evt.pressed = True
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(key_evt)
     
     
@@ -248,7 +245,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         key_evt.pressed = False
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(key_evt)
     
     
@@ -262,7 +259,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         mouse_evt = MouseMotionEvt.from_evt(mouse_evt)
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(mouse_evt)
     
     
@@ -285,7 +282,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         mouse_evt.y_rot = rotation.y()
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(mouse_evt)
     
     
@@ -299,7 +296,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         view_evt = MouseEnterEvt.from_evt(view_evt)
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(view_evt)
     
     
@@ -313,7 +310,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         view_evt = MouseLeaveEvt.from_evt(view_evt)
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(view_evt)
     
     
@@ -337,7 +334,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         self.setFocus(Qt.MouseFocusReason)
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(mouse_evt)
     
     
@@ -358,7 +355,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
             mouse_evt = RightUpEvt.from_evt(mouse_evt)
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(mouse_evt)
     
     
@@ -379,5 +376,5 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
             mouse_evt = RightDClickEvt.from_evt(mouse_evt)
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(mouse_evt)

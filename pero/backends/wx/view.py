@@ -20,7 +20,6 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         # init base
         wx.Window.__init__(self, parent, id, size=size, style=style)
         View.__init__(self)
-        
         self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
         
         # init buffers
@@ -79,26 +78,35 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         self.SetCursor(wx_cursor)
     
     
-    def draw_control(self, canvas=None, **overrides):
+    def set_tooltip(self, text):
+        """
+        Sets given text as a system tooltip.
+        
+        Args:
+            text: str
+                Tooltip text to be set.
+        """
+        
+        self.SetToolTip(text)
+    
+    
+    def draw_control(self, canvas=None):
         """
         Draws current control graphics into specified or newly created canvas.
         
         Args:
             canvas: pero.Canvas or None
-                Specific canvas to draw the control on.
-            
-            overrides: str:any pairs
-                Specific properties of current control graphics to be
-                overwritten.
+                Specific canvas to draw the control on. If se to None, this
+                method is responsible to initialize one.
         """
         
         # check control
-        if not self.control:
+        if self.control is None:
             return
         
         # draw into given canvas
         if canvas is not None:
-            self.control.draw_graphics(canvas, **overrides)
+            self.control.draw(canvas)
             return
         
         # draw into buffer
@@ -111,8 +119,8 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             # init canvas
             canvas = self._make_canvas(dc)
             
-            # draw
-            self.control.draw_graphics(canvas, **overrides)
+            # draw control
+            self.control.draw(canvas)
             del dc
             
             # reset overlay
@@ -123,33 +131,22 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         self.Update()
     
     
-    def draw_tooltip(self, text):
-        """
-        Shows given text as a system tooltip.
-        
-        Args:
-            text: str
-                Tooltip text to be shown.
-        """
-        
-        self.SetToolTip(text)
-    
-    
-    def draw_overlay(self, func=None, **overrides):
+    def draw_overlay(self, func=None, **kwargs):
         """
         Draws cursor rubber band overlay.
         
         Specified function is expected to be called with a canvas as the first
-        argument followed by given overrides (i.e. func(canvas, **overrides)).
+        argument followed by given overrides (i.e. func(canvas, **kwargs)).
         If the 'func' parameter is set to None current overlay is cleared.
         
         Args:
             func: callable or None
-                Method to be called to draw the overlay or None to clear
-                current.
+                Drawing function to be called to draw the overlay. If set to
+                None, current overlay will be cleared.
                 
-            overrides: str:any pairs
-                Specific properties of the drawing method to be overwritten.
+            kwargs: str:any pairs
+                Keyword arguments, which should be provided to the given drawing
+                function.
         """
         
         # do not clean if empty
@@ -177,7 +174,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         canvas = self._make_canvas(dc)
         
         # draw overlay
-        func(canvas, **overrides)
+        func(canvas, **kwargs)
         self._dc_overlay_empty = False
         
         # delete overlay DC
@@ -227,7 +224,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             height = height)
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(size_evt)
     
     
@@ -272,7 +269,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             key_evt = KeyUpEvt.from_evt(key_evt)
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(key_evt)
     
     
@@ -355,7 +352,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             except: pass
         
         # fire event
-        if self.control:
+        if self.control is not None:
             self.control.fire(mouse_evt)
     
     
