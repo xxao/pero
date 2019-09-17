@@ -279,6 +279,14 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         # get position
         x, y = evt.GetPosition()
         
+        # get wheel rotation
+        if evt.GetWheelAxis() == wx.MOUSE_WHEEL_HORIZONTAL:
+            x_rot = evt.GetWheelRotation()
+            y_rot = 0
+        else:
+            x_rot = 0
+            y_rot = evt.GetWheelRotation()
+        
         # init base event
         mouse_evt = MouseEvt(
             
@@ -289,8 +297,8 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             x_pos = x,
             y_pos = y,
             
-            x_rot = evt.GetWheelRotation(),
-            y_rot = evt.GetWheelRotation(),
+            x_rot = x_rot,
+            y_rot = y_rot,
             
             left_down = evt.LeftIsDown(),
             middle_down = evt.MiddleIsDown(),
