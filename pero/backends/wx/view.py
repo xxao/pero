@@ -23,10 +23,10 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
         
         # init buffers
-        self._dc_buffer = None
+        self._dc_size = self.GetClientSize()
+        self._dc_buffer = wx.Bitmap(*self.GetClientSize())
         self._dc_overlay = wx.Overlay()
         self._dc_overlay_empty = True
-        self._dc_size = None
         self._use_buffer = wx.Platform == '__WXMSW__'
         
         # set window events
@@ -51,9 +51,6 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         self.Bind(wx.EVT_RIGHT_DOWN, self._on_mouse)
         self.Bind(wx.EVT_RIGHT_UP, self._on_mouse)
         self.Bind(wx.EVT_RIGHT_DCLICK, self._on_mouse)
-        
-        # init buffer
-        self._on_size(None)
     
     
     def set_cursor(self, cursor):
@@ -90,23 +87,11 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         self.SetToolTip(text)
     
     
-    def draw_control(self, canvas=None):
-        """
-        Draws current control graphics into specified or newly created canvas.
-        
-        Args:
-            canvas: pero.Canvas or None
-                Specific canvas to draw the control on. If se to None, this
-                method is responsible to initialize one.
-        """
+    def draw_control(self):
+        """Draws current control graphics."""
         
         # check control
         if self.control is None:
-            return
-        
-        # draw into given canvas
-        if canvas is not None:
-            self.control.draw(canvas)
             return
         
         # draw into buffer
@@ -121,10 +106,14 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             
             # draw control
             self.control.draw(canvas)
-            del dc
             
             # reset overlay
-            self._dc_overlay.Reset()
+            if not self._dc_overlay_empty:
+                self._dc_overlay.Reset()
+            
+            # delete DC
+            dc.SelectObject(wx.NullBitmap)
+            del dc
         
         # update screen
         self.Refresh(eraseBackground=False)
@@ -149,6 +138,10 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
                 function.
         """
         
+        # check control
+        if self.control is None:
+            return
+        
         # do not clean if empty
         if func is None and self._dc_overlay_empty:
             return
@@ -156,28 +149,18 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         # clear current tooltip
         self.SetToolTip("")
         
-        # disable overlay on Mac until it is working
-        # if wx.Platform == "__WXMAC__":
-        #     return
-        
-        # make and clear overlay DC
+        # make overlay DC
         dc = wx.ClientDC(self)
         odc = wx.DCOverlay(self._dc_overlay, dc)
         odc.Clear()
         
-        # check function
-        if func is None:
-            del odc
-            return
-        
-        # make canvas
-        canvas = self._make_canvas(dc)
-        
         # draw overlay
-        func(canvas, **kwargs)
-        self._dc_overlay_empty = False
+        if func is not None:
+            canvas = self._make_canvas(dc)
+            func(canvas, **kwargs)
+            self._dc_overlay_empty = False
         
-        # delete overlay DC
+        # delete DC
         del odc
     
     
@@ -186,13 +169,13 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         
         # draw buffer on screen
         if self._use_buffer:
-            dc = wx.BufferedPaintDC(self, self._dc_buffer)
+            wx.BufferedPaintDC(self, self._dc_buffer)
         
         # draw directly
         else:
             dc = wx.PaintDC(self)
             canvas = self._make_canvas(dc)
-            self.draw_control(canvas)
+            self.control.draw(canvas)
             self._dc_overlay.Reset()
     
     
@@ -207,11 +190,9 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         # remember current size
         self._dc_size = (width, height)
         
-        # make new off-screen bitmap
-        self._dc_buffer = wx.Bitmap(width, height)
-        
-        # draw control
-        self.draw_control()
+        # init new buffer
+        if self._use_buffer:
+            self._dc_buffer = wx.Bitmap(width, height)
         
         # make size event
         size_evt = SizeEvt(

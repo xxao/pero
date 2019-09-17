@@ -3,7 +3,7 @@
 
 # import modules
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtGui import QPainter
+from PyQt5.QtGui import QPainter, QPicture
 
 from ...events import *
 from ..view import View
@@ -22,6 +22,12 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         super(QtView, self).__init__(parent)
         View.__init__(self)
         self.setMouseTracking(True)
+        
+        # init buffers
+        self._dc_size = (self.width(), self.height())
+        self._dc_buffer = QPicture()
+        self._dc_overlay = QPicture()
+        self._dc_overlay_empty = True
         
         # set window events
         self.paintEvent = self._on_paint
@@ -71,27 +77,34 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         self.setToolTip(text)
     
     
-    def draw_control(self, canvas=None):
-        """
-        Draws current control graphics into specified or newly created canvas.
-        
-        Args:
-            canvas: pero.Canvas or None
-                Specific canvas to draw the control on. If se to None, this
-                method is responsible to initialize one.
-        """
+    def draw_control(self):
+        """Draws current control graphics."""
         
         # check control
         if self.control is None:
             return
         
-        # draw to given canvas
-        if canvas is not None:
-            self.control.draw(canvas)
-            return
+        # init painter
+        qp = QPainter()
+        qp.begin(self._dc_buffer)
+        qp.setRenderHint(QPainter.Antialiasing)
+        qp.setRenderHint(QPainter.SmoothPixmapTransform)
+        
+        # init canvas
+        canvas = QtCanvas(qp, width=self._dc_size[0], height=self._dc_size[1])
+        
+        # draw control
+        self.control.draw(canvas)
+        
+        # end drawing
+        qp.end()
+        
+        # reset overlay
+        if not self._dc_overlay_empty:
+            self._dc_overlay = QPicture()
         
         # update screen
-        self.repaint()
+        self.update()
     
     
     def draw_overlay(self, func=None, **kwargs):
@@ -112,7 +125,34 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
                 function.
         """
         
-        pass
+        # check control
+        if self.control is None:
+            return
+        
+        # do not clean if empty
+        if func is None and self._dc_overlay_empty:
+            return
+        
+        # clear current tooltip
+        self.setToolTip("")
+        
+        # init painter
+        qp = QPainter()
+        qp.begin(self._dc_overlay)
+        qp.setRenderHint(QPainter.Antialiasing)
+        qp.setRenderHint(QPainter.SmoothPixmapTransform)
+        
+        # draw overlay
+        if func is not None:
+            canvas = QtCanvas(qp, width=self._dc_size[0], height=self._dc_size[1])
+            func(canvas, **kwargs)
+            self._dc_overlay_empty = False
+        
+        # end drawing
+        qp.end()
+        
+        # update screen
+        self.update()
     
     
     def _init_view_event(self, evt):
@@ -183,11 +223,11 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         qp.setRenderHint(QPainter.Antialiasing)
         qp.setRenderHint(QPainter.SmoothPixmapTransform)
         
-        # init canvas
-        canvas = QtCanvas(qp)
-        
         # draw control
-        self.draw_control(canvas)
+        qp.drawPicture(0, 0, self._dc_buffer)
+        
+        # draw overlay
+        qp.drawPicture(0, 0, self._dc_overlay)
         
         # end drawing
         qp.end()
@@ -201,8 +241,8 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         width = max(1, size.width())
         height = max(1, size.height())
         
-        # draw control
-        self.draw_control()
+        # remember current size
+        self._dc_size = (width, height)
         
         # make size event
         size_evt = SizeEvt(

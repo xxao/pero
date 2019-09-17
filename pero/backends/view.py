@@ -93,15 +93,10 @@ class View(object):
         self.draw_control()
     
     
-    def draw_control(self, canvas=None):
+    def draw_control(self):
         """
         This method should be overridden to provide specific drawing mechanism
         and canvas creation to draw current control graphics.
-        
-        Args:
-            canvas: pero.Canvas or None
-                Specific canvas to draw the graphics on. If se to None, this
-                method is responsible to initialize one.
         """
         
         raise NotImplementedError("The 'draw_control' method is not implemented for '%s'." % self.__class__.__name__)
