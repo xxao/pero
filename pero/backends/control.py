@@ -54,7 +54,6 @@ class Control(PropertySet):
     
     graphics = Property(None, types=Graphics, dynamic=False, nullable=True)
     tooltip = Property(UNDEF, types=Tooltip, dynamic=False, nullable=True)
-    cursor = EnumProperty(CURSOR.ARROW, enum=CURSOR, dynamic=False)
     
     main_tool = Property(UNDEF, types=Tool, dynamic=False, nullable=True)
     cursor_tool = Property(UNDEF, types=Tool, dynamic=False, nullable=True)
@@ -70,6 +69,7 @@ class Control(PropertySet):
         
         # init buffers
         self._parent = None
+        self._cursor = CURSOR.ARROW
         
         # init tooltip
         if self.tooltip is UNDEF:
@@ -77,6 +77,28 @@ class Control(PropertySet):
         
         # bind events
         self.bind(EVENT.PROPERTY_CHANGED, self._on_control_property_changed)
+    
+    
+    def set_cursor(self, cursor):
+        """
+        Sets given mouse cursor.
+        
+        Args:
+            cursor: pero.CURSOR
+                Cursor type to be set. The value must be an item from the
+                pero.CURSOR enum.
+        """
+        
+        # check cursor
+        if self._cursor == cursor:
+            return
+        
+        # remember cursor
+        self._cursor = cursor
+        
+        # set to view
+        if self._parent is not None:
+            self._parent.set_cursor(cursor)
     
     
     def refresh(self):
@@ -225,13 +247,8 @@ class Control(PropertySet):
     def _on_control_property_changed(self, evt):
         """Called after any property has changed."""
         
-        # cursor changed
-        if evt.name == 'cursor':
-            if self._parent and evt.new_value != UNDEF:
-                self._parent.set_cursor(evt.new_value)
-        
         # main tool changed
-        elif evt.name == 'main_tool':
+        if evt.name == 'main_tool':
             self._set_tool(evt.new_value, evt.old_value, True, True)
         
         # cursor tool changed
