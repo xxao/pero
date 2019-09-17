@@ -76,8 +76,8 @@ class Control(PropertySet):
             self.tooltip = TextTooltip()
         
         # bind events
-        self.bind(EVENT.PROPERTY_CHANGED, self._on_control_property_changed)
         self.bind(EVENT.SIZE, self._on_control_size)
+        self.bind(EVENT.PROPERTY_CHANGED, self._on_control_property_changed)
     
     
     def set_cursor(self, cursor):
@@ -245,6 +245,13 @@ class Control(PropertySet):
             self.bind(EVENT.RIGHT_DCLICK, new_tool.on_mouse_dclick)
     
     
+    def _on_control_size(self, evt):
+        """Redraws current graphics when size has changed."""
+        
+        if self._parent is not None:
+            self._parent.draw_control()
+    
+    
     def _on_control_property_changed(self, evt):
         """Called after any property has changed."""
         
@@ -263,10 +270,3 @@ class Control(PropertySet):
         # right mouse tool changed
         elif evt.name == 'right_tool':
             self._set_tool(evt.new_value, evt.old_value, False, True)
-    
-    
-    def _on_control_size(self, evt):
-        """Redraws current graphics when size has changed."""
-        
-        if self._parent is not None:
-            self._parent.draw_control()
