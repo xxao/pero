@@ -56,5 +56,5 @@ QT_CURSORS = {
     CURSOR.BLANK: Qt.BlankCursor,
     CURSOR.ARROW: Qt.ArrowCursor,
     CURSOR.HAND: Qt.OpenHandCursor,
-    CURSOR.SIZEWE: Qt.SizeVerCursor,
-    CURSOR.SIZENS: Qt.SizeHorCursor}
+    CURSOR.SIZEWE: Qt.SizeHorCursor,
+    CURSOR.SIZENS: Qt.SizeVerCursor}
