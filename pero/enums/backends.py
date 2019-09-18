@@ -79,3 +79,16 @@ EXPORT_PRIORITY = [
     BACKEND.CAIRO,
     BACKEND.MUPDF,
     BACKEND.PYTHONISTA]
+
+# define viewer backend priorities
+VIEWER_PRIORITY = [
+    BACKEND.QT,
+    BACKEND.WX,
+    BACKEND.PYTHONISTA]
+
+# define default export size
+EXPORT_WIDTH = 750
+EXPORT_HEIGHT = 500
+
+VIEWER_WIDTH = 750
+VIEWER_HEIGHT = 500

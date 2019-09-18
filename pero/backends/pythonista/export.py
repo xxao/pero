@@ -65,7 +65,7 @@ def export(graphics, path, width=None, height=None, **options):
             f.write(img.to_png())
 
 
-def show(graphics, width=None, height=None):
+def show(graphics, title=None, width=None, height=None):
     """
     Draws given graphics into Pythonista console.
     
@@ -73,11 +73,14 @@ def show(graphics, width=None, height=None):
         graphics: pero.Graphics
             Graphics to be drawn.
         
+        title: str or None
+            Viewer frame title.
+        
         width: float or None
-            Image width in device units.
+            Viewer width in device units.
         
         height: float or None
-            Image height in device units.
+            Viewer height in device units.
     """
     
     # check size

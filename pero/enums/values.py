@@ -1,13 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# define constants
-EXPORT_WIDTH = 750
-EXPORT_HEIGHT = 500
-
-VIEWER_WIDTH = 750
-VIEWER_HEIGHT = 500
-
 # define values
 NONE = 'none'
 

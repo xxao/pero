@@ -44,26 +44,26 @@ def export(graphics, path, width=None, height=None, **options):
         
         # try to import backend
         try:
-            if module == BACKEND.JSON:
-                from . import json as backend
-            
-            if module == BACKEND.SVG:
-                from . import svg as backend
-            
-            elif module == BACKEND.QT:
-                from . import qt as backend
-            
-            elif module == BACKEND.WX:
-                from . import wx as backend
-            
-            elif module == BACKEND.CAIRO:
+            if module == BACKEND.CAIRO:
                 from . import cairo as backend
+            
+            elif module == BACKEND.JSON:
+                from . import json as backend
             
             elif module == BACKEND.MUPDF:
                 from . import mupdf as backend
             
             elif module == BACKEND.PYTHONISTA:
                 from . import pythonista as backend
+            
+            elif module == BACKEND.QT:
+                from . import qt as backend
+            
+            elif module == BACKEND.SVG:
+                from . import svg as backend
+            
+            elif module == BACKEND.WX:
+                from . import wx as backend
             
             break
         
@@ -75,13 +75,7 @@ def export(graphics, path, width=None, height=None, **options):
     # unsupported format
     if backend is None:
         message = "Unsupported image format or missing library! -> %s" % extension
-        raise NotImplementedError(message)
-    
-    # check size
-    if not width:
-        width = EXPORT_WIDTH
-    if not height:
-        height = EXPORT_HEIGHT
+        raise ImportError(message)
     
     # export image
     backend.export(graphics, path, width, height, **options)
@@ -108,32 +102,35 @@ def show(graphics, title=None, width=None, height=None):
             Viewer height in device units.
     """
     
-    # show in Qt viewer
-    try:
-        from . import qt
-        qt.show(graphics, title, width, height)
-        return
-    except ImportError:
-        pass
+    # get backend
+    backend = None
+    for module in VIEWER_PRIORITY:
+        
+        # try to import backend
+        try:
+            if module == BACKEND.PYTHONISTA:
+                from . import pythonista as backend
+            
+            elif module == BACKEND.QT:
+                from . import qt as backend
+            
+            elif module == BACKEND.WX:
+                from . import wx as backend
+            
+            break
+        
+        # ignore missing library
+        except ImportError:
+            backend = None
+            pass
     
-    # show in WX viewer
-    try:
-        from . import wx
-        wx.show(graphics, title, width, height)
-        return
-    except ImportError:
-        pass
+    # no viewer available
+    if backend is None:
+        message = "No viewer available (wxPython, PyQt5 or Pythonista needed)!"
+        raise ImportError(message)
     
-    # show in Pythonista console
-    try:
-        from . import pythonista
-        pythonista.show(graphics, width, height)
-        return
-    except ImportError:
-        pass
-    
-    # no viewer
-    raise ImportError("No viewer available (wxPython or Pythonista needed).")
+    # show viewer
+    backend.show(graphics, title, width, height)
 
 
 def debug(graphics, canvas='show', title="", width=None, height=None, **options):
