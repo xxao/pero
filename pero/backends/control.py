@@ -128,7 +128,7 @@ class Control(PropertySet):
     
     def show(self, title=None, width=None, height=None):
         """
-        Shows given graphics in available viewer app. This method makes sure
+        Shows the control in available viewer app. This method makes sure
         appropriate backend canvas is created and provided to the 'draw' method.
         
         Args:
@@ -136,10 +136,10 @@ class Control(PropertySet):
                 Viewer frame title.
             
             width: float or None
-                Image width in device units.
+                Viewer width in device units.
             
             height: float or None
-                Image height in device units.
+                Viewer height in device units.
         """
         
         from .export import show

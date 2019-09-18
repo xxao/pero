@@ -3,10 +3,11 @@
 
 # import modules
 import ui
+from .enums import *
 from .canvas import UICanvas
 
 
-def export(graphics, path, width, height, **options):
+def export(graphics, path, width=None, height=None, **options):
     """
     Draws given graphics as PNG raster image into specified file.
     
@@ -17,10 +18,10 @@ def export(graphics, path, width, height, **options):
         path: str
             Full path of a file to save the image into.
         
-        width: float
+        width: float or None
             Image width in device units.
         
-        height: float
+        height: float or None
             Image height in device units.
         
         line_scale: float
@@ -34,6 +35,12 @@ def export(graphics, path, width, height, **options):
     line_scale = 1
     if 'line_scale' in options:
         line_scale = options['line_scale']
+    
+    # check size
+    if not width:
+        width = EXPORT_WIDTH
+    if not height:
+        height = EXPORT_HEIGHT
     
     # open context
     with ui.ImageContext(width*line_scale, height*line_scale) as ctx:
@@ -58,7 +65,7 @@ def export(graphics, path, width, height, **options):
             f.write(img.to_png())
 
 
-def show(graphics, width, height):
+def show(graphics, width=None, height=None):
     """
     Draws given graphics into Pythonista console.
     
@@ -66,12 +73,18 @@ def show(graphics, width, height):
         graphics: pero.Graphics
             Graphics to be drawn.
         
-        width: float
+        width: float or None
             Image width in device units.
         
-        height: float
+        height: float or None
             Image height in device units.
     """
+    
+    # check size
+    if not width:
+        width = VIEWER_WIDTH
+    if not height:
+        height = VIEWER_HEIGHT
     
     # open context
     with ui.ImageContext(width, height) as ctx:

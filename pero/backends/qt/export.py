@@ -4,10 +4,11 @@
 # import modules
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
+from .enums import *
 from .viewer import QtViewer
 
 
-def export(graphics, path, width, height, **options):
+def export(graphics, path, width=None, height=None, **options):
     """
     Draws given graphics as raster image into specified file. The image format
     is determined from the extension of given file path.
@@ -19,10 +20,10 @@ def export(graphics, path, width, height, **options):
         path: str
             Full path of a file to save the image into.
         
-        width: float
+        width: float or None
             Image width in device units.
         
-        height: float
+        height: float or None
             Image height in device units.
         
         line_scale: float
@@ -35,7 +36,7 @@ def export(graphics, path, width, height, **options):
     raise NotImplementedError("No export is currently implemented for Qt.")
 
 
-def show(graphics, title=None, width=750, height=500):
+def show(graphics, title=None, width=None, height=None):
     """
     Shows given graphics in the viewer app.
     
@@ -44,13 +45,13 @@ def show(graphics, title=None, width=750, height=500):
             Graphics to be shown.
         
         title: str or None
-            App frame title.
+            Viewer frame title.
         
-        width: float
-            App width.
+        width: float or None
+            Viewer width in device units.
         
-        height: float
-            App height.
+        height: float or None
+            Viewer height in device units.
     """
     
     # init app
@@ -64,6 +65,12 @@ def show(graphics, title=None, width=750, height=500):
     # set title
     if title is not None:
         window.set_title(title)
+    
+    # check size
+    if not width:
+        width = VIEWER_WIDTH
+    if not height:
+        height = VIEWER_HEIGHT
     
     # set size
     window.set_size((width, height))

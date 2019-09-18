@@ -3,10 +3,11 @@
 
 # import modules
 import fitz
+from .enums import *
 from .canvas import MuPDFCanvas
 
 
-def export(graphics, path, width, height, **options):
+def export(graphics, path, width=None, height=None, **options):
     """
     Draws given graphics as PDF document into specified file.
     
@@ -17,10 +18,10 @@ def export(graphics, path, width, height, **options):
         path: str
             Full path of a file to save the image into.
         
-        width: float
+        width: float or None
             Image width in device units.
         
-        height: float
+        height: float or None
             Image height in device units.
         
         line_scale: float
@@ -29,6 +30,12 @@ def export(graphics, path, width, height, **options):
         font_scale: float
             Font scaling factor.
     """
+    
+    # check size
+    if not width:
+        width = EXPORT_WIDTH
+    if not height:
+        height = EXPORT_HEIGHT
     
     # init document
     doc = fitz.open()

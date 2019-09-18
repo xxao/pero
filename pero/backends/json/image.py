@@ -64,11 +64,11 @@ class Image(JsonCanvas, Graphics):
                 Viewer frame title.
             
             width: float or None
-                Image width in device units. If set to None, current image width
-                is used.
+                Viewer width in device units. If set to None, current image
+                width is used.
             
             height: float or None
-                Image height in device units. If set to None, current image
+                Viewer height in device units. If set to None, current image
                 height is used.
         """
         

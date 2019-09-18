@@ -10,7 +10,7 @@ from .enums import *
 from .canvas import CairoCanvas
 
 
-def export(graphics, path, width, height, **options):
+def export(graphics, path, width=None, height=None, **options):
     """
     Draws given graphics into specified image file.The image format is
     determined from the extension of given file path. Supported extensions are
@@ -24,10 +24,10 @@ def export(graphics, path, width, height, **options):
         path: str
             Full path of a file to save the image into.
         
-        width: float
+        width: float or None
             Image width in device units.
         
-        height: float
+        height: float or None
             Image height in device units.
         
         line_scale: float
@@ -49,6 +49,12 @@ def export(graphics, path, width, height, **options):
     basename, extension = os.path.splitext(filename)
     extension = extension.lower()
     
+    # check size
+    if not width:
+        width = EXPORT_WIDTH
+    if not height:
+        height = EXPORT_HEIGHT
+    
     # export as raster image
     if extension in CAIRO_RASTER_TYPES:
         export_raster(graphics, path, width, height, **options)
@@ -63,7 +69,7 @@ def export(graphics, path, width, height, **options):
         raise NotImplementedError(message)
 
 
-def export_raster(graphics, path, width, height, **options):
+def export_raster(graphics, path, width=None, height=None, **options):
     """
     Draws given graphics as raster image into specified file. The image format
     is determined from the extension of given file path. Supported extensions
@@ -76,10 +82,10 @@ def export_raster(graphics, path, width, height, **options):
         path: str
             Full path of a file to save the image into.
         
-        width: float
+        width: float or None
             Image width in device units.
         
-        height: float
+        height: float or None
             Image height in device units.
         
         line_scale: float
@@ -105,6 +111,12 @@ def export_raster(graphics, path, width, height, **options):
     if extension not in CAIRO_RASTER_TYPES:
         message = "Unsupported image format! -> %s" % extension
         raise NotImplementedError(message)
+    
+    # check size
+    if not width:
+        width = EXPORT_WIDTH
+    if not height:
+        height = EXPORT_HEIGHT
     
     # create DC
     surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
@@ -141,7 +153,7 @@ def export_raster(graphics, path, width, height, **options):
     image.save(path, CAIRO_RASTER_TYPES[extension], **params)
 
 
-def export_vector(graphics, path, width, height, **options):
+def export_vector(graphics, path, width=None, height=None, **options):
     """
     Draws given graphics as vector image into specified file. The image format
     is determined from the extension of given file path. Supported extensions
@@ -154,10 +166,10 @@ def export_vector(graphics, path, width, height, **options):
         path: str
             Full path of a file to save the image into.
         
-        width: float
+        width: float or None
             Image width in device units.
         
-        height: float
+        height: float or None
             Image height in device units.
         
         line_scale: float
@@ -176,6 +188,12 @@ def export_vector(graphics, path, width, height, **options):
     if extension not in CAIRO_VECTOR_TYPES:
         message = "Unsupported image format! -> %s" % extension
         raise NotImplementedError(message)
+    
+    # check size
+    if not width:
+        width = EXPORT_WIDTH
+    if not height:
+        height = EXPORT_HEIGHT
     
     # create surface
     if extension == '.svg':

@@ -102,17 +102,11 @@ def show(graphics, title=None, width=None, height=None):
             Viewer frame title.
         
         width: float or None
-            Image width in device units.
+            Viewer width in device units.
         
         height: float or None
-            Image height in device units.
+            Viewer height in device units.
     """
-    
-    # check size
-    if not width:
-        width = EXPORT_WIDTH
-    if not height:
-        height = EXPORT_HEIGHT
     
     # show in Qt viewer
     try:
@@ -171,12 +165,6 @@ def debug(graphics, canvas='show', title="", width=None, height=None, **options)
         options: key:value pairs
             Additional parameters for specific backend.
     """
-    
-    # check size
-    if not width:
-        width = EXPORT_WIDTH
-    if not height:
-        height = EXPORT_HEIGHT
     
     # render graphics in available viewer
     if canvas == 'show':

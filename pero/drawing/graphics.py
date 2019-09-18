@@ -77,10 +77,10 @@ class Graphics(PropertySet):
                 Viewer frame title.
             
             width: float or None
-                Image width in device units.
+                Viewer width in device units.
             
             height: float or None
-                Image height in device units.
+                Viewer height in device units.
         """
         
         from .. import backends
