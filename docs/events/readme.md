@@ -188,10 +188,10 @@ Abstract base class for various types of *[pero.View](../backends/view.md)* even
   Native event fired by the view.
 
 - **view** -> *[pero.View](../backends/view.md)*  
-  The view, which fires the event.
+  The view, which fired the event.
 
-- **graphics** -> *[pero.Graphics](../drawing/graphics.md)*  
-  The view main graphics object.
+- **control** -> *[pero.Control](../backends/control.md)*  
+  The control, which fired the event.
 
 
 ### <a id="SizeEvt" href="#SizeEvt">#</a> pero.SizeEvt(**kwargs)
