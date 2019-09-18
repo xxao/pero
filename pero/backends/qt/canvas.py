@@ -262,8 +262,8 @@ class QtCanvas(Canvas):
         # apply scaling and offset
         x = self._scale[0] * (x + self._offset[0])
         y = self._scale[1] * (y + self._offset[1])
-        width = self._scale[0] * width + 1
-        height = self._scale[1] * height + 1
+        width = self._scale[0] * width + .5
+        height = self._scale[1] * height + .5
         
         # no round corners
         if not radius:
