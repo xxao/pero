@@ -157,7 +157,7 @@ class Labels(Glyph):
     
     Properties:
         
-        items: (Label,), callable, None or UNDEF
+        items: (pero.Label,), callable, None or UNDEF
             Specifies a collection of labels to draw.
         
         overlap: bool or callable

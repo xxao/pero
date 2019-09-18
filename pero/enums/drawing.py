@@ -230,10 +230,10 @@ POSITION_COMPASS = Enum(
 
 # define path commands
 PATH = Enum(
-  CLOSE = 'Z',
-  MOVE = 'M',
-  LINE = 'L',
-  CURVE= 'C')
+    CLOSE = 'Z',
+    MOVE = 'M',
+    LINE = 'L',
+    CURVE= 'C')
 
 # define available markers
 MARKER = Enum(
