@@ -48,11 +48,11 @@ class LinTicker(Ticker):
     
     major_step = NumProperty(UNDEF, dynamic=False)
     major_count = IntProperty(7, dynamic=False)
-    major_splits = TupleProperty((5,3,2,1), intypes=(int,float), dynamic=False)
+    major_splits = TupleProperty((5,3,2,1), intypes=(int, float), dynamic=False)
     
     minor_step = NumProperty(UNDEF, dynamic=False)
     minor_count = IntProperty(4, dynamic=False)
-    minor_splits = TupleProperty((5,3,2,1), intypes=(int,float), dynamic=False)
+    minor_splits = TupleProperty((5,2,1), intypes=(int, float), dynamic=False)
     
     
     def __init__(self, **overrides):

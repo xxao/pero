@@ -43,6 +43,7 @@ class DrawTest(pero.Graphics):
             x = lambda d: x_scale.scale(d[0]),
             y = lambda d: y_scale.scale(d[1]),
             z_index = lambda d: d[2],
+            y_offset = -5,
             text = lambda d: "(%.0f - %.0f)" % (x_scale.scale(d[0]), y_scale.scale(d[1])),
             font_size = 12)
         

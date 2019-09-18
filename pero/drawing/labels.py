@@ -73,10 +73,8 @@ class TextLabel(Label):
     """
     
     text = StringProperty(UNDEF)
-    font = Include(TextProperties, text_bgr_color="#fffb", text_align=TEXT_ALIGN.CENTER, text_base=TEXT_BASELINE.BOTTOM)
+    font = Include(TextProperties, text_align=TEXT_ALIGN.CENTER, text_base=TEXT_BASELINE.BOTTOM)
     angle = Include(AngleProperties)
-    
-    y_offset = NumProperty(-5)
     
     
     def get_bbox(self, canvas, source=UNDEF, **overrides):
