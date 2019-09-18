@@ -6,7 +6,7 @@ import os.path
 from ..enums import *
 
 
-def export(graphics, path, width=750, height=500, **options):
+def export(graphics, path, width=None, height=None, **options):
     """
     Draws given graphics into specified image file using the format determined
     automatically from the file extension. This method makes sure appropriate
@@ -19,10 +19,10 @@ def export(graphics, path, width=750, height=500, **options):
         path: str
             Full path of a file to save the image into.
         
-        width: float
+        width: float or None
             Image width in device units.
         
-        height: float
+        height: float or None
             Image height in device units.
         
         options: str:any pairs
@@ -77,15 +77,21 @@ def export(graphics, path, width=750, height=500, **options):
         message = "Unsupported image format or missing library! -> %s" % extension
         raise NotImplementedError(message)
     
+    # check size
+    if not width:
+        width = EXPORT_WIDTH
+    if not height:
+        height = EXPORT_HEIGHT
+    
     # export image
     backend.export(graphics, path, width, height, **options)
 
 
-def show(graphics, title=None, width=750, height=500):
+def show(graphics, title=None, width=None, height=None):
     """
     Shows given graphics in available viewer app. Currently this is only
-    available if wxPython is installed or within Pythonista app on iOS. This
-    method makes sure appropriate backend canvas is created and provided to
+    available if wxPython or PyQt5 is installed or within Pythonista app on iOS.
+    This method makes sure appropriate backend canvas is created and provided to
     graphics 'draw' method.
     
     Args:
@@ -95,12 +101,18 @@ def show(graphics, title=None, width=750, height=500):
         title: str or None
             Viewer frame title.
         
-        width: float
+        width: float or None
             Image width in device units.
         
-        height: float
+        height: float or None
             Image height in device units.
     """
+    
+    # check size
+    if not width:
+        width = EXPORT_WIDTH
+    if not height:
+        height = EXPORT_HEIGHT
     
     # show in Qt viewer
     try:
@@ -130,7 +142,7 @@ def show(graphics, title=None, width=750, height=500):
     raise ImportError("No viewer available (wxPython or Pythonista needed).")
 
 
-def debug(graphics, canvas='wx', title="", width=750, height=500, **options):
+def debug(graphics, canvas='show', title="", width=None, height=None, **options):
     """
     Renders given graphics using simple viewer or file format. This method makes
     sure appropriate backend canvas is created and provided to graphics 'draw'
@@ -143,22 +155,28 @@ def debug(graphics, canvas='wx', title="", width=750, height=500, **options):
         
         canvas: str
             Specifies drawing mechanism to be used. This can be either 'show',
-            'wx' or 'pythonista' to display graphics within a simple viewer app,
-            or any of the supported image formats (e.g. 'png', 'svg') to draw
-            to 'test.?' file.
+            'wx', 'qt' or 'pythonista' to display graphics within a simple
+            viewer app, or any of the supported image formats (e.g. 'png',
+            'svg') to draw to 'test.?' file.
         
         title: str or None
             Viewer frame title.
         
-        width: float
+        width: float or None
             Image or viewer width in device units.
         
-        height: float
+        height: float or None
             Image or viewer
         
         options: key:value pairs
             Additional parameters for specific backend.
     """
+    
+    # check size
+    if not width:
+        width = EXPORT_WIDTH
+    if not height:
+        height = EXPORT_HEIGHT
     
     # render graphics in available viewer
     if canvas == 'show':

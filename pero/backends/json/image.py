@@ -22,6 +22,66 @@ class Image(JsonCanvas, Graphics):
         super(Image, self).__init__(**overrides)
     
     
+    def export(self, path, width=None, height=None, **options):
+        """
+        Draws the image into specified file using the format determined
+        automatically from the file extension. This method makes sure
+        appropriate backend canvas is created and provided to the 'draw' method.
+        
+        Args:
+            path: str
+                Full path of a file to save the image into.
+            
+            width: float or None
+                Image width in device units. If set to None, current image width
+                is used.
+            
+            height: float or None
+                Image height in device units. If set to None, current image
+                height is used.
+            
+            options: str:any pairs
+                Additional parameters for specific backend.
+        """
+        
+        # get size
+        if width is None:
+            width = self.width
+        if height is None:
+            height = self.height
+        
+        # export image
+        super().export(path, width, height, **options)
+    
+    
+    def show(self, title=None, width=None, height=None):
+        """
+        Shows the image in available viewer app. This method makes sure
+        appropriate backend canvas is created and provided to the 'draw' method.
+        
+        Args:
+            title: str or None
+                Viewer frame title.
+            
+            width: float or None
+                Image width in device units. If set to None, current image width
+                is used.
+            
+            height: float or None
+                Image height in device units. If set to None, current image
+                height is used.
+        """
+        
+        # get size
+        if width is None:
+            width = self.width
+        if height is None:
+            height = self.height
+        
+        # show image
+        super().show(title, width, height)
+    
+    
     def draw(self, canvas, *args, **kwargs):
         """
         Uses given canvas to draw the image.
@@ -32,40 +92,6 @@ class Image(JsonCanvas, Graphics):
         """
         
         canvas.draw_json(self.get_json())
-    
-    
-    def export(self, path, **options):
-        """
-        Draws the image into specified file using the format determined
-        automatically from the file extension. This method makes sure
-        appropriate backend canvas is created and provided to the 'draw' method.
-        
-        Args:
-            path: str
-                Full path of a file to save the image into.
-            
-            options: str:any pairs
-                Additional parameters for specific backend.
-        """
-        
-        from ... import backends
-        backends.export(self, path, self.width, self.height, **options)
-    
-    
-    def show(self, title=None):
-        """
-        Shows the image in available viewer app. Currently this is only
-        available if wxPython is installed or within Pythonista app on iOS. This
-        method makes sure appropriate backend canvas is created and provided to
-        the 'draw' method.
-        
-        Args:
-            title: str or None
-                Viewer frame title.
-        """
-        
-        from ... import backends
-        backends.show(self, title, self.width, self.height)
     
     
     @staticmethod

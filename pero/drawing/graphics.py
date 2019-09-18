@@ -43,6 +43,50 @@ class Graphics(PropertySet):
             self.tag = "tag_%s" % str(id(self))
     
     
+    def export(self, path, width=None, height=None, **options):
+        """
+        Draws current graphics into specified image file using the format
+        determined automatically from the file extension. This method makes sure
+        appropriate backend canvas is created and provided to the 'draw' method.
+        
+        Args:
+            path: str
+                Full path of a file to save the image into.
+            
+            width: float or None
+                Image width in device units.
+            
+            height: float or None
+                Image height in device units.
+            
+            options: str:any pairs
+                Additional parameters for specific backend.
+        """
+        
+        from .. import backends
+        backends.export(self, path, width, height, **options)
+    
+    
+    def show(self, title=None, width=None, height=None):
+        """
+        Shows current graphics in available viewer app. This method makes sure
+        appropriate backend canvas is created and provided to the 'draw' method.
+        
+        Args:
+            title: str or None
+                Viewer frame title.
+            
+            width: float or None
+                Image width in device units.
+            
+            height: float or None
+                Image height in device units.
+        """
+        
+        from .. import backends
+        backends.show(self, title, width, height)
+    
+    
     def draw(self, canvas, source=UNDEF, **overrides):
         """
         Uses given canvas to draw the graphics.

@@ -102,6 +102,50 @@ class Control(PropertySet):
             self._parent.set_cursor(cursor)
     
     
+    def export(self, path, width=None, height=None, **options):
+        """
+        Draws current graphics into specified image file using the format
+        determined automatically from the file extension. This method makes sure
+        appropriate backend canvas is created and provided to the 'draw' method.
+        
+        Args:
+            path: str
+                Full path of a file to save the image into.
+            
+            width: float or None
+                Image width in device units.
+            
+            height: float or None
+                Image height in device units.
+            
+            options: str:any pairs
+                Additional parameters for specific backend.
+        """
+        
+        if self.graphics is not None and self.graphics is not UNDEF:
+            self.graphics.export(path, width, height, **options)
+    
+    
+    def show(self, title=None, width=None, height=None):
+        """
+        Shows given graphics in available viewer app. This method makes sure
+        appropriate backend canvas is created and provided to the 'draw' method.
+        
+        Args:
+            title: str or None
+                Viewer frame title.
+            
+            width: float or None
+                Image width in device units.
+            
+            height: float or None
+                Image height in device units.
+        """
+        
+        from .export import show
+        show(self, title, width, height)
+    
+    
     def refresh(self):
         """
         Redraws current control using parent view. This makes the parent view
