@@ -452,9 +452,9 @@ class Rect(Glyph):
             Specifies the corner radius as a single value or values for
             individual corners starting from top-left.
         
-        centered: bool or callable
-            Specifies the anchor position. If set to True the anchor is meant
-            to be the rectangle center while False means the top-left corner.
+        anchor: pero.POSITION_COMPASS or callable
+            Specifies the anchor position as any item from the
+            pero.POSITION_COMPASS enum.
         
         line properties:
             Includes pero.LineProperties to specify the glyph outline.
@@ -469,7 +469,7 @@ class Rect(Glyph):
     height = NumProperty(UNDEF)
     
     radius = QuadProperty(0)
-    centered = BoolProperty(False)
+    anchor = EnumProperty(UNDEF, enum=POSITION_COMPASS)
     
     line = Include(LineProperties)
     fill = Include(FillProperties)
@@ -485,15 +485,34 @@ class Rect(Glyph):
         # get properties
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
-        centered = self.get_property('centered', source, overrides)
+        anchor = self.get_property('anchor', source, overrides)
         width = self.get_property('width', source, overrides)
         height = self.get_property('height', source, overrides)
         radius = self.get_property('radius', source, overrides)
         
-        # calc origin
-        if centered:
-            x = x - 0.5*width
-            y = y - 0.5*height
+        # shift anchor
+        if anchor == POSITION_COMPASS.NW:
+            pass
+        elif anchor == POSITION_COMPASS.N:
+            x -= 0.5 * width
+        elif anchor == POSITION_COMPASS.NE:
+            x -= width
+        elif anchor == POSITION_COMPASS.E:
+            x -= width
+            y -= 0.5 * height
+        elif anchor == POSITION_COMPASS.SE:
+            x -= width
+            y -= height
+        elif anchor == POSITION_COMPASS.S:
+            x -= 0.5 * width
+            y -= height
+        elif anchor == POSITION_COMPASS.SW:
+            y -= height
+        elif anchor == POSITION_COMPASS.W:
+            y -= 0.5 * height
+        elif anchor == POSITION_COMPASS.C:
+            x -= 0.5 * width
+            y -= 0.5 * height
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)

@@ -331,3 +331,4 @@ Used to specify an object compass-like position.
 - **pero.SE**
 - **pero.W**
 - **pero.E**
+- **pero.C**

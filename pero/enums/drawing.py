@@ -158,7 +158,8 @@ POSITION = Enum(
     SW = SW,
     SE = SE,
     W = W,
-    E = E)
+    E = E,
+    C = C)
 
 # define specific positions
 POSITION_LR = Enum(
@@ -226,7 +227,8 @@ POSITION_COMPASS = Enum(
     SW = SW,
     SE = SE,
     W = W,
-    E = E)
+    E = E,
+    C = C)
 
 # define path commands
 PATH = Enum(

@@ -30,6 +30,7 @@ SW = 'sw'
 SE = 'se'
 W = 'w'
 E = 'e'
+C = 'c'
 
 HORIZONTAL = 'h'
 VERTICAL = 'v'
