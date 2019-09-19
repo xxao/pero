@@ -191,8 +191,11 @@ class Labels(Glyph):
         if not self.is_visible(source, overrides):
             return
         
+        # get properties
+        tag = self.get_property('tag', source, overrides)
+        
         # get labels as ((label, x, y, x_offset, y_offset),)
-        labels = self._get_labels(canvas, source, overrides)
+        labels = self._get_items(canvas, source, overrides)
         if not labels:
             return
         
@@ -200,7 +203,7 @@ class Labels(Glyph):
         labels.sort(key=lambda d: d[0].z_index or 0)
         
         # start drawing group
-        canvas.group(None, "labels")
+        canvas.group(tag, "labels")
         
         # draw labels
         for label in labels:
@@ -214,7 +217,7 @@ class Labels(Glyph):
         canvas.ungroup()
     
     
-    def _get_labels(self, canvas, source, overrides):
+    def _get_items(self, canvas, source, overrides):
         """Gets final list of labels to be drawn."""
         
         # get properties

@@ -1,0 +1,275 @@
+#  Created byMartin.cz
+#  Copyright (c) Martin Strohalm. All rights reserved.
+
+# import modules
+from ..enums import *
+from ..properties import *
+from .frame import Frame
+from .glyphs import Glyph
+from .markers import MarkerProperty
+
+
+class Legend(Glyph):
+    """
+    
+    """
+    
+    bull_x = NumProperty(UNDEF)
+    bull_y = NumProperty(UNDEF)
+    
+    text_x = NumProperty(UNDEF)
+    text_y = NumProperty(UNDEF)
+    
+    text = StringProperty(UNDEF)
+    font = Include(TextProperties)
+    
+    
+    def get_bull_size(self, canvas, source=UNDEF, **overrides):
+        """
+        Gets bullet glyph size.
+        
+        Args:
+            canvas: pero.Canvas
+                Canvas to be used for rendering.
+            
+            source: any
+                Data source to be used for calculating callable properties.
+            
+            overrides: str:any pairs
+                Specific properties to be overwritten.
+        
+        Returns:
+            (float, float)
+                Object width and height.
+        """
+        
+        raise NotImplementedError("The 'get_bull_size' method is not implemented for '%s'." % self.__class__.__name__)
+
+
+class MarkerLegend(Legend):
+    """
+    
+    """
+    
+    marker = MarkerProperty(MARKER.CIRCLE, dynamic=False, nullable=True)
+    
+    
+    def get_bull_size(self, canvas, source=UNDEF, **overrides):
+        """Gets bullet glyph size."""
+        
+        marker = self.get_property('marker', source, overrides)
+        if not marker:
+            return 0, 0
+        
+        return marker.size, marker.size
+    
+    
+    def draw(self, canvas, source=UNDEF, **overrides):
+        """Uses given canvas to draw legends."""
+        
+        # check if visible
+        if not self.is_visible(source, overrides):
+            return
+        
+        # get properties
+        tag = self.get_property('tag', source, overrides)
+        marker = self.get_property('marker', source, overrides)
+        text = self.get_property('text', source, overrides)
+        text_x = self.get_property('text_x', source, overrides)
+        text_y = self.get_property('text_y', source, overrides)
+        bull_x = self.get_property('bull_x', source, overrides)
+        bull_y = self.get_property('bull_y', source, overrides)
+        
+        # start drawing group
+        canvas.group(tag, "legend")
+        
+        # draw marker
+        offset = 0.5*marker.size
+        marker.draw(canvas, x=bull_x+offset, y=bull_y+offset)
+        
+        # draw text
+        canvas.set_text_by(self, source=source, overrides=overrides)
+        canvas.draw_text(text, text_x, text_y)
+        
+        # end drawing group
+        canvas.ungroup()
+
+
+class Legends(Glyph):
+    """
+    
+    """
+    
+    items = TupleProperty(UNDEF, types=(Legend,), nullable=True)
+    
+    x = NumProperty(0)
+    y = NumProperty(0)
+    anchor = EnumProperty(POSITION.NW, enum=POSITION_COMPASS)
+    orientation = EnumProperty(ORIENTATION.VERTICAL, enum=ORIENTATION)
+    
+    radius = QuadProperty(3)
+    padding = QuadProperty(5)
+    spacing = NumProperty(5)
+    
+    line = Include(LineProperties, line_color="#eee")
+    fill = Include(FillProperties, fill_color="#fffc")
+    
+    
+    def draw(self, canvas, source=UNDEF, **overrides):
+        """Uses given canvas to draw legends."""
+        
+        # check if visible
+        if not self.is_visible(source, overrides):
+            return
+        
+        # get properties
+        tag = self.get_property('tag', source, overrides)
+        padding = self.get_property('padding', source, overrides)
+        radius = self.get_property('radius', source, overrides)
+        
+        # get items
+        items = self._get_items(canvas, source, overrides)
+        if not items:
+            return
+        
+        # get bbox
+        bbox = self._get_bbox(source, overrides, items)
+        x = bbox.x + padding[3]
+        y = bbox.y + padding[0]
+        
+        # start drawing group
+        canvas.group(tag, "legends")
+        
+        # draw background
+        canvas.set_pen_by(self, source=source, overrides=overrides)
+        canvas.set_brush_by(self, source=source, overrides=overrides)
+        canvas.draw_rect(bbox.x, bbox.y, bbox.width, bbox.height, radius)
+        
+        # draw items
+        for item, bull_bbox, text_bbox in items:
+            item.draw(canvas,
+                bull_x = x + bull_bbox[0],
+                bull_y = y + bull_bbox[1],
+                text_x = x + text_bbox[0],
+                text_y = y + text_bbox[1])
+        
+        # end drawing group
+        canvas.ungroup()
+    
+    
+    def _get_items(self, canvas, source, overrides):
+        """Gets initial boxes for all items."""
+        
+        # get properties
+        items = self.get_property('items', source, overrides)
+        orientation = self.get_property('orientation', source, overrides)
+        spacing = self.get_property('spacing', source, overrides)
+        
+        # check spacing
+        spacing = spacing or 0
+        
+        # init boxes
+        boxes = []
+        bull_max = 0
+        for item in items:
+            
+            # check item
+            if not item.visible or not item.text:
+                continue
+            
+            # get sizes
+            bull_w, bull_h = item.get_bull_size(canvas)
+            canvas.set_text_by(item, source=source, overrides=overrides)
+            text_w, text_h = canvas.get_text_size(item.text)
+            line_w, line_h = canvas.get_line_size(item.text[0])
+            
+            # init bbox
+            bull_bbox = [0, 0, bull_w, bull_h]
+            text_bbox = [bull_w + spacing, 0, text_w, text_h]
+            
+            # center bullet
+            if bull_h < line_h <= text_w:
+                bull_bbox[1] += (line_h - bull_h)/2
+            
+            # add bbox
+            boxes.append((item, bull_bbox, text_bbox))
+            
+            # keep max bullet width
+            if bull_w > bull_max:
+                bull_max = bull_w
+        
+        # align horizontally
+        if orientation == ORIENTATION.HORIZONTAL:
+            
+            x_offset = 0
+            for item, bull_bbox, text_bbox in boxes:
+                bull_bbox[0] += x_offset
+                text_bbox[0] += x_offset
+                x_offset += bull_bbox[2] + text_bbox[2] + 4*spacing
+        
+        # align vertically
+        else:
+            
+            y_offset = 0
+            for item, bull_bbox, text_bbox in boxes:
+                
+                bull_bbox[1] += y_offset
+                text_bbox[1] += y_offset
+                y_offset += spacing + max(bull_bbox[3], text_bbox[3])
+                
+                diff = bull_max - bull_bbox[2]
+                bull_bbox[0] += .5*diff
+                text_bbox[0] += diff
+        
+        return boxes
+    
+    
+    def _get_bbox(self, source, overrides, items):
+        """Gets final bbox."""
+        
+        # get properties
+        x = self.get_property('x', source, overrides)
+        y = self.get_property('y', source, overrides)
+        anchor = self.get_property('anchor', source, overrides)
+        padding = self.get_property('padding', source, overrides)
+        
+        # init size
+        width = 0
+        height = 0
+        
+        # add items
+        for item, bull_bbox, text_bbox in items:
+            width = max(width, bull_bbox[0] + bull_bbox[2], text_bbox[0] + text_bbox[2])
+            height = max(height, bull_bbox[1] + bull_bbox[3], text_bbox[1] + text_bbox[3])
+        
+        #  add padding
+        if padding:
+            width += padding[1] + padding[3]
+            height += padding[0] + padding[2]
+        
+        # shift anchor
+        if anchor == POSITION.NW:
+            pass
+        elif anchor == POSITION.N:
+            x -= 0.5 * width
+        elif anchor == POSITION.NE:
+            x -= width
+        elif anchor == POSITION.E:
+            x -= width
+            y -= 0.5 * height
+        elif anchor == POSITION.SE:
+            x -= width
+            y -= height
+        elif anchor == POSITION.S:
+            x -= 0.5 * width
+            y -= height
+        elif anchor == POSITION.SW:
+            y -= height
+        elif anchor == POSITION.W:
+            y -= 0.5 * height
+        elif anchor == POSITION.C:
+            x -= 0.5 * width
+            y -= 0.5 * height
+        
+        # make bbox
+        return Frame(x, y, width, height)
