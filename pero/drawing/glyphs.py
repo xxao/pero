@@ -491,26 +491,26 @@ class Rect(Glyph):
         radius = self.get_property('radius', source, overrides)
         
         # shift anchor
-        if anchor == POSITION_COMPASS.NW:
+        if anchor == POSITION.NW:
             pass
-        elif anchor == POSITION_COMPASS.N:
+        elif anchor == POSITION.N:
             x -= 0.5 * width
-        elif anchor == POSITION_COMPASS.NE:
+        elif anchor == POSITION.NE:
             x -= width
-        elif anchor == POSITION_COMPASS.E:
+        elif anchor == POSITION.E:
             x -= width
             y -= 0.5 * height
-        elif anchor == POSITION_COMPASS.SE:
+        elif anchor == POSITION.SE:
             x -= width
             y -= height
-        elif anchor == POSITION_COMPASS.S:
+        elif anchor == POSITION.S:
             x -= 0.5 * width
             y -= height
-        elif anchor == POSITION_COMPASS.SW:
+        elif anchor == POSITION.SW:
             y -= height
-        elif anchor == POSITION_COMPASS.W:
+        elif anchor == POSITION.W:
             y -= 0.5 * height
-        elif anchor == POSITION_COMPASS.C:
+        elif anchor == POSITION.C:
             x -= 0.5 * width
             y -= 0.5 * height
         
