@@ -107,6 +107,9 @@ class Control(PropertySet):
         Shows the control in available viewer app. This method makes sure
         appropriate backend canvas is created and provided to the 'draw' method.
         
+        Note that is just a convenient scripting shortcut and this method cannot
+        be used if the control is already part of any UI app.
+        
         Args:
             title: str or None
                 Viewer frame title.
@@ -131,6 +134,9 @@ class Control(PropertySet):
         Draws current graphics into specified image file using the format
         determined automatically from the file extension. This method makes sure
         appropriate backend canvas is created and provided to the 'draw' method.
+        
+        Note that is just a convenient scripting shortcut and this method cannot
+        be used if the control is already part of any UI app.
         
         Args:
             path: str

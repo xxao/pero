@@ -48,6 +48,9 @@ class Graphics(PropertySet):
         Shows current graphics in available viewer app. This method makes sure
         appropriate backend canvas is created and provided to the 'draw' method.
         
+        Note that is just a convenient scripting shortcut and this method cannot
+        be used if the graphics is already part of any UI app.
+        
         Args:
             title: str or None
                 Viewer frame title.
@@ -72,6 +75,9 @@ class Graphics(PropertySet):
         Draws current graphics into specified image file using the format
         determined automatically from the file extension. This method makes sure
         appropriate backend canvas is created and provided to the 'draw' method.
+        
+        Note that is just a convenient scripting shortcut and this method cannot
+        be used if the graphics is already part of any UI app.
         
         Args:
             path: str

@@ -27,6 +27,9 @@ class Image(JsonCanvas, Graphics):
         Shows the image in available viewer app. This method makes sure
         appropriate backend canvas is created and provided to the 'draw' method.
         
+        Note that is just a convenient scripting shortcut and this method cannot
+        be used if the image is already part of any UI app.
+        
         Args:
             title: str or None
                 Viewer frame title.
@@ -59,6 +62,9 @@ class Image(JsonCanvas, Graphics):
         Draws the image into specified file using the format determined
         automatically from the file extension. This method makes sure
         appropriate backend canvas is created and provided to the 'draw' method.
+        
+        Note that is just a convenient scripting shortcut and this method cannot
+        be used if the image is already part of any UI app.
         
         Args:
             path: str
