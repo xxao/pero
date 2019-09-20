@@ -23,34 +23,40 @@ EXPORT_SVG = {
     '.svg'}
 
 # define image formats supported by QT backend
-EXPORT_QT = {}
+EXPORT_QT = {
+    '.bmp',
+    '.gif',
+    '.jpg',
+    '.jpeg',
+    '.pdf',
+    '.png'}
 
 # define image formats supported by WX backend
 EXPORT_WX = {
     '.bmp',
+    '.cur',
+    '.ico',
     '.jpg',
     '.jpeg',
+    '.pcx',
     '.png',
+    '.pnm',
     '.tif',
     '.tiff',
-    '.pcx',
-    '.pnm',
-    '.xpm',
-    '.ico',
-    '.cur'}
+    '.xpm'}
 
 # define formats supported by Cairo backend
 EXPORT_CAIRO = {
     '.bmp',
+    '.eps',
+    '.gif',
     '.jpg',
     '.jpeg',
-    '.png',
-    '.tif',
-    '.tiff',
-    '.gif',
-    '.svg',
     '.pdf',
-    '.eps'}
+    '.png',
+    '.svg',
+    '.tif',
+    '.tiff'}
 
 # define image formats supported by MuPDF backend
 EXPORT_MUPDF = {
@@ -74,8 +80,8 @@ EXPORT_FORMATS = {
 EXPORT_PRIORITY = [
     BACKEND.JSON,
     BACKEND.SVG,
-    BACKEND.WX,
     BACKEND.QT,
+    BACKEND.WX,
     BACKEND.CAIRO,
     BACKEND.MUPDF,
     BACKEND.PYTHONISTA]

@@ -58,3 +58,13 @@ QT_CURSORS = {
     CURSOR.HAND: Qt.OpenHandCursor,
     CURSOR.SIZEWE: Qt.SizeHorCursor,
     CURSOR.SIZENS: Qt.SizeVerCursor}
+
+QT_RASTER_TYPES = {
+    '.bmp',
+    '.gif',
+    '.jpg',
+    '.jpeg',
+    '.png'}
+
+QT_VECTOR_TYPES = {
+    '.pdf'}
