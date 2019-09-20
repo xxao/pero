@@ -6,6 +6,65 @@ import os.path
 from ..enums import *
 
 
+def show(graphics, title=None, width=None, height=None, backend=None):
+    """
+    Shows given graphics in available viewer app. Currently this is only
+    available if wxPython or PyQt5 is installed or within Pythonista app on iOS.
+    This method makes sure appropriate backend canvas is created and provided to
+    graphics 'draw' method.
+    
+    Args:
+        graphics: pero.Graphics
+            Graphics to be drawn.
+        
+        title: str or None
+            Viewer frame title.
+        
+        width: float or None
+            Viewer width in device units.
+        
+        height: float or None
+            Viewer height in device units.
+        
+        backend: pero.BACKEND
+            Specific backend to be used. The value must be an item from the
+            pero.BACKEND enum.
+    """
+    
+    # get backends
+    backends = VIEWER_PRIORITY if backend is None else [backend]
+    
+    # get backend
+    backend = None
+    for module in backends:
+        
+        # try to import backend
+        try:
+            if module == BACKEND.PYTHONISTA:
+                from . import pythonista as backend
+            
+            elif module == BACKEND.QT:
+                from . import qt as backend
+            
+            elif module == BACKEND.WX:
+                from . import wx as backend
+            
+            break
+        
+        # ignore missing library
+        except ImportError:
+            backend = None
+            pass
+    
+    # no viewer available
+    if backend is None:
+        message = "No viewer available or missing library (e.g. wxPython, PyQt5 or Pythonista)!"
+        raise ImportError(message)
+    
+    # show viewer
+    backend.show(graphics, title, width, height)
+
+
 def export(graphics, path, width=None, height=None, backend=None, **options):
     """
     Draws given graphics into specified image file using the format determined
@@ -26,7 +85,8 @@ def export(graphics, path, width=None, height=None, backend=None, **options):
             Image height in device units.
         
         backend: pero.BACKEND
-            Specific backend to be used.
+            Specific backend to be used. The value must be an item from the
+            pero.BACKEND enum.
         
         options: str:any pairs
             Additional parameters for specific backend.
@@ -87,64 +147,6 @@ def export(graphics, path, width=None, height=None, backend=None, **options):
     backend.export(graphics, path, width, height, **options)
 
 
-def show(graphics, title=None, width=None, height=None, backend=None):
-    """
-    Shows given graphics in available viewer app. Currently this is only
-    available if wxPython or PyQt5 is installed or within Pythonista app on iOS.
-    This method makes sure appropriate backend canvas is created and provided to
-    graphics 'draw' method.
-    
-    Args:
-        graphics: pero.Graphics
-            Graphics to be drawn.
-        
-        title: str or None
-            Viewer frame title.
-        
-        width: float or None
-            Viewer width in device units.
-        
-        height: float or None
-            Viewer height in device units.
-        
-        backend: pero.BACKEND
-            Specific backend to be used.
-    """
-    
-    # get backends
-    backends = VIEWER_PRIORITY if backend is None else [backend]
-    
-    # get backend
-    backend = None
-    for module in backends:
-        
-        # try to import backend
-        try:
-            if module == BACKEND.PYTHONISTA:
-                from . import pythonista as backend
-            
-            elif module == BACKEND.QT:
-                from . import qt as backend
-            
-            elif module == BACKEND.WX:
-                from . import wx as backend
-            
-            break
-        
-        # ignore missing library
-        except ImportError:
-            backend = None
-            pass
-    
-    # no viewer available
-    if backend is None:
-        message = "No viewer available or missing library (e.g. wxPython, PyQt5 or Pythonista)!"
-        raise ImportError(message)
-    
-    # show viewer
-    backend.show(graphics, title, width, height)
-
-
 def debug(graphics, canvas='show', title="", width=None, height=None, backend=None, **options):
     """
     Renders given graphics using simple viewer or file format. This method makes
@@ -172,7 +174,8 @@ def debug(graphics, canvas='show', title="", width=None, height=None, backend=No
             Image or viewer height in device units.
         
         backend: pero.BACKEND
-            Specific backend to be used.
+            Specific backend to be used. The value must be an item from the
+            pero.BACKEND enum.
         
         options: key:value pairs
             Additional parameters for specific backend.

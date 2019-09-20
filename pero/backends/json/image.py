@@ -22,7 +22,39 @@ class Image(JsonCanvas, Graphics):
         super(Image, self).__init__(**overrides)
     
     
-    def export(self, path, width=None, height=None, **options):
+    def show(self, title=None, width=None, height=None, backend=None):
+        """
+        Shows the image in available viewer app. This method makes sure
+        appropriate backend canvas is created and provided to the 'draw' method.
+        
+        Args:
+            title: str or None
+                Viewer frame title.
+            
+            width: float or None
+                Viewer width in device units. If set to None, current image
+                width is used.
+            
+            height: float or None
+                Viewer height in device units. If set to None, current image
+                height is used.
+            
+            backend: pero.BACKEND
+                Specific backend to be used. The value must be an item from the
+                pero.BACKEND enum.
+        """
+        
+        # get size
+        if width is None:
+            width = self.width
+        if height is None:
+            height = self.height
+        
+        # show image
+        super().show(title, width, height, backend)
+    
+    
+    def export(self, path, width=None, height=None, backend=None, **options):
         """
         Draws the image into specified file using the format determined
         automatically from the file extension. This method makes sure
@@ -40,6 +72,10 @@ class Image(JsonCanvas, Graphics):
                 Image height in device units. If set to None, current image
                 height is used.
             
+            backend: pero.BACKEND
+                Specific backend to be used. The value must be an item from the
+                pero.BACKEND enum.
+            
             options: str:any pairs
                 Additional parameters for specific backend.
         """
@@ -51,35 +87,7 @@ class Image(JsonCanvas, Graphics):
             height = self.height
         
         # export image
-        super().export(path, width, height, **options)
-    
-    
-    def show(self, title=None, width=None, height=None):
-        """
-        Shows the image in available viewer app. This method makes sure
-        appropriate backend canvas is created and provided to the 'draw' method.
-        
-        Args:
-            title: str or None
-                Viewer frame title.
-            
-            width: float or None
-                Viewer width in device units. If set to None, current image
-                width is used.
-            
-            height: float or None
-                Viewer height in device units. If set to None, current image
-                height is used.
-        """
-        
-        # get size
-        if width is None:
-            width = self.width
-        if height is None:
-            height = self.height
-        
-        # show image
-        super().show(title, width, height)
+        super().export(path, width, height, backend, **options)
     
     
     def draw(self, canvas, *args, **kwargs):

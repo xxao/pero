@@ -102,7 +102,31 @@ class Control(PropertySet):
             self._parent.set_cursor(cursor)
     
     
-    def export(self, path, width=None, height=None, **options):
+    def show(self, title=None, width=None, height=None, backend=None):
+        """
+        Shows the control in available viewer app. This method makes sure
+        appropriate backend canvas is created and provided to the 'draw' method.
+        
+        Args:
+            title: str or None
+                Viewer frame title.
+            
+            width: float or None
+                Viewer width in device units.
+            
+            height: float or None
+                Viewer height in device units.
+            
+            backend: pero.BACKEND
+                Specific backend to be used. The value must be an item from the
+                pero.BACKEND enum.
+        """
+        
+        from .export import show
+        show(self, title, width, height, backend)
+    
+    
+    def export(self, path, width=None, height=None, backend=None, **options):
         """
         Draws current graphics into specified image file using the format
         determined automatically from the file extension. This method makes sure
@@ -118,32 +142,16 @@ class Control(PropertySet):
             height: float or None
                 Image height in device units.
             
+            backend: pero.BACKEND
+                Specific backend to be used. The value must be an item from the
+                pero.BACKEND enum.
+            
             options: str:any pairs
                 Additional parameters for specific backend.
         """
         
-        if self.graphics is not None and self.graphics is not UNDEF:
-            self.graphics.export(path, width, height, **options)
-    
-    
-    def show(self, title=None, width=None, height=None):
-        """
-        Shows the control in available viewer app. This method makes sure
-        appropriate backend canvas is created and provided to the 'draw' method.
-        
-        Args:
-            title: str or None
-                Viewer frame title.
-            
-            width: float or None
-                Viewer width in device units.
-            
-            height: float or None
-                Viewer height in device units.
-        """
-        
-        from .export import show
-        show(self, title, width, height)
+        from .export import export
+        export(self, path, width, height, backend, **options)
     
     
     def refresh(self):

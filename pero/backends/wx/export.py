@@ -9,6 +9,50 @@ from .canvas import WXCanvas
 from .viewer import WXViewer
 
 
+def show(graphics, title=None, width=None, height=None):
+    """
+    Shows given graphics in the viewer app.
+    
+    Args:
+        graphics: pero.Graphics
+            Graphics to be shown.
+        
+        title: str or None
+            Viewer frame title.
+        
+        width: float or None
+            Viewer width in device units.
+        
+        height: float or None
+            Viewer height in device units.
+    """
+    
+    # init app
+    app = WXViewer(0)
+    
+    # set title
+    if title is not None:
+        app.set_title(title)
+    
+    # check size
+    if not width:
+        width = VIEWER_WIDTH
+    if not height:
+        height = VIEWER_HEIGHT
+    
+    # set size
+    app.set_size((width, height))
+    
+    # set graphics
+    app.set_content(graphics)
+    
+    # draw graphics
+    app.refresh()
+    
+    # start app
+    app.show()
+
+
 def export(graphics, path, width=None, height=None, **options):
     """
     Draws given graphics as raster image into specified file. The image format
@@ -100,47 +144,3 @@ def export(graphics, path, width=None, height=None, **options):
     
     # save to file
     image.SaveFile(path, WX_RASTER_TYPES[extension])
-
-
-def show(graphics, title=None, width=None, height=None):
-    """
-    Shows given graphics in the viewer app.
-    
-    Args:
-        graphics: pero.Graphics
-            Graphics to be shown.
-        
-        title: str or None
-            Viewer frame title.
-        
-        width: float or None
-            Viewer width in device units.
-        
-        height: float or None
-            Viewer height in device units.
-    """
-    
-    # init app
-    app = WXViewer(0)
-    
-    # set title
-    if title is not None:
-        app.set_title(title)
-    
-    # check size
-    if not width:
-        width = VIEWER_WIDTH
-    if not height:
-        height = VIEWER_HEIGHT
-    
-    # set size
-    app.set_size((width, height))
-    
-    # set graphics
-    app.set_content(graphics)
-    
-    # draw graphics
-    app.refresh()
-    
-    # start app
-    app.show()

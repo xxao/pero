@@ -12,6 +12,56 @@ from .canvas import QtCanvas
 from .viewer import QtViewer
 
 
+def show(graphics, title=None, width=None, height=None):
+    """
+    Shows given graphics in the viewer app.
+    
+    Args:
+        graphics: pero.Graphics
+            Graphics to be shown.
+        
+        title: str or None
+            Viewer frame title.
+        
+        width: float or None
+            Viewer width in device units.
+        
+        height: float or None
+            Viewer height in device units.
+    """
+    
+    # init app
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    app = QApplication([])
+    
+    # init main window
+    window = QtViewer()
+    
+    # set title
+    if title is not None:
+        window.set_title(title)
+    
+    # check size
+    if not width:
+        width = VIEWER_WIDTH
+    if not height:
+        height = VIEWER_HEIGHT
+    
+    # set size
+    window.set_size((width, height))
+    
+    # set graphics
+    window.set_content(graphics)
+    
+    # draw graphics
+    window.refresh()
+    
+    # start app
+    window.show()
+    app.exec_()
+
+
 def export(graphics, path, width=None, height=None, **options):
     """
     Draws given graphics into specified image file. The image format is
@@ -192,53 +242,3 @@ def export_vector(graphics, path, width=None, height=None, **options):
     
     # end drawing
     qp.end()
-
-
-def show(graphics, title=None, width=None, height=None):
-    """
-    Shows given graphics in the viewer app.
-    
-    Args:
-        graphics: pero.Graphics
-            Graphics to be shown.
-        
-        title: str or None
-            Viewer frame title.
-        
-        width: float or None
-            Viewer width in device units.
-        
-        height: float or None
-            Viewer height in device units.
-    """
-    
-    # init app
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    app = QApplication([])
-    
-    # init main window
-    window = QtViewer()
-    
-    # set title
-    if title is not None:
-        window.set_title(title)
-    
-    # check size
-    if not width:
-        width = VIEWER_WIDTH
-    if not height:
-        height = VIEWER_HEIGHT
-    
-    # set size
-    window.set_size((width, height))
-    
-    # set graphics
-    window.set_content(graphics)
-    
-    # draw graphics
-    window.refresh()
-    
-    # start app
-    window.show()
-    app.exec_()
