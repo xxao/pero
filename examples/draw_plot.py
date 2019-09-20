@@ -84,6 +84,11 @@ class DrawTest(pero.Graphics):
             overlap = False,
             spacing = 4,
             padding = 10)
+        
+        # init legend
+        self.legend = pero.Legends(
+            orientation = pero.HORIZONTAL,
+            anchor = pero.N)
     
     
     def draw(self, canvas, **overrides):
@@ -137,6 +142,20 @@ class DrawTest(pero.Graphics):
                 labels += [self.label.clone(source=val) for val in zip(self.x_data, y_data)]
             
             self.labels.draw(canvas, items=labels, clip=frame)
+        
+        # draw legend
+        legends = []
+        for i, text in enumerate(('sin(x)', 'cos(x)')):
+            
+            legend = pero.MarkerLegend(
+                text = text,
+                marker = pero.MARKER.CIRCLE,
+                marker_line_color=pero.colors.Pero[i],
+                marker_fill_color=pero.colors.Pero[i].opaque(.75))
+            
+            legends.append(legend)
+        
+        self.legend.draw(canvas, items=legends, x=.5*width, y=15)
 
 
 # run test

@@ -11,14 +11,34 @@ from .markers import MarkerProperty
 
 class Legend(Glyph):
     """
+    Abstract base class for various types of legend items glyphs.
     
+    Properties:
+        
+        bull_x: int, float or callable
+            Specifies the x-coordinate of the bullet top-left corner.
+        
+        bull_y: int, float or callable
+            Specifies the y-coordinate of the bullet top-left corner.
+        
+        text_x: int, float or callable
+            Specifies the x-coordinate of the text anchor.
+        
+        text_x: int, float or callable
+            Specifies the y-coordinate of the text anchor.
+        
+        text: str, callable, None or UNDEF
+            Specifies the text to be drawn.
+        
+        text properties:
+            Includes pero.TextProperties to specify the text properties.
     """
     
-    bull_x = NumProperty(UNDEF)
-    bull_y = NumProperty(UNDEF)
+    bull_x = NumProperty(0)
+    bull_y = NumProperty(0)
     
-    text_x = NumProperty(UNDEF)
-    text_y = NumProperty(UNDEF)
+    text_x = NumProperty(0)
+    text_y = NumProperty(0)
     
     text = StringProperty(UNDEF)
     font = Include(TextProperties)
@@ -26,7 +46,7 @@ class Legend(Glyph):
     
     def get_bull_size(self, canvas, source=UNDEF, **overrides):
         """
-        Gets bullet glyph size.
+        Gets bullet glyph width and height.
         
         Args:
             canvas: pero.Canvas
@@ -48,7 +68,14 @@ class Legend(Glyph):
 
 class MarkerLegend(Legend):
     """
+    Defines a simple legend item with marker bullet.
     
+    Properties:
+        
+        marker: pero.Marker, pero.MARKER, callable, None or UNDEF
+            Specifies the marker glyph to be used as bullet. The value can be
+            specified by any item from the pero.MARKER enum or as a
+            pero.MARKER instance.
     """
     
     marker = MarkerProperty(MARKER.CIRCLE, dynamic=False, nullable=True)
@@ -65,7 +92,7 @@ class MarkerLegend(Legend):
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
-        """Uses given canvas to draw legends."""
+        """Uses given canvas to draw legend."""
         
         # check if visible
         if not self.is_visible(source, overrides):
@@ -97,7 +124,47 @@ class MarkerLegend(Legend):
 
 class Legends(Glyph):
     """
+    Legends glyph provides an easy way of drawing multiple legend items at
+    given position and orientation. This can be used in case of drawing plots,
+    pie charts etc.
     
+    Properties:
+        
+        items: (pero.Legend,), callable, None or UNDEF
+            Specifies a collection of legend items to draw.
+        
+        x: int, float or callable
+            Specifies the x-coordinate of the anchor.
+        
+        y: int, float or callable
+            Specifies the y-coordinate of the anchor.
+        
+        anchor: pero.POSITION_COMPASS or callable
+            Specifies the anchor position within background box as any item from
+            the pero.POSITION_COMPASS enum.
+        
+        orientation: pero.ORIENTATION or callable
+            Specifies the orientation of legend items as any item from the
+            pero.ORIENTATION enum.
+        
+        radius: int, float, (int,), (float,) callable or UNDEF
+            Specifies the background box corner radius as a single value or
+            values for individual corners starting from top-left.
+        
+        padding: int, float, (int,), (float,) callable or UNDEF
+            Specifies the inner space of the background box as a single value
+            or values for individual sides starting from top.
+        
+        spacing: int, float or callable
+            Specifies the space between individual legend items.
+        
+        line properties:
+            Includes pero.LineProperties to specify the legend background box
+            outline.
+        
+        fill properties:
+            Includes pero.FillProperties to specify the legend background box
+            fill.
     """
     
     items = TupleProperty(UNDEF, types=(Legend,), nullable=True)
@@ -187,8 +254,8 @@ class Legends(Glyph):
             bull_bbox = [0, 0, bull_w, bull_h]
             text_bbox = [bull_w + spacing, 0, text_w, text_h]
             
-            # center bullet
-            if bull_h < line_h <= text_w:
+            # center bullet with first line
+            if bull_h < line_h:
                 bull_bbox[1] += (line_h - bull_h)/2
             
             # add bbox
@@ -237,12 +304,12 @@ class Legends(Glyph):
         width = 0
         height = 0
         
-        # add items
+        # get width and height of all items
         for item, bull_bbox, text_bbox in items:
             width = max(width, bull_bbox[0] + bull_bbox[2], text_bbox[0] + text_bbox[2])
             height = max(height, bull_bbox[1] + bull_bbox[3], text_bbox[1] + text_bbox[3])
         
-        #  add padding
+        #  apply padding
         if padding:
             width += padding[1] + padding[3]
             height += padding[0] + padding[2]

@@ -10,7 +10,7 @@ from .glyphs import Glyph
 
 class Label(Glyph):
     """
-    Abstract base class for various types of labels glyphs.
+    Abstract base class for various types of label items glyphs.
     
     Properties:
         
@@ -156,7 +156,7 @@ class Labels(Glyph):
     Properties:
         
         items: (pero.Label,), callable, None or UNDEF
-            Specifies a collection of labels to draw.
+            Specifies a collection of label items to draw.
         
         overlap: bool or callable
             Specifies whether the labels can overlap (True) or should be skipped
