@@ -49,14 +49,14 @@ CAIRO_FONT_FAMILY = {
 
 CAIRO_RASTER_TYPES = {
     '.bmp': 'BMP',
+    '.gif': 'GIF',
     '.jpg': 'JPEG',
     '.jpeg': 'JPEG',
     '.png': 'PNG',
     '.tif': 'TIFF',
-    '.tiff': 'TIFF',
-    '.gif': 'GIF'}
+    '.tiff': 'TIFF'}
 
 CAIRO_VECTOR_TYPES = {
-    '.svg': 'SVG',
+    '.eps': 'EPS',
     '.pdf': 'PDF',
-    '.eps': 'EPS'}
+    '.svg': 'SVG'}

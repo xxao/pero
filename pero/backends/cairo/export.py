@@ -12,7 +12,7 @@ from .canvas import CairoCanvas
 
 def export(graphics, path, width=None, height=None, **options):
     """
-    Draws given graphics into specified image file.The image format is
+    Draws given graphics into specified image file. The image format is
     determined from the extension of given file path. Supported extensions are
     .bmp, .jpg, .jpeg, .png, .pcx, .pnm, .tif, .tiff, .xpm, .ico, .cur, .svg,
     .pdf and .eps.
@@ -48,12 +48,6 @@ def export(graphics, path, width=None, height=None, **options):
     dirname, filename = os.path.split(path)
     basename, extension = os.path.splitext(filename)
     extension = extension.lower()
-    
-    # check size
-    if not width:
-        width = EXPORT_WIDTH
-    if not height:
-        height = EXPORT_HEIGHT
     
     # export as raster image
     if extension in CAIRO_RASTER_TYPES:
