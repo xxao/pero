@@ -74,7 +74,7 @@ def export(graphics, path, width=None, height=None, **options):
     
     # unsupported format
     if backend is None:
-        message = "Unsupported image format or missing library! -> %s" % extension
+        message = "Unsupported image format or missing library (e.g. wxPython or PyCairo)! -> %s" % extension
         raise ImportError(message)
     
     # export image
