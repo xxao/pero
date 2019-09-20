@@ -8,11 +8,10 @@ class DrawTest(pero.Graphics):
     """Test case for path drawing."""
     
     
-    def draw(self, canvas, **overrides):
+    def draw(self, canvas, *args, **kwargs):
         """Draws the test."""
         
         # clear canvas
-        canvas.line_scale = 1
         canvas.fill_color = pero.colors.White
         canvas.fill()
         
@@ -159,4 +158,4 @@ class DrawTest(pero.Graphics):
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'show', "Path", 950, 600)
+    pero.debug(DrawTest(), 'show', "Path Drawing", 950, 600)

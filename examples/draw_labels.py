@@ -17,11 +17,10 @@ class DrawTest(pero.Graphics):
         self._values = numpy.random.rand(50, 3)
     
     
-    def draw(self, canvas, **overrides):
+    def draw(self, canvas, *args, **kwargs):
         """Draws the test."""
         
         # clear canvas
-        canvas.line_scale = 1
         canvas.fill_color = pero.colors.White
         canvas.fill()
         

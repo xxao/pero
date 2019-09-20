@@ -291,11 +291,10 @@ class DrawTest(pero.Graphics):
             point.draw(canvas, x=x, y=y, size=10, fill_color=None, line_color="r")
     
     
-    def draw(self, canvas, **overrides):
+    def draw(self, canvas, *args, **kwargs):
         """Draws the test."""
         
         # clear canvas
-        canvas.line_scale = 1
         canvas.fill_color = pero.colors.White
         canvas.fill()
         

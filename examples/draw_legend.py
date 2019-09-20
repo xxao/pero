@@ -8,11 +8,11 @@ class DrawTest(pero.Graphics):
     """Test case for legend drawing."""
     
     
-    def draw(self, canvas, **overrides):
+    def draw(self, canvas, *args, **kwargs):
         """Draws the test."""
         
         # clear canvas
-        canvas.fill_color = pero.colors.Ivory
+        canvas.fill_color = pero.colors.White
         canvas.fill()
         
         # init coords
@@ -41,7 +41,8 @@ class DrawTest(pero.Graphics):
         # init legend
         legend = pero.Legends(
             items = (legend1, legend2, legend3),
-            orientation = pero.VERTICAL)
+            orientation = pero.VERTICAL,
+            fill_color = pero.colors.Ivory)
         
         # draw nw
         legend.draw(canvas,

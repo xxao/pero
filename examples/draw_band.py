@@ -9,11 +9,10 @@ class DrawTest(pero.Graphics):
     """Test case for band drawing."""
     
     
-    def draw(self, canvas, **overrides):
+    def draw(self, canvas, *args, **kwargs):
         """Draws the test."""
         
         # clear canvas
-        canvas.line_scale = 1
         canvas.fill_color = pero.colors.White
         canvas.fill()
         
@@ -45,7 +44,7 @@ class DrawTest(pero.Graphics):
             data = data,
             marker_size = 8,
             marker_line_color = pero.colors.White,
-            marker_fill_color = lambda d: "b" if d[0] >= 0 else "r")
+            marker_fill_color = lambda d: "b" if d[0] >= 0 else "o")
         
         # draw lines
         glyph.draw(canvas,

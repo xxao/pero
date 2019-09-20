@@ -8,11 +8,10 @@ class DrawTest(pero.Graphics):
     """Test case for path quadratic curve drawing."""
     
     
-    def draw(self, canvas, **overrides):
+    def draw(self, canvas, *args, **kwargs):
         """Draws the test."""
         
         # clear canvas
-        canvas.line_scale = 1
         canvas.fill_color = pero.colors.White
         canvas.fill()
         
