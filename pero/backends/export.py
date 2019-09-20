@@ -6,7 +6,7 @@ import os.path
 from ..enums import *
 
 
-def export(graphics, path, width=None, height=None, **options):
+def export(graphics, path, width=None, height=None, backend=None, **options):
     """
     Draws given graphics into specified image file using the format determined
     automatically from the file extension. This method makes sure appropriate
@@ -25,6 +25,9 @@ def export(graphics, path, width=None, height=None, **options):
         height: float or None
             Image height in device units.
         
+        backend: pero.BACKEND
+            Specific backend to be used.
+        
         options: str:any pairs
             Additional parameters for specific backend.
     """
@@ -34,9 +37,12 @@ def export(graphics, path, width=None, height=None, **options):
     basename, extension = os.path.splitext(filename)
     extension = extension.lower()
     
-    # get backend
+    # get backends
+    backends = EXPORT_PRIORITY if backend is None else [backend]
+    
+    # import backend
     backend = None
-    for module in EXPORT_PRIORITY:
+    for module in backends:
         
         # check if format is recognized by backend
         if extension not in EXPORT_FORMATS[module]:
@@ -74,14 +80,14 @@ def export(graphics, path, width=None, height=None, **options):
     
     # unsupported format
     if backend is None:
-        message = "Unsupported image format or missing library (e.g. wxPython or PyCairo)! -> %s" % extension
+        message = "Unsupported image format or missing library (e.g. wxPython, PyCairo, PyQt)! -> %s" % extension
         raise ImportError(message)
     
     # export image
     backend.export(graphics, path, width, height, **options)
 
 
-def show(graphics, title=None, width=None, height=None):
+def show(graphics, title=None, width=None, height=None, backend=None):
     """
     Shows given graphics in available viewer app. Currently this is only
     available if wxPython or PyQt5 is installed or within Pythonista app on iOS.
@@ -100,11 +106,17 @@ def show(graphics, title=None, width=None, height=None):
         
         height: float or None
             Viewer height in device units.
+        
+        backend: pero.BACKEND
+            Specific backend to be used.
     """
+    
+    # get backends
+    backends = VIEWER_PRIORITY if backend is None else [backend]
     
     # get backend
     backend = None
-    for module in VIEWER_PRIORITY:
+    for module in backends:
         
         # try to import backend
         try:
@@ -126,14 +138,14 @@ def show(graphics, title=None, width=None, height=None):
     
     # no viewer available
     if backend is None:
-        message = "No viewer available (wxPython, PyQt5 or Pythonista needed)!"
+        message = "No viewer available or missing library (e.g. wxPython, PyQt5 or Pythonista)!"
         raise ImportError(message)
     
     # show viewer
     backend.show(graphics, title, width, height)
 
 
-def debug(graphics, canvas='show', title="", width=None, height=None, **options):
+def debug(graphics, canvas='show', title="", width=None, height=None, backend=None, **options):
     """
     Renders given graphics using simple viewer or file format. This method makes
     sure appropriate backend canvas is created and provided to graphics 'draw'
@@ -157,7 +169,10 @@ def debug(graphics, canvas='show', title="", width=None, height=None, **options)
             Image or viewer width in device units.
         
         height: float or None
-            Image or viewer
+            Image or viewer height in device units.
+        
+        backend: pero.BACKEND
+            Specific backend to be used.
         
         options: key:value pairs
             Additional parameters for specific backend.
@@ -165,7 +180,7 @@ def debug(graphics, canvas='show', title="", width=None, height=None, **options)
     
     # render graphics in available viewer
     if canvas == 'show':
-        show(graphics, title, width, height)
+        show(graphics, title, width, height, backend)
     
     # render graphics into qt viewer
     elif canvas == 'qt':
@@ -185,4 +200,4 @@ def debug(graphics, canvas='show', title="", width=None, height=None, **options)
     # render graphics as image file
     else:
         filename = "test.%s" % canvas
-        export(graphics, filename, width, height, **options)
+        export(graphics, filename, width, height, backend, **options)
