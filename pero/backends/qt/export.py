@@ -5,7 +5,7 @@
 import os.path
 from PyQt5.QtCore import Qt, QSizeF
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtGui import QPainter, QPixmap
+from PyQt5.QtGui import QPainter, QImage
 from PyQt5.QtPrintSupport import QPrinter
 from .enums import *
 from .canvas import QtCanvas
@@ -151,7 +151,7 @@ def export_raster(graphics, path, width=None, height=None, **options):
     app = QApplication([])
     
     # init image
-    image = QPixmap(width, height)
+    image = QImage(width, height, QImage.Format_ARGB32)
     
     # init painter
     qp = QPainter()
