@@ -178,7 +178,7 @@ class Legends(Glyph):
     padding = QuadProperty(5)
     spacing = NumProperty(5)
     
-    line = Include(LineProperties, line_color="#eee")
+    line = Include(LineProperties, line_color="#ddd")
     fill = Include(FillProperties, fill_color="#fffc")
     
     
