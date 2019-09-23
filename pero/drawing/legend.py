@@ -182,6 +182,38 @@ class Legends(Glyph):
     fill = Include(FillProperties, fill_color="#fffc")
     
     
+    def get_bbox(self, canvas, source=UNDEF, **overrides):
+        """
+        Gets glyph bounding box.
+        
+        Args:
+            canvas: pero.Canvas
+                Canvas to be used for rendering.
+            
+            source: any
+                Data source to be used for calculating callable properties.
+            
+            overrides: str:any pairs
+                Specific properties to be overwritten.
+        
+        Returns:
+            pero.Frame or None
+                Object bounding box.
+        """
+        
+        # check if visible
+        if not self.is_visible(source, overrides):
+            return None
+        
+        # get items
+        items = self._get_items(canvas, source, overrides)
+        if not items:
+            return None
+        
+        # get bbox
+        return self._get_bbox(source, overrides, items)
+    
+    
     def draw(self, canvas, source=UNDEF, **overrides):
         """Uses given canvas to draw legends."""
         

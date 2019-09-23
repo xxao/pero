@@ -49,7 +49,7 @@ class Label(Glyph):
                 Specific properties to be overwritten.
         
         Returns:
-            pero.Frame
+            pero.Frame or None
                 Object bounding box.
         """
         
