@@ -3,7 +3,7 @@
 
 # import modules
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtGui import QPainter, QPicture
+from PyQt5.QtGui import QPainter, QPicture, QPixmap
 
 from ...events import *
 from ..view import View
@@ -25,9 +25,8 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         
         # init buffers
         self._dc_size = (self.width(), self.height())
-        self._dc_buffer = QPicture()
-        self._dc_overlay = QPicture()
-        self._dc_overlay_empty = True
+        self._dc_buffer = None
+        self._dc_overlay = None
         
         # set window events
         self.paintEvent = self._on_paint
@@ -38,7 +37,7 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         
         self.mouseMoveEvent = self._on_mouse_move
         self.wheelEvent = self._on_mouse_wheel
-
+        
         self.enterEvent = self._on_mouse_enter
         self.leaveEvent = self._on_mouse_leave
         
@@ -80,9 +79,11 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
     def draw_control(self):
         """Draws current control graphics."""
         
-        # check control
-        if self.control is None:
-            return
+        # init buffer
+        if self._dc_buffer is None:
+            dpr = self.devicePixelRatioF()
+            self._dc_buffer = QPixmap(self.width() * dpr, self.height() * dpr)
+            self._dc_buffer.setDevicePixelRatio(dpr)
         
         # init painter
         qp = QPainter()
@@ -90,18 +91,16 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         qp.setRenderHint(QPainter.Antialiasing)
         qp.setRenderHint(QPainter.SmoothPixmapTransform)
         
-        # init canvas
-        canvas = QtCanvas(qp, width=self._dc_size[0], height=self._dc_size[1])
-        
         # draw control
-        self.control.draw(canvas)
+        if self.control is not None:
+            canvas = QtCanvas(qp, width=self._dc_size[0], height=self._dc_size[1])
+            self.control.draw(canvas)
         
         # end drawing
         qp.end()
         
         # reset overlay
-        if not self._dc_overlay_empty:
-            self._dc_overlay = QPicture()
+        self._dc_overlay = None
         
         # update screen
         self.update()
@@ -125,16 +124,22 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
                 function.
         """
         
-        # check control
-        if self.control is None:
-            return
-        
-        # do not clean if empty
-        if func is None and self._dc_overlay_empty:
+        # skip cleaning if empty already
+        if func is None and self._dc_overlay is None:
             return
         
         # clear current tooltip
         self.setToolTip("")
+        
+        # just clean
+        if func is None:
+            self._dc_overlay = None
+            self.update()
+            return
+        
+        # init buffer
+        if self._dc_overlay is None:
+            self._dc_overlay = QPicture()
         
         # init painter
         qp = QPainter()
@@ -143,10 +148,8 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         qp.setRenderHint(QPainter.SmoothPixmapTransform)
         
         # draw overlay
-        if func is not None:
-            canvas = QtCanvas(qp, width=self._dc_size[0], height=self._dc_size[1])
-            func(canvas, **kwargs)
-            self._dc_overlay_empty = False
+        canvas = QtCanvas(qp, width=self._dc_size[0], height=self._dc_size[1])
+        func(canvas, **kwargs)
         
         # end drawing
         qp.end()
@@ -224,10 +227,12 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
         qp.setRenderHint(QPainter.SmoothPixmapTransform)
         
         # draw control
-        qp.drawPicture(0, 0, self._dc_buffer)
+        if self._dc_buffer is not None:
+            qp.drawPixmap(0, 0, self._dc_buffer)
         
         # draw overlay
-        qp.drawPicture(0, 0, self._dc_overlay)
+        if self._dc_overlay is not None:
+            qp.drawPicture(0, 0, self._dc_overlay)
         
         # end drawing
         qp.end()
@@ -235,6 +240,10 @@ class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(V
     
     def _on_size(self, evt):
         """Repaints current graphics when size has changed."""
+        
+        # reset buffers
+        self._dc_buffer = None
+        self._dc_overlay = None
         
         # get window size
         size = evt.size()
