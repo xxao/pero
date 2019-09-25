@@ -12,6 +12,9 @@ class AngleTool(pero.Tool):
         
         super(AngleTool, self).__init__(**overrides)
         
+        # init color scale
+        self._gradient = pero.Gradient(pero.colors.YlOrRd)
+        
         # init glyphs
         self._arrow = pero.RayArrow(
             x = 0,
@@ -46,7 +49,8 @@ class AngleTool(pero.Tool):
         self._wedge(
             x = cx,
             y = cy,
-            outer_radius = length)
+            outer_radius = length,
+            fill_alpha = 170)
     
     
     def on_mouse_motion(self, evt):
@@ -77,7 +81,7 @@ class AngleTool(pero.Tool):
         # draw glyphs
         self._wedge.draw(canvas,
             end_angle = rads,
-            clockwise = rads > 0)
+            fill_color = self._gradient.color_at(rads/(2*math.pi)))
         
         self._arrow.draw(canvas,
             angle = 0)
@@ -109,16 +113,15 @@ class DrawTest(pero.Graphics):
             line_color = pero.colors.LightGrey)
         
         self._bgr = pero.Circle(
-            line_color = pero.colors.LightGrey,
-            line_width = 3,
-            fill_color = pero.colors.LightGrey.opaque(0.5))
+            line_width = 0,
+            fill_color = pero.colors.White)
     
     
     def draw(self, canvas, *args, **kwargs):
         """Draws the test."""
         
         # clear canvas
-        canvas.fill_color = pero.colors.White
+        canvas.fill_color = pero.colors.LightGrey
         canvas.fill()
         
         # get coords
