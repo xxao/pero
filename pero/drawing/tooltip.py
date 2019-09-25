@@ -5,7 +5,7 @@
 from ..enums import *
 from ..properties import *
 from .frame import FrameProperty
-from .glyphs import Glyph, Textbox
+from .glyphs import Glyph
 
 
 class Tooltip(Glyph):
@@ -26,6 +26,10 @@ class Tooltip(Glyph):
         y_offset: int, float or callable
             Specifies the y-axis shift from the anchor.
         
+        anchor: pero.POSITION_COMPASS or callable
+            Specifies the anchor position as any item from the
+            pero.POSITION_COMPASS enum.
+        
         clip: pero.Frame, callable, None or UNDEF
             Specifies the available drawing frame.
     """
@@ -33,15 +37,16 @@ class Tooltip(Glyph):
     x = NumProperty(0)
     y = NumProperty(0)
     
-    x_offset = NumProperty(6)
-    y_offset = NumProperty(6)
+    x_offset = NumProperty(10)
+    y_offset = NumProperty(10)
     
+    anchor = EnumProperty(UNDEF, enum=POSITION_COMPASS)
     clip = FrameProperty(UNDEF)
 
 
 class TextTooltip(Tooltip):
     """
-    Provides a basic glyph to draw simple text tooltip.
+    Provides a basic glyph to draw simple text box tooltip.
     
     Properties:
         
@@ -67,17 +72,14 @@ class TextTooltip(Tooltip):
             Includes pero.FillProperties to specify the box fill.
     """
     
-    textbox = Include(Textbox, exclude=['angle'], line_color="#ccce", fill_color="#eeee", radius=4, padding=(3, 5))
+    text = StringProperty(UNDEF)
+    font = Include(TextProperties)
     
+    radius = QuadProperty(3)
+    padding = QuadProperty(5)
     
-    def __init__(self, **overrides):
-        """Initializes a new instance of TextTooltip."""
-        
-        super(Tooltip, self).__init__(**overrides)
-        
-        # init text box
-        self._textbox = Textbox()
-    
+    line = Include(LineProperties, line_color="#ccce")
+    fill = Include(FillProperties, fill_color="#eeee")
     
     def draw(self, canvas, source=UNDEF, **overrides):
         """Uses given canvas to draw tooltip."""
@@ -87,12 +89,17 @@ class TextTooltip(Tooltip):
             return
         
         # get properties
+        tag = self.get_property('tag', source, overrides)
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
+        anchor = self.get_property('anchor', source, overrides)
         x_offset = self.get_property('x_offset', source, overrides)
         y_offset = self.get_property('y_offset', source, overrides)
-        text = self.get_property('text', source, overrides)
+        radius = self.get_property('radius', source, overrides)
         padding = self.get_property('padding', source, overrides)
+        text = self.get_property('text', source, overrides)
+        align = self.get_property('text_align', source, overrides)
+        base = self.get_property('text_base', source, overrides)
         clip = self.get_property('clip', source, overrides)
         
         # check data
@@ -102,33 +109,79 @@ class TextTooltip(Tooltip):
         # set text
         canvas.set_text_by(self, source=source, overrides=overrides)
         
-        # get tooltip size
+        # get size
+        padding = padding or (0, 0, 0, 0)
         text_width, text_height = canvas.get_text_size(text)
         bgr_width = text_width + padding[1] + padding[3]
         bgr_height = text_height + padding[0] + padding[2]
         
-        # calc origin
-        x = x - bgr_width - x_offset
-        y = y - bgr_height - y_offset
+        # shift anchor
+        if anchor == POSITION.N:
+            x -= 0.5 * bgr_width
+        elif anchor == POSITION.NE:
+            x -= bgr_width
+        elif anchor == POSITION.E:
+            x -= bgr_width
+            y -= 0.5 * bgr_height
+        elif anchor == POSITION.SE:
+            x -= bgr_width
+            y -= bgr_height
+        elif anchor == POSITION.S:
+            x -= 0.5 * bgr_width
+            y -= bgr_height
+        elif anchor == POSITION.SW:
+            y -= bgr_height
+        elif anchor == POSITION.W:
+            y -= 0.5 * bgr_height
+        elif anchor == POSITION.C:
+            x -= 0.5 * bgr_width
+            y -= 0.5 * bgr_height
+        
+        # apply offset
+        x += x_offset
+        y += y_offset
         
         # check clipping frame
         if clip:
             
-            # shift right if outside
+            # shift horizontally if outside
             if x < clip.x1:
                 x += 2*x_offset + bgr_width
+            elif x + bgr_width > clip.x2 and x > clip.cx:
+                x -= 2*x_offset + bgr_width
             
-            # shift bottom if outside
+            # shift vertically if outside
             if y < clip.y1:
                 y += 2*y_offset + bgr_height
+            elif y + bgr_height > clip.y2 and y > clip.cy:
+                y -= 2*y_offset + bgr_height
         
-        # set glyph properties
-        self._textbox.set_properties_from(self, source=source, overrides=overrides)
+        # get text coords
+        text_x = x + padding[3]
+        text_y = y + padding[0]
         
-        # draw glyph
-        self._textbox.draw(canvas,
-            x = x,
-            y = y,
-            text_align = TEXT_ALIGN.LEFT,
-            text_base = TEXT_BASELINE.TOP,
-            angle = 0)
+        if align == TEXT_ALIGN.CENTER:
+            text_x += 0.5*text_width
+        elif align == TEXT_ALIGN.RIGHT:
+            text_x += text_width
+        
+        if base == TEXT_BASELINE.MIDDLE:
+            text_y += 0.5*text_height
+        elif base == TEXT_BASELINE.BOTTOM:
+            text_y += text_height
+        
+        # set pen and brush
+        canvas.set_pen_by(self, source=source, overrides=overrides)
+        canvas.set_brush_by(self, source=source, overrides=overrides)
+        
+        # start drawing group
+        canvas.group(tag, "tooltip")
+        
+        # draw background
+        canvas.draw_rect(x, y, bgr_width, bgr_height, radius)
+        
+        # draw text
+        canvas.draw_text(text, text_x, text_y)
+        
+        # end drawing group
+        canvas.ungroup()
