@@ -63,6 +63,7 @@ class AngleTool(pero.Tool):
     def on_mouse_leave(self, evt):
         """Handles mouse-leave event."""
         
+        # cancel action and clear overlay
         self._is_active = False
         evt.control.draw_overlay()
     
@@ -112,8 +113,9 @@ class AngleTool(pero.Tool):
     def on_mouse_up(self, evt):
         """Handles mouse-button-up event."""
         
-        # cancel current action
+        # cancel action and clear overlay
         self._is_active = False
+        evt.control.draw_overlay()
     
     
     def _draw_position(self, canvas, evt):
@@ -128,7 +130,7 @@ class AngleTool(pero.Tool):
         if rads < 0:
             rads += 2*math.pi
         
-        # draw arrow
+        # draw glyphs
         self._arrow.draw(canvas, angle=rads)
         
         # draw tooltip
@@ -248,8 +250,8 @@ class DrawTest(pero.Graphics):
 # run test
 if __name__ == '__main__':
     
-    control = pero.Control()
-    control.graphics = DrawTest()
-    control.main_tool = AngleTool()
+    control = pero.Control(
+        graphics = DrawTest(),
+        main_tool = AngleTool())
     
     pero.debug(control, 'show', "Overlay Tool", 400, 400)
