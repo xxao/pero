@@ -139,11 +139,11 @@ class Path(object):
                     values = command[1:]
                     
                     # close
-                    if key == PATH.CLOSE:
+                    if key == PATH_CLOSE:
                         continue
                     
                     # move to
-                    if key == PATH.MOVE:
+                    if key == PATH_MOVE:
                         origin = values
                         continue
                     
@@ -153,11 +153,11 @@ class Path(object):
                         origin = None
                     
                     # line to
-                    if key == PATH.LINE:
+                    if key == PATH_LINE:
                         anchors.append(values)
                     
                     # curve to
-                    elif key == PATH.CURVE:
+                    elif key == PATH_CURVE:
                         anchors.append(values[4:6])
             
             self._anchors = tuple(anchors)
@@ -192,15 +192,15 @@ class Path(object):
                     values = command[1:]
                     
                     # move to
-                    if key == PATH.MOVE:
+                    if key == PATH_MOVE:
                         cursor = values
                     
                     # line to
-                    elif key == PATH.LINE:
+                    elif key == PATH_LINE:
                         cursor = values
                     
                     # curve to
-                    elif key == PATH.CURVE:
+                    elif key == PATH_CURVE:
                         handles.append(cursor+values[0:2])
                         handles.append(values[4:6]+values[2:4])
                         cursor = values[4:6]
@@ -237,7 +237,7 @@ class Path(object):
             values = command[1:]
             
             # move to
-            if key == PATH.MOVE:
+            if key == PATH_MOVE:
                 return values
         
         return self.cursor
@@ -270,11 +270,11 @@ class Path(object):
             values = command[1:]
             
             # line to
-            if key == PATH.LINE:
+            if key == PATH_LINE:
                 return values
             
             # curve to
-            elif key == PATH.CURVE:
+            elif key == PATH_CURVE:
                 return values[4:6]
         
         return self.cursor
@@ -329,15 +329,15 @@ class Path(object):
                 values = command[1:]
                 
                 # move to
-                if key == PATH.MOVE:
+                if key == PATH_MOVE:
                     origin = values
                 
                 # line to
-                elif key == PATH.LINE:
+                elif key == PATH_LINE:
                     control = values
                 
                 # curve to
-                elif key == PATH.CURVE:
+                elif key == PATH_CURVE:
                     control = values[:2]
                 
                 # calc angle
@@ -379,18 +379,18 @@ class Path(object):
                 values = command[1:]
                 
                 # move to
-                if key == PATH.MOVE:
+                if key == PATH_MOVE:
                     origin = values
                 
                 # line to
-                elif key == PATH.LINE:
+                elif key == PATH_LINE:
                     if control:
                         origin = values
                     else:
                         control = values
                 
                 # curve to
-                elif key == PATH.CURVE:
+                elif key == PATH_CURVE:
                     if control:
                         origin = values[4:6]
                     else:
@@ -429,11 +429,11 @@ class Path(object):
                 values = command[1:]
                 
                 # close
-                if key == PATH.CLOSE:
+                if key == PATH_CLOSE:
                     continue
                 
                 # move to
-                if key == PATH.MOVE:
+                if key == PATH_MOVE:
                     x1, y1 = values
                     continue
                 
@@ -442,13 +442,13 @@ class Path(object):
                     self._bbox = Frame(x1, y1)
                 
                 # line to
-                if key == PATH.LINE:
+                if key == PATH_LINE:
                     self._bbox.extend(x1, y1)
                     x1, y1 = values
                     self._bbox.extend(x1, y1)
                 
                 # curve to
-                elif key == PATH.CURVE:
+                elif key == PATH_CURVE:
                     cx1, cy1, cx2, cy2, x2, y2 = values
                     bbox = Path.curve_bbox(x1, y1, cx1, cy1, cx2, cy2, x2, y2)
                     self._bbox.extend(*bbox.rect)
@@ -523,7 +523,7 @@ class Path(object):
             return self
         
         # close current sub-path
-        self._subpath.append([PATH.CLOSE])
+        self._subpath.append([PATH_CLOSE])
         
         # move cursor
         self._cursor = self._subpath[0][1:3]
@@ -600,7 +600,7 @@ class Path(object):
         
         # init sub-path if necessary
         if not self._subpath:
-            self._subpath.append([PATH.MOVE, self._cursor[0], self._cursor[1]])
+            self._subpath.append([PATH_MOVE, self._cursor[0], self._cursor[1]])
         
         # get absolute coordinates
         if relative:
@@ -618,7 +618,7 @@ class Path(object):
             y = self._cursor[1]
         
         # add line
-        self._subpath.append([PATH.LINE, x, y])
+        self._subpath.append([PATH_LINE, x, y])
         
         # move cursor
         self._cursor = (x,y)
@@ -664,7 +664,7 @@ class Path(object):
         
         # init sub-path if necessary
         if not self._subpath:
-            self._subpath.append([PATH.MOVE, self._cursor[0], self._cursor[1]])
+            self._subpath.append([PATH_MOVE, self._cursor[0], self._cursor[1]])
         
         # get absolute coordinates
         if relative:
@@ -676,7 +676,7 @@ class Path(object):
             y += self._cursor[1]
         
         # add curve
-        self._subpath.append([PATH.CURVE, cx1, cy1, cx2, cy2, x, y])
+        self._subpath.append([PATH_CURVE, cx1, cy1, cx2, cy2, x, y])
         
         # move cursor
         self._cursor = (x,y)
@@ -724,7 +724,7 @@ class Path(object):
         
         # get previous control point
         cx1, cy1 = self._cursor
-        if self._subpath and self._subpath[-1][0] == PATH.CURVE:
+        if self._subpath and self._subpath[-1][0] == PATH_CURVE:
             cx1, cy1 = self._subpath[-1][3:5]
             cx1 += 2*(self._cursor[0] - cx1)
             cy1 += 2*(self._cursor[1] - cy1)
@@ -810,7 +810,7 @@ class Path(object):
         
         # get previous control point
         cx1, cy1 = self._cursor
-        if self._subpath and self._subpath[-1][0] == PATH.CURVE:
+        if self._subpath and self._subpath[-1][0] == PATH_CURVE:
             cx1, cy1 = self._subpath[-1][3:5]
             cx1 += 2*(self._cursor[0] - cx1)
             cy1 += 2*(self._cursor[1] - cy1)
@@ -1401,19 +1401,19 @@ class Path(object):
             values = command[1:]
             
             # close
-            if key == PATH.CLOSE:
+            if key == PATH_CLOSE:
                 self.close()
             
             # move to
-            elif key == PATH.MOVE:
+            elif key == PATH_MOVE:
                 self.move_to(*values)
             
             # line to
-            elif key == PATH.LINE:
+            elif key == PATH_LINE:
                 self.line_to(*values)
             
             # curve to
-            elif key == PATH.CURVE:
+            elif key == PATH_CURVE:
                 self.curve_to(*values)
         
         return self
@@ -1441,15 +1441,15 @@ class Path(object):
                 values = command[1:]
                 
                 # move to
-                if key == PATH.MOVE:
+                if key == PATH_MOVE:
                     command[1:3] = matrix.transform(values[0], values[1])
                 
                 # line to
-                elif key == PATH.LINE:
+                elif key == PATH_LINE:
                     command[1:3] = matrix.transform(values[0], values[1])
                 
                 # curve to
-                elif key == PATH.CURVE:
+                elif key == PATH_CURVE:
                     command[1:3] = matrix.transform(values[0], values[1])
                     command[3:5] = matrix.transform(values[2], values[3])
                     command[5:7] = matrix.transform(values[4], values[5])
@@ -1681,19 +1681,19 @@ class Path(object):
             values = command[1:]
             
             # close
-            if key == PATH.CLOSE:
+            if key == PATH_CLOSE:
                 path.close()
             
             # move to
-            elif key == PATH.MOVE:
+            elif key == PATH_MOVE:
                 path.move_to(*values)
             
             # line to
-            elif key == PATH.LINE:
+            elif key == PATH_LINE:
                 path.line_to(*values)
             
             # curve to
-            elif key == PATH.CURVE:
+            elif key == PATH_CURVE:
                 path.curve_to(*values)
         
         return path
@@ -1728,19 +1728,19 @@ class Path(object):
             values = command[1:]
             
             # close
-            if key == PATH.CLOSE:
+            if key == PATH_CLOSE:
                 path.close()
             
             # move to
-            elif key == PATH.MOVE:
+            elif key == PATH_MOVE:
                 path.move_to(*values)
             
             # line to
-            elif key == PATH.LINE:
+            elif key == PATH_LINE:
                 path.line_to(*values)
             
             # curve to
-            elif key == PATH.CURVE:
+            elif key == PATH_CURVE:
                 path.curve_to(*values)
         
         return path

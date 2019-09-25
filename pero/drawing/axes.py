@@ -193,7 +193,7 @@ class StraitAxis(Axis):
     
     show_title = BoolProperty(True)
     
-    position = EnumProperty(POSITION.BOTTOM, enum=POSITION_LRTB)
+    position = EnumProperty(POS_BOTTOM, enum=POSITION_LRTB)
     relative = BoolProperty(False)
     
     angle = Include(AngleProperties)
@@ -201,10 +201,10 @@ class StraitAxis(Axis):
     offset = NumProperty(0)
     
     title = StringProperty(None, nullable=True)
-    title_position = EnumProperty(POSITION.MIDDLE, enum=POSITION_SEM)
+    title_position = EnumProperty(POS_MIDDLE, enum=POSITION_SEM)
     title_offset = NumProperty(25)
     title_flip = BoolProperty(False)
-    title_text = Include(TextProperties, prefix="title_", font_weight=FONT_WEIGHT.BOLD, font_size=12, text_align=UNDEF, text_base=UNDEF)
+    title_text = Include(TextProperties, prefix="title_", font_weight=FONT_WEIGHT_BOLD, font_size=12, text_align=UNDEF, text_base=UNDEF)
     title_angle = Include(AngleProperties, prefix="title_", angle=UNDEF)
     
     label_angle = Include(AngleProperties, prefix="label_")
@@ -303,7 +303,7 @@ class StraitAxis(Axis):
         y = self.get_property('y', source, overrides)
         position = self.get_property('position', source, overrides)
         relative = self.get_property('relative', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # apply position
         if position in POSITION_LR:
@@ -346,12 +346,12 @@ class StraitAxis(Axis):
         y = self.get_property('y', source, overrides)
         position = self.get_property('position', source, overrides)
         relative = self.get_property('relative', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         labels = self.get_property('labels', source, overrides)
         label_between = self.get_property('label_between', source, overrides)
         label_offset = self.get_property('label_offset', source, overrides)
-        label_angle = AngleProperties.get_angle(self, 'label_', ANGLE.RAD, source, overrides)
+        label_angle = AngleProperties.get_angle(self, 'label_', ANGLE_RAD, source, overrides)
         label_flip = self.get_property('label_flip', source, overrides)
         label_overlap = self.get_property('label_overlap', source, overrides)
         ticks = self.get_property('major_ticks', source, overrides)
@@ -399,21 +399,21 @@ class StraitAxis(Axis):
         if canvas.text_align is UNDEF:
             
             if is_horizontal:
-                canvas.text_align = TEXT_ALIGN.CENTER
+                canvas.text_align = TEXT_ALIGN_CENTER
             elif is_bottom:
-                canvas.text_align = TEXT_ALIGN.LEFT if is_flipped else TEXT_ALIGN.RIGHT
+                canvas.text_align = TEXT_ALIGN_LEFT if is_flipped else TEXT_ALIGN_RIGHT
             else:
-                canvas.text_align = TEXT_ALIGN.RIGHT if is_flipped else TEXT_ALIGN.LEFT
+                canvas.text_align = TEXT_ALIGN_RIGHT if is_flipped else TEXT_ALIGN_LEFT
         
         # set baseline
         if canvas.text_base is UNDEF:
             
             if is_vertical:
-                canvas.text_base = TEXT_BASELINE.MIDDLE
+                canvas.text_base = TEXT_BASE_MIDDLE
             elif is_left:
-                canvas.text_base = TEXT_BASELINE.TOP if is_flipped else TEXT_BASELINE.BOTTOM
+                canvas.text_base = TEXT_BASE_TOP if is_flipped else TEXT_BASE_BOTTOM
             else:
-                canvas.text_base = TEXT_BASELINE.BOTTOM if is_flipped else TEXT_BASELINE.TOP
+                canvas.text_base = TEXT_BASE_BOTTOM if is_flipped else TEXT_BASE_TOP
         
         # draw labels
         area = []
@@ -452,12 +452,12 @@ class StraitAxis(Axis):
         offset = self.get_property('offset', source, overrides)
         position = self.get_property('position', source, overrides)
         length = self.get_property('length', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         title = self.get_property('title', source, overrides)
         title_position = self.get_property('title_position', source, overrides)
         title_offset = self.get_property('title_offset', source, overrides)
-        title_angle = AngleProperties.get_angle(self, 'title_', ANGLE.RAD, source, overrides)
+        title_angle = AngleProperties.get_angle(self, 'title_', ANGLE_RAD, source, overrides)
         title_flip = self.get_property('title_flip', source, overrides)
         
         # check data
@@ -492,9 +492,9 @@ class StraitAxis(Axis):
         
         # get x-offset
         x_offset = offset
-        if title_position == POSITION.MIDDLE:
+        if title_position == POS_MIDDLE:
             x_offset += .5 * length
-        elif title_position == POSITION.END:
+        elif title_position == POS_END:
             x_offset += length
         
         # calc anchor
@@ -504,30 +504,30 @@ class StraitAxis(Axis):
         # set alignment
         if canvas.text_align is UNDEF:
             
-            if title_position == POSITION.MIDDLE:
-                canvas.text_align = TEXT_ALIGN.CENTER
+            if title_position == POS_MIDDLE:
+                canvas.text_align = TEXT_ALIGN_CENTER
             
-            elif title_position == POSITION.START and is_vertical:
-                canvas.text_align = TEXT_ALIGN.LEFT if is_flipped else TEXT_ALIGN.RIGHT
+            elif title_position == POS_START and is_vertical:
+                canvas.text_align = TEXT_ALIGN_LEFT if is_flipped else TEXT_ALIGN_RIGHT
             
-            elif title_position == POSITION.START:
-                canvas.text_align = TEXT_ALIGN.RIGHT if is_left else TEXT_ALIGN.LEFT
+            elif title_position == POS_START:
+                canvas.text_align = TEXT_ALIGN_RIGHT if is_left else TEXT_ALIGN_LEFT
             
-            elif title_position == POSITION.END and is_vertical:
-                canvas.text_align = TEXT_ALIGN.RIGHT if is_flipped else TEXT_ALIGN.LEFT
+            elif title_position == POS_END and is_vertical:
+                canvas.text_align = TEXT_ALIGN_RIGHT if is_flipped else TEXT_ALIGN_LEFT
             
-            elif title_position == POSITION.END:
-                canvas.text_align = TEXT_ALIGN.LEFT if is_left else TEXT_ALIGN.RIGHT
+            elif title_position == POS_END:
+                canvas.text_align = TEXT_ALIGN_LEFT if is_left else TEXT_ALIGN_RIGHT
         
         # set baseline
         if canvas.text_base is UNDEF:
             
             if is_vertical:
-                canvas.text_base = TEXT_BASELINE.BOTTOM
+                canvas.text_base = TEXT_BASE_BOTTOM
             elif is_left:
-                canvas.text_base = TEXT_BASELINE.TOP if is_flipped else TEXT_BASELINE.BOTTOM
+                canvas.text_base = TEXT_BASE_TOP if is_flipped else TEXT_BASE_BOTTOM
             else:
-                canvas.text_base = TEXT_BASELINE.BOTTOM if is_flipped else TEXT_BASELINE.TOP
+                canvas.text_base = TEXT_BASE_BOTTOM if is_flipped else TEXT_BASE_TOP
         
         # get angle
         if title_angle is UNDEF:
@@ -550,7 +550,7 @@ class StraitAxis(Axis):
         position = self.get_property('position', source, overrides)
         offset = self.get_property('offset', source, overrides)
         length = self.get_property('length', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # set pen
         canvas.set_pen_by(self, source=source, overrides=overrides)
@@ -608,12 +608,12 @@ class RadialAxis(Axis):
     """
     
     radius = NumProperty(100)
-    units = EnumProperty(ANGLE.RAD, enum=ANGLE)
+    units = EnumProperty(ANGLE_RAD, enum=ANGLE)
     start_angle = Include(AngleProperties, prefix="start_")
     end_angle = Include(AngleProperties, prefix="end_")
     clockwise = BoolProperty(True)
     
-    label_rotation = EnumProperty(TEXT_ROTATION.FOLLOW, enum=TEXT_ROTATION)
+    label_rotation = EnumProperty(TEXT_ROTATION_FOLLOW, enum=TEXT_ROTATION)
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
@@ -705,7 +705,7 @@ class RadialAxis(Axis):
         units = self.get_property('units', source, overrides)
         
         # convert angles
-        if units == ANGLE.DEG:
+        if units == ANGLE_DEG:
             ticks = tuple(map(math.radians, ticks))
         
         # get radii
@@ -759,11 +759,11 @@ class RadialAxis(Axis):
             ticks = .5*(ticks[:-1] + ticks[1:])
         
         # convert angles
-        if units == ANGLE.DEG:
+        if units == ANGLE_DEG:
             ticks = tuple(map(math.radians, ticks))
         
         # get position
-        position = POSITION.INSIDE if flip else POSITION.OUTSIDE
+        position = POS_INSIDE if flip else POS_OUTSIDE
         
         # get radius
         radius += -label_offset if flip else label_offset
@@ -791,8 +791,8 @@ class RadialAxis(Axis):
         y = self.get_property('y', source, overrides)
         radius = self.get_property('radius', source, overrides)
         clockwise = self.get_property('clockwise', source, overrides)
-        start_angle = AngleProperties.get_angle(self, 'start_', ANGLE.RAD, source, overrides)
-        end_angle = AngleProperties.get_angle(self, 'end_', ANGLE.RAD, source, overrides)
+        start_angle = AngleProperties.get_angle(self, 'start_', ANGLE_RAD, source, overrides)
+        end_angle = AngleProperties.get_angle(self, 'end_', ANGLE_RAD, source, overrides)
         
         # set pen
         canvas.set_pen_by(self, source=source, overrides=overrides)

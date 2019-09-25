@@ -66,11 +66,11 @@ class DrawTest(pero.Graphics):
         
         # init glyphs
         label = pero.Text(
-            text_align = pero.RIGHT,
-            text_base = pero.MIDDLE)
+            text_align = pero.TEXT_ALIGN_RIGHT,
+            text_base = pero.TEXT_BASE_MIDDLE)
         
         glyph = pero.ColorBar(
-            orientation = pero.HORIZONTAL,
+            orientation = pero.ORI_HORIZONTAL,
             x = padding+indent,
             length = length,
             thickness = thickness,

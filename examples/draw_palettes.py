@@ -20,7 +20,7 @@ class DrawTest(pero.Graphics):
         rect_height = 17
         
         # init glyphs
-        label = pero.Text(text_base=pero.MIDDLE)
+        label = pero.Text(text_base=pero.TEXT_BASE_MIDDLE)
         
         rect = pero.Rect(
             line_width = 1,

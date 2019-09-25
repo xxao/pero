@@ -56,7 +56,7 @@ class ColorBar(Glyph):
     y = NumProperty(0)
     length = NumProperty(0)
     thickness = NumProperty(7)
-    orientation = EnumProperty(ORIENTATION.HORIZONTAL, enum=ORIENTATION)
+    orientation = EnumProperty(ORI_HORIZONTAL, enum=ORIENTATION)
     reverse = BoolProperty(False)
     
     gradient = GradientProperty(UNDEF)
@@ -95,7 +95,7 @@ class ColorBar(Glyph):
         grange = gradient.stops[-1] - start
         
         # get coords
-        if orientation == ORIENTATION.HORIZONTAL:
+        if orientation == ORI_HORIZONTAL:
             width = length
             height = thickness
             step_width = step

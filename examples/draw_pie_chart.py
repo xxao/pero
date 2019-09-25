@@ -23,15 +23,15 @@ class DrawTest(pero.Graphics):
         wedge = pero.Wedge(
             line_color = "white",
             line_width = 5,
-            start_angle_units = pero.DEG,
-            end_angle_units = pero.DEG,)
+            start_angle_units = pero.ANGLE_DEG,
+            end_angle_units = pero.ANGLE_DEG,)
         
         label = pero.Text(
-            text_align = pero.CENTER,
-            text_base = pero.MIDDLE,
+            text_align = pero.TEXT_ALIGN_CENTER,
+            text_base = pero.TEXT_BASE_MIDDLE,
             text_color = "white",
             font_size = 16,
-            font_weight = pero.BOLD)
+            font_weight = pero.FONT_WEIGHT_BOLD)
         
         # calc coordinates
         padding = 15

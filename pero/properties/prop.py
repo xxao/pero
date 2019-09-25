@@ -143,7 +143,7 @@ class Property(object):
         
         If the 'obj' is set to an instance of PropertySet, given value is set to
         the instance. If the value is different than the one previously set,
-        the pero.EVENT.PROPERTY_CHANGED event is fired with current property
+        the pero.EVT_PROPERTY_CHANGED event is fired with current property
         name and the old and the new values.
         
         If the 'obj' is None given value is set as default value of the property

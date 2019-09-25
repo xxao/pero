@@ -56,7 +56,7 @@ class Canvas(PropertySet):
         line_dash: (float,), None or UNDEF
             Specifies the line dash style as a collection of numbers defining the
             lengths of lines and spaces in-between. Specified value is used only
-            if the 'line_style' property is set to pero.LINE_STYLE.CUSTOM.
+            if the 'line_style' property is set to pero.LINE_STYLE_CUSTOM.
         
         line_cap: pero.LINE_CAP or UNDEF
             Specifies the line ends shape as any item from the pero.LINE_CAP
@@ -104,9 +104,9 @@ class Canvas(PropertySet):
             Specifies the text alignment as any item from the pero.TEXT_ALIGN
             enum or None to reset to default alignment.
         
-        text_base: pero.TEXT_BASELINE, None or UNDEF
+        text_base: pero.TEXT_BASE, None or UNDEF
             Specifies the text baseline as any item from the
-            pero.TEXT_BASELINE enum or None to reset to default baseline.
+            pero.TEXT_BASE enum or None to reset to default baseline.
         
         text_color: pero.Color, (int,), str, None or UNDEF
             Specifies the text foreground color as an RGB or RGBA tuple, hex
@@ -186,7 +186,7 @@ class Canvas(PropertySet):
         self._viewport_full = Frame(0, 0, self.width/self.line_scale, self.height/self.line_scale)
         
         # bind events
-        self.bind(EVENT.PROPERTY_CHANGED, self._on_canvas_property_changed)
+        self.bind(EVT_PROPERTY_CHANGED, self._on_canvas_property_changed)
     
     
     @property
@@ -316,8 +316,8 @@ class Canvas(PropertySet):
             
             self._cfont = FONTS.get_font(
                 family = name,
-                style = FONT_STYLE.NORMAL,
-                weight = FONT_WEIGHT.NORMAL)
+                style = FONT_STYLE_NORMAL,
+                weight = FONT_WEIGHT_NORMAL)
             
             if self._cfont is not None:
                 return self._cfont
@@ -497,10 +497,10 @@ class Canvas(PropertySet):
                 height /= self._scale[1]
             
             # apply alignment
-            if self.text_align == TEXT_ALIGN.CENTER:
+            if self.text_align == TEXT_ALIGN_CENTER:
                 x0 = x - 0.5 * width
             
-            elif self.text_align == TEXT_ALIGN.RIGHT:
+            elif self.text_align == TEXT_ALIGN_RIGHT:
                 x0 = x - width
             
             # store box
@@ -513,10 +513,10 @@ class Canvas(PropertySet):
         y_offset = 0
         total_height = y0 - y - height * self.text_spacing
         
-        if self.text_base == TEXT_BASELINE.MIDDLE:
+        if self.text_base == TEXT_BASE_MIDDLE:
             y_offset = - 0.5*total_height
         
-        elif self.text_base == TEXT_BASELINE.BOTTOM:
+        elif self.text_base == TEXT_BASE_BOTTOM:
             y_offset = - total_height
         
         if y_offset:
@@ -839,7 +839,7 @@ class Canvas(PropertySet):
         raise NotImplementedError("The 'draw_text' method is not implemented for '%s'." % self.__class__.__name__)
     
     
-    def draw_text_polar(self, text, x, y, radius, angle, position=POSITION.CENTER, rotation=TEXT_ROTATION.FOLLOW):
+    def draw_text_polar(self, text, x, y, radius, angle, position=POS_CENTER, rotation=TEXT_ROTATION_FOLLOW):
         """
         Draws a text string anchored at specified point with automatic alignment
         and baseline according to given angle, using current text settings.
@@ -881,20 +881,20 @@ class Canvas(PropertySet):
         y1 = y + radius * numpy.sin(angle)
         
         # get position
-        is_perpendicular = (rotation in (TEXT_ROTATION.NATURAL, TEXT_ROTATION.FACEOUT, TEXT_ROTATION.FACEIN))
-        is_out = (position == POSITION.OUTSIDE)
+        is_perpendicular = (rotation in (TEXT_ROTATION_NATURAL, TEXT_ROTATION_FACEOUT, TEXT_ROTATION_FACEIN))
+        is_out = (position == POS_OUTSIDE)
         
         # adjust angle
-        if rotation == TEXT_ROTATION.FACEOUT:
+        if rotation == TEXT_ROTATION_FACEOUT:
             angle += 0.5*numpy.pi
         
-        elif rotation == TEXT_ROTATION.FACEIN:
+        elif rotation == TEXT_ROTATION_FACEIN:
             angle -= 0.5*numpy.pi
         
-        elif rotation == TEXT_ROTATION.NATURAL and y1 > y + tol:
+        elif rotation == TEXT_ROTATION_NATURAL and y1 > y + tol:
             angle -= 0.5*numpy.pi
         
-        elif rotation == TEXT_ROTATION.NATURAL:
+        elif rotation == TEXT_ROTATION_NATURAL:
             angle += 0.5*numpy.pi
         
         elif x1 < x - tol:
@@ -902,62 +902,62 @@ class Canvas(PropertySet):
         
         # perpendicular
         if is_perpendicular:
-            self.text_align = TEXT_ALIGN.CENTER
+            self.text_align = TEXT_ALIGN_CENTER
         
         # on edge
-        elif position == POSITION.CENTER:
-            self.text_align = TEXT_ALIGN.CENTER
+        elif position == POS_CENTER:
+            self.text_align = TEXT_ALIGN_CENTER
         
         # left side
         elif x1 < x - tol:
-            self.text_align = TEXT_ALIGN.RIGHT if is_out else TEXT_ALIGN.LEFT
+            self.text_align = TEXT_ALIGN_RIGHT if is_out else TEXT_ALIGN_LEFT
         
         # right side
         elif x1 > x + tol:
-            self.text_align = TEXT_ALIGN.LEFT if is_out else TEXT_ALIGN.RIGHT
+            self.text_align = TEXT_ALIGN_LEFT if is_out else TEXT_ALIGN_RIGHT
         
         # rotated at center
-        elif rotation == TEXT_ROTATION.FOLLOW:
-            self.text_align = TEXT_ALIGN.LEFT if is_out else TEXT_ALIGN.RIGHT
+        elif rotation == TEXT_ROTATION_FOLLOW:
+            self.text_align = TEXT_ALIGN_LEFT if is_out else TEXT_ALIGN_RIGHT
         
         # at center
         else:
-            self.text_align = TEXT_ALIGN.CENTER
+            self.text_align = TEXT_ALIGN_CENTER
         
         # center on edge
-        if position == POSITION.CENTER:
-            self.text_base = TEXT_BASELINE.MIDDLE
+        if position == POS_CENTER:
+            self.text_base = TEXT_BASE_MIDDLE
         
         # rotated
-        elif rotation == TEXT_ROTATION.FOLLOW:
-            self.text_base = TEXT_BASELINE.MIDDLE
+        elif rotation == TEXT_ROTATION_FOLLOW:
+            self.text_base = TEXT_BASE_MIDDLE
             
         # perpendicular
-        elif rotation == TEXT_ROTATION.FACEOUT:
-            self.text_base = TEXT_BASELINE.BOTTOM if is_out else TEXT_BASELINE.TOP
+        elif rotation == TEXT_ROTATION_FACEOUT:
+            self.text_base = TEXT_BASE_BOTTOM if is_out else TEXT_BASE_TOP
             
         # perpendicular
-        elif rotation == TEXT_ROTATION.FACEIN:
-            self.text_base = TEXT_BASELINE.TOP if is_out else TEXT_BASELINE.BOTTOM
+        elif rotation == TEXT_ROTATION_FACEIN:
+            self.text_base = TEXT_BASE_TOP if is_out else TEXT_BASE_BOTTOM
             
         # top part
         elif y1 < y - tol:
-            self.text_base = TEXT_BASELINE.BOTTOM if is_out else TEXT_BASELINE.TOP
+            self.text_base = TEXT_BASE_BOTTOM if is_out else TEXT_BASE_TOP
         
         # bottom part
         elif y1 > y + tol:
-            self.text_base = TEXT_BASELINE.TOP if is_out else TEXT_BASELINE.BOTTOM
+            self.text_base = TEXT_BASE_TOP if is_out else TEXT_BASE_BOTTOM
         
         # rotated at middle
-        elif rotation == TEXT_ROTATION.NATURAL:
-            self.text_base = TEXT_BASELINE.BOTTOM if is_out else TEXT_BASELINE.TOP
+        elif rotation == TEXT_ROTATION_NATURAL:
+            self.text_base = TEXT_BASE_BOTTOM if is_out else TEXT_BASE_TOP
         
         # at middle
         else:
-            self.text_base = TEXT_BASELINE.MIDDLE
+            self.text_base = TEXT_BASE_MIDDLE
         
         # draw text
-        if rotation != TEXT_ROTATION.NONE:
+        if rotation != TEXT_ROTATION_NONE:
             self.draw_text(text, x1, y1, angle=angle)
         else:
             self.draw_text(text, x1, y1)

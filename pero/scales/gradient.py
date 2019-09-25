@@ -61,7 +61,7 @@ class GradientScale(Scale):
         self._update_gradient()
         
         # bind events
-        self.bind(EVENT.PROPERTY_CHANGED, self._on_gradient_scale_property_changed)
+        self.bind(EVT_PROPERTY_CHANGED, self._on_gradient_scale_property_changed)
     
     
     def scale(self, value, *args, **kwargs):
@@ -169,7 +169,7 @@ class GradientPowScale(GradientScale):
         self.normalizer.power = self.power
         
         # bind events
-        self.bind(EVENT.PROPERTY_CHANGED, self._on_pow_scale_property_changed)
+        self.bind(EVT_PROPERTY_CHANGED, self._on_pow_scale_property_changed)
     
     
     def _on_pow_scale_property_changed(self, evt=None):

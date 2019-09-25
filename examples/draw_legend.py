@@ -41,56 +41,56 @@ class DrawTest(pero.Graphics):
         # init legend
         legend = pero.Legends(
             items = (legend1, legend2, legend3),
-            orientation = pero.VERTICAL,
+            orientation = pero.ORI_VERTICAL,
             fill_color = pero.colors.Ivory)
         
         # draw nw
         legend.draw(canvas,
             x = padding,
             y = padding,
-            anchor = pero.POSITION.NW)
+            anchor = pero.POS_NW)
         
         # draw n
         legend.draw(canvas,
             x = 0.5*width,
             y = padding,
-            anchor = pero.POSITION.N)
+            anchor = pero.POS_N)
         
         # draw ne
         legend.draw(canvas,
             x = width-padding,
             y = padding,
-            anchor = pero.POSITION.NE)
+            anchor = pero.POS_NE)
         
         # draw e
         legend.draw(canvas,
             x = width-padding,
             y = 0.5*height,
-            anchor = pero.POSITION.E)
+            anchor = pero.POS_E)
         
         # draw se
         legend.draw(canvas,
             x = width-padding,
             y = height-padding,
-            anchor = pero.POSITION.SE)
+            anchor = pero.POS_SE)
         
         # draw s
         legend.draw(canvas,
             x = 0.5*width,
             y = height-padding,
-            anchor = pero.POSITION.S)
+            anchor = pero.POS_S)
         
         # draw sw
         legend.draw(canvas,
             x = padding,
             y = height-padding,
-            anchor = pero.POSITION.SW)
+            anchor = pero.POS_SW)
         
         # draw w
         legend.draw(canvas,
             x = padding,
             y = 0.5*height,
-            anchor = pero.POSITION.W)
+            anchor = pero.POS_W)
 
 
 # run test

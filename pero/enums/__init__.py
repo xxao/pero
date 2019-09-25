@@ -5,5 +5,7 @@
 from .values import *
 from .maths import *
 from .drawing import *
+from .positions import *
+from .text import *
 from .backends import *
 from .views import *

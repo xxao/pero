@@ -117,27 +117,27 @@ class Arrow(Glyph):
             overrides['end_head'] = end_head or None
         
         # init arrow
-        if arrow_type == ARROW.ARC:
+        if arrow_type == ARROW_ARC:
             return ArcArrow(**overrides)
         
-        elif arrow_type == ARROW.CONNECT_LINE:
+        elif arrow_type == ARROW_CONNECT_LINE:
             return ConnectorArrow(**overrides)
         
-        elif arrow_type == ARROW.CONNECT_CURVE:
+        elif arrow_type == ARROW_CONNECT_CURVE:
             if 'curve' not in overrides:
                 overrides['curve'] = .85
             return ConnectorArrow(**overrides)
         
-        elif arrow_type == ARROW.CURVE:
+        elif arrow_type == ARROW_CURVE:
             return CurveArrow(**overrides)
         
-        elif arrow_type == ARROW.LINE:
+        elif arrow_type == ARROW_LINE:
             return LineArrow(**overrides)
         
-        elif arrow_type == ARROW.BOW:
+        elif arrow_type == ARROW_BOW:
             return BowArrow(**overrides)
         
-        elif arrow_type == ARROW.RAY:
+        elif arrow_type == ARROW_RAY:
             return RayArrow(**overrides)
 
 
@@ -187,8 +187,8 @@ class ArcArrow(Arrow):
         tag = self.get_property('tag', source, overrides)
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
-        start_angle = AngleProperties.get_angle(self, 'start_', ANGLE.RAD, source, overrides)
-        end_angle = AngleProperties.get_angle(self, 'end_', ANGLE.RAD, source, overrides)
+        start_angle = AngleProperties.get_angle(self, 'start_', ANGLE_RAD, source, overrides)
+        end_angle = AngleProperties.get_angle(self, 'end_', ANGLE_RAD, source, overrides)
         radius = self.get_property('radius', source, overrides)
         clockwise = self.get_property('clockwise', source, overrides)
         
@@ -222,11 +222,11 @@ class ArcArrow(Arrow):
             start_head_x = x1,
             start_head_y = y1,
             start_head_angle = start_angle,
-            start_head_angle_units = ANGLE.RAD,
+            start_head_angle_units = ANGLE_RAD,
             end_head_x = x2,
             end_head_y = y2,
             end_head_angle = end_angle,
-            end_head_angle_units = ANGLE.RAD,
+            end_head_angle_units = ANGLE_RAD,
             **overrides)
         
         # end drawing group
@@ -314,11 +314,11 @@ class BowArrow(Arrow):
             start_head_x = x1,
             start_head_y = y1,
             start_head_angle = start_angle,
-            start_head_angle_units = ANGLE.RAD,
+            start_head_angle_units = ANGLE_RAD,
             end_head_x = x2,
             end_head_y = y2,
             end_head_angle = end_angle,
-            end_head_angle_units = ANGLE.RAD,
+            end_head_angle_units = ANGLE_RAD,
             **overrides)
         
         # end drawing group
@@ -366,7 +366,7 @@ class ConnectorArrow(Arrow):
     x2 = NumProperty(0)
     y2 = NumProperty(0)
     
-    orientation = EnumProperty(ORIENTATION.HORIZONTAL, enum=ORIENTATION)
+    orientation = EnumProperty(ORI_HORIZONTAL, enum=ORIENTATION)
     pivot = RangeProperty(0.5, minimum=0, maximum=1)
     curve = RangeProperty(0, minimum=0, maximum=1)
     
@@ -392,7 +392,7 @@ class ConnectorArrow(Arrow):
         curvature = 2*curve if curve else 1
         
         # get coords
-        if orientation == ORIENTATION.HORIZONTAL:
+        if orientation == ORI_HORIZONTAL:
             cx1 = x1 + min(1, curvature*pivot)*(x2-x1)
             cy1 = y1
             cx2 = x2 - min(1, curvature*(1-pivot))*(x2-x1)
@@ -441,11 +441,11 @@ class ConnectorArrow(Arrow):
             start_head_x = x1,
             start_head_y = y1,
             start_head_angle = start_angle,
-            start_head_angle_units = ANGLE.RAD,
+            start_head_angle_units = ANGLE_RAD,
             end_head_x = x2,
             end_head_y = y2,
             end_head_angle = end_angle,
-            end_head_angle_units = ANGLE.RAD,
+            end_head_angle_units = ANGLE_RAD,
             **overrides)
         
         # end drawing group
@@ -553,11 +553,11 @@ class CurveArrow(Arrow):
             start_head_x = x1,
             start_head_y = y1,
             start_head_angle = start_angle,
-            start_head_angle_units = ANGLE.RAD,
+            start_head_angle_units = ANGLE_RAD,
             end_head_x = x2,
             end_head_y = y2,
             end_head_angle = end_angle,
-            end_head_angle_units = ANGLE.RAD,
+            end_head_angle_units = ANGLE_RAD,
             **overrides)
         
         # end drawing group
@@ -625,11 +625,11 @@ class LineArrow(Arrow):
             start_head_x = x1,
             start_head_y = y1,
             start_head_angle = angle+math.pi,
-            start_head_angle_units = ANGLE.RAD,
+            start_head_angle_units = ANGLE_RAD,
             end_head_x = x2,
             end_head_y = y2,
             end_head_angle = angle,
-            end_head_angle_units = ANGLE.RAD,
+            end_head_angle_units = ANGLE_RAD,
             **overrides)
         
         # end drawing group
@@ -734,11 +734,11 @@ class PathArrow(Arrow):
             start_head_x = x1,
             start_head_y = y1,
             start_head_angle = start_angle,
-            start_head_angle_units = ANGLE.RAD,
+            start_head_angle_units = ANGLE_RAD,
             end_head_x = x2,
             end_head_y = y2,
             end_head_angle = end_angle,
-            end_head_angle_units = ANGLE.RAD,
+            end_head_angle_units = ANGLE_RAD,
             **overrides)
         
         # end drawing group
@@ -783,7 +783,7 @@ class RayArrow(Arrow):
         x1 = self.get_property('x', source, overrides)
         y1 = self.get_property('y', source, overrides)
         length = self.get_property('length', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # calc end point
         x2 = x1 + length * math.cos(angle)
@@ -805,11 +805,11 @@ class RayArrow(Arrow):
             start_head_x = x1,
             start_head_y = y1,
             start_head_angle = angle+math.pi,
-            start_head_angle_units = ANGLE.RAD,
+            start_head_angle_units = ANGLE_RAD,
             end_head_x = x2,
             end_head_y = y2,
             end_head_angle = angle,
-            end_head_angle_units = ANGLE.RAD,
+            end_head_angle_units = ANGLE_RAD,
             **overrides)
         
         # end drawing group

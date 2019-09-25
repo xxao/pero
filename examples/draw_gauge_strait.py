@@ -29,7 +29,7 @@ class DrawTest(pero.Graphics):
             for_fill_color = "#00f6")
         
         # draw horizontal bars
-        gauge.orientation = pero.HORIZONTAL
+        gauge.orientation = pero.ORI_HORIZONTAL
         gauge.length = 0.5 * (width - 3*padding)
         gauge.thickness = (height - 2*padding - (bars-1)*spacing) / bars
         gauge.radius = 0.5 * gauge.thickness

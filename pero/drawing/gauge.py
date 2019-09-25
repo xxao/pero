@@ -102,7 +102,7 @@ class StraitGauge(Gauge):
     length = NumProperty(0)
     thickness = NumProperty(7)
     radius = QuadProperty(0)
-    orientation = EnumProperty(ORIENTATION.HORIZONTAL, enum=ORIENTATION)
+    orientation = EnumProperty(ORI_HORIZONTAL, enum=ORIENTATION)
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
@@ -160,7 +160,7 @@ class StraitGauge(Gauge):
                 end += diff
         
         # finalize by orientation
-        if orientation == ORIENTATION.HORIZONTAL:
+        if orientation == ORI_HORIZONTAL:
             bgr_width = length
             bgr_height = thickness
             for_x = x + start
@@ -238,8 +238,8 @@ class RadialGauge(Gauge):
         tag = self.get_property('tag', source, overrides)
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
-        bgr_start = AngleProperties.get_angle(self, 'start_', ANGLE.RAD, source, overrides)
-        bgr_end = AngleProperties.get_angle(self, 'end_', ANGLE.RAD, source, overrides)
+        bgr_start = AngleProperties.get_angle(self, 'start_', ANGLE_RAD, source, overrides)
+        bgr_end = AngleProperties.get_angle(self, 'end_', ANGLE_RAD, source, overrides)
         inner_radius = self.get_property('inner_radius', source, overrides)
         outer_radius = self.get_property('outer_radius', source, overrides)
         clockwise = self.get_property('clockwise', source, overrides)
@@ -283,8 +283,8 @@ class RadialGauge(Gauge):
             y = y,
             inner_radius = inner_radius,
             outer_radius = outer_radius,
-            start_angle_units = ANGLE.RAD,
-            end_angle_units = ANGLE.RAD,
+            start_angle_units = ANGLE_RAD,
+            end_angle_units = ANGLE_RAD,
             clockwise = clockwise)
         
         # start drawing group

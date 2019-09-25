@@ -58,9 +58,9 @@ class WXCanvas(Canvas):
         self._update_text()
         
         # bind events
-        self.bind(EVENT.PEN_CHANGED, self._update_pen)
-        self.bind(EVENT.BRUSH_CHANGED, self._update_brush)
-        self.bind(EVENT.TEXT_CHANGED, self._update_text)
+        self.bind(EVT_PEN_CHANGED, self._update_pen)
+        self.bind(EVT_BRUSH_CHANGED, self._update_brush)
+        self.bind(EVT_TEXT_CHANGED, self._update_text)
     
     
     def get_line_size(self, text):
@@ -364,17 +364,17 @@ class WXCanvas(Canvas):
             y_offset = 0
             
             # adjust alignment
-            if self.text_align == TEXT_ALIGN.CENTER:
+            if self.text_align == TEXT_ALIGN_CENTER:
                 x_offset -= 0.5*line_width
             
-            elif self.text_align == TEXT_ALIGN.RIGHT:
+            elif self.text_align == TEXT_ALIGN_RIGHT:
                 x_offset -= line_width
             
             # adjust baseline
-            if self.text_base == TEXT_BASELINE.MIDDLE:
+            if self.text_base == TEXT_BASE_MIDDLE:
                 y_offset -= 0.5*full_height
             
-            elif self.text_base == TEXT_BASELINE.BOTTOM:
+            elif self.text_base == TEXT_BASE_BOTTOM:
                 y_offset -= full_height
             
             # add line offset
@@ -475,19 +475,19 @@ class WXCanvas(Canvas):
             values = command[1:]
             
             # close
-            if key == PATH.CLOSE:
+            if key == PATH_CLOSE:
                 wx_path.CloseSubpath()
             
             # move to
-            elif key == PATH.MOVE:
+            elif key == PATH_MOVE:
                 wx_path.MoveToPoint(*values)
             
             # line to
-            elif key == PATH.LINE:
+            elif key == PATH_LINE:
                 wx_path.AddLineToPoint(*values)
             
             # curve to
-            elif key == PATH.CURVE:
+            elif key == PATH_CURVE:
                 wx_path.AddCurveToPoint(*values)
         
         return wx_path
@@ -528,13 +528,13 @@ class WXCanvas(Canvas):
             line_style = self.line_style
             line_dash = self.line_dash if self.line_dash else []
             
-            if line_style == LINE_STYLE.SOLID:
+            if line_style == LINE_STYLE_SOLID:
                 self._pen.Style = WX_LINE_STYLE[line_style]
                 line_dash = []
-            elif line_style == LINE_STYLE.CUSTOM:
+            elif line_style == LINE_STYLE_CUSTOM:
                 self._pen.Style = WX_LINE_STYLE[line_style]
             elif line_style is not UNDEF:
-                self._pen.Style = WX_LINE_STYLE[LINE_STYLE.CUSTOM]
+                self._pen.Style = WX_LINE_STYLE[LINE_STYLE_CUSTOM]
                 line_dash = WX_LINE_STYLE[line_style]
             
             self._pen.Dashes = line_dash

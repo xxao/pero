@@ -57,9 +57,9 @@ class SVGCanvas(Canvas):
         self._update_text()
         
         # bind events
-        self.bind(EVENT.PEN_CHANGED, self._update_pen)
-        self.bind(EVENT.BRUSH_CHANGED, self._update_brush)
-        self.bind(EVENT.TEXT_CHANGED, self._update_text)
+        self.bind(EVT_PEN_CHANGED, self._update_pen)
+        self.bind(EVT_BRUSH_CHANGED, self._update_brush)
+        self.bind(EVT_TEXT_CHANGED, self._update_text)
     
     
     def get_xml(self):
@@ -415,17 +415,17 @@ class SVGCanvas(Canvas):
             y_offset = line_height - descent
             
             # adjust alignment
-            if self.text_align == TEXT_ALIGN.CENTER:
+            if self.text_align == TEXT_ALIGN_CENTER:
                 x_offset -= 0.5*line_width
             
-            elif self.text_align == TEXT_ALIGN.RIGHT:
+            elif self.text_align == TEXT_ALIGN_RIGHT:
                 x_offset -= line_width
             
             # adjust baseline
-            if self.text_base == TEXT_BASELINE.MIDDLE:
+            if self.text_base == TEXT_BASE_MIDDLE:
                 y_offset -= 0.5*full_height
             
-            elif self.text_base == TEXT_BASELINE.BOTTOM:
+            elif self.text_base == TEXT_BASE_BOTTOM:
                 y_offset -= full_height
             
             # add line offset
@@ -614,9 +614,9 @@ class SVGCanvas(Canvas):
             line_dash = self.line_dash if self.line_dash else []
             line_width = self._pen_attrs['stroke-width']
             
-            if line_style == LINE_STYLE.SOLID:
+            if line_style == LINE_STYLE_SOLID:
                 line_dash = []
-            elif line_style not in (LINE_STYLE.CUSTOM, UNDEF):
+            elif line_style not in (LINE_STYLE_CUSTOM, UNDEF):
                 line_dash = SVG_LINE_STYLE[line_style]
             
             line_dash = ",".join(str(x*line_width) for x in line_dash) if line_dash else None
@@ -634,7 +634,7 @@ class SVGCanvas(Canvas):
         if prop_name is None or prop_name in ('fill_color', 'fill_alpha', 'fill_style'):
             color = ColorProperties.get_color(self, "fill_")
             
-            if self.fill_style == FILL_STYLE.TRANS:
+            if self.fill_style == FILL_STYLE_TRANS:
                 self._brush_attrs['fill'] = None
                 self._brush_attrs['fill-opacity'] = 0
             
@@ -683,7 +683,7 @@ class SVGCanvas(Canvas):
             
             if font_style is None:
                 self._font_attrs['font-style'] = None
-            elif font_style == FONT_STYLE.NORMAL:
+            elif font_style == FONT_STYLE_NORMAL:
                 self._font_attrs['font-style'] = None
             elif font_style is not UNDEF:
                 self._font_attrs['font-style'] = SVG_FONT_STYLE[font_style]
@@ -696,7 +696,7 @@ class SVGCanvas(Canvas):
             
             if font_weight is None:
                 self._font_attrs['font-weight'] = None
-            elif font_weight == FONT_WEIGHT.NORMAL:
+            elif font_weight == FONT_WEIGHT_NORMAL:
                 self._font_attrs['font-weight'] = None
             elif font_weight is not UNDEF:
                 self._font_attrs['font-weight'] = SVG_FONT_WEIGHT[font_weight]

@@ -97,8 +97,8 @@ class Framer(Glyph):
         
         # set text
         canvas.set_text_by(self, source=source, overrides=overrides)
-        canvas.text_align = TEXT_ALIGN.CENTER
-        canvas.text_base = TEXT_BASELINE.MIDDLE
+        canvas.text_align = TEXT_ALIGN_CENTER
+        canvas.text_base = TEXT_BASE_MIDDLE
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)

@@ -133,7 +133,7 @@ Used to specify a text horizontal alignment.
 - **pero.RIGHT**: Uses the text right side as anchor.
 
 
-### <a id="TEXT_BASELINE" href="#TEXT_BASELINE">#</a> pero.TEXT_BASELINE
+### <a id="TEXT_BASE" href="#TEXT_BASE">#</a> pero.TEXT_BASE
 
 Used to specify a text vertical alignment.
 

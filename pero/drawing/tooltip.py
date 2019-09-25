@@ -116,24 +116,24 @@ class TextTooltip(Tooltip):
         bgr_height = text_height + padding[0] + padding[2]
         
         # shift anchor
-        if anchor == POSITION.N:
+        if anchor == POS_N:
             x -= 0.5 * bgr_width
-        elif anchor == POSITION.NE:
+        elif anchor == POS_NE:
             x -= bgr_width
-        elif anchor == POSITION.E:
+        elif anchor == POS_E:
             x -= bgr_width
             y -= 0.5 * bgr_height
-        elif anchor == POSITION.SE:
+        elif anchor == POS_SE:
             x -= bgr_width
             y -= bgr_height
-        elif anchor == POSITION.S:
+        elif anchor == POS_S:
             x -= 0.5 * bgr_width
             y -= bgr_height
-        elif anchor == POSITION.SW:
+        elif anchor == POS_SW:
             y -= bgr_height
-        elif anchor == POSITION.W:
+        elif anchor == POS_W:
             y -= 0.5 * bgr_height
-        elif anchor == POSITION.C:
+        elif anchor == POS_C:
             x -= 0.5 * bgr_width
             y -= 0.5 * bgr_height
         
@@ -160,14 +160,14 @@ class TextTooltip(Tooltip):
         text_x = x + padding[3]
         text_y = y + padding[0]
         
-        if align == TEXT_ALIGN.CENTER:
+        if align == TEXT_ALIGN_CENTER:
             text_x += 0.5*text_width
-        elif align == TEXT_ALIGN.RIGHT:
+        elif align == TEXT_ALIGN_RIGHT:
             text_x += text_width
         
-        if base == TEXT_BASELINE.MIDDLE:
+        if base == TEXT_BASE_MIDDLE:
             text_y += 0.5*text_height
-        elif base == TEXT_BASELINE.BOTTOM:
+        elif base == TEXT_BASE_BOTTOM:
             text_y += text_height
         
         # set pen and brush

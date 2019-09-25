@@ -40,13 +40,13 @@ def show(graphics, title=None, width=None, height=None, backend=None):
         
         # try to import backend
         try:
-            if module == BACKEND.PYTHONISTA:
+            if module == BACKEND_PYTHONISTA:
                 from . import pythonista as backend
             
-            elif module == BACKEND.QT:
+            elif module == BACKEND_QT:
                 from . import qt as backend
             
-            elif module == BACKEND.WX:
+            elif module == BACKEND_WX:
                 from . import wx as backend
             
             break
@@ -110,25 +110,25 @@ def export(graphics, path, width=None, height=None, backend=None, **options):
         
         # try to import backend
         try:
-            if module == BACKEND.CAIRO:
+            if module == BACKEND_CAIRO:
                 from . import cairo as backend
             
-            elif module == BACKEND.JSON:
+            elif module == BACKEND_JSON:
                 from . import json as backend
             
-            elif module == BACKEND.MUPDF:
+            elif module == BACKEND_MUPDF:
                 from . import mupdf as backend
             
-            elif module == BACKEND.PYTHONISTA:
+            elif module == BACKEND_PYTHONISTA:
                 from . import pythonista as backend
             
-            elif module == BACKEND.QT:
+            elif module == BACKEND_QT:
                 from . import qt as backend
             
-            elif module == BACKEND.SVG:
+            elif module == BACKEND_SVG:
                 from . import svg as backend
             
-            elif module == BACKEND.WX:
+            elif module == BACKEND_WX:
                 from . import wx as backend
             
             break

@@ -41,11 +41,11 @@ class DrawTest(pero.Graphics):
             labels = self.x_ticker.labels(),
             title_offset = 25,
             relative = False,
-            position = pero.BOTTOM)
+            position = pero.POS_BOTTOM)
         
         self.x_grid = pero.ParallelGrid(
-            line_color = "lightgrey",
-            orientation = pero.VERTICAL)
+            line_color = pero.colors.LightGrey,
+            orientation = pero.ORI_VERTICAL)
         
         # init y-axis
         self.y_ticker = pero.LinTicker(
@@ -60,8 +60,8 @@ class DrawTest(pero.Graphics):
             position = pero.LEFT)
         
         self.y_grid = pero.ParallelGrid(
-            line_color = "lightgrey",
-            orientation = pero.HORIZONTAL)
+            line_color = pero.colors.LightGrey,
+            orientation = pero.ORI_HORIZONTAL)
         
         # init series marker
         self.marker = pero.Circle(
@@ -76,9 +76,9 @@ class DrawTest(pero.Graphics):
             x_offset = 10,
             y_offset = lambda d: -10*d[1],
             text = lambda d: "%.2f" % d[1],
-            text_align = pero.LEFT,
-            text_base = pero.MIDDLE,
-            text_color = "grey")
+            text_align = pero.TEXT_ALIGN_LEFT,
+            text_base = pero.TEXT_BASE_MIDDLE,
+            text_color = pero.colors.Grey)
         
         self.labels = pero.Labels(
             overlap = False,
@@ -87,7 +87,7 @@ class DrawTest(pero.Graphics):
         
         # init legend
         self.legend = pero.Legends(
-            orientation = pero.HORIZONTAL,
+            orientation = pero.ORI_HORIZONTAL,
             anchor = pero.N)
     
     
@@ -148,7 +148,7 @@ class DrawTest(pero.Graphics):
             
             legend = pero.MarkerLegend(
                 text = text,
-                marker = pero.MARKER.CIRCLE,
+                marker = pero.MARKER_CIRCLE,
                 marker_line_color=pero.colors.Pero[i],
                 marker_fill_color=pero.colors.Pero[i].opaque(.75))
             

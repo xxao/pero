@@ -24,8 +24,8 @@ class DrawTest(pero.Graphics):
         
         # init glyphs
         label = pero.Text(
-            text_align = pero.LEFT,
-            text_base = pero.MIDDLE)
+            text_align = pero.TEXT_ALIGN_LEFT,
+            text_base = pero.TEXT_BASE_MIDDLE)
         
         glyph = pero.Circle(
             line_color = pero.colors.Grey,

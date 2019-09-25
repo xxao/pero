@@ -36,7 +36,7 @@ class DrawTest(pero.Graphics):
         # init axis
         axis = pero.StraitAxis(
             
-            position = pero.RIGHT,
+            position = pero.POS_RIGHT,
             relative = True,
             length = length,
             offset = offset,

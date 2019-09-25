@@ -37,7 +37,7 @@ class LevelScale(Scale):
         self._levels_idx = None
         
         # bind events
-        self.bind(EVENT.PROPERTY_CHANGED, self._on_levels_scale_property_changed)
+        self.bind(EVT_PROPERTY_CHANGED, self._on_levels_scale_property_changed)
     
     
     def scale(self, value, *args, **kwargs):

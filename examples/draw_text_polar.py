@@ -27,28 +27,28 @@ class DrawTest(pero.Graphics):
             size = 10)
         
         top_label = pero.Text(
-            text_align = pero.CENTER)
+            text_align = pero.TEXT_ALIGN_CENTER)
         
         side_label = pero.Text(
-            text_align = pero.CENTER,
+            text_align = pero.TEXT_ALIGN_CENTER,
             angle = -90,
-            angle_units = pero.DEG)
+            angle_units = pero.ANGLE_DEG)
         
         # set text properties
         canvas.font_size = 12
         
         # init values
         positions = (
-            pero.OUTSIDE,
-            pero.CENTER,
-            pero.INSIDE)
+            pero.POS_OUTSIDE,
+            pero.POS_CENTER,
+            pero.POS_INSIDE)
         
         rotations = {
-            pero.NONE: 'None',
-            pero.FOLLOW: 'Follow',
-            pero.NATURAL: 'Natural',
-            pero.FACEOUT: 'Faceout',
-            pero.FACEIN: 'Facein'}
+            pero.TEXT_ROTATION_NONE: 'None',
+            pero.TEXT_ROTATION_FOLLOW: 'Follow',
+            pero.TEXT_ROTATION_NATURAL: 'Natural',
+            pero.TEXT_ROTATION_FACEOUT: 'Faceout',
+            pero.TEXT_ROTATION_FACEIN: 'Facein'}
         
         # draw top labels
         top_label.draw(canvas, text="OUTSIDE", x=120, y=20)

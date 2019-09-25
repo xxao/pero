@@ -23,7 +23,7 @@ class JsonCanvas(Canvas):
         super(JsonCanvas, self).__init__()
         
         # bind events
-        self.bind(EVENT.PROPERTY_CHANGED, self._on_json_property_changed)
+        self.bind(EVT_PROPERTY_CHANGED, self._on_json_property_changed)
         
         # set overrides
         self.set_properties(overrides)

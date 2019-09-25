@@ -25,11 +25,11 @@ class AngleProperties(PropertySet):
     """
     
     angle = NumProperty(0, nullable=True)
-    angle_units = EnumProperty(ANGLE.RAD, enum=ANGLE)
+    angle_units = EnumProperty(ANGLE_RAD, enum=ANGLE)
     
     
     @staticmethod
-    def get_angle(prop_set, prefix="", units=ANGLE.RAD, source=UNDEF, overrides=None):
+    def get_angle(prop_set, prefix="", units=ANGLE_RAD, source=UNDEF, overrides=None):
         """
         Gets current angle value directly converted to requested units.
         
@@ -78,10 +78,10 @@ class AngleProperties(PropertySet):
         if units == angle_units:
             return angle
         
-        elif units == ANGLE.RAD:
+        elif units == ANGLE_RAD:
             return math.radians(angle)
         
-        elif units == ANGLE.DEG:
+        elif units == ANGLE_DEG:
             return math.degrees(angle)
 
 
@@ -179,7 +179,7 @@ class LineProperties(PropertySet):
         line_dash: (float,), callable, None or UNDEF
             Specifies the line dash style as a collection of numbers defining
             the lengths of lines and spaces in-between. Specified value is used
-            if the 'line_style' property is set to pero.LINE_STYLE.CUSTOM.
+            if the 'line_style' property is set to pero.LINE_STYLE_CUSTOM.
         
         line_cap: pero.LINE_CAP, callable or UNDEF
             Specifies the line ends shape as any item from the pero.LINE_CAP
@@ -193,9 +193,9 @@ class LineProperties(PropertySet):
     color = Include(ColorProperties, "line_")
     line_width = NumProperty(1)
     line_dash = DashProperty(None, nullable=True)
-    line_style = EnumProperty(LINE_STYLE.SOLID, enum=LINE_STYLE)
-    line_cap = EnumProperty(LINE_CAP.SQUARE, enum=LINE_CAP)
-    line_join = EnumProperty(LINE_JOIN.BEVEL, enum=LINE_JOIN)
+    line_style = EnumProperty(LINE_STYLE_SOLID, enum=LINE_STYLE)
+    line_cap = EnumProperty(LINE_CAP_SQUARE, enum=LINE_CAP)
+    line_join = EnumProperty(LINE_JOIN_BEVEL, enum=LINE_JOIN)
 
 
 class FillProperties(PropertySet):
@@ -219,7 +219,7 @@ class FillProperties(PropertySet):
     """
     
     color = Include(ColorProperties, "fill_")
-    fill_style = EnumProperty(FILL_STYLE.SOLID, enum=FILL_STYLE)
+    fill_style = EnumProperty(FILL_STYLE_SOLID, enum=FILL_STYLE)
 
 
 class TextProperties(PropertySet):
@@ -250,9 +250,9 @@ class TextProperties(PropertySet):
             Specifies the text alignment as any item from the pero.TEXT_ALIGN
             enum or None to reset to default alignment.
         
-        text_base: pero.TEXT_BASELINE, callable, None or UNDEF
+        text_base: pero.TEXT_BASE, callable, None or UNDEF
             Specifies the text baseline as any item from the
-            pero.TEXT_BASELINE enum or None to reset to default baseline.
+            pero.TEXT_BASE enum or None to reset to default baseline.
         
         text_color: pero.Color, (int,), str, callable, None or UNDEF
             Specifies the text foreground color as an RGB or RGBA tuple, hex
@@ -290,12 +290,12 @@ class TextProperties(PropertySet):
     
     font_size = IntProperty(11, nullable=True)
     font_name = StringProperty(UNDEF, nullable=True)
-    font_family = EnumProperty(FONT_FAMILY.SANS, enum=FONT_FAMILY, nullable=True)
-    font_style = EnumProperty(FONT_STYLE.NORMAL, enum=FONT_STYLE, nullable=True)
-    font_weight = EnumProperty(FONT_WEIGHT.NORMAL, enum=FONT_WEIGHT, nullable=True)
+    font_family = EnumProperty(FONT_FAMILY_SANS, enum=FONT_FAMILY, nullable=True)
+    font_style = EnumProperty(FONT_STYLE_NORMAL, enum=FONT_STYLE, nullable=True)
+    font_weight = EnumProperty(FONT_WEIGHT_NORMAL, enum=FONT_WEIGHT, nullable=True)
     
-    text_align = EnumProperty(TEXT_ALIGN.LEFT, enum=TEXT_ALIGN, nullable=True)
-    text_base = EnumProperty(TEXT_BASELINE.TOP, enum=TEXT_BASELINE, nullable=True)
+    text_align = EnumProperty(TEXT_ALIGN_LEFT, enum=TEXT_ALIGN, nullable=True)
+    text_base = EnumProperty(TEXT_BASE_TOP, enum=TEXT_BASE, nullable=True)
     
     for_color = Include(ColorProperties, prefix="text_", color='#000')
     bgr_color = Include(ColorProperties, prefix="text_bgr_", color=None)

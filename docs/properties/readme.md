@@ -117,7 +117,7 @@ Since the *[pero.PropertySet](#PropertySet)* is derived from *[pero.EvtHandler](
 behaves like an event manager itself. By default this is used to fire the
 [pero.PropertyChangedEvt](../events/readme.md#PropertyChangedEvt) event every time a property value is changed. This
 event can be bound using the *bind* method together with
-[pero.EVENT.PROPERTY_CHANGED](../events/readme.md#PropertyChangedEvt) type.
+[pero.EVT_PROPERTY_CHANGED](../events/readme.md#PropertyChangedEvt) type.
 
 ```python
 import pero
@@ -827,7 +827,7 @@ Collection of properties defining an angle value with its units.
 
 #### Static Methods
 
-- **get_angle(prop_set, prefix="", units=ANGLE.RAD, source=UNDEF, overrides=None)** -> *float*   
+- **get_angle(prop_set, prefix="", units=ANGLE_RAD, source=UNDEF, overrides=None)** -> *float*   
   Retrieves current angle value from given [pero.PropertySet](#PropertySet) directly converted to requested units.
         
   -   **prop_set:** *[pero.PropertySet](#PropertySet)*  
@@ -902,7 +902,7 @@ Collection of properties defining a line or pen style.
         
 - **line_dash:** *(float,)*  
   Specifies the line dash style as a collection of numbers defining the lengths of lines and spaces in-between.
-  Specified value is used if the 'line_style' property is set to *pero.LINE_STYLE.CUSTOM*.
+  Specified value is used if the 'line_style' property is set to *pero.LINE_STYLE_CUSTOM*.
         
 - **line_cap:** *str*  
   Specifies the line ends shape as any item from the [pero.LINE_CAP](../enums/readme.md#LINE_CAP) enum.
@@ -959,8 +959,8 @@ Collection of properties defining a text style.
   reset to default alignment.
         
 - **text_base:** *str*  
-  Specifies the text baseline as any item from the [pero.TEXT_BASELINE](../enums/readme.md#TEXT_BASELINE) enum or None
-  to reset to default baseline.
+  Specifies the text baseline as any item from the [pero.TEXT_BASE](../enums/readme.md#TEXT_BASE) enum or None to reset
+  to default baseline.
         
 - **text_color:** *[color definition](../colors/readme.md#Color)*  
   Specifies the text foreground color as an RGB or RGBA tuple, hex code, name or [pero.Color](../colors/readme.md#Color).

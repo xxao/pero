@@ -64,7 +64,7 @@ class ParallelGrid(Grid):
             Includes pero.AngleProperties to specify the lines angle.
     """
     
-    orientation = EnumProperty(ORIENTATION.HORIZONTAL, enum=ORIENTATION)
+    orientation = EnumProperty(ORI_HORIZONTAL, enum=ORIENTATION)
     length = NumProperty(UNDEF)
     angle = Include(AngleProperties)
     
@@ -83,7 +83,7 @@ class ParallelGrid(Grid):
         y = self.get_property('y', source, overrides)
         orientation = self.get_property('orientation', source, overrides)
         length = self.get_property('length', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # check ticks
         if not ticks:
@@ -94,7 +94,7 @@ class ParallelGrid(Grid):
         canvas.fill_color = None
         
         # apply orientation
-        if orientation == ORIENTATION.VERTICAL:
+        if orientation == ORI_VERTICAL:
             angle -= 0.5*math.pi
             length *= -1
         
@@ -141,7 +141,7 @@ class RayGrid(Grid):
     
     length = NumProperty(UNDEF)
     offset = NumProperty(0)
-    units = EnumProperty(ANGLE.RAD, enum=ANGLE)
+    units = EnumProperty(ANGLE_RAD, enum=ANGLE)
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
@@ -169,7 +169,7 @@ class RayGrid(Grid):
         canvas.fill_color = None
         
         # convert angles
-        if units == ANGLE.DEG:
+        if units == ANGLE_DEG:
             ticks = tuple(map(math.radians, ticks))
         
         # get radii
@@ -235,8 +235,8 @@ class RadialGrid(Grid):
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
         clockwise = self.get_property('clockwise', source, overrides)
-        start_angle = AngleProperties.get_angle(self, 'start_', ANGLE.RAD, source, overrides)
-        end_angle = AngleProperties.get_angle(self, 'end_', ANGLE.RAD, source, overrides)
+        start_angle = AngleProperties.get_angle(self, 'start_', ANGLE_RAD, source, overrides)
+        end_angle = AngleProperties.get_angle(self, 'end_', ANGLE_RAD, source, overrides)
         
         # check ticks
         if not ticks:

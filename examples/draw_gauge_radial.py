@@ -30,9 +30,9 @@ class DrawTest(pero.Graphics):
             for_line_color = "#00fb",
             for_fill_color = "#00f6",
             start_angle = 90,
-            start_angle_units=pero.DEG,
+            start_angle_units=pero.ANGLE_DEG,
             end_angle = 0,
-            end_angle_units=pero.DEG)
+            end_angle_units=pero.ANGLE_DEG)
         
         gauge.x = padding+0.5*size
         gauge.y = padding+0.5*size

@@ -103,15 +103,15 @@ class FontManager(object):
                 return font
         
         # check light weight loosely
-        if weight in FONT_WEIGHT_LIGHT:
+        if weight in FONT_WEIGHTS_LIGHT:
             for font in fonts:
-                if font.weight in FONT_WEIGHT_LIGHT:
+                if font.weight in FONT_WEIGHTS_LIGHT:
                     return font
         
         # check bold weight loosely
-        if weight in FONT_WEIGHT_BOLD:
+        if weight in FONT_WEIGHTS_BOLD:
             for font in fonts:
-                if font.weight in FONT_WEIGHT_BOLD:
+                if font.weight in FONT_WEIGHTS_BOLD:
                     return font
         
         return None
@@ -383,43 +383,43 @@ class Font(object):
             
             font_family, font_type = font.getname()
             font_name = name or font_family
-            font_style = FONT_STYLE.NORMAL
-            font_weight = FONT_WEIGHT.NORMAL
+            font_style = FONT_STYLE_NORMAL
+            font_weight = FONT_WEIGHT_NORMAL
             
             # get style
             if 'Italic' in font_type:
-                font_style = FONT_STYLE.ITALIC
+                font_style = FONT_STYLE_ITALIC
             
             elif 'Oblique' in font_type:
-                font_style = FONT_STYLE.ITALIC
+                font_style = FONT_STYLE_ITALIC
             
             # get weight
             if 'Regular' in font_type:
-                font_weight = FONT_WEIGHT.NORMAL
+                font_weight = FONT_WEIGHT_NORMAL
             
             elif 'Bold' in font_type:
-                font_weight = FONT_WEIGHT.BOLD
+                font_weight = FONT_WEIGHT_BOLD
             
             elif 'Light' in font_type:
-                font_weight = FONT_WEIGHT.LIGHT
+                font_weight = FONT_WEIGHT_LIGHT
             
             elif 'Black' in font_type:
-                font_weight = FONT_WEIGHT.BLACK
+                font_weight = FONT_WEIGHT_BLACK
             
             elif 'Heavy' in font_type:
-                font_weight = FONT_WEIGHT.HEAVY
+                font_weight = FONT_WEIGHT_HEAVY
             
             elif 'Semibold' in font_type:
-                font_weight = FONT_WEIGHT.SEMIBOLD
+                font_weight = FONT_WEIGHT_SEMIBOLD
             
             elif 'Medium' in font_type:
-                font_weight = FONT_WEIGHT.MEDIUM
+                font_weight = FONT_WEIGHT_MEDIUM
             
             elif 'Ultralight' in font_type:
-                font_weight = FONT_WEIGHT.ULTRALIGHT
+                font_weight = FONT_WEIGHT_ULTRALIGHT
             
             elif 'Thin' in font_type:
-                font_weight = FONT_WEIGHT.THIN
+                font_weight = FONT_WEIGHT_THIN
             
             # make font
             return Font(path, font_name, font_family, font_style, font_weight)

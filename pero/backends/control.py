@@ -69,7 +69,7 @@ class Control(PropertySet):
         
         # init buffers
         self._parent = None
-        self._cursor = CURSOR.ARROW
+        self._cursor = CURSOR_ARROW
         self._size = (0, 0)
         
         # init tooltip
@@ -77,8 +77,8 @@ class Control(PropertySet):
             self.tooltip = TextTooltip()
         
         # bind events
-        self.bind(EVENT.SIZE, self._on_control_size)
-        self.bind(EVENT.PROPERTY_CHANGED, self._on_control_property_changed)
+        self.bind(EVT_SIZE, self._on_control_size)
+        self.bind(EVT_PROPERTY_CHANGED, self._on_control_property_changed)
         
         # bind tools
         self._set_tool(self.main_tool, None, True, True)
@@ -277,47 +277,47 @@ class Control(PropertySet):
         
         # unbind old tool
         if old_tool:
-            self.unbind(EVENT.SIZE, old_tool.on_size)
-            self.unbind(EVENT.KEY_DOWN, old_tool.on_key_down)
-            self.unbind(EVENT.KEY_UP, old_tool.on_key_up)
-            self.unbind(EVENT.MOUSE_ENTER, old_tool.on_mouse_enter)
-            self.unbind(EVENT.MOUSE_LEAVE, old_tool.on_mouse_leave)
-            self.unbind(EVENT.MOUSE_MOTION, old_tool.on_mouse_motion)
-            self.unbind(EVENT.MOUSE_SCROLL, old_tool.on_mouse_scroll)
-            self.unbind(EVENT.LEFT_DOWN, old_tool.on_mouse_down)
-            self.unbind(EVENT.LEFT_UP, old_tool.on_mouse_up)
-            self.unbind(EVENT.LEFT_DCLICK, old_tool.on_mouse_dclick)
-            self.unbind(EVENT.RIGHT_DOWN, old_tool.on_mouse_down)
-            self.unbind(EVENT.RIGHT_UP, old_tool.on_mouse_up)
+            self.unbind(EVT_SIZE, old_tool.on_size)
+            self.unbind(EVT_KEY_DOWN, old_tool.on_key_down)
+            self.unbind(EVT_KEY_UP, old_tool.on_key_up)
+            self.unbind(EVT_MOUSE_ENTER, old_tool.on_mouse_enter)
+            self.unbind(EVT_MOUSE_LEAVE, old_tool.on_mouse_leave)
+            self.unbind(EVT_MOUSE_MOTION, old_tool.on_mouse_motion)
+            self.unbind(EVT_MOUSE_SCROLL, old_tool.on_mouse_scroll)
+            self.unbind(EVT_LEFT_DOWN, old_tool.on_mouse_down)
+            self.unbind(EVT_LEFT_UP, old_tool.on_mouse_up)
+            self.unbind(EVT_LEFT_DCLICK, old_tool.on_mouse_dclick)
+            self.unbind(EVT_RIGHT_DOWN, old_tool.on_mouse_down)
+            self.unbind(EVT_RIGHT_UP, old_tool.on_mouse_up)
         
         # check tool
         if not new_tool:
             return
         
         # bind common events
-        self.bind(EVENT.SIZE, new_tool.on_size)
+        self.bind(EVT_SIZE, new_tool.on_size)
         
         # bind key events
-        self.bind(EVENT.KEY_DOWN, new_tool.on_key_down)
-        self.bind(EVENT.KEY_UP, new_tool.on_key_up)
+        self.bind(EVT_KEY_DOWN, new_tool.on_key_down)
+        self.bind(EVT_KEY_UP, new_tool.on_key_up)
         
         # bind main mouse events
-        self.bind(EVENT.MOUSE_ENTER, new_tool.on_mouse_enter)
-        self.bind(EVENT.MOUSE_LEAVE, new_tool.on_mouse_leave)
-        self.bind(EVENT.MOUSE_MOTION, new_tool.on_mouse_motion)
-        self.bind(EVENT.MOUSE_SCROLL, new_tool.on_mouse_scroll)
+        self.bind(EVT_MOUSE_ENTER, new_tool.on_mouse_enter)
+        self.bind(EVT_MOUSE_LEAVE, new_tool.on_mouse_leave)
+        self.bind(EVT_MOUSE_MOTION, new_tool.on_mouse_motion)
+        self.bind(EVT_MOUSE_SCROLL, new_tool.on_mouse_scroll)
         
         # bind left mouse events
         if left:
-            self.bind(EVENT.LEFT_DOWN, new_tool.on_mouse_down)
-            self.bind(EVENT.LEFT_UP, new_tool.on_mouse_up)
-            self.bind(EVENT.LEFT_DCLICK, new_tool.on_mouse_dclick)
+            self.bind(EVT_LEFT_DOWN, new_tool.on_mouse_down)
+            self.bind(EVT_LEFT_UP, new_tool.on_mouse_up)
+            self.bind(EVT_LEFT_DCLICK, new_tool.on_mouse_dclick)
         
         # bind right mouse events
         if right:
-            self.bind(EVENT.RIGHT_DOWN, new_tool.on_mouse_down)
-            self.bind(EVENT.RIGHT_UP, new_tool.on_mouse_up)
-            self.bind(EVENT.RIGHT_DCLICK, new_tool.on_mouse_dclick)
+            self.bind(EVT_RIGHT_DOWN, new_tool.on_mouse_down)
+            self.bind(EVT_RIGHT_UP, new_tool.on_mouse_up)
+            self.bind(EVT_RIGHT_DCLICK, new_tool.on_mouse_dclick)
     
     
     def _on_control_size(self, evt):

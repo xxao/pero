@@ -98,7 +98,7 @@ class TimeFormatter(Formatter):
         self._parts = sorted(TIME_FACTORS.items(), key=lambda x:x[1], reverse=True)
         
         # bind events
-        self.bind(EVENT.PROPERTY_CHANGED, self._on_time_formatter_property_changed)
+        self.bind(EVT_PROPERTY_CHANGED, self._on_time_formatter_property_changed)
     
     
     def format(self, value):

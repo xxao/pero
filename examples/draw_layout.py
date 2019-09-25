@@ -41,8 +41,8 @@ class DrawTest(pero.Graphics):
                 row_span = 2 if row == 1 and col == 3 else 1
                 width = 20 if col in (0, 3) else pero.UNDEF
                 height = 20 if row in (0, 3) else pero.UNDEF
-                h_align = pero.LEFT if col == 0 else pero.RIGHT if col == 3 else pero.CENTER
-                v_align = pero.TOP if row == 0 else pero.BOTTOM if row == 3 else pero.CENTER
+                h_align = pero.POS_LEFT if col == 0 else pero.POS_RIGHT if col == 3 else pero.POS_CENTER
+                v_align = pero.POS_TOP if row == 0 else pero.POS_BOTTOM if row == 3 else pero.POS_CENTER
                 
                 # init glyph
                 label = "(%s, %s) (%s, %s)" % (row, col, row_span, col_span)

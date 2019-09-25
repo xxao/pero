@@ -31,11 +31,11 @@ class DrawTest(pero.Graphics):
         pather = pero.Pather(
             path = path,
             line_width = 13,
-            line_cap = pero.ROUND,
-            line_color = "lightblue",
+            line_cap = pero.LINE_CAP_ROUND,
+            line_color = pero.colors.LightBlue,
             line_alpha = 230,
             fill_color = None,
-            anchor_fill_color = "blue",
+            anchor_fill_color = pero.colors.Blue,
             show_handles = False)
         
         # draw guides

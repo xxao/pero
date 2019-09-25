@@ -22,7 +22,7 @@ class ViewEvt(Event):
             The control which fired the event.
     """
     
-    TYPE = EVENT.VIEW
+    TYPE = EVT_VIEW
     
     
     def __init__(self, **kwargs):
@@ -67,7 +67,7 @@ class SizeEvt(ViewEvt):
             New height of the view.
     """
     
-    TYPE = EVENT.SIZE
+    TYPE = EVT_SIZE
     
     
     def __init__(self, **kwargs):
@@ -82,4 +82,4 @@ class SizeEvt(ViewEvt):
 class ZoomEvt(ViewEvt):
     """Defines an event which is fired if axes ranges were changed."""
     
-    TYPE = EVENT.ZOOM
+    TYPE = EVT_ZOOM

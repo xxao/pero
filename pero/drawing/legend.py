@@ -78,7 +78,7 @@ class MarkerLegend(Legend):
             pero.MARKER instance.
     """
     
-    marker = MarkerProperty(MARKER.CIRCLE, dynamic=False, nullable=True)
+    marker = MarkerProperty(MARKER_CIRCLE, dynamic=False, nullable=True)
     
     
     def get_bull_size(self, canvas, source=UNDEF, **overrides):
@@ -171,8 +171,8 @@ class Legends(Glyph):
     
     x = NumProperty(0)
     y = NumProperty(0)
-    anchor = EnumProperty(POSITION.NW, enum=POSITION_COMPASS)
-    orientation = EnumProperty(ORIENTATION.VERTICAL, enum=ORIENTATION)
+    anchor = EnumProperty(POS_NW, enum=POSITION_COMPASS)
+    orientation = EnumProperty(ORI_VERTICAL, enum=ORIENTATION)
     
     radius = QuadProperty(3)
     padding = QuadProperty(5)
@@ -298,7 +298,7 @@ class Legends(Glyph):
                 bull_max = bull_w
         
         # align horizontally
-        if orientation == ORIENTATION.HORIZONTAL:
+        if orientation == ORI_HORIZONTAL:
             
             x_offset = 0
             for item, bull_bbox, text_bbox in boxes:
@@ -347,26 +347,26 @@ class Legends(Glyph):
             height += padding[0] + padding[2]
         
         # shift anchor
-        if anchor == POSITION.NW:
+        if anchor == POS_NW:
             pass
-        elif anchor == POSITION.N:
+        elif anchor == POS_N:
             x -= 0.5 * width
-        elif anchor == POSITION.NE:
+        elif anchor == POS_NE:
             x -= width
-        elif anchor == POSITION.E:
+        elif anchor == POS_E:
             x -= width
             y -= 0.5 * height
-        elif anchor == POSITION.SE:
+        elif anchor == POS_SE:
             x -= width
             y -= height
-        elif anchor == POSITION.S:
+        elif anchor == POS_S:
             x -= 0.5 * width
             y -= height
-        elif anchor == POSITION.SW:
+        elif anchor == POS_SW:
             y -= height
-        elif anchor == POSITION.W:
+        elif anchor == POS_W:
             y -= 0.5 * height
-        elif anchor == POSITION.C:
+        elif anchor == POS_C:
             x -= 0.5 * width
             y -= 0.5 * height
         

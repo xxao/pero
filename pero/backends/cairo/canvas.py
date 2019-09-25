@@ -47,9 +47,9 @@ class CairoCanvas(Canvas):
         self._update_text()
         
         # bind events
-        self.bind(EVENT.PEN_CHANGED, self._update_pen)
-        self.bind(EVENT.BRUSH_CHANGED, self._update_brush)
-        self.bind(EVENT.TEXT_CHANGED, self._update_text)
+        self.bind(EVT_PEN_CHANGED, self._update_pen)
+        self.bind(EVT_BRUSH_CHANGED, self._update_brush)
+        self.bind(EVT_TEXT_CHANGED, self._update_text)
     
     
     def get_line_size(self, text):
@@ -425,17 +425,17 @@ class CairoCanvas(Canvas):
             y_offset = ascent / self._scale[1]
             
             # adjust alignment
-            if self.text_align == TEXT_ALIGN.CENTER:
+            if self.text_align == TEXT_ALIGN_CENTER:
                 x_offset -= 0.5*line_width
             
-            elif self.text_align == TEXT_ALIGN.RIGHT:
+            elif self.text_align == TEXT_ALIGN_RIGHT:
                 x_offset -= line_width
             
             # adjust baseline
-            if self.text_base == TEXT_BASELINE.MIDDLE:
+            if self.text_base == TEXT_BASE_MIDDLE:
                 y_offset -= 0.5*full_height
             
-            elif self.text_base == TEXT_BASELINE.BOTTOM:
+            elif self.text_base == TEXT_BASE_BOTTOM:
                 y_offset -= full_height
             
             # add line offset
@@ -525,19 +525,19 @@ class CairoCanvas(Canvas):
             values = command[1:]
             
             # close
-            if key == PATH.CLOSE:
+            if key == PATH_CLOSE:
                 self._dc.close_path()
             
             # move to
-            elif key == PATH.MOVE:
+            elif key == PATH_MOVE:
                 self._dc.move_to(*values)
             
             # line to
-            elif key == PATH.LINE:
+            elif key == PATH_LINE:
                 self._dc.line_to(*values)
             
             # curve to
-            elif key == PATH.CURVE:
+            elif key == PATH_CURVE:
                 self._dc.curve_to(*values)
     
     
@@ -602,9 +602,9 @@ class CairoCanvas(Canvas):
             line_dash = self.line_dash if self.line_dash else []
             line_width = self._dc.get_line_width()
             
-            if line_style == LINE_STYLE.SOLID:
+            if line_style == LINE_STYLE_SOLID:
                 line_dash = []
-            elif line_style not in (LINE_STYLE.CUSTOM, UNDEF):
+            elif line_style not in (LINE_STYLE_CUSTOM, UNDEF):
                 line_dash = CAIRO_LINE_STYLE[line_style]
             
             self._dc.set_dash([x*line_width for x in line_dash])
@@ -615,7 +615,7 @@ class CairoCanvas(Canvas):
         
         color = ColorProperties.get_color(self, "fill_")
         
-        if self.fill_style == FILL_STYLE.TRANS:
+        if self.fill_style == FILL_STYLE_TRANS:
             self._brush = None
         
         elif color is not UNDEF:

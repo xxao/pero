@@ -2,300 +2,150 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # load modules
-import sys
 from .enum import Enum
 from .values import *
 
-# define line splitting character
-LINE_SPLITTER = "\n"
-
-# define default fonts
-FONT_FACE_SERIF = "Times New Roman"
-FONT_FACE_SANS = "Arial"
-FONT_FACE_MONO = "Courier New"
-
-if sys.platform == 'darwin':
-    FONT_FACE_SERIF = "Times"
-    FONT_FACE_SANS = "Helvetica"
-    FONT_FACE_MONO = "Courier"
-
-# define font families
-FONT_FAMILY = Enum(
-    SERIF = SERIF,
-    SANS = SANS,
-    MONO = MONO)
-
-# define font families default names
-FONT_FAMILY_NAMES = {
-    FONT_FAMILY.SERIF: (FONT_FACE_SERIF, 'times', 'Times', 'Times New Roman'),
-    FONT_FAMILY.SANS: (FONT_FACE_SANS, 'arial', 'Arial', 'Helvetica'),
-    FONT_FAMILY.MONO: (FONT_FACE_MONO, 'courier', 'Courier', 'Courier New')}
-
-# define font styles
-FONT_STYLE = Enum(
-    NORMAL = NORMAL,
-    ITALIC = ITALIC)
-
-# define font weight
-FONT_WEIGHT = Enum(
-    NORMAL = NORMAL,
-    LIGHT = LIGHT,
-    BOLD = BOLD,
-    BLACK = BLACK,
-    HEAVY = HEAVY,
-    SEMIBOLD = SEMIBOLD,
-    MEDIUM = MEDIUM,
-    ULTRALIGHT = ULTRALIGHT,
-    THIN = THIN)
-
-# define font weight light values
-FONT_WEIGHT_LIGHT = {
-    LIGHT,
-    ULTRALIGHT,
-    THIN}
-
-# define font weight bold values
-FONT_WEIGHT_BOLD = {
-    BOLD,
-    BLACK,
-    HEAVY,
-    SEMIBOLD}
-
-# define text align
-TEXT_ALIGN = Enum(
-    LEFT = LEFT,
-    CENTER = CENTER,
-    RIGHT = RIGHT)
-
-# define text baseline
-TEXT_BASELINE = Enum(
-    TOP = TOP,
-    MIDDLE = MIDDLE,
-    BOTTOM = BOTTOM)
-
-# define polar text rotation
-TEXT_ROTATION = Enum(
-    NONE = NONE,
-    FOLLOW = FOLLOW,
-    NATURAL = NATURAL,
-    FACEOUT = FACEOUT,
-    FACEIN = FACEIN)
-
-# define angle units
-ANGLE = Enum(
-    DEG = DEG,
-    RAD = RAD)
 
 # define line styles
+LINE_STYLE_CUSTOM = CUSTOM
+LINE_STYLE_SOLID = SOLID
+LINE_STYLE_DOTTED = DOTTED
+LINE_STYLE_DASHED = DASHED
+LINE_STYLE_DASHDOTTED = DASHDOTTED
+
 LINE_STYLE = Enum(
-    CUSTOM = CUSTOM,
-    SOLID = SOLID,
-    DOTTED = DOTTED,
-    DASHED = DASHED,
-    DASHDOTTED = DASHDOTTED)
+    CUSTOM = LINE_STYLE_CUSTOM,
+    SOLID = LINE_STYLE_SOLID,
+    DOTTED = LINE_STYLE_DOTTED,
+    DASHED = LINE_STYLE_DASHED,
+    DASHDOTTED = LINE_STYLE_DASHDOTTED)
 
 # define line caps
+LINE_CAP_BUTT = BUTT
+LINE_CAP_SQUARE = SQUARE
+LINE_CAP_ROUND = ROUND
+
 LINE_CAP = Enum(
-    BUTT = BUTT,
-    SQUARE = SQUARE,
-    ROUND = ROUND)
+    BUTT = LINE_CAP_BUTT,
+    SQUARE = LINE_CAP_SQUARE,
+    ROUND = LINE_CAP_ROUND)
+
+# define line joins
+LINE_JOIN_BEVEL = BEVEL
+LINE_JOIN_MITER = MITER
+LINE_JOIN_ROUND = ROUND
 
 LINE_JOIN = Enum(
-    BEVEL = BEVEL,
-    MITER = MITER,
-    ROUND = ROUND)
+    BEVEL = LINE_JOIN_BEVEL,
+    MITER = LINE_JOIN_MITER,
+    ROUND = LINE_JOIN_ROUND)
 
 # define line step
+LINE_STEP_NONE = NONE
+LINE_STEP_BEFORE = BEFORE
+LINE_STEP_MIDDLE = MIDDLE
+LINE_STEP_AFTER = AFTER
+
 LINE_STEP = Enum(
-    NONE = NONE,
-    BEFORE = BEFORE,
-    MIDDLE = MIDDLE,
-    AFTER = AFTER)
+    NONE = LINE_STEP_NONE,
+    BEFORE = LINE_STEP_BEFORE,
+    MIDDLE = LINE_STEP_MIDDLE,
+    AFTER = LINE_STEP_AFTER)
 
 # define line dash values
+DASH_VALUES_DOTTED = (1, 5)
+DASH_VALUES_DASHED = (5, 5)
+DASH_VALUES_DASHDOTTED = (5, 5, 1, 5)
+
 DASH_VALUES = Enum(
-    DOTTED = (1, 5),
-    DASHED = (5, 5),
-    DASHDOTTED = (5, 5, 1, 5))
+    DOTTED = DASH_VALUES_DOTTED,
+    DASHED = DASH_VALUES_DASHED,
+    DASHDOTTED = DASH_VALUES_DASHDOTTED)
 
 # define fill style
+FILL_STYLE_SOLID = SOLID
+FILL_STYLE_TRANS = TRANS
+
 FILL_STYLE = Enum(
-    SOLID = SOLID,
-    TRANS = TRANS)
+    SOLID = FILL_STYLE_SOLID,
+    TRANS = FILL_STYLE_TRANS)
 
 # define fill rule
+FILL_RULE_EVENODD = EVENODD
+FILL_RULE_WINDING = WINDING
+
 FILL_RULE = Enum(
-    EVENODD = EVENODD,
-    WINDING = WINDING)
-
-# define orientation
-ORIENTATION = Enum(
-    HORIZONTAL = HORIZONTAL,
-    VERTICAL = VERTICAL)
-
-# define generic positions
-POSITION = Enum(
-    
-    LEFT = LEFT,
-    RIGHT = RIGHT,
-    
-    TOP = TOP,
-    BOTTOM = BOTTOM,
-    
-    CENTER = CENTER,
-    MIDDLE = MIDDLE,
-    
-    START = START,
-    END = END,
-    
-    INSIDE = INSIDE,
-    OUTSIDE = OUTSIDE,
-    
-    N = N,
-    NW = NW,
-    NE = NE,
-    S = S,
-    SW = SW,
-    SE = SE,
-    W = W,
-    E = E,
-    C = C)
-
-# define specific positions
-POSITION_LR = Enum(
-    LEFT = LEFT,
-    RIGHT = RIGHT)
-
-POSITION_LRC = Enum(
-    LEFT = LEFT,
-    RIGHT = RIGHT,
-    CENTER = CENTER)
-
-POSITION_TB = Enum(
-    TOP = TOP,
-    BOTTOM = BOTTOM)
-
-POSITION_TBC = Enum(
-    TOP = TOP,
-    BOTTOM = BOTTOM,
-    CENTER = CENTER)
-
-POSITION_LRTB = Enum(
-    LEFT = LEFT,
-    RIGHT = RIGHT,
-    TOP = TOP,
-    BOTTOM = BOTTOM)
-
-POSITION_LRTBC = Enum(
-    LEFT = LEFT,
-    RIGHT = RIGHT,
-    TOP = TOP,
-    BOTTOM = BOTTOM,
-    CENTER = CENTER)
-
-POSITION_IOC = Enum(
-    INSIDE = INSIDE,
-    OUTSIDE = OUTSIDE,
-    CENTER = CENTER)
-
-POSITION_SEM = Enum(
-    START = START,
-    END = END,
-    MIDDLE = MIDDLE)
-
-POSITION_TL = Enum(
-    TOP = TOP,
-    LEFT = LEFT)
-
-POSITION_TR = Enum(
-    TOP = TOP,
-    RIGHT = RIGHT)
-
-POSITION_BL = Enum(
-    BOTTOM = BOTTOM,
-    LEFT = LEFT)
-
-POSITION_BR = Enum(
-    BOTTOM = BOTTOM,
-    RIGHT = RIGHT)
-
-POSITION_COMPASS = Enum(
-    N = N,
-    NW = NW,
-    NE = NE,
-    S = S,
-    SW = SW,
-    SE = SE,
-    W = W,
-    E = E,
-    C = C)
-
-POSITION_COMPASS_LEFT = Enum(
-    NW = NW,
-    SW = SW,
-    W = W)
-
-POSITION_COMPASS_RIGHT = Enum(
-    NE = NE,
-    SE = SE,
-    E = E)
-
-POSITION_COMPASS_TOP = Enum(
-    N = N,
-    NW = NW,
-    NE = NE)
-
-POSITION_COMPASS_BOTTOM = Enum(
-    S = S,
-    SW = SW,
-    SE = SE)
-
-POSITION_COMPASS_CENTER = Enum(
-    N = N,
-    S = S,
-    C = C)
-
-POSITION_COMPASS_MIDDLE = Enum(
-    W = W,
-    E = E,
-    C = C)
+    EVENODD = FILL_RULE_EVENODD,
+    WINDING = FILL_RULE_WINDING)
 
 # define path commands
+PATH_CLOSE = 'Z'
+PATH_MOVE = 'M'
+PATH_LINE = 'L'
+PATH_CURVE = 'C'
+
 PATH = Enum(
-    CLOSE = 'Z',
-    MOVE = 'M',
-    LINE = 'L',
-    CURVE= 'C')
+    CLOSE = PATH_CLOSE,
+    MOVE = PATH_MOVE,
+    LINE = PATH_LINE,
+    CURVE = PATH_CURVE)
 
 # define available markers
+MARKER_ASTERISK = '*'
+MARKER_CIRCLE = 'o'
+MARKER_CROSS = 'x'
+MARKER_PLUS = '+'
+MARKER_TRIANGLE = 't'
+MARKER_SQUARE = 's'
+MARKER_DIAMOND = 'd'
+MARKER_PENTAGON = 'p'
+MARKER_HEXAGON = 'h'
+
 MARKER = Enum(
-    ASTERISK = '*',
-    CIRCLE = 'o',
-    CROSS = 'x',
-    PLUS = '+',
-    TRIANGLE = 't',
-    SQUARE = 's',
-    DIAMOND = 'd',
-    PENTAGON = 'p',
-    HEXAGON= 'h')
+    ASTERISK = MARKER_ASTERISK,
+    CIRCLE = MARKER_CIRCLE,
+    CROSS = MARKER_CROSS,
+    PLUS = MARKER_PLUS,
+    TRIANGLE = MARKER_TRIANGLE,
+    SQUARE = MARKER_SQUARE,
+    DIAMOND = MARKER_DIAMOND,
+    PENTAGON = MARKER_PENTAGON,
+    HEXAGON = MARKER_HEXAGON)
 
 # define available arrows
+ARROW_ARC = 'c'
+ARROW_BOW = ')'
+ARROW_CONNECT_LINE = 'z'
+ARROW_CONNECT_CURVE = 's'
+ARROW_CURVE = '~'
+ARROW_LINE = '-'
+ARROW_RAY = '/'
+
 ARROW = Enum(
-    ARC = 'c',
-    BOW = ')',
-    CONNECT_LINE = 'z',
-    CONNECT_CURVE = 's',
-    CURVE = '~',
-    LINE = '-',
-    RAY = '/')
+    ARC = ARROW_ARC,
+    BOW = ARROW_BOW,
+    CONNECT_LINE = ARROW_CONNECT_LINE,
+    CONNECT_CURVE = ARROW_CONNECT_CURVE,
+    CURVE = ARROW_CURVE,
+    LINE = ARROW_LINE,
+    RAY = ARROW_RAY)
 
 # define available heads
+HEAD_CIRCLE = 'o'
+HEAD_LINE = '|'
+HEAD_NORMAL = '|>'
+HEAD_NORMAL_B = '<|'
+HEAD_OPEN = '>'
+HEAD_OPEN_B = '<'
+HEAD_VEE = '>>'
+HEAD_VEE_B = '<<'
+
 HEAD = Enum(
-    CIRCLE = 'o',
-    LINE= '|',
-    NORMAL = '|>',
-    NORMAL_B = '<|',
-    OPEN = '>',
-    OPEN_B = '<',
-    VEE = '>>',
-    VEE_B = '<<')
+    CIRCLE = HEAD_CIRCLE,
+    LINE = HEAD_LINE,
+    NORMAL = HEAD_NORMAL,
+    NORMAL_B = HEAD_NORMAL_B,
+    OPEN = HEAD_OPEN,
+    OPEN_B = HEAD_OPEN_B,
+    VEE = HEAD_VEE,
+    VEE_B = HEAD_VEE_B)

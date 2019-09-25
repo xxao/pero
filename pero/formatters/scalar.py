@@ -59,7 +59,7 @@ class ScalarFormatter(Formatter):
         self._is_dirty = True
         
         # bind events
-        self.bind(EVENT.PROPERTY_CHANGED, self._on_scalar_formatter_property_changed)
+        self.bind(EVT_PROPERTY_CHANGED, self._on_scalar_formatter_property_changed)
     
     
     def format(self, value):

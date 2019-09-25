@@ -46,7 +46,7 @@ class MouseEvt(ViewEvt):
             Indicates Shift key state.
     """
     
-    TYPE = EVENT.MOUSE
+    TYPE = EVT_MOUSE
     
     
     def __init__(self, **kwargs):
@@ -109,76 +109,76 @@ class MouseEvt(ViewEvt):
 class MouseEnterEvt(ViewEvt):
     """Defines an event which is fired if mouse enters window."""
     
-    TYPE = EVENT.MOUSE_ENTER
+    TYPE = EVT_MOUSE_ENTER
 
 
 class MouseLeaveEvt(ViewEvt):
     """Defines an event which is fired if mouse leaves window."""
     
-    TYPE = EVENT.MOUSE_LEAVE
+    TYPE = EVT_MOUSE_LEAVE
 
 
 class MouseMotionEvt(MouseEvt):
     """Defines an event which is fired if mouse moves."""
     
-    TYPE = EVENT.MOUSE_MOTION
+    TYPE = EVT_MOUSE_MOTION
 
 
 class MouseScrollEvt(MouseEvt):
     """Defines an event which is fired if mouse wheel rotates."""
     
-    TYPE = EVENT.MOUSE_SCROLL
+    TYPE = EVT_MOUSE_SCROLL
 
 
 class LeftDownEvt(MouseEvt):
     """Defines an event which is fired if left-mouse button is pressed."""
     
-    TYPE = EVENT.LEFT_DOWN
+    TYPE = EVT_LEFT_DOWN
 
 
 class LeftUpEvt(MouseEvt):
     """Defines an event which is fired if left-mouse button is released."""
     
-    TYPE = EVENT.LEFT_UP
+    TYPE = EVT_LEFT_UP
 
 
 class LeftDClickEvt(MouseEvt):
     """Defines an event which is fired if left-mouse button is double-clicked."""
     
-    TYPE = EVENT.LEFT_DCLICK
+    TYPE = EVT_LEFT_DCLICK
 
 
 class MiddleDownEvt(MouseEvt):
     """Defines an event which is fired if middle-mouse button is pressed."""
     
-    TYPE = EVENT.MIDDLE_DOWN
+    TYPE = EVT_MIDDLE_DOWN
 
 
 class MiddleUpEvt(MouseEvt):
     """Defines an event which is fired if middle-mouse button is released."""
     
-    TYPE = EVENT.MIDDLE_UP
+    TYPE = EVT_MIDDLE_UP
 
 
 class MiddleDClickEvt(MouseEvt):
     """Defines an event which is fired if middle-mouse button is double-clicked."""
     
-    TYPE = EVENT.MIDDLE_DCLICK
+    TYPE = EVT_MIDDLE_DCLICK
 
 
 class RightDownEvt(MouseEvt):
     """Defines an event which is fired if right-mouse button is pressed."""
     
-    TYPE = EVENT.RIGHT_DOWN
+    TYPE = EVT_RIGHT_DOWN
 
 
 class RightUpEvt(MouseEvt):
     """Defines an event which is fired if right-mouse button is released."""
     
-    TYPE = EVENT.RIGHT_UP
+    TYPE = EVT_RIGHT_UP
 
 
 class RightDClickEvt(MouseEvt):
     """Defines an event which is fired if right-mouse button is double-clicked."""
     
-    TYPE = EVENT.RIGHT_DCLICK
+    TYPE = EVT_RIGHT_DCLICK

@@ -53,7 +53,7 @@ class DrawTest(pero.Graphics):
         label.draw(canvas, x=x, y=y, text="None")
         
         glyph.draw(canvas,
-            steps = pero.NONE,
+            steps = pero.LINE_STEP_NONE,
             x = x_scale.scale(x_data),
             y = y_scale.scale(y_data),
             base = y_scale.scale(0))
@@ -65,7 +65,7 @@ class DrawTest(pero.Graphics):
         label.draw(canvas, x=x, y=y, text="Before")
         
         glyph.draw(canvas,
-            steps = pero.BEFORE,
+            steps = pero.LINE_STEP_BEFORE,
             x = x_scale.scale(x_data),
             y = y_scale.scale(y_data),
             base = y_scale.scale(0))
@@ -77,7 +77,7 @@ class DrawTest(pero.Graphics):
         label.draw(canvas, x=x, y=y, text="After")
         
         glyph.draw(canvas,
-            steps = pero.AFTER,
+            steps = pero.LINE_STEP_AFTER,
             x = x_scale.scale(x_data),
             y = y_scale.scale(y_data),
             base = y_scale.scale(0))
@@ -89,7 +89,7 @@ class DrawTest(pero.Graphics):
         label.draw(canvas, x=x, y=y, text="Middle")
         
         glyph.draw(canvas,
-            steps = pero.MIDDLE,
+            steps = pero.LINE_STEP_MIDDLE,
             x = x_scale.scale(x_data),
             y = y_scale.scale(y_data),
             base = y_scale.scale(0))

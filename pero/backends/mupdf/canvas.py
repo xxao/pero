@@ -64,9 +64,9 @@ class MuPDFCanvas(Canvas):
         self._update_text()
         
         # bind events
-        self.bind(EVENT.PEN_CHANGED, self._update_pen)
-        self.bind(EVENT.BRUSH_CHANGED, self._update_brush)
-        self.bind(EVENT.TEXT_CHANGED, self._update_text)
+        self.bind(EVT_PEN_CHANGED, self._update_pen)
+        self.bind(EVT_BRUSH_CHANGED, self._update_brush)
+        self.bind(EVT_TEXT_CHANGED, self._update_text)
     
     
     def draw_circle(self, x, y, radius):
@@ -225,22 +225,22 @@ class MuPDFCanvas(Canvas):
             values = command[1:]
             
             # close
-            if key == PATH.CLOSE:
+            if key == PATH_CLOSE:
                 shape.drawLine(cursor, origin)
                 cursor = origin
             
             # move to
-            elif key == PATH.MOVE:
+            elif key == PATH_MOVE:
                 cursor = values[0:2]
                 origin = cursor
             
             # line to
-            elif key == PATH.LINE:
+            elif key == PATH_LINE:
                 shape.drawLine(cursor, values[0:2])
                 cursor = values[0:2]
             
             # curve to
-            elif key == PATH.CURVE:
+            elif key == PATH_CURVE:
                 shape.drawBezier(cursor, values[0:2], values[2:4], values[4:6])
                 cursor = values[4:6]
         
@@ -382,17 +382,17 @@ class MuPDFCanvas(Canvas):
             y_offset = line_height - descent
             
             # adjust alignment
-            if self.text_align == TEXT_ALIGN.CENTER:
+            if self.text_align == TEXT_ALIGN_CENTER:
                 x_offset -= 0.5 * line_width
             
-            elif self.text_align == TEXT_ALIGN.RIGHT:
+            elif self.text_align == TEXT_ALIGN_RIGHT:
                 x_offset -= line_width
             
             # adjust baseline
-            if self.text_base == TEXT_BASELINE.MIDDLE:
+            if self.text_base == TEXT_BASE_MIDDLE:
                 y_offset -= 0.5*full_height
             
-            elif self.text_base == TEXT_BASELINE.BOTTOM:
+            elif self.text_base == TEXT_BASE_BOTTOM:
                 y_offset -= full_height
             
             # add line offset
@@ -517,9 +517,9 @@ class MuPDFCanvas(Canvas):
             line_dash = self.line_dash if self.line_dash else []
             line_width = self._pen['width']
             
-            if line_style == LINE_STYLE.SOLID:
+            if line_style == LINE_STYLE_SOLID:
                 line_dash = []
-            elif line_style not in (LINE_STYLE.CUSTOM, UNDEF):
+            elif line_style not in (LINE_STYLE_CUSTOM, UNDEF):
                 line_dash = MUPDF_LINE_STYLE[line_style]
             
             self._pen['dashes'] = "[%s]0" % " ".join(str(int(x*line_width)) for x in line_dash)
@@ -530,7 +530,7 @@ class MuPDFCanvas(Canvas):
         
         color = ColorProperties.get_color(self, "fill_")
         
-        if self.fill_style == FILL_STYLE.TRANS:
+        if self.fill_style == FILL_STYLE_TRANS:
             self._brush['color'] = None
         
         elif color is not UNDEF:

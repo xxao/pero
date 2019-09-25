@@ -11,7 +11,7 @@ class PenChangedEvt(PropertyChangedEvt):
     Defines an event which is fired if any pen-related property was changed.
     """
     
-    TYPE = EVENT.PEN_CHANGED
+    TYPE = EVT_PEN_CHANGED
 
 
 class BrushChangedEvt(PropertyChangedEvt):
@@ -19,7 +19,7 @@ class BrushChangedEvt(PropertyChangedEvt):
     Defines an event which is fired if any brush-related property was changed.
     """
     
-    TYPE = EVENT.BRUSH_CHANGED
+    TYPE = EVT_BRUSH_CHANGED
 
 
 class TextChangedEvt(PropertyChangedEvt):
@@ -27,4 +27,4 @@ class TextChangedEvt(PropertyChangedEvt):
     Defines an event which is fired if any text-related property was changed.
     """
     
-    TYPE = EVENT.TEXT_CHANGED
+    TYPE = EVT_TEXT_CHANGED

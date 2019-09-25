@@ -27,7 +27,7 @@ class DrawTest(pero.Graphics):
             gradient = pero.colors.YlOrBr)
         
         # draw horizontal bars
-        bar.orientation = pero.HORIZONTAL
+        bar.orientation = pero.ORI_HORIZONTAL
         bar.length = 0.5 * (width - 3*padding)
         bar.thickness = (height - 2*padding - (bars-1)*spacing) / bars
         
@@ -39,7 +39,7 @@ class DrawTest(pero.Graphics):
         bar.draw(canvas, x=x, y=y, reverse=True)
         
         # draw vertical bars
-        bar.orientation = pero.VERTICAL
+        bar.orientation = pero.ORI_VERTICAL
         bar.length = height - 2*padding
         bar.thickness = ((0.5 * (width - 3*padding)) - (bars-1)*spacing) / bars
         

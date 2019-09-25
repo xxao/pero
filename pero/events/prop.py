@@ -23,7 +23,7 @@ class PropertyChangedEvt(Event):
             New value.
     """
     
-    TYPE = EVENT.PROPERTY_CHANGED
+    TYPE = EVT_PROPERTY_CHANGED
     
     
     def __init__(self, **kwargs):

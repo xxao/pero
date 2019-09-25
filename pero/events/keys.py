@@ -34,7 +34,7 @@ class KeyEvt(ViewEvt):
             Indicates Shift key state.
     """
     
-    TYPE = EVENT.KEY
+    TYPE = EVT_KEY
     
     def __init__(self, **kwargs):
         """Initializes a new instance of KeyEvt."""
@@ -84,10 +84,10 @@ class KeyEvt(ViewEvt):
 class KeyDownEvt(KeyEvt):
     """Defines an event which is fired if a key is pressed."""
     
-    TYPE = EVENT.KEY_DOWN
+    TYPE = EVT_KEY_DOWN
 
 
 class KeyUpEvt(KeyEvt):
     """Defines an event which is fired if a key is released."""
     
-    TYPE = EVENT.KEY_UP
+    TYPE = EVT_KEY_UP

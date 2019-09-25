@@ -129,8 +129,8 @@ class Arc(Glyph):
         # get properties
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
-        start_angle = AngleProperties.get_angle(self, 'start_', ANGLE.RAD, source, overrides)
-        end_angle = AngleProperties.get_angle(self, 'end_', ANGLE.RAD, source, overrides)
+        start_angle = AngleProperties.get_angle(self, 'start_', ANGLE_RAD, source, overrides)
+        end_angle = AngleProperties.get_angle(self, 'end_', ANGLE_RAD, source, overrides)
         radius = self.get_property('radius', source, overrides)
         clockwise = self.get_property('radius', source, overrides)
         
@@ -406,7 +406,7 @@ class Ray(Glyph):
         y = self.get_property('y', source, overrides)
         length = self.get_property('length', source, overrides)
         offset = self.get_property('offset', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # get offset
         if not offset:
@@ -491,26 +491,26 @@ class Rect(Glyph):
         radius = self.get_property('radius', source, overrides)
         
         # shift anchor
-        if anchor == POSITION.NW:
+        if anchor == POS_NW:
             pass
-        elif anchor == POSITION.N:
+        elif anchor == POS_N:
             x -= 0.5 * width
-        elif anchor == POSITION.NE:
+        elif anchor == POS_NE:
             x -= width
-        elif anchor == POSITION.E:
+        elif anchor == POS_E:
             x -= width
             y -= 0.5 * height
-        elif anchor == POSITION.SE:
+        elif anchor == POS_SE:
             x -= width
             y -= height
-        elif anchor == POSITION.S:
+        elif anchor == POS_S:
             x -= 0.5 * width
             y -= height
-        elif anchor == POSITION.SW:
+        elif anchor == POS_SW:
             y -= height
-        elif anchor == POSITION.W:
+        elif anchor == POS_W:
             y -= 0.5 * height
-        elif anchor == POSITION.C:
+        elif anchor == POS_C:
             x -= 0.5 * width
             y -= 0.5 * height
         
@@ -607,7 +607,7 @@ class Text(Glyph):
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
         text = self.get_property('text', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # check data
         if not text:
@@ -671,7 +671,7 @@ class Textbox(Text):
         text = self.get_property('text', source, overrides)
         align = self.get_property('text_align', source, overrides)
         base = self.get_property('text_base', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # check data
         if not text:
@@ -690,18 +690,18 @@ class Textbox(Text):
         if anchor is UNDEF:
             anchors = set(POSITION_COMPASS)
             
-            if align == TEXT_ALIGN.LEFT or align == UNDEF:
+            if align == TEXT_ALIGN_LEFT or align == UNDEF:
                 anchors = anchors.intersection(POSITION_COMPASS_LEFT)
-            elif align == TEXT_ALIGN.CENTER:
+            elif align == TEXT_ALIGN_CENTER:
                 anchors = anchors.intersection(POSITION_COMPASS_CENTER)
-            elif align == TEXT_ALIGN.RIGHT:
+            elif align == TEXT_ALIGN_RIGHT:
                 anchors = anchors.intersection(POSITION_COMPASS_RIGHT)
             
-            if base == TEXT_BASELINE.TOP or base == UNDEF:
+            if base == TEXT_BASE_TOP or base == UNDEF:
                 anchors = anchors.intersection(POSITION_COMPASS_TOP)
-            elif base == TEXT_BASELINE.MIDDLE:
+            elif base == TEXT_BASE_MIDDLE:
                 anchors = anchors.intersection(POSITION_COMPASS_MIDDLE)
-            elif base == TEXT_BASELINE.BOTTOM:
+            elif base == TEXT_BASE_BOTTOM:
                 anchors = anchors.intersection(POSITION_COMPASS_BOTTOM)
             
             anchor = anchors.pop()
@@ -710,24 +710,24 @@ class Textbox(Text):
         bgr_x = x
         bgr_y = y
         
-        if anchor == POSITION.N:
+        if anchor == POS_N:
             bgr_x -= 0.5 * bgr_width
-        elif anchor == POSITION.NE:
+        elif anchor == POS_NE:
             bgr_x -= bgr_width
-        elif anchor == POSITION.E:
+        elif anchor == POS_E:
             bgr_x -= bgr_width
             bgr_y -= 0.5 * bgr_height
-        elif anchor == POSITION.SE:
+        elif anchor == POS_SE:
             bgr_x -= bgr_width
             bgr_y -= bgr_height
-        elif anchor == POSITION.S:
+        elif anchor == POS_S:
             bgr_x -= 0.5 * bgr_width
             bgr_y -= bgr_height
-        elif anchor == POSITION.SW:
+        elif anchor == POS_SW:
             bgr_y -= bgr_height
-        elif anchor == POSITION.W:
+        elif anchor == POS_W:
             bgr_y -= 0.5 * bgr_height
-        elif anchor == POSITION.C:
+        elif anchor == POS_C:
             bgr_x -= 0.5 * bgr_width
             bgr_y -= 0.5 * bgr_height
         
@@ -735,14 +735,14 @@ class Textbox(Text):
         text_x = bgr_x + padding[3]
         text_y = bgr_y + padding[0]
         
-        if align == TEXT_ALIGN.CENTER:
+        if align == TEXT_ALIGN_CENTER:
             text_x += 0.5*text_width
-        elif align == TEXT_ALIGN.RIGHT:
+        elif align == TEXT_ALIGN_RIGHT:
             text_x += text_width
         
-        if base == TEXT_BASELINE.MIDDLE:
+        if base == TEXT_BASE_MIDDLE:
             text_y += 0.5*text_height
-        elif base == TEXT_BASELINE.BOTTOM:
+        elif base == TEXT_BASE_BOTTOM:
             text_y += text_height
         
         if angle:
@@ -840,8 +840,8 @@ class Wedge(Glyph):
         # get properties
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
-        start_angle = AngleProperties.get_angle(self, 'start_', ANGLE.RAD, source, overrides)
-        end_angle = AngleProperties.get_angle(self, 'end_', ANGLE.RAD, source, overrides)
+        start_angle = AngleProperties.get_angle(self, 'start_', ANGLE_RAD, source, overrides)
+        end_angle = AngleProperties.get_angle(self, 'end_', ANGLE_RAD, source, overrides)
         inner_radius = self.get_property('inner_radius', source, overrides)
         outer_radius = self.get_property('outer_radius', source, overrides)
         clockwise = self.get_property('clockwise', source, overrides)

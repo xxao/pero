@@ -62,7 +62,7 @@ class DrawTest(pero.Graphics):
         pather = pero.Pather(fill_color=None, show_cursor=False)
         point = pero.Circle(fill_color="r", line_color="w", size=8)
         frame = pero.Rect(line_color="r", fill_color=None)
-        label = pero.Text(font_size=8, text_base=pero.BOTTOM)
+        label = pero.Text(font_size=8, text_base=pero.TEXT_BASE_BOTTOM)
         
         # draw curve
         path = pero.Path.from_bezier(curve)
@@ -299,7 +299,7 @@ class DrawTest(pero.Graphics):
         canvas.fill()
         
         # init label
-        label = pero.Text(text_align=pero.CENTER, x=100, y=220)
+        label = pero.Text(text_align=pero.TEXT_ALIGN_CENTER, x=100, y=220)
         
         # init curve
         curve = pero.Bezier(100, 25, 10, 90, 110, 100, 150, 195)

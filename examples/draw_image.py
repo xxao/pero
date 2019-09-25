@@ -5,8 +5,8 @@ import pero
 
 img = pero.Image(width=400, height=400)
 
-img.line_cap = pero.ROUND
-img.line_join = pero.ROUND
+img.line_cap = pero.LINE_CAP_ROUND
+img.line_join = pero.LINE_JOIN_ROUND
 
 # fill
 img.fill_color = pero.colors.White
@@ -44,7 +44,7 @@ img.line_color = pero.colors.Orange.lighter(.3)
 img.draw_arc(200, 200, 135, pero.rads(220), pero.rads(260))
 
 # hat
-path = pero.Path(pero.WINDING)
+path = pero.Path(pero.FILL_RULE_WINDING)
 path.ellipse(200, 55, 80, 20)
 path.ellipse(200, 35, 50, 20)
 path.rect(175, 35, 50, 20)

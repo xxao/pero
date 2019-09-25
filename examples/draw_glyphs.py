@@ -26,7 +26,7 @@ class DrawTest(pero.Graphics):
             line_color = pero.colors.Red)
         
         label = pero.Text(
-            text_align = pero.CENTER)
+            text_align = pero.TEXT_ALIGN_CENTER)
         
         # init coords
         x = 50

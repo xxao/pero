@@ -57,31 +57,31 @@ class Marker(Glyph):
         """
         
         # convert from symbol
-        if symbol == MARKER.ASTERISK:
+        if symbol == MARKER_ASTERISK:
             return Asterisk(**overrides)
         
-        elif symbol == MARKER.CIRCLE:
+        elif symbol == MARKER_CIRCLE:
             return Circle(**overrides)
         
-        elif symbol == MARKER.CROSS:
+        elif symbol == MARKER_CROSS:
             return Cross(**overrides)
         
-        elif symbol == MARKER.PLUS:
+        elif symbol == MARKER_PLUS:
             return Plus(**overrides)
         
-        elif symbol == MARKER.TRIANGLE:
+        elif symbol == MARKER_TRIANGLE:
             return Triangle(**overrides)
         
-        elif symbol == MARKER.SQUARE:
+        elif symbol == MARKER_SQUARE:
             return Square(**overrides)
         
-        elif symbol == MARKER.DIAMOND:
+        elif symbol == MARKER_DIAMOND:
             return Diamond(**overrides)
         
-        elif symbol == MARKER.PENTAGON:
+        elif symbol == MARKER_PENTAGON:
             return Symbol(path=Path.make_ngon(5), **overrides)
         
-        elif symbol == MARKER.HEXAGON:
+        elif symbol == MARKER_HEXAGON:
             return Symbol(path=Path.make_ngon(6), **overrides)
         
         raise ValueError("Unknown marker symbol! -> '%s'" % symbol)

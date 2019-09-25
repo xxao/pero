@@ -61,19 +61,19 @@ class Head(Glyph):
         """
         
         # convert from symbol
-        if symbol == HEAD.CIRCLE:
+        if symbol == HEAD_CIRCLE:
             return CircleHead(**overrides)
         
-        elif symbol == HEAD.LINE:
+        elif symbol == HEAD_LINE:
             return LineHead(**overrides)
         
-        elif symbol in (HEAD.NORMAL, HEAD.NORMAL_B):
+        elif symbol in (HEAD_NORMAL, HEAD_NORMAL_B):
             return NormalHead(**overrides)
         
-        elif symbol in (HEAD.OPEN, HEAD.OPEN_B):
+        elif symbol in (HEAD_OPEN, HEAD_OPEN_B):
             return OpenHead(**overrides)
         
-        elif symbol in (HEAD.VEE, HEAD.VEE_B):
+        elif symbol in (HEAD_VEE, HEAD_VEE_B):
             return VeeHead(**overrides)
         
         raise ValueError("Unknown head symbol! -> '%s'" % symbol)
@@ -124,7 +124,7 @@ class LineHead(Head):
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
         size = self.get_property('size', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # get coords
         angle -= 0.5*math.pi
@@ -160,7 +160,7 @@ class NormalHead(Head):
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
         size = self.get_property('size', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # transform path
         matrix = Matrix().scale(size, size).rotate(angle).translate(x, y)
@@ -196,7 +196,7 @@ class OpenHead(Head):
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
         size = self.get_property('size', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # transform path
         matrix = Matrix().scale(size, size).rotate(angle).translate(x, y)
@@ -240,7 +240,7 @@ class SymbolHead(Head):
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
         size = self.get_property('size', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         path = self.get_property('path', source, overrides)
         
         # check data
@@ -281,7 +281,7 @@ class VeeHead(Head):
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
         size = self.get_property('size', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # transform path
         matrix = Matrix().scale(size, size).rotate(angle).translate(x, y)

@@ -255,24 +255,24 @@ class Profile(Glyph):
         """Adds point to make steps."""
         
         # no steps
-        if steps in (UNDEF, None, LINE_STEP.NONE):
+        if steps in (UNDEF, None, LINE_STEP_NONE):
             return x_coords, y_coords
         
         # make indices
         idxs = numpy.arange(len(x_coords)-1)+1
         
         # step before
-        if steps == LINE_STEP.BEFORE:
+        if steps == LINE_STEP_BEFORE:
             x_coords = numpy.insert(x_coords, idxs, x_coords[:-1])
             y_coords = numpy.insert(y_coords, idxs, y_coords[1:])
         
         # step after
-        elif steps == LINE_STEP.AFTER:
+        elif steps == LINE_STEP_AFTER:
             x_coords = numpy.insert(x_coords, idxs, x_coords[1:])
             y_coords = numpy.insert(y_coords, idxs, y_coords[:-1])
         
         # step middle
-        elif steps == LINE_STEP.MIDDLE:
+        elif steps == LINE_STEP_MIDDLE:
             
             idxs_2 = (numpy.arange(len(x_coords)-1)+1)*2
             values = 0.5*(x_coords[:-1] + x_coords[1:])

@@ -24,7 +24,7 @@ class DrawTest(pero.Graphics):
         
         # init glyphs
         label = pero.Text(
-            text_align = pero.CENTER)
+            text_align = pero.TEXT_ALIGN_CENTER)
         
         start_head = pero.NormalHead(
             size = arrow_size,

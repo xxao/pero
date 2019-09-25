@@ -73,7 +73,7 @@ class TextLabel(Label):
     """
     
     text = StringProperty(UNDEF)
-    font = Include(TextProperties, text_align=TEXT_ALIGN.CENTER, text_base=TEXT_BASELINE.BOTTOM)
+    font = Include(TextProperties, text_align=TEXT_ALIGN_CENTER, text_base=TEXT_BASE_BOTTOM)
     angle = Include(AngleProperties)
     
     
@@ -90,7 +90,7 @@ class TextLabel(Label):
         x_offset = self.get_property('x_offset', source, overrides)
         y_offset = self.get_property('y_offset', source, overrides)
         text = self.get_property('text', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # check data
         if not text:
@@ -120,7 +120,7 @@ class TextLabel(Label):
         x_offset = self.get_property('x_offset', source, overrides)
         y_offset = self.get_property('y_offset', source, overrides)
         text = self.get_property('text', source, overrides)
-        angle = AngleProperties.get_angle(self, '', ANGLE.RAD, source, overrides)
+        angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         # check data
         if not text:

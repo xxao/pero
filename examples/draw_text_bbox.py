@@ -17,10 +17,10 @@ class DrawTest(pero.Graphics):
         
         # init glyphs
         label = pero.Text(
-            text_bgr_color = "lightgrey",
+            text_bgr_color = pero.colors.LightGrey,
             font_name = "Arial",
             text_spacing = 0.5,
-            text_base = pero.TOP)
+            text_base = pero.TEXT_BASE_TOP)
         
         rect = pero.Rect(
             line_color = pero.colors.Red.trans(0.5),
@@ -46,7 +46,7 @@ class DrawTest(pero.Graphics):
             x += bbox.width + padding
             
             text = "Bold Size %s" % size
-            label.draw(canvas, x=x, y=y, text=text, font_size=size, font_weight=pero.BOLD)
+            label.draw(canvas, x=x, y=y, text=text, font_size=size, font_weight=pero.FONT_WEIGHT_BOLD)
             bbox = canvas.get_text_bbox(text, x, y)
             rect.draw(canvas, x=bbox.x, y=bbox.y, width=bbox.width, height=bbox.height)
             middle.draw(canvas, x=bbox.x, y=bbox.y+.5*bbox.height, length=bbox.width)
@@ -54,7 +54,7 @@ class DrawTest(pero.Graphics):
             x += bbox.width + padding
             
             text = "Italic Size %s" % size
-            label.draw(canvas, x=x, y=y, text=text, font_size=size, font_style=pero.ITALIC)
+            label.draw(canvas, x=x, y=y, text=text, font_size=size, font_style=pero.FONT_STYLE_ITALIC)
             bbox = canvas.get_text_bbox(text, x, y)
             rect.draw(canvas, x=bbox.x, y=bbox.y, width=bbox.width, height=bbox.height)
             middle.draw(canvas, x=bbox.x, y=bbox.y+.5*bbox.height, length=bbox.width)

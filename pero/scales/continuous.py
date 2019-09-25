@@ -295,7 +295,7 @@ class PowScale(ContinuousScale):
         self.normalizer.power = self.power
         
         # bind events
-        self.bind(EVENT.PROPERTY_CHANGED, self._on_pow_scale_property_changed)
+        self.bind(EVT_PROPERTY_CHANGED, self._on_pow_scale_property_changed)
     
     
     def _on_pow_scale_property_changed(self, evt=None):

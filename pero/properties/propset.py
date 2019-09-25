@@ -148,7 +148,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
     
     This class also serves as an event handler, which means it can fire events
     using the 'fire' method and specific listeners can be attached to it. By
-    default only the pero.EVENT.PROPERTY_CHANGED is fired every time a
+    default only the pero.EVT_PROPERTY_CHANGED is fired every time a
     property is changed.
     """
     

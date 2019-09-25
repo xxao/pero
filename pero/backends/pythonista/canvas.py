@@ -26,8 +26,8 @@ class UICanvas(Canvas):
         self._pen = {
             'color': Transparent,
             'width': 1,
-            'cap': PYTHONISTA_LINE_CAP[LINE_CAP.ROUND],
-            'join': PYTHONISTA_LINE_JOIN[LINE_JOIN.MITER],
+            'cap': PYTHONISTA_LINE_CAP[LINE_CAP_ROUND],
+            'join': PYTHONISTA_LINE_JOIN[LINE_JOIN_MITER],
             'dash': []}
         
         self._brush = Transparent
@@ -49,9 +49,9 @@ class UICanvas(Canvas):
         self._update_text()
         
         # bind events
-        self.bind(EVENT.PEN_CHANGED, self._update_pen)
-        self.bind(EVENT.BRUSH_CHANGED, self._update_brush)
-        self.bind(EVENT.TEXT_CHANGED, self._update_text)
+        self.bind(EVT_PEN_CHANGED, self._update_pen)
+        self.bind(EVT_BRUSH_CHANGED, self._update_brush)
+        self.bind(EVT_TEXT_CHANGED, self._update_text)
     
     
     def get_line_size(self, text):
@@ -166,17 +166,17 @@ class UICanvas(Canvas):
                 line_height /= self._scale[1]
                 
                 # adjust alignment
-                if self.text_align == TEXT_ALIGN.CENTER:
+                if self.text_align == TEXT_ALIGN_CENTER:
                     x_offset -= 0.5*line_width
                 
-                elif self.text_align == TEXT_ALIGN.RIGHT:
+                elif self.text_align == TEXT_ALIGN_RIGHT:
                     x_offset -= line_width
                 
                 # adjust baseline
-                if self.text_base == TEXT_BASELINE.MIDDLE:
+                if self.text_base == TEXT_BASE_MIDDLE:
                     y_offset -= 0.5*full_height
                 
-                elif self.text_base == TEXT_BASELINE.BOTTOM:
+                elif self.text_base == TEXT_BASE_BOTTOM:
                     y_offset -= full_height
                 
                 # add line offset
@@ -270,19 +270,19 @@ class UICanvas(Canvas):
             values = command[1:]
             
             # close
-            if key == PATH.CLOSE:
+            if key == PATH_CLOSE:
                 ui_path.close()
             
             # move to
-            elif key == PATH.MOVE:
+            elif key == PATH_MOVE:
                 ui_path.move_to(*values)
             
             # line to
-            elif key == PATH.LINE:
+            elif key == PATH_LINE:
                 ui_path.line_to(*values)
             
             # curve to
-            elif key == PATH.CURVE:
+            elif key == PATH_CURVE:
                 ui_path.add_curve(values[4], values[5], *values[:-2])
         
         return ui_path
@@ -324,9 +324,9 @@ class UICanvas(Canvas):
             line_dash = self.line_dash if self.line_dash else []
             line_width = self._pen['width']
             
-            if line_style == LINE_STYLE.SOLID:
+            if line_style == LINE_STYLE_SOLID:
                 line_dash = []
-            elif line_style not in (LINE_STYLE.CUSTOM, UNDEF):
+            elif line_style not in (LINE_STYLE_CUSTOM, UNDEF):
                 line_dash = PYTHONISTA_LINE_STYLE[line_style]
             
             self._pen['dash'] = [x*line_width for x in line_dash]
@@ -337,7 +337,7 @@ class UICanvas(Canvas):
         
         color = ColorProperties.get_color(self, "fill_")
         
-        if self.fill_style == FILL_STYLE.TRANS:
+        if self.fill_style == FILL_STYLE_TRANS:
             self._brush = Transparent
         
         elif color is not UNDEF:

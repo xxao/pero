@@ -37,27 +37,27 @@ class DrawTest(pero.Graphics):
         canvas.draw_line(20, y2, 660, y2)
         
         # test horizontal connector arrow
-        arrow.draw(canvas, x1=x-25, y1=y1, x2=x+25, y2=y2, orientation=pero.HORIZONTAL)
+        arrow.draw(canvas, x1=x-25, y1=y1, x2=x+25, y2=y2, orientation=pero.ORI_HORIZONTAL)
         x += 70
-        arrow.draw(canvas, x1=x+25, y1=y1, x2=x-25, y2=y2, orientation=pero.HORIZONTAL)
+        arrow.draw(canvas, x1=x+25, y1=y1, x2=x-25, y2=y2, orientation=pero.ORI_HORIZONTAL)
         
         # test vertical connector arrow
         x += 100
-        arrow.draw(canvas, x1=x-25, y1=y1, x2=x+25, y2=y2, orientation=pero.VERTICAL)
+        arrow.draw(canvas, x1=x-25, y1=y1, x2=x+25, y2=y2, orientation=pero.ORI_VERTICAL)
         x += 70
-        arrow.draw(canvas, x1=x+25, y1=y1, x2=x-25, y2=y2, orientation=pero.VERTICAL)
+        arrow.draw(canvas, x1=x+25, y1=y1, x2=x-25, y2=y2, orientation=pero.ORI_VERTICAL)
         
         # test horizontal curved connector arrow
         x += 100
-        arrow.draw(canvas, x1=x-30, y1=y1, x2=x+30, y2=y2, curve=1, orientation=pero.HORIZONTAL)
+        arrow.draw(canvas, x1=x-30, y1=y1, x2=x+30, y2=y2, curve=1, orientation=pero.ORI_HORIZONTAL)
         x += 70
-        arrow.draw(canvas, x1=x+30, y1=y1, x2=x-30, y2=y2, curve=1, orientation=pero.HORIZONTAL)
+        arrow.draw(canvas, x1=x+30, y1=y1, x2=x-30, y2=y2, curve=1, orientation=pero.ORI_HORIZONTAL)
         
         # test vertical curved connector arrow
         x += 100
-        arrow.draw(canvas, x1=x-25, y1=y1, x2=x+25, y2=y2, curve=1, orientation=pero.VERTICAL)
+        arrow.draw(canvas, x1=x-25, y1=y1, x2=x+25, y2=y2, curve=1, orientation=pero.ORI_VERTICAL)
         x += 70
-        arrow.draw(canvas, x1=x+25, y1=y1, x2=x-25, y2=y2, curve=1, orientation=pero.VERTICAL)
+        arrow.draw(canvas, x1=x+25, y1=y1, x2=x-25, y2=y2, curve=1, orientation=pero.ORI_VERTICAL)
         
         x = 50
         y1 += 150
@@ -69,27 +69,27 @@ class DrawTest(pero.Graphics):
         canvas.draw_line(20, y2, 660, y2)
         
         # test horizontal connector arrow
-        arrow.draw(canvas, x1=x-20, y1=y1, x2=x+20, y2=y2, pivot=0, orientation=pero.HORIZONTAL)
+        arrow.draw(canvas, x1=x-20, y1=y1, x2=x+20, y2=y2, pivot=0, orientation=pero.ORI_HORIZONTAL)
         x += 20
-        arrow.draw(canvas, x1=x-20, y1=y1, x2=x+20, y2=y2, pivot=1, orientation=pero.HORIZONTAL)
+        arrow.draw(canvas, x1=x-20, y1=y1, x2=x+20, y2=y2, pivot=1, orientation=pero.ORI_HORIZONTAL)
         
         # test vertical connector arrow
         x += 100
-        arrow.draw(canvas, x1=x-20, y1=y1, x2=x+20, y2=y2, pivot=0, orientation=pero.VERTICAL)
+        arrow.draw(canvas, x1=x-20, y1=y1, x2=x+20, y2=y2, pivot=0, orientation=pero.ORI_VERTICAL)
         x += 70
-        arrow.draw(canvas, x1=x-20, y1=y1, x2=x+20, y2=y2, pivot=1, orientation=pero.VERTICAL)
+        arrow.draw(canvas, x1=x-20, y1=y1, x2=x+20, y2=y2, pivot=1, orientation=pero.ORI_VERTICAL)
         
         # test horizontal curved connector arrow
         x += 100
-        arrow.draw(canvas, x1=x-40, y1=y1, x2=x+40, y2=y2, pivot=0, curve=1, orientation=pero.HORIZONTAL)
+        arrow.draw(canvas, x1=x-40, y1=y1, x2=x+40, y2=y2, pivot=0, curve=1, orientation=pero.ORI_HORIZONTAL)
         x += 20
-        arrow.draw(canvas, x1=x-40, y1=y1, x2=x+40, y2=y2, pivot=1, curve=1, orientation=pero.HORIZONTAL)
+        arrow.draw(canvas, x1=x-40, y1=y1, x2=x+40, y2=y2, pivot=1, curve=1, orientation=pero.ORI_HORIZONTAL)
         
         # test vertical curved connector arrow
         x += 100
-        arrow.draw(canvas, x1=x-40, y1=y1, x2=x+40, y2=y2, pivot=0, curve=1, orientation=pero.VERTICAL)
+        arrow.draw(canvas, x1=x-40, y1=y1, x2=x+40, y2=y2, pivot=0, curve=1, orientation=pero.ORI_VERTICAL)
         x += 70
-        arrow.draw(canvas, x1=x-40, y1=y1, x2=x+40, y2=y2, pivot=1, curve=1, orientation=pero.VERTICAL)
+        arrow.draw(canvas, x1=x-40, y1=y1, x2=x+40, y2=y2, pivot=1, curve=1, orientation=pero.ORI_VERTICAL)
 
 
 # run test
