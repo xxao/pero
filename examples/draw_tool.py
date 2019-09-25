@@ -70,13 +70,21 @@ class AngleTool(pero.Tool):
     def on_mouse_motion(self, evt):
         """Handles mouse-motion event."""
         
+        # get coords
+        x, y = evt.x_pos, evt.y_pos
+        length = pero.distance(self._center, (x, y))
+        
         # draw current wedge
         if self._is_active:
             evt.control.draw_overlay(self._draw_angle, evt=evt)
         
         # draw current cursor
-        else:
+        elif length <= self._radius:
             evt.control.draw_overlay(self._draw_position, evt=evt)
+        
+        # clear overlay
+        else:
+            evt.control.draw_overlay()
     
     
     def on_mouse_down(self, evt):
@@ -180,7 +188,7 @@ class DrawTest(pero.Graphics):
             labels = [str(i) for i in range(0, 360, 30)],
             label_rotation = pero.NATURAL,
             major_ticks = [i for i in range(0, 360, 30)],
-            minor_ticks = [i for i in range(0, 360, 6)],
+            minor_ticks = [i for i in range(0, 360, 10)],
             start_angle = pero.rads(0),
             end_angle = pero.rads(360))
         
