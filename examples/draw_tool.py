@@ -211,7 +211,7 @@ class DrawTest(pero.Graphics):
         """Draws the test."""
         
         # clear canvas
-        canvas.fill_color = pero.colors.LightGrey
+        canvas.fill_color = pero.colors.Black.lighter(.9)
         canvas.fill()
         
         # get coords
@@ -221,7 +221,7 @@ class DrawTest(pero.Graphics):
         radius = min(w, h)/2 - margin
         
         # make radial ticks
-        count = 4
+        count = 5
         step = radius/count
         ticks = [i*step for i in range(1, count+1)]
         
@@ -254,4 +254,4 @@ if __name__ == '__main__':
         graphics = DrawTest(),
         main_tool = AngleTool())
     
-    pero.debug(control, 'show', "Overlay Tool", 400, 400)
+    pero.debug(control, 'show', "Overlay Tool", 300, 300)
