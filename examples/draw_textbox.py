@@ -19,7 +19,7 @@ class DrawTest(pero.Graphics):
         textbox = pero.Textbox(
             radius = 5,
             angle = 10,
-            angle_units = pero.DEG,
+            angle_units = pero.ANGLE_DEG,
             anchor = pero.UNDEF,
             line_color = pero.colors.Grey,
             fill_color = pero.colors.LightGrey,
@@ -32,14 +32,14 @@ class DrawTest(pero.Graphics):
         
         # init values
         aligns = (
-            pero.LEFT,
-            pero.CENTER,
-            pero.RIGHT)
+            pero.TEXT_ALIGN_LEFT,
+            pero.TEXT_ALIGN_CENTER,
+            pero.TEXT_ALIGN_RIGHT)
         
         baselines = (
-            pero.TOP,
-            pero.MIDDLE,
-            pero.BOTTOM)
+            pero.TEXT_BASE_TOP,
+            pero.TEXT_BASE_MIDDLE,
+            pero.TEXT_BASE_BOTTOM)
         
         # init coords
         margin = 25

@@ -41,10 +41,10 @@ class DrawTest(pero.Graphics):
         
         # test alignment and baseline
         y = padding
-        for base in (pero.TOP, pero.MIDDLE, pero.BOTTOM):
+        for base in (pero.TEXT_BASE_TOP, pero.TEXT_BASE_MIDDLE, pero.TEXT_BASE_BOTTOM):
             
             x = padding
-            for align in (pero.LEFT, pero.CENTER, pero.RIGHT):
+            for align in (pero.TEXT_ALIGN_LEFT, pero.TEXT_ALIGN_CENTER, pero.TEXT_ALIGN_RIGHT):
                 
                 text = "%s\n%s" % (base.upper(), align.upper())
                 label.draw(canvas, x=x, y=y, text=text, text_align=align, text_base=base)

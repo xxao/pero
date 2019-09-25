@@ -42,7 +42,7 @@ class DrawTest(pero.Graphics):
         label = pero.Text(
             x = 0,
             y = 60,
-            text_align = pero.LEFT)
+            text_align = pero.TEXT_ALIGN_LEFT)
         
         # draw original shape
         x = 50

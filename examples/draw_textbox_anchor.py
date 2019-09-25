@@ -19,8 +19,8 @@ class DrawTest(pero.Graphics):
         textbox = pero.Textbox(
             radius = 5,
             angle = 10,
-            angle_units = pero.DEG,
-            text_align = pero.RIGHT,
+            angle_units = pero.ANGLE_DEG,
+            text_align = pero.TEXT_ALIGN_RIGHT,
             line_color = pero.colors.Grey,
             fill_color = pero.colors.LightGrey,
             text = "Lorem ipsum\ndolor sit amet,\nconsectetur adipiscing\nelit.")
@@ -32,15 +32,15 @@ class DrawTest(pero.Graphics):
         
         # init values
         anchors = (
-            pero.NW,
-            pero.N,
-            pero.NE,
-            pero.W,
-            pero.C,
-            pero.E,
-            pero.SW,
-            pero.S,
-            pero.SE)
+            pero.POS_NW,
+            pero.POS_N,
+            pero.POS_NE,
+            pero.POS_W,
+            pero.POS_C,
+            pero.POS_E,
+            pero.POS_SW,
+            pero.POS_S,
+            pero.POS_SE)
         
         # init coords
         margin = 25

@@ -188,7 +188,7 @@ class DrawTest(pero.Graphics):
         self._axis = pero.RadialAxis(
             units = pero.DEG,
             labels = [str(i) for i in range(0, 360, 30)],
-            label_rotation = pero.NATURAL,
+            label_rotation = pero.TEXT_ROTATION_NATURAL,
             major_ticks = [i for i in range(0, 360, 30)],
             minor_ticks = [i for i in range(0, 360, 10)],
             start_angle = pero.rads(0),
@@ -197,7 +197,7 @@ class DrawTest(pero.Graphics):
         self._ray_grid = pero.RayGrid(
             line_color = pero.colors.LightGrey,
             ticks = tuple(range(0, 360, 30)),
-            units = pero.DEG)
+            units = pero.ANGLE_DEG)
         
         self._rad_grid = pero.RadialGrid(
             line_color = pero.colors.LightGrey)
