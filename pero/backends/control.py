@@ -79,6 +79,12 @@ class Control(PropertySet):
         # bind events
         self.bind(EVENT.SIZE, self._on_control_size)
         self.bind(EVENT.PROPERTY_CHANGED, self._on_control_property_changed)
+        
+        # bind tools
+        self._set_tool(self.main_tool, None, True, True)
+        self._set_tool(self.cursor_tool, None, False, False)
+        self._set_tool(self.left_tool, None, True, False)
+        self._set_tool(self.right_tool, None, False, True)
     
     
     def set_cursor(self, cursor):
