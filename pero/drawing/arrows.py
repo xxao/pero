@@ -48,6 +48,32 @@ class Arrow(Glyph):
     fill = Include(FillProperties, fill_color=UNDEF)
     
     
+    def draw_heads(self, canvas, source=UNDEF, **overrides):
+        """Draws arrow heads into given canvas."""
+        
+        # get properties
+        start_head = self.get_property('start_head', source, overrides)
+        end_head = self.get_property('end_head', source, overrides)
+        
+        # draw start head
+        if start_head:
+            
+            canvas.set_pen_by(self, source=source, overrides=overrides)
+            canvas.set_brush_by(self, source=source, overrides=overrides)
+            
+            head_overrides = self.get_child_overrides('start_head', overrides)
+            start_head.draw(canvas, source=source, **head_overrides)
+        
+        # draw end head
+        if end_head:
+            
+            canvas.set_pen_by(self, source=source, overrides=overrides)
+            canvas.set_brush_by(self, source=source, overrides=overrides)
+            
+            head_overrides = self.get_child_overrides('end_head', overrides)
+            end_head.draw(canvas, source=source, **head_overrides)
+    
+    
     @staticmethod
     def create(symbol, **overrides):
         """
@@ -159,8 +185,6 @@ class ArcArrow(Arrow):
         
         # get properties
         tag = self.get_property('tag', source, overrides)
-        start_head = self.get_property('start_head', source, overrides)
-        end_head = self.get_property('end_head', source, overrides)
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
         start_angle = AngleProperties.get_angle(self, 'start_', ANGLE.RAD, source, overrides)
@@ -192,23 +216,18 @@ class ArcArrow(Arrow):
         # draw path
         canvas.draw_path(path)
         
-        # draw start head
-        if start_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('start_head', overrides)
-            start_head.draw(canvas, source=source, x=x1, y=y1, angle=start_angle, angle_units=ANGLE.RAD, **head_overrides)
-        
-        # draw end head
-        if end_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('end_head', overrides)
-            end_head.draw(canvas, source=source, x=x2, y=y2, angle=end_angle, angle_units=ANGLE.RAD, **head_overrides)
+        # draw heads
+        self.draw_heads(canvas,
+            source = source,
+            start_head_x = x1,
+            start_head_y = y1,
+            start_head_angle = start_angle,
+            start_head_angle_units = ANGLE.RAD,
+            end_head_x = x2,
+            end_head_y = y2,
+            end_head_angle = end_angle,
+            end_head_angle_units = ANGLE.RAD,
+            **overrides)
         
         # end drawing group
         canvas.ungroup()
@@ -262,8 +281,6 @@ class BowArrow(Arrow):
         
         # get properties
         tag = self.get_property('tag', source, overrides)
-        start_head = self.get_property('start_head', source, overrides)
-        end_head = self.get_property('end_head', source, overrides)
         x1 = self.get_property('x1', source, overrides)
         y1 = self.get_property('y1', source, overrides)
         x2 = self.get_property('x2', source, overrides)
@@ -291,23 +308,18 @@ class BowArrow(Arrow):
         # draw path
         canvas.draw_path(path)
         
-        # draw start head
-        if start_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('start_head', overrides)
-            start_head.draw(canvas, source=source, x=x1, y=y1, angle=start_angle, angle_units=ANGLE.RAD, **head_overrides)
-        
-        # draw end head
-        if end_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('end_head', overrides)
-            end_head.draw(canvas, source=source, x=x2, y=y2, angle=end_angle, angle_units=ANGLE.RAD, **head_overrides)
+        # draw heads
+        self.draw_heads(canvas,
+            source = source,
+            start_head_x = x1,
+            start_head_y = y1,
+            start_head_angle = start_angle,
+            start_head_angle_units = ANGLE.RAD,
+            end_head_x = x2,
+            end_head_y = y2,
+            end_head_angle = end_angle,
+            end_head_angle_units = ANGLE.RAD,
+            **overrides)
         
         # end drawing group
         canvas.ungroup()
@@ -368,8 +380,6 @@ class ConnectorArrow(Arrow):
         
         # get properties
         tag = self.get_property('tag', source, overrides)
-        start_head = self.get_property('start_head', source, overrides)
-        end_head = self.get_property('end_head', source, overrides)
         x1 = self.get_property('x1', source, overrides)
         y1 = self.get_property('y1', source, overrides)
         x2 = self.get_property('x2', source, overrides)
@@ -425,23 +435,18 @@ class ConnectorArrow(Arrow):
             path.curve_to(cx1, cy1, cx2, cy2, x2, y2)
             canvas.draw_path(path)
         
-        # draw start head
-        if start_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('start_head', overrides)
-            start_head.draw(canvas, source=source, x=x1, y=y1, angle=start_angle, angle_units=ANGLE.RAD, **head_overrides)
-        
-        # draw end head
-        if end_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('end_head', overrides)
-            end_head.draw(canvas, source=source, x=x2, y=y2, angle=end_angle, angle_units=ANGLE.RAD, **head_overrides)
+        # draw heads
+        self.draw_heads(canvas,
+            source = source,
+            start_head_x = x1,
+            start_head_y = y1,
+            start_head_angle = start_angle,
+            start_head_angle_units = ANGLE.RAD,
+            end_head_x = x2,
+            end_head_y = y2,
+            end_head_angle = end_angle,
+            end_head_angle_units = ANGLE.RAD,
+            **overrides)
         
         # end drawing group
         canvas.ungroup()
@@ -508,8 +513,6 @@ class CurveArrow(Arrow):
         
         # get properties
         tag = self.get_property('tag', source, overrides)
-        start_head = self.get_property('start_head', source, overrides)
-        end_head = self.get_property('end_head', source, overrides)
         x1 = self.get_property('x1', source, overrides)
         y1 = self.get_property('y1', source, overrides)
         x2 = self.get_property('x2', source, overrides)
@@ -544,23 +547,18 @@ class CurveArrow(Arrow):
         # draw path
         canvas.draw_path(path)
         
-        # draw start head
-        if start_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('start_head', overrides)
-            start_head.draw(canvas, source=source, x=x1, y=y1, angle=start_angle, angle_units=ANGLE.RAD, **head_overrides)
-        
-        # draw end head
-        if end_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('end_head', overrides)
-            end_head.draw(canvas, source=source, x=x2, y=y2, angle=end_angle, angle_units=ANGLE.RAD, **head_overrides)
+        # draw heads
+        self.draw_heads(canvas,
+            source = source,
+            start_head_x = x1,
+            start_head_y = y1,
+            start_head_angle = start_angle,
+            start_head_angle_units = ANGLE.RAD,
+            end_head_x = x2,
+            end_head_y = y2,
+            end_head_angle = end_angle,
+            end_head_angle_units = ANGLE.RAD,
+            **overrides)
         
         # end drawing group
         canvas.ungroup()
@@ -600,8 +598,6 @@ class LineArrow(Arrow):
         
         # get properties
         tag = self.get_property('tag', source, overrides)
-        start_head = self.get_property('start_head', source, overrides)
-        end_head = self.get_property('end_head', source, overrides)
         x1 = self.get_property('x1', source, overrides)
         y1 = self.get_property('y1', source, overrides)
         x2 = self.get_property('x2', source, overrides)
@@ -623,23 +619,18 @@ class LineArrow(Arrow):
         # set brush
         canvas.set_brush_by(self, source=source, overrides=overrides)
         
-        # draw start head
-        if start_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('start_head', overrides)
-            start_head.draw(canvas, source=source, x=x1, y=y1, angle=angle+math.pi, angle_units=ANGLE.RAD, **head_overrides)
-        
-        # draw end head
-        if end_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('end_head', overrides)
-            end_head.draw(canvas, source=source, x=x2, y=y2, angle=angle, angle_units=ANGLE.RAD, **head_overrides)
+        # draw heads
+        self.draw_heads(canvas,
+            source = source,
+            start_head_x = x1,
+            start_head_y = y1,
+            start_head_angle = angle+math.pi,
+            start_head_angle_units = ANGLE.RAD,
+            end_head_x = x2,
+            end_head_y = y2,
+            end_head_angle = angle,
+            end_head_angle_units = ANGLE.RAD,
+            **overrides)
         
         # end drawing group
         canvas.ungroup()
@@ -685,8 +676,6 @@ class PathArrow(Arrow):
         
         # get properties
         tag = self.get_property('tag', source, overrides)
-        start_head = self.get_property('start_head', source, overrides)
-        end_head = self.get_property('end_head', source, overrides)
         x1 = self.get_property('x1', source, overrides)
         y1 = self.get_property('y1', source, overrides)
         x2 = self.get_property('x2', source, overrides)
@@ -739,23 +728,18 @@ class PathArrow(Arrow):
         # draw path
         canvas.draw_path(path)
         
-        # draw start head
-        if start_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('start_head', overrides)
-            start_head.draw(canvas, source=source, x=x1, y=y1, angle=start_angle, angle_units=ANGLE.RAD, **head_overrides)
-        
-        # draw end head
-        if end_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('end_head', overrides)
-            end_head.draw(canvas, source=source, x=x2, y=y2, angle=end_angle, angle_units=ANGLE.RAD, **head_overrides)
+        # draw heads
+        self.draw_heads(canvas,
+            source = source,
+            start_head_x = x1,
+            start_head_y = y1,
+            start_head_angle = start_angle,
+            start_head_angle_units = ANGLE.RAD,
+            end_head_x = x2,
+            end_head_y = y2,
+            end_head_angle = end_angle,
+            end_head_angle_units = ANGLE.RAD,
+            **overrides)
         
         # end drawing group
         canvas.ungroup()
@@ -796,8 +780,6 @@ class RayArrow(Arrow):
         
         # get properties
         tag = self.get_property('tag', source, overrides)
-        start_head = self.get_property('start_head', source, overrides)
-        end_head = self.get_property('end_head', source, overrides)
         x1 = self.get_property('x', source, overrides)
         y1 = self.get_property('y', source, overrides)
         length = self.get_property('length', source, overrides)
@@ -817,23 +799,18 @@ class RayArrow(Arrow):
         # draw line
         canvas.draw_line(x1, y1, x2, y2)
         
-        # draw start head
-        if start_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('start_head', overrides)
-            start_head.draw(canvas, source=source, x=x1, y=y1, angle=angle+math.pi, angle_units=ANGLE.RAD, **head_overrides)
-        
-        # draw end head
-        if end_head:
-            
-            canvas.set_pen_by(self, source=source, overrides=overrides)
-            canvas.set_brush_by(self, source=source, overrides=overrides)
-            
-            head_overrides = self.get_child_overrides('end_head', overrides)
-            end_head.draw(canvas, source=source, x=x2, y=y2, angle=angle, angle_units=ANGLE.RAD, **head_overrides)
+        # draw heads
+        self.draw_heads(canvas,
+            source = source,
+            start_head_x = x1,
+            start_head_y = y1,
+            start_head_angle = angle+math.pi,
+            start_head_angle_units = ANGLE.RAD,
+            end_head_x = x2,
+            end_head_y = y2,
+            end_head_angle = angle,
+            end_head_angle_units = ANGLE.RAD,
+            **overrides)
         
         # end drawing group
         canvas.ungroup()

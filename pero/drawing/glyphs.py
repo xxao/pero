@@ -656,7 +656,6 @@ class Textbox(Text):
             return
         
         # get properties
-        tag = self.get_property('tag', source, overrides)
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
         radius = self.get_property('radius', source, overrides)
@@ -673,18 +672,15 @@ class Textbox(Text):
         # set text
         canvas.set_text_by(self, source=source, overrides=overrides)
         
-        # get text size
+        # get size
+        padding = padding or (0, 0, 0, 0)
         text_width, text_height = canvas.get_text_size(text)
-        
-        # get padding
-        if not padding:
-            padding = (0, 0, 0, 0)
+        bgr_width = text_width + padding[1] + padding[3]
+        bgr_height = text_height + padding[0] + padding[2]
         
         # get background coords
         bgr_x = x
         bgr_y = y
-        bgr_width = text_width + padding[1] + padding[3]
-        bgr_height = text_height + padding[0] + padding[2]
         
         if align == TEXT_ALIGN.RIGHT:
             bgr_x -= bgr_width
@@ -723,16 +719,12 @@ class Textbox(Text):
         text_x += x
         text_y += y
         
-        # get radius
-        if not radius:
-            radius = (0, 0, 0, 0)
-        
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
         canvas.set_brush_by(self, source=source, overrides=overrides)
         
         # start drawing group
-        canvas.group(tag, "textbox")
+        canvas.group()
         
         # draw angled rect
         if angle:

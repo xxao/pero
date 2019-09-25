@@ -152,10 +152,12 @@ def rotate(p, angle, center=(0, 0)):
             Center of rotation.
     """
     
+    dx = p[0]-center[0]
+    dy = p[1]-center[1]
     sin = numpy.sin(angle)
     cos = numpy.cos(angle)
     
-    x = center[0] + (p[0]-center[0]) * cos - (p[1]-center[1]) * sin
-    y = center[1] + (p[0]-center[0]) * sin + (p[1]-center[1]) * cos
+    x = center[0] + dx * cos - dy * sin
+    y = center[1] + dx * sin + dy * cos
     
     return x, y
