@@ -17,7 +17,7 @@ class AngleTool(pero.Tool):
             x = 0,
             y = 0,
             length = 0,
-            end_head = pero.NormalHead(),
+            end_head = pero.CircleHead(size=7),
             line_color = pero.colors.Red,
             fill_color = pero.colors.Red)
         
@@ -78,6 +78,9 @@ class AngleTool(pero.Tool):
         self._wedge.draw(canvas,
             end_angle = rads,
             clockwise = rads > 0)
+        
+        self._arrow.draw(canvas,
+            angle = 0)
         
         self._arrow.draw(canvas,
             angle = rads)
