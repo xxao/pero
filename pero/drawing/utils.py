@@ -90,14 +90,14 @@ def angle(p1, p2, p3):
     Calculates angle between lines p1,p2 and p2,p3.
     
     Args:
-        p1: (float,float)
-            Point 1 as (x,y) coordinates.
+        p1: (float, float)
+            Point 1 as (x, y) coordinates.
         
-        p2: (float,float)
-            Point 2 as (x,y) coordinates.
+        p2: (float, float)
+            Point 2 as (x, y) coordinates.
         
-        p3: (float,float)
-            Point 3 as (x,y) coordinates.
+        p3: (float, float)
+            Point 3 as (x, y) coordinates.
     
     Returns:
         float
@@ -120,11 +120,11 @@ def distance(p1, p2):
     Calculates Euclidean distance between two points.
     
     Args:
-        p1: (float,float)
-            Point 1 as (x,y) coordinates.
+        p1: (float, float)
+            Point 1 as (x, y) coordinates.
         
         p2: (float,float)
-            Point 2 as (x,y) coordinates.
+            Point 2 as (x, y) coordinates.
     
     Returns:
         float
@@ -137,7 +137,7 @@ def distance(p1, p2):
     return numpy.sqrt(dx*dx + dy*dy)
 
 
-def rotate(p, angle, center=(0,0)):
+def rotate(p, angle, center=(0, 0)):
     """
     Rotates given point around specified center.
     

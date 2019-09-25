@@ -21,6 +21,19 @@ class Tool(PropertySet):
             self.keys = set()
     
     
+    def on_size(self, evt):
+        """
+        This method should be overridden to provide specific handling
+        of window size-change event.
+        
+        Args:
+            evt: pero.SizeEvt
+                Event to process.
+        """
+        
+        pass
+    
+    
     def on_key_down(self, evt):
         """
         This method should be overridden to provide specific handling

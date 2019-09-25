@@ -4,7 +4,7 @@
 # import modules
 from ..enums import *
 from ..properties import *
-from ..drawing import Graphics, Tooltip, TextTooltip
+from ..drawing import Graphics, Tooltip, TextTooltip, Frame
 from .tool import Tool
 
 
@@ -70,6 +70,7 @@ class Control(PropertySet):
         # init buffers
         self._parent = None
         self._cursor = CURSOR.ARROW
+        self._size = (0, 0)
         
         # init tooltip
         if self.tooltip is UNDEF:
@@ -219,6 +220,12 @@ class Control(PropertySet):
         
         # use custom tooltip
         if self.tooltip is not UNDEF:
+            
+            # get clip frame
+            if self.tooltip.clip is UNDEF and 'clip' not in overrides:
+                overrides['clip'] = Frame(0, 0, *self._size)
+            
+            # draw tooltip
             self.tooltip.draw(canvas, source=source, **overrides)
             return
         
@@ -264,6 +271,7 @@ class Control(PropertySet):
         
         # unbind old tool
         if old_tool:
+            self.unbind(EVENT.SIZE, old_tool.on_size)
             self.unbind(EVENT.KEY_DOWN, old_tool.on_key_down)
             self.unbind(EVENT.KEY_UP, old_tool.on_key_up)
             self.unbind(EVENT.MOUSE_ENTER, old_tool.on_mouse_enter)
@@ -279,6 +287,9 @@ class Control(PropertySet):
         # check tool
         if not new_tool:
             return
+        
+        # bind common events
+        self.bind(EVENT.SIZE, new_tool.on_size)
         
         # bind key events
         self.bind(EVENT.KEY_DOWN, new_tool.on_key_down)
@@ -306,6 +317,10 @@ class Control(PropertySet):
     def _on_control_size(self, evt):
         """Redraws current graphics when size has changed."""
         
+        # get size
+        self._size = (evt.width, evt.height)
+        
+        # draw control
         if self._parent is not None:
             self._parent.draw_control()
     
