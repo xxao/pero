@@ -5,7 +5,7 @@ import pero
 
 
 class DrawTest(pero.Graphics):
-    """Test case for text box drawing."""
+    """Test case for text box with anchor drawing."""
     
     
     def draw(self, canvas, *args, **kwargs):
@@ -20,7 +20,7 @@ class DrawTest(pero.Graphics):
             radius = 5,
             angle = 10,
             angle_units = pero.DEG,
-            anchor = pero.UNDEF,
+            text_align = pero.RIGHT,
             line_color = pero.colors.Grey,
             fill_color = pero.colors.LightGrey,
             text = "Lorem ipsum\ndolor sit amet,\nconsectetur adipiscing\nelit.")
@@ -31,36 +31,38 @@ class DrawTest(pero.Graphics):
             size = 10)
         
         # init values
-        aligns = (
-            pero.LEFT,
-            pero.CENTER,
-            pero.RIGHT)
-        
-        baselines = (
-            pero.TOP,
-            pero.MIDDLE,
-            pero.BOTTOM)
+        anchors = (
+            pero.NW,
+            pero.N,
+            pero.NE,
+            pero.W,
+            pero.C,
+            pero.E,
+            pero.SW,
+            pero.S,
+            pero.SE)
         
         # init coords
         margin = 25
         w, h = canvas.viewport.wh
         x_step = (w - 2*margin) / 2
         y_step = (h - 2*margin) / 2
-        y = margin
+        x = 0
+        y = margin - y_step
         
         # draw tests
-        for baseline in baselines:
+        for i, anchor in enumerate(anchors):
             
-            x = margin
-            for align in aligns:
-                
-                textbox.draw(canvas, x=x, y=y, text_align=align, text_base=baseline)
-                origin.draw(canvas, x=x, y=y)
-                
-                x += x_step
-            y += y_step
+            if i % 3 == 0:
+                x = margin
+                y += y_step
+            
+            textbox.draw(canvas, x=x, y=y, anchor=anchor)
+            origin.draw(canvas, x=x, y=y)
+            
+            x += x_step
 
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'show', "Text Box", 500, 300)
+    pero.debug(DrawTest(), 'show', "Text Box with Anchor", 500, 300)

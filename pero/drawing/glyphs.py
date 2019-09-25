@@ -626,6 +626,11 @@ class Textbox(Text):
     
     Properties:
         
+        anchor: pero.POSITION_COMPASS or callable
+            Specifies the anchor position as any item from the
+            pero.POSITION_COMPASS enum. If set to UNDEF, anchor is derived from
+            text alignment and baseline.
+        
         radius: int, float, (int,), (float,) callable or UNDEF
             Specifies the corner radius as a single value or values for
             individual corners starting from top-left.
@@ -640,6 +645,8 @@ class Textbox(Text):
         fill properties:
             Includes pero.FillProperties to specify the glyph fill.
     """
+
+    anchor = EnumProperty(UNDEF, enum=POSITION_COMPASS)
     
     radius = QuadProperty(0)
     padding = QuadProperty(5)
@@ -658,6 +665,7 @@ class Textbox(Text):
         # get properties
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
+        anchor = self.get_property('anchor', source, overrides)
         radius = self.get_property('radius', source, overrides)
         padding = self.get_property('padding', source, overrides)
         text = self.get_property('text', source, overrides)
@@ -678,46 +686,70 @@ class Textbox(Text):
         bgr_width = text_width + padding[1] + padding[3]
         bgr_height = text_height + padding[0] + padding[2]
         
+        # get anchor
+        if anchor is UNDEF:
+            anchors = set(POSITION_COMPASS)
+            
+            if align == TEXT_ALIGN.LEFT or align == UNDEF:
+                anchors = anchors.intersection(POSITION_COMPASS_LEFT)
+            elif align == TEXT_ALIGN.CENTER:
+                anchors = anchors.intersection(POSITION_COMPASS_CENTER)
+            elif align == TEXT_ALIGN.RIGHT:
+                anchors = anchors.intersection(POSITION_COMPASS_RIGHT)
+            
+            if base == TEXT_BASELINE.TOP or base == UNDEF:
+                anchors = anchors.intersection(POSITION_COMPASS_TOP)
+            elif base == TEXT_BASELINE.MIDDLE:
+                anchors = anchors.intersection(POSITION_COMPASS_MIDDLE)
+            elif base == TEXT_BASELINE.BOTTOM:
+                anchors = anchors.intersection(POSITION_COMPASS_BOTTOM)
+            
+            anchor = anchors.pop()
+        
         # get background coords
         bgr_x = x
         bgr_y = y
         
-        if align == TEXT_ALIGN.RIGHT:
+        if anchor == POSITION.N:
+            bgr_x -= 0.5 * bgr_width
+        elif anchor == POSITION.NE:
             bgr_x -= bgr_width
-        elif align == TEXT_ALIGN.CENTER:
-            bgr_x -= 0.5*bgr_width
-        
-        if base == TEXT_BASELINE.BOTTOM:
+        elif anchor == POSITION.E:
+            bgr_x -= bgr_width
+            bgr_y -= 0.5 * bgr_height
+        elif anchor == POSITION.SE:
+            bgr_x -= bgr_width
             bgr_y -= bgr_height
-        elif base == TEXT_BASELINE.MIDDLE:
-            bgr_y -= 0.5*bgr_height
+        elif anchor == POSITION.S:
+            bgr_x -= 0.5 * bgr_width
+            bgr_y -= bgr_height
+        elif anchor == POSITION.SW:
+            bgr_y -= bgr_height
+        elif anchor == POSITION.W:
+            bgr_y -= 0.5 * bgr_height
+        elif anchor == POSITION.C:
+            bgr_x -= 0.5 * bgr_width
+            bgr_y -= 0.5 * bgr_height
         
-        # get text coords
-        text_x = 0
-        text_y = 0
+        # init text coords
+        text_x = bgr_x + padding[3]
+        text_y = bgr_y + padding[0]
         
-        if align == TEXT_ALIGN.LEFT:
-            text_x += padding[3]
-        elif align == TEXT_ALIGN.CENTER:
-            text_x += 0.5*(padding[3] - padding[1])
+        if align == TEXT_ALIGN.CENTER:
+            text_x += 0.5*text_width
         elif align == TEXT_ALIGN.RIGHT:
-            text_x += - padding[1]
+            text_x += text_width
         
-        if base == TEXT_BASELINE.TOP:
-            text_y += padding[0]
-        elif base == TEXT_BASELINE.MIDDLE:
-            text_y += 0.5*(padding[0] - padding[2])
+        if base == TEXT_BASELINE.MIDDLE:
+            text_y += 0.5*text_height
         elif base == TEXT_BASELINE.BOTTOM:
-            text_y += - padding[2]
+            text_y += text_height
         
         if angle:
-            x_shift = text_x * math.cos(angle) - text_y * math.sin(angle)
-            y_shift = text_x * math.sin(angle) + text_y * math.cos(angle)
-            text_x = x_shift
-            text_y = y_shift
-        
-        text_x += x
-        text_y += y
+            dx = text_x - x
+            dy = text_y - y
+            text_x = x + dx * math.cos(angle) - dy * math.sin(angle)
+            text_y = y + dx * math.sin(angle) + dy * math.cos(angle)
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
@@ -738,7 +770,7 @@ class Textbox(Text):
             canvas.draw_rect(bgr_x, bgr_y, bgr_width, bgr_height, radius)
         
         # draw text
-        canvas.draw_text(text, x=text_x, y=text_y, angle=angle)
+        canvas.draw_text(text, text_x, text_y, angle)
         
         # end drawing group
         canvas.ungroup()

@@ -230,6 +230,36 @@ POSITION_COMPASS = Enum(
     E = E,
     C = C)
 
+POSITION_COMPASS_LEFT = Enum(
+    NW = NW,
+    SW = SW,
+    W = W)
+
+POSITION_COMPASS_RIGHT = Enum(
+    NE = NE,
+    SE = SE,
+    E = E)
+
+POSITION_COMPASS_TOP = Enum(
+    N = N,
+    NW = NW,
+    NE = NE)
+
+POSITION_COMPASS_BOTTOM = Enum(
+    S = S,
+    SW = SW,
+    SE = SE)
+
+POSITION_COMPASS_CENTER = Enum(
+    N = N,
+    S = S,
+    C = C)
+
+POSITION_COMPASS_MIDDLE = Enum(
+    W = W,
+    E = E,
+    C = C)
+
 # define path commands
 PATH = Enum(
     CLOSE = 'Z',
