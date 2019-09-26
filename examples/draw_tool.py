@@ -189,7 +189,7 @@ class DrawTest(pero.Graphics):
         self._axis = pero.RadialAxis(
             units = pero.DEG,
             labels = [str(i) for i in range(0, 360, 30)],
-            label_rotation = pero.TEXT_ROTATION_NATURAL,
+            label_rotation = pero.TEXT_ROT_NATURAL,
             major_ticks = [i for i in range(0, 360, 30)],
             minor_ticks = [i for i in range(0, 360, 10)],
             start_angle = pero.rads(0),

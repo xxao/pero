@@ -32,7 +32,7 @@ class DrawTest(pero.Graphics):
             line_width = 2,
             
             labels = [str(i) for i in range(0, 360, 30)],
-            label_rotation = pero.TEXT_ROTATION_NATURAL,
+            label_rotation = pero.TEXT_ROT_NATURAL,
             label_offset = 17,
             
             major_ticks = [i for i in range(0, 360, 30)],

@@ -150,11 +150,11 @@ Used to define a way to align text labels around a circle according to their ang
 
 ![Text Rotation](images/text_rotation.svg)
 
-- **pero.TEXT_ROTATION_NONE**: Labels are drawn horizontally, aligned to the circle.
-- **pero.TEXT_ROTATION_FOLLOW**: Labels are drawn the way their left or right side follows the circle.
-- **pero.TEXT_ROTATION_NATURAL**: Labels are drawn the way their top or bottom side follows the circle.
-- **pero.TEXT_ROTATION_FACEOUT**: Labels are drawn the way their bottom side follows the circle.
-- **pero.TEXT_ROTATION_FACEIN**: Labels are drawn the way their top side follows the circle.
+- **pero.TEXT_ROT_NONE**: Labels are drawn horizontally, aligned to the circle.
+- **pero.TEXT_ROT_FOLLOW**: Labels are drawn the way their left or right side follows the circle.
+- **pero.TEXT_ROT_NATURAL**: Labels are drawn the way their top or bottom side follows the circle.
+- **pero.TEXT_ROT_FACEOUT**: Labels are drawn the way their bottom side follows the circle.
+- **pero.TEXT_ROT_FACEIN**: Labels are drawn the way their top side follows the circle.
 
 
 ## Glyphs Enums

@@ -613,7 +613,7 @@ class RadialAxis(Axis):
     end_angle = Include(AngleProperties, prefix="end_")
     clockwise = BoolProperty(True)
     
-    label_rotation = EnumProperty(TEXT_ROTATION_FOLLOW, enum=TEXT_ROTATION)
+    label_rotation = EnumProperty(TEXT_ROT_FOLLOW, enum=TEXT_ROTATION)
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
