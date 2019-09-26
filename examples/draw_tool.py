@@ -135,8 +135,9 @@ class AngleTool(pero.Tool):
         self._arrow.draw(canvas, angle=rads)
         
         # draw tooltip
-        tooltip = "Degs: %.0f\nRads: %.2f" % (pero.degs(rads), rads)
-        evt.control.draw_tooltip(canvas, x=x, y=y, text=tooltip)
+        if not evt.shift_down:
+            tooltip = "Degs: %.0f\nRads: %.2f" % (pero.degs(rads), rads)
+            evt.control.draw_tooltip(canvas, x=x, y=y, text=tooltip)
     
     
     def _draw_angle(self, canvas, evt):
@@ -172,8 +173,9 @@ class AngleTool(pero.Tool):
         self._arrow.draw(canvas, angle=end_angle)
         
         # draw tooltip
-        tooltip = "Degs: %.0f\nRads: %.2f" % (pero.degs(rads), rads)
-        evt.control.draw_tooltip(canvas, x=x, y=y, text=tooltip)
+        if not evt.shift_down:
+            tooltip = "Degs: %.0f\nRads: %.2f" % (pero.degs(rads), rads)
+            evt.control.draw_tooltip(canvas, x=x, y=y, text=tooltip)
 
 
 class DrawTest(pero.Graphics):
