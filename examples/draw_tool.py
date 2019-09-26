@@ -4,6 +4,7 @@
 import math
 import pero
 
+
 class AngleTool(pero.Tool):
     """A simple angle tool."""
     
