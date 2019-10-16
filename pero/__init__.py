@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # set version
-version = (0, 9, 0)
+version = (0, 10, 0)
 
 # import main objects
 from .enums import *
@@ -12,6 +12,11 @@ from .colors import COLORS, PALETTES, GRADIENTS
 from .properties import *
 from .scales import *
 from .formatters import *
-from .tickers import Ticker, LinTicker, LogTicker, FixTicker, TimeTicker
+from .tickers import *
 from .drawing import *
 from .backends import *
+
+# import modules
+from . import backends
+from . import colors
+from . import plot

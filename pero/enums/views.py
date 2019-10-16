@@ -1,9 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# load modules
 from .enum import Enum
-from .values import *
 
 
 # define keys
@@ -80,9 +78,9 @@ KEY = Enum(
     F12 = KEY_F12)
 
 MODIFIER_KEYS = {
-    KEY.CTRL,
-    KEY.SHIFT,
-    KEY.ALT}
+    KEY_CTRL,
+    KEY_SHIFT,
+    KEY_ALT}
 
 # define events
 EVT_PROPERTY_CHANGED = 'evt_prop_changed'
