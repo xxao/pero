@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# import modules
 from PyQt5.QtWidgets import QWidget, QDesktopWidget, QHBoxLayout
 
 from ...drawing import Graphics

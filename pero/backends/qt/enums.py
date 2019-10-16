@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# import modules
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from ...enums import *

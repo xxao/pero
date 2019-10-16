@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# import modules
 import sys
 import os.path
 from PIL import ImageFont

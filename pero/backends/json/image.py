@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# import modules
 from ...drawing import Graphics
 from .canvas import JsonCanvas
 

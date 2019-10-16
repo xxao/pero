@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# import modules
 import inspect
 from ..events import EvtHandler
 from .undefined import UNDEF

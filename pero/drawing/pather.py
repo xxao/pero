@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# import modules
 from ..properties import *
 from .glyphs import Glyph, Line
 from .path import Path

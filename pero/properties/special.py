@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# import modules
 from ..colors import Color, Palette, Gradient
 from .undefined import UNDEF
 from .prop import Property

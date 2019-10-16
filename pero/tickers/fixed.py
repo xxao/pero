@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# import modules
 from ..properties import *
 from ..formatters import Formatter
 from .ticker import Ticker

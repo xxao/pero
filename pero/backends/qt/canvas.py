@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# import modules
 import numpy
 from PyQt5.QtCore import QPoint, QLineF
 from PyQt5.QtGui import QColor, QPen, QBrush, QPainterPath, QFontMetrics

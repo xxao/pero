@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# import modules
 import numpy
 from ..events import PropertyChangedEvt
 from .undefined import UNDEF

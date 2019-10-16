@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# import modules
 import os.path
 from PyQt5.QtCore import Qt, QSizeF
 from PyQt5.QtWidgets import QApplication

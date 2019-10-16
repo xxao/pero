@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# import modules
 import fitz
 from .enums import *
 from .canvas import MuPDFCanvas
