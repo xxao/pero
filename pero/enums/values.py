@@ -73,12 +73,12 @@ SERIF = 'serif'
 SANS = 'sans'
 MONO = 'mono'
 
-JSON = 'json',
-SVG = 'svg',
-QT = 'qt',
-WX = 'wx',
-CAIRO = 'cairo',
-MUPDF = 'mupdf',
+JSON = 'json'
+SVG = 'svg'
+QT = 'qt'
+WX = 'wx'
+CAIRO = 'cairo'
+MUPDF = 'mupdf'
 PYTHONISTA = 'pythonista'
 
 DAYS = 'd'
