@@ -295,10 +295,10 @@ class NavigatorTool(Tool):
             return
         
         # use arrows on interactive axes
-        if obj.position in (LEFT, RIGHT):
+        if obj.position in (POS_LEFT, POS_RIGHT):
             evt.control.set_cursor(CURSOR_SIZENS)
         
-        elif obj.position in (TOP, BOTTOM):
+        elif obj.position in (POS_TOP, POS_BOTTOM):
             evt.control.set_cursor(CURSOR_SIZEWE)
     
     
@@ -413,7 +413,7 @@ class NavigatorTool(Tool):
                 continue
             
             # get cursors
-            if axis.position in (BOTTOM, TOP):
+            if axis.position in (POS_BOTTOM, POS_TOP):
                 drag = self._dragging[0]
                 cursor = evt.x_pos
             else:
@@ -455,11 +455,11 @@ class NavigatorTool(Tool):
         
         # get horizontal axes
         if evt.key in (KEY_LEFT, KEY_RIGHT):
-            axes += [a for a in plot.axes if a.position in (BOTTOM, TOP)]
+            axes += [a for a in plot.axes if a.position in (POS_BOTTOM, POS_TOP)]
         
         # get vertical axes
         elif evt.key in (KEY_UP, KEY_DOWN):
-            axes += [a for a in plot.axes if a.position in (LEFT, RIGHT)]
+            axes += [a for a in plot.axes if a.position in (POS_LEFT, POS_RIGHT)]
         
         # remove static axes
         axes = [a for a in axes if not a.static and a.level <= 2]
@@ -549,7 +549,7 @@ class NavigatorTool(Tool):
             elif from_cursor:
                 
                 # get cursor position
-                if axis.position in (BOTTOM, TOP):
+                if axis.position in (POS_BOTTOM, POS_TOP):
                     cursor = evt.x_pos
                 else:
                     cursor = evt.y_pos
@@ -615,7 +615,7 @@ class NavigatorTool(Tool):
         for axis in axes:
             
             # get cursors
-            if axis.position in (BOTTOM, TOP):
+            if axis.position in (POS_BOTTOM, POS_TOP):
                 drag = self._dragging[0]
                 cursor = evt.x_pos
             else:

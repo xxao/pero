@@ -59,7 +59,7 @@ class OutGraphics(Graphics):
             calculated and set by the parent plot.
     """
     
-    position = EnumProperty(TOP, enum=POSITION_LRTB, dynamic=False)
+    position = EnumProperty(POS_TOP, enum=POSITION_LRTB, dynamic=False)
     margin = QuadProperty(10, dynamic=False)
     frame = FrameProperty(UNDEF, dynamic=False)
     

@@ -376,7 +376,7 @@ class Plot(Graphics):
                 if limits is None:
                     continue
                 
-                limits = limits[0] if axis.position in (TOP, BOTTOM) else limits[1]
+                limits = limits[0] if axis.position in (POS_TOP, POS_BOTTOM) else limits[1]
                 if limits is None:
                     continue
                 
@@ -565,7 +565,7 @@ class Plot(Graphics):
                     obj.draw(canvas)
         
         # draw plot outline
-        canvas.fill_style = TRANS
+        canvas.fill_style = FILL_STYLE_TRANS
         canvas.set_pen_by(self, prefix="plot_", source=source, overrides=overrides)
         canvas.draw_rect(*self._frame.rect)
         
@@ -929,10 +929,10 @@ class Plot(Graphics):
             
             for parent in parents:
                 
-                if parent.position in (TOP, BOTTOM):
+                if parent.position in (POS_TOP, POS_BOTTOM):
                     x_range = parent.scale.in_range
                 
-                elif parent.position in (LEFT, RIGHT):
+                elif parent.position in (POS_LEFT, POS_RIGHT):
                     y_range = parent.scale.in_range
             
             # get axis limits
@@ -1206,25 +1206,25 @@ class Plot(Graphics):
             if not extent:
                 continue
             
-            if position == LEFT:
+            if position == POS_LEFT:
                 left_obj.append(obj)
                 left_extents.append(extent)
                 left_margins[-1] = max(margin[1], left_margins[-1])
                 left_margins.append(margin[3])
             
-            elif position == RIGHT:
+            elif position == POS_RIGHT:
                 right_obj.append(obj)
                 right_extents.append(extent)
                 right_margins[-1] = max(margin[3], right_margins[-1])
                 right_margins.append(margin[1])
             
-            elif position == TOP:
+            elif position == POS_TOP:
                 top_obj.append(obj)
                 top_extents.append(extent)
                 top_margins[-1] = max(margin[2], top_margins[-1])
                 top_margins.append(margin[0])
             
-            elif position == BOTTOM:
+            elif position == POS_BOTTOM:
                 bottom_obj.append(obj)
                 bottom_extents.append(extent)
                 bottom_margins[-1] = max(margin[0], bottom_margins[-1])
@@ -1321,7 +1321,7 @@ class Plot(Graphics):
         
         # init objects
         if self.title is UNDEF:
-            self.title = Title(tag='title', position=TOP, z_index=TITLE_Z)
+            self.title = Title(tag='title', position=POS_TOP, z_index=TITLE_Z)
         
         if self.legend is UNDEF:
             self.legend = Legend(tag='legend', z_index=LEGEND_Z)
@@ -1330,10 +1330,10 @@ class Plot(Graphics):
             self.labels = Labels(tag='labels', z_index=LABELS_Z)
         
         if self.x_axis is UNDEF:
-            self.x_axis = Axis(tag='x_axis', position=BOTTOM, level=1, margin=0)
+            self.x_axis = Axis(tag='x_axis', position=POS_BOTTOM, level=1, margin=0)
         
         if self.y_axis is UNDEF:
-            self.y_axis = Axis(tag='y_axis', position=LEFT, level=2, margin=0)
+            self.y_axis = Axis(tag='y_axis', position=POS_LEFT, level=2, margin=0)
         
         if self.x_grid is UNDEF and self.x_axis:
             self.x_grid = Grid(tag='x_grid', z_index=GRID_Z)
@@ -1342,10 +1342,10 @@ class Plot(Graphics):
             self.y_grid = Grid(tag='y_grid', z_index=GRID_Z)
         
         if self.x_rangebar is UNDEF and self.x_axis:
-            self.x_rangebar = RangeBar(tag='x_rangebar', position=TOP)
+            self.x_rangebar = RangeBar(tag='x_rangebar', position=POS_TOP)
         
         if self.y_rangebar is UNDEF and self.y_axis:
-            self.y_rangebar = RangeBar(tag='y_rangebar', position=RIGHT)
+            self.y_rangebar = RangeBar(tag='y_rangebar', position=POS_RIGHT)
         
         # register objects
         if self.title:
@@ -1425,8 +1425,8 @@ class Plot(Graphics):
         
         # set pen and brush
         canvas.line_width = 1
-        canvas.line_style = SOLID
-        canvas.fill_style = SOLID
+        canvas.line_style = LINE_STYLE_SOLID
+        canvas.fill_style = FILL_STYLE_SOLID
         
         # draw frames
         for tag, obj in self._graphics.items():

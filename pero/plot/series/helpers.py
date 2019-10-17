@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from ...properties import *
+from ...properties import UNDEF
 
 
 def crop_indices(data, crop, extend):

@@ -113,9 +113,9 @@ class RangeBar(OutGraphics):
         full_range = self.get_property('full_range', source, overrides)
         
         # get orientation
-        orientation = HORIZONTAL
-        if position in (LEFT, RIGHT):
-            orientation = VERTICAL
+        orientation = ORI_HORIZONTAL
+        if position in (POS_LEFT, POS_RIGHT):
+            orientation = ORI_VERTICAL
         
         # get length
         length = abs(scale.out_range[1] - scale.out_range[0])

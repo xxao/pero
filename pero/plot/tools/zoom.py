@@ -257,11 +257,11 @@ class ZoomTool(Tool):
         
         # get horizontal axes
         elif zoom_mode == ZOOM_X:
-            axes = [a for a in plot.axes if a.position in (BOTTOM, TOP)]
+            axes = [a for a in plot.axes if a.position in (POS_BOTTOM, POS_TOP)]
         
         # get vertical axes
         elif zoom_mode == ZOOM_Y:
-            axes = [a for a in plot.axes if a.position in (LEFT, RIGHT)]
+            axes = [a for a in plot.axes if a.position in (POS_LEFT, POS_RIGHT)]
         
         # remove non-zoomable axes
         axes = [a for a in axes if not a.static and a.level <= 2]
@@ -272,7 +272,7 @@ class ZoomTool(Tool):
         for axis in axes:
             
             # get range
-            if axis.position in (BOTTOM, TOP):
+            if axis.position in (POS_BOTTOM, POS_TOP):
                 start, end = min_x, max_x
             else:
                 start, end = max_y, min_y

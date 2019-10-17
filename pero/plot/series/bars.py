@@ -45,7 +45,7 @@ class Rectangles(Series):
     """
     
     data = SequenceProperty(UNDEF, dynamic=False)
-    anchor = EnumProperty(POSITION.CENTER, enum=POSITION_LRTBC, dynamic=False)
+    anchor = EnumProperty(POS_CENTER, enum=POSITION_LRTBC, dynamic=False)
     
     x_offset = Property(UNDEF, dynamic=False)
     y_offset = Property(UNDEF, dynamic=False)
@@ -183,19 +183,19 @@ class Rectangles(Series):
             bottom_raw = self._bottom_data
         
         # set anchor and raw data
-        if self.anchor == POSITION.LEFT:
+        if self.anchor == POS_LEFT:
             self._x_data = self._left_data
             self._raw_data = numpy.array([left_raw, y_raw]).T
         
-        elif self.anchor == POSITION.RIGHT:
+        elif self.anchor == POS_RIGHT:
             self._x_data = self._right_data
             self._raw_data = numpy.array([right_raw, y_raw]).T
         
-        elif self.anchor == POSITION.TOP:
+        elif self.anchor == POS_TOP:
             self._y_data = self._top_data
             self._raw_data = numpy.array([x_raw, top_raw]).T
         
-        elif self.anchor == POSITION.BOTTOM:
+        elif self.anchor == POS_BOTTOM:
             self._y_data = self._bottom_data
             self._raw_data = numpy.array([x_raw, bottom_raw]).T
         
@@ -410,7 +410,7 @@ class HBars(Rectangles):
     right = Property(UNDEF)
     height = Property(.8)
     
-    anchor = EnumProperty(POSITION.RIGHT, enum=POSITION_LRTBC, dynamic=False)
+    anchor = EnumProperty(POS_RIGHT, enum=POSITION_LRTBC, dynamic=False)
     margin = QuadProperty((.05, .05, .05, 0), dynamic=False)
 
 
@@ -447,5 +447,5 @@ class VBars(Rectangles):
     bottom = Property(0)
     width = Property(.8)
     
-    anchor = EnumProperty(POSITION.TOP, enum=POSITION_LRTBC, dynamic=False)
+    anchor = EnumProperty(POS_TOP, enum=POSITION_LRTBC, dynamic=False)
     margin = QuadProperty((.05, .05, 0, .05), dynamic=False)

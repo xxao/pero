@@ -73,7 +73,7 @@ class Lines(Series):
     
     start_head = HeadProperty(UNDEF, nullable=True)
     end_head = HeadProperty(UNDEF, nullable=True)
-    anchor = EnumProperty(POSITION.MIDDLE, enum=POSITION_SEM, dynamic=False)
+    anchor = EnumProperty(POS_MIDDLE, enum=POSITION_SEM, dynamic=False)
     
     line = Include(LineProperties)
     
@@ -171,11 +171,11 @@ class Lines(Series):
         self._y2_data, y2_raw = helpers.extract_data(self, 'y2', self.data, size, self.y_mapper)
         
         # set anchor
-        if self.anchor == POSITION.START:
+        if self.anchor == POS_START:
             self._x_data = self._x1_data
             self._y_data = self._y1_data
         
-        elif self.anchor == POSITION.END:
+        elif self.anchor == POS_END:
             self._x_data = self._x2_data
             self._y_data = self._y2_data
         

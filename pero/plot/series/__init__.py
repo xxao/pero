@@ -9,3 +9,6 @@ from .bars import Rects, Bars, HBars, VBars
 from .lines import Lines
 from .profile import Profile
 from .band import Band
+
+# import helpers
+from .helpers import *

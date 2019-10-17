@@ -603,8 +603,8 @@ class Cell(Graphics):
     h_expand = BoolProperty(True)
     v_expand = BoolProperty(True)
     
-    h_align = EnumProperty(CENTER, enum=POSITION_LRC, dynamic=False)
-    v_align = EnumProperty(CENTER, enum=POSITION_TBC, dynamic=False)
+    h_align = EnumProperty(POS_CENTER, enum=POSITION_LRC, dynamic=False)
+    v_align = EnumProperty(POS_CENTER, enum=POSITION_TBC, dynamic=False)
     
     outline = Include(LineProperties, line_color=None)
     fill = Include(FillProperties, fill_color=None)
@@ -718,16 +718,16 @@ class Cell(Graphics):
         if not height or v_expand:
             height = max(height, frame.height - padding[0] - padding[2])
         
-        if h_align == POSITION_LRC.CENTER:
+        if h_align == POS_CENTER:
             x = frame.cx + padding[3] - padding[1] - .5*width
-        elif h_align == POSITION_LRC.RIGHT:
+        elif h_align == POS_RIGHT:
             x = frame.x2 - width - padding[1]
         else:
             x = frame.x + padding[3]
         
-        if v_align == POSITION_TBC.CENTER:
+        if v_align == POS_CENTER:
             y = frame.cy + padding[0] - padding[2] - .5*height
-        elif v_align == POSITION_TBC.BOTTOM:
+        elif v_align == POS_BOTTOM:
             y = frame.y2 - height - padding[2]
         else:
             y = frame.y + padding[0]

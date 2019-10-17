@@ -48,7 +48,7 @@ class Scatter(Series):
     x = Property(lambda d: d[0])
     y = Property(lambda d: d[1])
     
-    marker = MarkerProperty(MARKER.CIRCLE)
+    marker = MarkerProperty(MARKER_CIRCLE)
     
     
     def __init__(self, **overrides):

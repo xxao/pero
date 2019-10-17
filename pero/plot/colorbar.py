@@ -91,12 +91,12 @@ class ColorBar(OutGraphics):
         position = self.get_property('position', source, overrides)
         
         # get orientation
-        orientation = VERTICAL
-        if position in (TOP, BOTTOM):
-            orientation = HORIZONTAL
+        orientation = ORI_VERTICAL
+        if position in (POS_TOP, POS_BOTTOM):
+            orientation = ORI_HORIZONTAL
         
         # get length
-        length = frame.height if orientation == VERTICAL else frame.height
+        length = frame.height if orientation == ORI_VERTICAL else frame.height
         
         # update glyph
         self._glyph.set_properties_from(self, source=source, overrides=overrides)
@@ -106,7 +106,7 @@ class ColorBar(OutGraphics):
             x = frame.x,
             y = frame.y,
             orientation = orientation,
-            reverse = orientation == VERTICAL,
+            reverse = orientation == ORI_VERTICAL,
             length = length)
     
     

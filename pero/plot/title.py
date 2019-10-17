@@ -21,7 +21,7 @@ class Title(OutGraphics):
     """
     
     text = StringProperty(UNDEF, dynamic=False)
-    font = Include(TextProperties, dynamic=False, font_size=12, font_weight=BOLD, text_align=CENTER)
+    font = Include(TextProperties, dynamic=False, font_size=12, font_weight=FONT_WEIGHT_BOLD, text_align=TEXT_ALIGN_CENTER)
     
     
     def get_extent(self, canvas):
@@ -66,33 +66,33 @@ class Title(OutGraphics):
         angle = 0
         x, y, width, height = frame.rect
         
-        if position in (TOP, BOTTOM):
+        if position in (POS_TOP, POS_BOTTOM):
             angle = 0
             y += 0.5*height
             
-            if align == CENTER:
+            if align == TEXT_ALIGN_CENTER:
                 x += 0.5*width
-            elif align == RIGHT:
+            elif align == TEXT_ALIGN_RIGHT:
                 x += width
         
-        elif position == LEFT:
+        elif position == POS_LEFT:
             angle = -0.5*math.pi
             x += 0.5*width
             
-            if align == CENTER:
+            if align == TEXT_ALIGN_CENTER:
                 y += 0.5*height
-            elif align == LEFT:
+            elif align == TEXT_ALIGN_LEFT:
                 y += height
         
-        elif position == RIGHT:
+        elif position == POS_RIGHT:
             angle = 0.5*math.pi
             x += 0.5*width
             
-            if align == CENTER:
+            if align == TEXT_ALIGN_CENTER:
                 y += 0.5*height
-            elif align == RIGHT:
+            elif align == TEXT_ALIGN_RIGHT:
                 y += height
         
         # draw text
-        canvas.text_base = MIDDLE
+        canvas.text_base = TEXT_BASE_MIDDLE
         canvas.draw_text(text, x, y, angle=angle)

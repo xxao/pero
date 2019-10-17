@@ -56,8 +56,8 @@ class Legend(InGraphics):
     items = TupleProperty(UNDEF, types=(LegendGlyph,), dynamic=False, nullable=True)
     static = BoolProperty(False, dynamic=False)
     
-    position = EnumProperty(NE, enum=POSITION_COMPASS, dynamic=False)
-    orientation = EnumProperty(VERTICAL, enum=ORIENTATION)
+    position = EnumProperty(POS_NE, enum=POSITION_COMPASS, dynamic=False)
+    orientation = EnumProperty(ORI_VERTICAL, enum=ORIENTATION)
     margin = QuadProperty(10, dynamic=False)
     
     radius = QuadProperty(3, dynamic=False)
@@ -103,45 +103,45 @@ class Legend(InGraphics):
         
         # get position
         frame = self.frame
-        position = self.position or NE
+        position = self.position or POS_NE
         margin = self.margin or (10, 10, 10, 10)
         
         # set anchor
         self._glyph.anchor = position
         
-        if position == N:
+        if position == POS_N:
             self._glyph.x = frame.cx
             self._glyph.y = frame.y1 + margin[0]
         
-        elif position == NE:
+        elif position == POS_NE:
             self._glyph.x = frame.x2 - margin[1]
             self._glyph.y = frame.y1 + margin[0]
         
-        elif position == E:
+        elif position == POS_E:
             self._glyph.x = frame.x2 - margin[1]
             self._glyph.y = frame.cy
         
-        elif position == SE:
+        elif position == POS_SE:
             self._glyph.x = frame.x2 - margin[1]
             self._glyph.y = frame.y2 - margin[2]
         
-        elif position == S:
+        elif position == POS_S:
             self._glyph.x = frame.cx
             self._glyph.y = frame.y2 - margin[2]
         
-        elif position == SW:
+        elif position == POS_SW:
             self._glyph.x = frame.x1 + margin[3]
             self._glyph.y = frame.y2 - margin[2]
         
-        elif position == W:
+        elif position == POS_W:
             self._glyph.x = frame.x1 + margin[3]
             self._glyph.y = frame.cy
         
-        elif position == NW:
+        elif position == POS_NW:
             self._glyph.x = frame.x1 + margin[3]
             self._glyph.y = frame.y1 + margin[0]
         
-        elif position == C:
+        elif position == POS_C:
             self._glyph.x = frame.cx
             self._glyph.y = frame.cy
     

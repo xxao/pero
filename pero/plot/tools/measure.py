@@ -171,10 +171,10 @@ class MeasureTool(Tool):
             axes = [a for a in plot.axes]
             axes.sort(key = lambda a: a.z_index)
             
-            buff = [a for a in axes if a.position == BOTTOM]
-            buff += [a for a in axes if a.position == TOP]
-            buff += [a for a in axes if a.position == LEFT]
-            buff += [a for a in axes if a.position == RIGHT]
+            buff = [a for a in axes if a.position == POS_BOTTOM]
+            buff += [a for a in axes if a.position == POS_TOP]
+            buff += [a for a in axes if a.position == POS_LEFT]
+            buff += [a for a in axes if a.position == POS_RIGHT]
             
             axes = buff
         
@@ -187,19 +187,19 @@ class MeasureTool(Tool):
         
         # horizontal by mode
         if self.mode == MEASURE_X:
-            axes = [a for a in axes if a.position in (TOP, BOTTOM)]
+            axes = [a for a in axes if a.position in (POS_TOP, POS_BOTTOM)]
         
         # vertical by mode
         elif self.mode == MEASURE_Y:
-            axes = [a for a in axes if a.position in (LEFT, RIGHT)]
+            axes = [a for a in axes if a.position in (POS_LEFT, POS_RIGHT)]
         
         # horizontal by direction
         elif abs(x2-x1) >= abs(y2-y1):
-            axes = [a for a in axes if a.position in (TOP, BOTTOM)]
+            axes = [a for a in axes if a.position in (POS_TOP, POS_BOTTOM)]
         
         # vertical by direction
         else:
-            axes = [a for a in axes if a.position in (LEFT, RIGHT)]
+            axes = [a for a in axes if a.position in (POS_LEFT, POS_RIGHT)]
         
         return axes
     
@@ -283,7 +283,7 @@ class MeasureTool(Tool):
             return
         
         # get direction
-        is_horizontal = any(a.position in (TOP, BOTTOM) for a in axes)
+        is_horizontal = any(a.position in (POS_TOP, POS_BOTTOM) for a in axes)
         
         # get relevant values
         v1, v2 = (x1, x2) if is_horizontal else (y1, y2)

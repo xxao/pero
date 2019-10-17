@@ -50,7 +50,7 @@ class Grid(InGraphics):
     scale = Property(UNDEF, types=(ContinuousScale,), dynamic=False)
     ticker = Property(UNDEF, types=(Ticker,), dynamic=False)
     
-    orientation = EnumProperty(HORIZONTAL, enum=ORIENTATION, dynamic=False)
+    orientation = EnumProperty(ORI_HORIZONTAL, enum=ORIENTATION, dynamic=False)
     
     show_major_lines = BoolProperty(True, dynamic=False)
     show_minor_lines = BoolProperty(True, dynamic=False)
@@ -90,10 +90,10 @@ class Grid(InGraphics):
         axis = plot.get_obj(axes[0])
         
         # set coords
-        if axis.position in (LEFT, RIGHT):
-            self.orientation = HORIZONTAL
+        if axis.position in (POS_LEFT, POS_RIGHT):
+            self.orientation = ORI_HORIZONTAL
         else:
-            self.orientation = VERTICAL
+            self.orientation = ORI_VERTICAL
         
         # set ticker
         self.ticker = axis.ticker
@@ -136,7 +136,7 @@ class Grid(InGraphics):
         tag = tag + "_major" if tag else None
         
         # get coords
-        if orientation == HORIZONTAL:
+        if orientation == ORI_HORIZONTAL:
             x = frame.x
             y = 0
             length = frame.width
@@ -184,7 +184,7 @@ class Grid(InGraphics):
         tag = tag + "_minor" if tag else None
         
         # get coords
-        if orientation == HORIZONTAL:
+        if orientation == ORI_HORIZONTAL:
             x = frame.x
             y = 0
             length = frame.width

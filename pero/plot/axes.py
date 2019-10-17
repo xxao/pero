@@ -157,8 +157,8 @@ class Axis(OutGraphics):
     line = Include(LineProperties, dynamic=False, line_color="#000")
     
     title = StringProperty(None, dynamic=False, nullable=True)
-    title_text = Include(TextProperties, prefix="title_", dynamic=False, font_weight=BOLD, font_size=12)
-    title_position = EnumProperty(MIDDLE, enum=POSITION_SEM, dynamic=False)
+    title_text = Include(TextProperties, prefix="title_", dynamic=False, font_weight=FONT_WEIGHT_BOLD, font_size=12)
+    title_position = EnumProperty(POS_MIDDLE, enum=POSITION_SEM, dynamic=False)
     title_offset = NumProperty(5, dynamic=False)
     
     label_text = Include(TextProperties, prefix="label_", dynamic=False, font_size=11)
@@ -231,16 +231,16 @@ class Axis(OutGraphics):
         frame = self.frame
         
         # set scale
-        if self.position == LEFT:
+        if self.position == POS_LEFT:
             self.scale.out_range = (frame.y2, frame.y1)
         
-        elif self.position == RIGHT:
+        elif self.position == POS_RIGHT:
             self.scale.out_range = (frame.y2, frame.y1)
         
-        elif self.position == TOP:
+        elif self.position == POS_TOP:
             self.scale.out_range = (frame.x1, frame.x2)
         
-        elif self.position == BOTTOM:
+        elif self.position == POS_BOTTOM:
             self.scale.out_range = (frame.x1, frame.x2)
     
     
@@ -282,19 +282,19 @@ class Axis(OutGraphics):
         x = frame.x1
         y = frame.y1
         
-        if position == LEFT:
+        if position == POS_LEFT:
             x = frame.x2
             y = frame.y1
         
-        elif position == RIGHT:
+        elif position == POS_RIGHT:
             x = frame.x1
             y = frame.y1
         
-        elif position == TOP:
+        elif position == POS_TOP:
             x = frame.x1
             y = frame.y2
         
-        elif position == BOTTOM:
+        elif position == POS_BOTTOM:
             x = frame.x1
             y = frame.y1
         
@@ -444,7 +444,7 @@ class Axis(OutGraphics):
         bbox = canvas.get_text_bbox(max_label, angle=angle)
         
         # get extent
-        extent = bbox.height if position in (BOTTOM, TOP) else bbox.width
+        extent = bbox.height if position in (POS_BOTTOM, POS_TOP) else bbox.width
         
         return max(0, offset + extent)
     
@@ -471,32 +471,32 @@ class Axis(OutGraphics):
         """Updates properties according to current position."""
         
         # left axis
-        if self.position == LEFT:
-            self.title_text_align = CENTER
-            self.title_text_base = BOTTOM
-            self.label_text_align = RIGHT
-            self.label_text_base = MIDDLE
+        if self.position == POS_LEFT:
+            self.title_text_align = TEXT_ALIGN_CENTER
+            self.title_text_base = TEXT_BASE_BOTTOM
+            self.label_text_align = TEXT_ALIGN_RIGHT
+            self.label_text_base = TEXT_BASE_MIDDLE
         
         # right axis
-        elif self.position == RIGHT:
-            self.title_text_align = CENTER
-            self.title_text_base = BOTTOM
-            self.label_text_align = LEFT
-            self.label_text_base = MIDDLE
+        elif self.position == POS_RIGHT:
+            self.title_text_align = TEXT_ALIGN_CENTER
+            self.title_text_base = TEXT_BASE_BOTTOM
+            self.label_text_align = TEXT_ALIGN_LEFT
+            self.label_text_base = TEXT_BASE_MIDDLE
         
         # top axis
-        elif self.position == TOP:
-            self.title_text_align = CENTER
-            self.title_text_base = BOTTOM
-            self.label_text_align = CENTER
-            self.label_text_base = BOTTOM
+        elif self.position == POS_TOP:
+            self.title_text_align = TEXT_ALIGN_CENTER
+            self.title_text_base = TEXT_BASE_BOTTOM
+            self.label_text_align = TEXT_ALIGN_CENTER
+            self.label_text_base = TEXT_BASE_BOTTOM
         
         # bottom axis
-        elif self.position == BOTTOM:
-            self.title_text_align = CENTER
-            self.title_text_base = TOP
-            self.label_text_align = CENTER
-            self.label_text_base = TOP
+        elif self.position == POS_BOTTOM:
+            self.title_text_align = TEXT_ALIGN_CENTER
+            self.title_text_base = TEXT_BASE_TOP
+            self.label_text_align = TEXT_ALIGN_CENTER
+            self.label_text_base = TEXT_BASE_TOP
         
         # automatic
         elif self.position == UNDEF:

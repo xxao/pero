@@ -79,10 +79,10 @@ class CrossTool(Tool):
             axes = [a for a in plot.axes]
             axes.sort(key = lambda a: a.z_index)
             
-            buff = [a for a in axes if a.position == BOTTOM]
-            buff += [a for a in axes if a.position == TOP]
-            buff += [a for a in axes if a.position == LEFT]
-            buff += [a for a in axes if a.position == RIGHT]
+            buff = [a for a in axes if a.position == POS_BOTTOM]
+            buff += [a for a in axes if a.position == POS_TOP]
+            buff += [a for a in axes if a.position == POS_LEFT]
+            buff += [a for a in axes if a.position == POS_RIGHT]
             
             axes = buff
         
@@ -105,7 +105,7 @@ class CrossTool(Tool):
         for axis in axes:
             
             # get value
-            value = x if axis.position in (BOTTOM, TOP) else y
+            value = x if axis.position in (POS_BOTTOM, POS_TOP) else y
             value = axis.scale.invert(value)
             
             # format value
@@ -141,11 +141,11 @@ class CrossTool(Tool):
         canvas.set_pen_by(self)
         
         # draw horizontal line
-        if any(a.position in (LEFT, RIGHT) for a in axes):
+        if any(a.position in (POS_LEFT, POS_RIGHT) for a in axes):
             canvas.draw_line(frame.x1, y, frame.x2, y)
         
         # draw vertical line
-        if any(a.position in (TOP, BOTTOM) for a in axes):
+        if any(a.position in (POS_TOP, POS_BOTTOM) for a in axes):
             canvas.draw_line(x, frame.y1, x, frame.y2)
         
         # get tooltip text
