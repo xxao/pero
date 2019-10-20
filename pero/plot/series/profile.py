@@ -89,8 +89,8 @@ class Profile(Series):
     show_area = BoolProperty(False, dynamic=False)
     
     data = SequenceProperty(UNDEF, dynamic=False)
-    x = Property(lambda d: d[0])
-    y = Property(lambda d: d[1])
+    x = Property(UNDEF)
+    y = Property(UNDEF)
     base = NumProperty(UNDEF, dynamic=False, nullable=True)
     
     steps = EnumProperty(None, enum=LINE_STEP, nullable=True)
