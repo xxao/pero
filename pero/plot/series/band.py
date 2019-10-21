@@ -223,6 +223,9 @@ class Band(Series):
         y_scale = self.get_property('y_scale', source, overrides)
         color = self.get_property('color', source, overrides)
         
+        # set overrides to ignore
+        ignore = {'x', 'y1', 'y2', 'line_color', 'fill_color'}
+        
         # crop data
         i1, i2 = helpers.crop_indices(self._x_data, x_scale.in_range, True)
         if i1 == i2:
@@ -242,7 +245,7 @@ class Band(Series):
         with canvas.group(tag, "series"):
             
             # update glyph
-            self._glyph.set_properties_from(self, source=source, overrides=overrides)
+            self._glyph.set_properties_from(self, source=source, overrides=overrides, ignore=ignore)
             
             # get glyph colors
             line_color = self._glyph.get_property('line_color')

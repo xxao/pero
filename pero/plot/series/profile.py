@@ -205,6 +205,9 @@ class Profile(Series):
         base = self.get_property('base', source, overrides)
         color = self.get_property('color', source, overrides)
         
+        # set overrides to ignore
+        ignore = {'x', 'y', 'base', 'line_color', 'fill_color'}
+        
         # crop data
         i1, i2 = helpers.crop_indices(self._x_data, x_scale.in_range, True)
         if i1 == i2:
@@ -226,7 +229,7 @@ class Profile(Series):
         with canvas.group(tag, "series"):
             
             # update glyph
-            self._glyph.set_properties_from(self, source=source, overrides=overrides)
+            self._glyph.set_properties_from(self, source=source, overrides=overrides, ignore=ignore)
             
             # get glyph colors
             line_color = self._glyph.get_property('line_color')

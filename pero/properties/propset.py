@@ -392,7 +392,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             self.set_property(name, value, raise_error)
     
     
-    def set_properties_from(self, prop_set, src_prefix="", dst_prefix="", source=UNDEF, overrides=None, native=False):
+    def set_properties_from(self, prop_set, src_prefix="", dst_prefix="", source=UNDEF, overrides=None, ignore=None, native=False):
         """
         Sets values of all shared properties from given property set to current
         property set.
@@ -424,6 +424,11 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             
             overrides: dict or None
                 Highest priority properties to be used instead of current values.
+                The names should include the 'src_prefix'.
+            
+            ignore: (str,)
+                Collection of properties to be ignored. The names should include
+                the 'src_prefix'.
             
             native: bool
                 If set to True callable properties from the source are used
@@ -444,13 +449,17 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             src_name = prop.name
             dst_name = dst_prefix + name
             
+            # skip properties
+            if ignore and src_name in ignore:
+                continue
+            
             # set shared properties
             if dst_name in self._properties:
                 value = prop_set.get_property(src_name, source, overrides, native)
                 setattr(self, dst_name, value)
     
     
-    def set_properties_to(self, prop_set, src_prefix="", dst_prefix="", source=UNDEF, overrides=None, native=False):
+    def set_properties_to(self, prop_set, src_prefix="", dst_prefix="", source=UNDEF, overrides=None, ignore=None, native=False):
         """
         Sets values of all shared properties from current property set to given
         property set.
@@ -482,6 +491,11 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             
             overrides: dict or None
                 Highest priority properties to be used instead of current values.
+                The names should include the 'src_prefix'.
+            
+            ignore: (str,)
+                Collection of properties to be ignored. The names should include
+                the 'src_prefix'.
             
             native: bool
                 If set to True callable properties from the source are used
@@ -501,6 +515,10 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             # finalize names
             src_name = prop.name
             dst_name = dst_prefix + name
+            
+            # skip properties
+            if ignore and src_name in ignore:
+                continue
             
             # set shared properties
             if dst_name in prop_set._properties:
