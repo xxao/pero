@@ -3,6 +3,7 @@
 
 from ..enums import *
 from ..properties import *
+from ..formatters import Formatter
 from .frame import Frame, FrameProperty
 from .glyphs import Glyph
 
@@ -64,6 +65,9 @@ class TextLabel(Label):
         text: str, callable, None or UNDEF
             Specifies the text to be drawn.
         
+        formatter: pero.Formatter or UNDEF
+            Specifies the raw data formatter used if the text is undefined.
+        
         text properties:
             Includes pero.TextProperties to specify the text properties.
         
@@ -72,6 +76,8 @@ class TextLabel(Label):
     """
     
     text = StringProperty(UNDEF)
+    formatter = Property(UNDEF, types=(Formatter,), dynamic=False)
+    
     font = Include(TextProperties, text_align=TEXT_ALIGN_CENTER, text_base=TEXT_BASE_BOTTOM)
     angle = Include(AngleProperties)
     
@@ -89,9 +95,13 @@ class TextLabel(Label):
         x_offset = self.get_property('x_offset', source, overrides)
         y_offset = self.get_property('y_offset', source, overrides)
         text = self.get_property('text', source, overrides)
+        formatter = self.get_property('formatter', source, overrides)
         angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
-        # check data
+        # get text
+        if text is UNDEF and formatter is not UNDEF:
+            text = formatter.format(source)
+        
         if not text:
             return None
         
@@ -119,9 +129,13 @@ class TextLabel(Label):
         x_offset = self.get_property('x_offset', source, overrides)
         y_offset = self.get_property('y_offset', source, overrides)
         text = self.get_property('text', source, overrides)
+        formatter = self.get_property('formatter', source, overrides)
         angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
-        # check data
+        # get text
+        if text is UNDEF and formatter is not UNDEF:
+            text = formatter.format(source)
+        
         if not text:
             return
         
