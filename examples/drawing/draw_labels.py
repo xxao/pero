@@ -47,7 +47,7 @@ class DrawTest(pero.Graphics):
             font_size = 12)
         
         # init container glyph
-        container = pero.Labels(
+        container = pero.LabelBox(
             overlap = False,
             spacing = 4,
             padding = 5,

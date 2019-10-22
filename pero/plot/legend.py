@@ -3,14 +3,14 @@
 
 from ..enums import *
 from ..properties import *
-from ..drawing import Legends
+from ..drawing import LegendBox
 from ..drawing import Legend as LegendGlyph
 from .graphics import InGraphics
 
 
 class Legend(InGraphics):
     """
-    Legend provides a simple wrapper for the pero.Legends glyph to draw the
+    Legend provides a simple wrapper for the pero.LegendBox glyph to draw the
     plot legend.
     
     Properties:
@@ -72,7 +72,7 @@ class Legend(InGraphics):
         """Initializes a new instance of Legend."""
         
         super(Legend, self).__init__(**overrides)
-        self._glyph = Legends()
+        self._glyph = LegendBox()
     
     
     def initialize(self, canvas, plot):

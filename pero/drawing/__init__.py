@@ -29,8 +29,8 @@ from .colorbar import ColorBar
 from .pather import Pather
 from .framer import Framer
 from .profile import Profile, Band
-from .labels import Labels, Label, TextLabel
-from .legend import Legends, Legend, MarkerLegend
+from .labels import LabelBox, Label, TextLabel
+from .legend import LegendBox, Legend, MarkerLegend
 from .tooltip import Tooltip, TextTooltip
 
 # register new properties

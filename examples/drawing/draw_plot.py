@@ -80,13 +80,13 @@ class DrawTest(pero.Graphics):
             text_base = pero.TEXT_BASE_MIDDLE,
             text_color = pero.colors.Grey)
         
-        self.labels = pero.Labels(
+        self.labels = pero.LabelBox(
             overlap = False,
             spacing = 4,
             padding = 10)
         
         # init legend
-        self.legend = pero.Legends(
+        self.legend = pero.LegendBox(
             orientation = pero.ORI_HORIZONTAL,
             anchor = pero.N)
     

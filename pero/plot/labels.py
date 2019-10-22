@@ -2,8 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 from ..properties import *
-from ..drawing import Label
-from ..drawing import Labels as LabelsGlyph
+from ..drawing import Label, LabelBox
 from .graphics import InGraphics
 
 
@@ -52,7 +51,7 @@ class Labels(InGraphics):
         """Initializes a new instance of Grid."""
         
         super(Labels, self).__init__(**overrides)
-        self._glyph = LabelsGlyph()
+        self._glyph = LabelBox()
     
     
     def initialize(self, canvas, plot):

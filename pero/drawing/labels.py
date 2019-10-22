@@ -150,9 +150,9 @@ class TextLabel(Label):
         canvas.draw_text(text, x+x_offset, y+y_offset, angle)
 
 
-class Labels(Glyph):
+class LabelBox(Glyph):
     """
-    Labels container provides a simple tool to draw all given labels at once in
+    Labels box provides a simple tool to draw all given labels at once in
     the order defined by their 'z_index' property. This can be useful in case of
     drawing plot labels as one consistent 'layer'.
     

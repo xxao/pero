@@ -39,7 +39,7 @@ class DrawTest(pero.Graphics):
             marker_fill_color = pero.colors.Red.lighter(.2))
         
         # init legend
-        legend = pero.Legends(
+        legend = pero.LegendBox(
             items = (legend1, legend2, legend3),
             orientation = pero.ORI_VERTICAL,
             fill_color = pero.colors.Ivory)

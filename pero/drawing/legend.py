@@ -23,7 +23,7 @@ class Legend(Glyph):
         text_x: int, float or callable
             Specifies the x-coordinate of the text anchor.
         
-        text_x: int, float or callable
+        text_y: int, float or callable
             Specifies the y-coordinate of the text anchor.
         
         text: str, callable, None or UNDEF
@@ -121,9 +121,9 @@ class MarkerLegend(Legend):
         canvas.ungroup()
 
 
-class Legends(Glyph):
+class LegendBox(Glyph):
     """
-    Legends glyph provides an easy way of drawing multiple legend items at
+    Legend box glyph provides an easy way of drawing multiple legend items at
     given position and orientation. This can be used in case of drawing plots,
     pie charts etc.
     
@@ -214,7 +214,7 @@ class Legends(Glyph):
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
-        """Uses given canvas to draw legends."""
+        """Uses given canvas to draw legend box."""
         
         # check if visible
         if not self.is_visible(source, overrides):
@@ -236,7 +236,7 @@ class Legends(Glyph):
         y = bbox.y + padding[0]
         
         # start drawing group
-        canvas.group(tag, "legends")
+        canvas.group(tag, "legend_box")
         
         # draw background
         canvas.set_pen_by(self, source=source, overrides=overrides)
