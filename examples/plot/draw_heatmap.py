@@ -14,8 +14,8 @@ for x in numpy.linspace(-numpy.pi, numpy.pi, count):
         data.append((x/numpy.pi, y/numpy.pi, z))
 
 data = numpy.array(data)
-z_min = numpy.min(data[:,2])
-z_max = numpy.max(data[:,2])
+z_min = numpy.min(data[:, 2])
+z_max = numpy.max(data[:, 2])
 
 # init plot
 plot = pero.plot.Plot()
