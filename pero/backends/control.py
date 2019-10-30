@@ -12,7 +12,7 @@ class Control(PropertySet):
     Base class for all interactive controls. The main idea is to provide
     a backend-independent interface for drawing the control graphics, overlays
     and tooltips as well as assignment of specific interactivity tools for mouse
-    and keyboard.
+    keyboard and touches.
     
     Properties:
         
@@ -25,9 +25,9 @@ class Control(PropertySet):
         
         main_tool: pero.Tool, None or UNDEF
             Specifies the main keyboard and mouse interactivity tool. This tool
-            is bound to all keyboard and mouse events. Note that each newly
-            assigned tool has higher priority than those currently assigned.
-            Therefore this tool should be assigned first.
+            is bound to all keyboard mouse and touch events. Note that each
+            newly assigned tool has higher priority than those currently
+            assigned. Therefore this tool should be assigned first.
         
         cursor_tool: pero.Tool, None or UNDEF
             Specifies the interactivity tool used to provide specific
@@ -49,6 +49,12 @@ class Control(PropertySet):
             keyboard and mouse events including the right mouse button events.
             Note that each newly assigned tool has higher priority than those
             currently assigned.
+        
+        touch_tool: pero.Tool, None or UNDEF
+            Specifies the interactivity tool used to provide specific
+            functionality for touch events. This tool is bound to all keyboard
+            events. Note that each newly assigned tool has higher priority than
+            those currently assigned.
     """
     
     graphics = Property(None, types=Graphics, dynamic=False, nullable=True)
@@ -58,6 +64,7 @@ class Control(PropertySet):
     cursor_tool = Property(UNDEF, types=Tool, dynamic=False, nullable=True)
     left_tool = Property(UNDEF, types=Tool, dynamic=False, nullable=True)
     right_tool = Property(UNDEF, types=Tool, dynamic=False, nullable=True)
+    touch_tool = Property(UNDEF, types=Tool, dynamic=False, nullable=True)
     
     
     def __init__(self, **overrides):
@@ -80,10 +87,11 @@ class Control(PropertySet):
         self.bind(EVT_PROPERTY_CHANGED, self._on_control_property_changed)
         
         # bind tools
-        self._set_tool(self.main_tool, None, True, True)
-        self._set_tool(self.cursor_tool, None, False, False)
-        self._set_tool(self.left_tool, None, True, False)
-        self._set_tool(self.right_tool, None, False, True)
+        self._set_tool(self.main_tool, left=True, right=True, touch=True)
+        self._set_tool(self.cursor_tool)
+        self._set_tool(self.left_tool, left=True)
+        self._set_tool(self.right_tool, right=True)
+        self._set_tool(self.touch_tool, touch=True)
     
     
     def set_cursor(self, cursor):
@@ -271,7 +279,7 @@ class Control(PropertySet):
         self._parent = parent
     
     
-    def _set_tool(self, new_tool, old_tool=None, left=False, right=False):
+    def _set_tool(self, new_tool, old_tool=None, left=False, right=False, touch=False):
         """Registers given tool."""
         
         # unbind old tool
@@ -288,6 +296,10 @@ class Control(PropertySet):
             self.unbind(EVT_LEFT_DCLICK, old_tool.on_mouse_dclick)
             self.unbind(EVT_RIGHT_DOWN, old_tool.on_mouse_down)
             self.unbind(EVT_RIGHT_UP, old_tool.on_mouse_up)
+            self.unbind(EVT_TOUCH_START, old_tool.on_touch_start)
+            self.unbind(EVT_TOUCH_END, old_tool.on_touch_end)
+            self.unbind(EVT_TOUCH_MOVE, old_tool.on_touch_move)
+            self.unbind(EVT_TOUCH_CANCEL, old_tool.on_touch_cancel)
         
         # check tool
         if not new_tool:
@@ -317,6 +329,13 @@ class Control(PropertySet):
             self.bind(EVT_RIGHT_DOWN, new_tool.on_mouse_down)
             self.bind(EVT_RIGHT_UP, new_tool.on_mouse_up)
             self.bind(EVT_RIGHT_DCLICK, new_tool.on_mouse_dclick)
+        
+        # bind touch events
+        if touch:
+            self.bind(EVT_TOUCH_START, new_tool.on_touch_start)
+            self.bind(EVT_TOUCH_END, new_tool.on_touch_end)
+            self.bind(EVT_TOUCH_MOVE, new_tool.on_touch_move)
+            self.bind(EVT_TOUCH_CANCEL, new_tool.on_touch_cancel)
     
     
     def _on_control_size(self, evt):
@@ -335,16 +354,20 @@ class Control(PropertySet):
         
         # main tool changed
         if evt.name == 'main_tool':
-            self._set_tool(evt.new_value, evt.old_value, True, True)
+            self._set_tool(evt.new_value, evt.old_value, left=True, right=True, touch=True)
         
         # cursor tool changed
         elif evt.name == 'cursor_tool':
-            self._set_tool(evt.new_value, evt.old_value, False, False)
+            self._set_tool(evt.new_value, evt.old_value)
         
         # left mouse tool changed
         elif evt.name == 'left_tool':
-            self._set_tool(evt.new_value, evt.old_value, True, False)
+            self._set_tool(evt.new_value, evt.old_value, left=True)
         
         # right mouse tool changed
         elif evt.name == 'right_tool':
-            self._set_tool(evt.new_value, evt.old_value, False, True)
+            self._set_tool(evt.new_value, evt.old_value, right=True)
+        
+        # touch tool changed
+        elif evt.name == 'touch_tool':
+            self._set_tool(evt.new_value, evt.old_value, touch=True)

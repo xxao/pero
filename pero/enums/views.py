@@ -107,6 +107,11 @@ EVT_MIDDLE_DCLICK = 'evt_middle_dclick'
 EVT_RIGHT_DOWN = 'evt_right_down'
 EVT_RIGHT_UP = 'evt_right_up'
 EVT_RIGHT_DCLICK = 'evt_right_dclick'
+EVT_TOUCH = 'evt_touch'
+EVT_TOUCH_START = 'evt_touch_start'
+EVT_TOUCH_END = 'evt_touch_end'
+EVT_TOUCH_MOVE = 'evt_touch_move'
+EVT_TOUCH_CANCEL = 'evt_touch_cancel'
 
 EVENT = Enum(
     PROPERTY_CHANGED = EVT_PROPERTY_CHANGED,
@@ -132,7 +137,12 @@ EVENT = Enum(
     MIDDLE_DCLICK = EVT_MIDDLE_DCLICK,
     RIGHT_DOWN = EVT_RIGHT_DOWN,
     RIGHT_UP = EVT_RIGHT_UP,
-    RIGHT_DCLICK = EVT_RIGHT_DCLICK)
+    RIGHT_DCLICK = EVT_RIGHT_DCLICK,
+    EVT_TOUCH = EVT_TOUCH,
+    EVT_TOUCH_START = EVT_TOUCH_START,
+    EVT_TOUCH_END = EVT_TOUCH_END,
+    EVT_TOUCH_MOVE = EVT_TOUCH_MOVE,
+    EVT_TOUCH_CANCEL = EVT_TOUCH_CANCEL)
 
 # define cursors
 CURSOR_BLANK = 'blank'

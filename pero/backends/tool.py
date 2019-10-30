@@ -151,3 +151,55 @@ class Tool(PropertySet):
         """
         
         pass
+    
+    
+    def on_touch_start(self, evt):
+        """
+        This method should be overridden to provide specific handling
+        of touch-start event.
+        
+        Args:
+            evt: pero.TouchStartEvt
+                Event to process.
+        """
+        
+        pass
+    
+    
+    def on_touch_end(self, evt):
+        """
+        This method should be overridden to provide specific handling
+        of touch-end event.
+        
+        Args:
+            evt: pero.TouchEndEvt
+                Event to process.
+        """
+        
+        pass
+    
+    
+    def on_touch_move(self, evt):
+        """
+        This method should be overridden to provide specific handling
+        of touch-move event.
+        
+        Args:
+            evt: pero.TouchMoveEvt
+                Event to process.
+        """
+        
+        pass
+    
+    
+    def on_touch_cancel(self, evt):
+        """
+        This method should be overridden to provide specific handling
+        of touch-cancel event.
+        
+        Args:
+            evt: pero.TouchCancelEvt
+                Event to process.
+        """
+        
+        pass
