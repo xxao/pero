@@ -82,6 +82,18 @@ MODIFIER_KEYS = {
     KEY_SHIFT,
     KEY_ALT}
 
+# define touch states
+TOUCH_PRESSED = 'pressed'
+TOUCH_RELEASED = 'released'
+TOUCH_MOVED = 'moved'
+TOUCH_STATIC = 'static'
+
+TOUCH = Enum(
+    PRESSED = TOUCH_PRESSED,
+    RELEASED = TOUCH_RELEASED,
+    MOVED = TOUCH_MOVED,
+    STATIC = TOUCH_STATIC)
+
 # define events
 EVT_PROPERTY_CHANGED = 'evt_prop_changed'
 EVT_PEN_CHANGED = 'evt_pen_changed'

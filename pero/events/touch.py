@@ -5,17 +5,59 @@ from ..enums import *
 from .view import ViewEvt
 
 
-class TouchEvt(ViewEvt):
+class Touch(object):
     """
-    Defines a generic event which is fired on any touch-related event.
+    Represents a single touch point.
     
     Attributes:
+        
+        id: any
+            Unique identifier of current touch.
         
         x_pos: int or float
             Logical x-coordinate in device units.
         
         y_pos: int or float
             Logical y-coordinate in device units.
+        
+        x_prev: int, float or None
+            Previous logical x-coordinate in device units.
+        
+        y_prev: int, float or None
+            Previous logical y-coordinate in device units.
+        
+        force: float
+            Touch pressure as a value between 0 and 1.
+        
+        state: pero.TOUCH
+            Specifies current state of the touch as any value from the
+            pero.TOUCH enum.
+    """
+    
+    
+    def __init__(self):
+        """Initializes a new instance of Touch."""
+        
+        self.id = None
+        
+        self.x_pos = None
+        self.y_pos = None
+        
+        self.x_prev = None
+        self.y_prev = None
+        
+        self.force = None
+        self.state = None
+
+
+class TouchEvt(ViewEvt):
+    """
+    Defines a generic event which is fired on any touch-related event.
+    
+    Attributes:
+        
+        touches: (pero.Touch,)
+            Collection of individual touches.
         
         alt_down: bool
             Indicates Alt key state.
@@ -36,8 +78,7 @@ class TouchEvt(ViewEvt):
     def __init__(self, **kwargs):
         """Initializes a new instance of MouseEvt."""
         
-        self.x_pos = None
-        self.y_pos = None
+        self.touches = None
         
         self.alt_down = None
         self.cmd_down = None
@@ -67,8 +108,7 @@ class TouchEvt(ViewEvt):
             view = evt.view,
             control = evt.control,
             
-            x_pos = evt.x_pos,
-            y_pos = evt.y_pos,
+            touches = evt.touches,
             
             alt_down = evt.alt_down,
             cmd_down = evt.cmd_down,
