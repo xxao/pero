@@ -4,15 +4,16 @@
 import ui
 from .enums import *
 from .canvas import UICanvas
+from .viewer import UIViewer
 
 
 def show(graphics, title=None, width=None, height=None):
     """
-    Draws given graphics into Pythonista console.
+    Shows given graphics in the viewer app.
     
     Args:
         graphics: pero.Graphics
-            Graphics to be drawn.
+            Graphics to be shown.
         
         title: str or None
             Viewer frame title.
@@ -24,38 +25,44 @@ def show(graphics, title=None, width=None, height=None):
             Viewer height in device units.
     """
     
+    # init main window
+    window = UIViewer()
+    
+    # set title
+    if title is not None:
+        window.set_title(title)
+    
     # check size
     if not width:
         width = VIEWER_WIDTH
     if not height:
         height = VIEWER_HEIGHT
     
-    # open context
-    with ui.ImageContext(width, height) as ctx:
-        
-        # init canvas
-        canvas = UICanvas(width=width, height=height)
-        
-        # draw graphics
-        graphics.draw(canvas)
-        
-        # get image
-        img = ctx.get_image()
-        
-        # show image
-        img.show()
+    # set size
+    window.set_size((width, height))
+    
+    # set graphics
+    window.set_content(graphics)
+    
+    # draw graphics
+    window.refresh()
+    
+    # start app
+    window.present()
 
 
-def export(graphics, path, width=None, height=None, **options):
+def export(graphics, path=None, width=None, height=None, **options):
     """
-    Draws given graphics as PNG raster image into specified file.
+    Draws given graphics as raster image into specified file or into Pythonista
+    console.
     
     Args:
         graphics: pero.Graphics
             Graphics to be drawn.
         
-        path: str
-            Full path of a file to save the image into.
+        path: str or None
+            Full path of a file to save the image into. If set to None the image
+            is displayed in the Pythonista console.
         
         width: float or None
             Image width in device units.
@@ -100,5 +107,10 @@ def export(graphics, path, width=None, height=None, **options):
         img = ctx.get_image()
         
         # save to file
-        with open(path, 'wb') as f:
-            f.write(img.to_png())
+        if path:
+            with open(path, 'wb') as f:
+                f.write(img.to_png())
+        
+        # show image
+        else:
+            img.show()
