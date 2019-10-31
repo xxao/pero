@@ -147,7 +147,7 @@ class UIView(ui.View, View, metaclass=type('UIViewMeta', (type(ui.View), type(Vi
             x_last = touch.prev_location[0],
             y_last = touch.prev_location[1],
             force = None,
-            state = PYTHONISTA_TOUCH_STATE[touch.state])
+            state = UI_TOUCH_STATE[touch.state])
         
         # init base event
         touch_evt = TouchEvt(

@@ -25,8 +25,8 @@ class UICanvas(Canvas):
         self._pen = {
             'color': Transparent,
             'width': 1,
-            'cap': PYTHONISTA_LINE_CAP[LINE_CAP_ROUND],
-            'join': PYTHONISTA_LINE_JOIN[LINE_JOIN_MITER],
+            'cap': UI_LINE_CAP[LINE_CAP_ROUND],
+            'join': UI_LINE_JOIN[LINE_JOIN_MITER],
             'dash': []}
         
         self._brush = Transparent
@@ -96,7 +96,7 @@ class UICanvas(Canvas):
         if self._brush.alpha:
             
             ui.set_color(self._brush.rgba_r)
-            ui_path.eo_fill_rule = PYTHONISTA_FILL_RULE[path.fill_rule]
+            ui_path.eo_fill_rule = UI_FILL_RULE[path.fill_rule]
             ui_path.fill()
         
         # apply stroke
@@ -309,13 +309,13 @@ class UICanvas(Canvas):
         if prop_name is None or prop_name == 'line_cap':
             line_cap = self.line_cap
             if line_cap is not UNDEF:
-                self._pen['cap'] = PYTHONISTA_LINE_CAP[line_cap]
+                self._pen['cap'] = UI_LINE_CAP[line_cap]
         
         # update join
         if prop_name is None or prop_name == 'line_join':
             line_join = self.line_join
             if line_join is not UNDEF:
-                self._pen['join'] = PYTHONISTA_LINE_JOIN[line_join]
+                self._pen['join'] = UI_LINE_JOIN[line_join]
         
         # update style/dash
         if prop_name is None or prop_name in ('line_dash', 'line_style', 'line_width', 'line_scale'):
@@ -326,7 +326,7 @@ class UICanvas(Canvas):
             if line_style == LINE_STYLE_SOLID:
                 line_dash = []
             elif line_style not in (LINE_STYLE_CUSTOM, UNDEF):
-                line_dash = PYTHONISTA_LINE_STYLE[line_style]
+                line_dash = UI_LINE_STYLE[line_style]
             
             self._pen['dash'] = [x*line_width for x in line_dash]
     
