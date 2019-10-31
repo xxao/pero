@@ -2,6 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtCore import QEvent
 from PyQt5.QtGui import QPainter, QPicture, QPixmap
 
 from ...events import *
@@ -216,6 +217,38 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         return mouse_evt
     
     
+    def _init_touch_event(self, evt):
+        """Initializes touch event."""
+        
+        # get points
+        points = []
+        for point in evt.touchPoints():
+            points.append(Touch(
+                id = point.id(),
+                x_pos = point.pos().x(),
+                y_pos = point.pos().y(),
+                x_last = point.lastPos().x(),
+                y_last = point.lastPos().y(),
+                force = point.presure(),
+                state = QT_TOUCH[point.state()]))
+        
+        # init base event
+        touch_evt = TouchEvt(
+            
+            native = evt,
+            view = self,
+            control = self.control,
+            
+            points = points,
+            
+            alt_down = bool(evt.modifiers() & Qt.AltModifier),
+            cmd_down = bool(evt.modifiers() & Qt.ControlModifier),
+            ctrl_down = bool(evt.modifiers() & Qt.ControlModifier),
+            shift_down = bool(evt.modifiers() & Qt.ShiftModifier))
+        
+        return touch_evt
+    
+    
     def _on_paint(self, evt):
         """Repaints current graphics."""
         
@@ -426,3 +459,27 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         # fire event
         if self.control is not None:
             self.control.fire(mouse_evt)
+    
+    
+    def _on_touch(self, evt):
+        """Handles touch events."""
+        
+        # init base event
+        touch_evt = self._init_touch_event(evt)
+        
+        # make specific event type
+        if evt.type() == QEvent.TouchBegin:
+            touch_evt = TouchStartEvt.from_evt(touch_evt)
+        
+        elif evt.type() == QEvent.TouchEnd:
+            touch_evt = TouchEndEvt.from_evt(touch_evt)
+        
+        elif evt.type() == QEvent.TouchUpdate:
+            touch_evt = TouchMoveEvt.from_evt(touch_evt)
+        
+        elif evt.type() == QEvent.TouchCancel:
+            touch_evt = TouchCancelEvt.from_evt(touch_evt)
+        
+        # fire event
+        if self.control is not None:
+            self.control.fire(touch_evt)

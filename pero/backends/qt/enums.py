@@ -67,3 +67,9 @@ QT_RASTER_TYPES = {
 
 QT_VECTOR_TYPES = {
     '.pdf'}
+
+QT_TOUCH = {
+    TOUCH_PRESSED: Qt.TouchPointPressed,
+    TOUCH_RELEASED: Qt.TouchPointReleased,
+    TOUCH_MOVED: Qt.TouchPointMoved,
+    TOUCH_STATIC: Qt.TouchPointStationary}

@@ -35,7 +35,7 @@ class Touch(object):
     """
     
     
-    def __init__(self):
+    def __init__(self, **kwargs):
         """Initializes a new instance of Touch."""
         
         self.id = None
@@ -48,6 +48,13 @@ class Touch(object):
         
         self.force = None
         self.state = None
+        
+        # set given arguments
+        for name, value in kwargs.items():
+            if hasattr(self, name):
+                setattr(self, name, value)
+            else:
+                raise AttributeError("Attribute not found! --> %s" % name)
 
 
 class TouchEvt(ViewEvt):
