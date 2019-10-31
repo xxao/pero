@@ -70,7 +70,7 @@ class View(object):
                 pero.CURSOR enum.
         """
         
-        raise NotImplementedError("The 'set_cursor' method is not implemented for '%s'." % self.__class__.__name__)
+        pass
     
     
     def set_tooltip(self, text):
@@ -83,7 +83,7 @@ class View(object):
                 Tooltip text to be shown.
         """
         
-        raise NotImplementedError("The 'set_tooltip' method is not implemented for '%s'." % self.__class__.__name__)
+        pass
     
     
     def refresh(self):

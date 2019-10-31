@@ -68,6 +68,10 @@ class QtViewer(QWidget):
             content: pero.QtView, pero.Control or pero.Graphics
         """
         
+        # clean sizer
+        if self._view is not None:
+            self._sizer.removeWidget(self._view)
+        
         # init view
         if isinstance(content, QtView):
             self._view = content
@@ -83,10 +87,6 @@ class QtViewer(QWidget):
         else:
             message = "Unknown content type! -> %s" % type(content)
             raise TypeError(message)
-        
-        # clean sizer
-        if self._view is not None:
-            self._sizer.removeWidget(self._view)
         
         # add to sizer
         self._sizer.addWidget(self._view, 1)

@@ -10,7 +10,7 @@ from .enums import *
 from .canvas import QtCanvas
 
 
-class QtView(QWidget, View, metaclass=type('QWidgetMeta', (type(QWidget), type(View)), {})):
+class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(View)), {})):
     """Wrapper for QWidget View."""
     
     
