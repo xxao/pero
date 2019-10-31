@@ -13,4 +13,4 @@ from .mouse import MouseMotionEvt, MouseScrollEvt
 from .mouse import LeftDownEvt, LeftUpEvt, LeftDClickEvt
 from .mouse import MiddleDownEvt, MiddleUpEvt, MiddleDClickEvt
 from .mouse import RightDownEvt, RightUpEvt, RightDClickEvt
-from .touch import TouchStartEvt, TouchEndEvt, TouchMoveEvt, TouchCancelEvt
+from .touch import Touch, TouchStartEvt, TouchEndEvt, TouchMoveEvt, TouchCancelEvt
