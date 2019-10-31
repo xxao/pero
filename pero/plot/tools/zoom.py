@@ -61,7 +61,7 @@ class ZoomTool(Tool):
         """Handles key-down event."""
         
         # remember key
-        super().on_key_down(evt)
+        self.add_key(evt.key)
         
         # check if active
         if not self._is_active:
@@ -77,7 +77,7 @@ class ZoomTool(Tool):
         """Handles mouse-leave event."""
         
         # clear keys
-        super().on_mouse_leave(evt)
+        self.clear_keys()
         
         # check if active
         if not self._is_active:

@@ -43,8 +43,7 @@ class Tool(PropertySet):
                 Event to process.
         """
         
-        # remember key
-        self.keys.add(evt.key)
+        self.add_key(evt.key)
     
     
     def on_key_up(self, evt):
@@ -57,8 +56,7 @@ class Tool(PropertySet):
                 Event to process.
         """
         
-        # remove key
-        self.keys.discard(evt.key)
+        self.remove_key(evt.key)
     
     
     def on_mouse_enter(self, evt):
@@ -84,8 +82,7 @@ class Tool(PropertySet):
                 Event to process.
         """
         
-        # clear keys
-        self.keys = set()
+        self.clear_keys()
     
     
     def on_mouse_motion(self, evt):
@@ -203,3 +200,33 @@ class Tool(PropertySet):
         """
         
         pass
+    
+    
+    def add_key(self, key):
+        """
+        Remembers given key.
+        
+        Args:
+            key: pero.KEY
+                A key to remember as any value from the pero.KEY enum.
+        """
+        
+        self.keys.add(key)
+    
+    
+    def remove_key(self, key):
+        """
+        Removes given key.
+        
+        Args:
+            key: pero.KEY
+                A key to remove as any value from the pero.KEY enum.
+        """
+        
+        self.keys.discard(key)
+
+
+    def clear_keys(self):
+        """Removes all keys."""
+    
+        self.keys.clear()
