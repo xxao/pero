@@ -230,7 +230,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
                 x_last = point.lastPos().x(),
                 y_last = point.lastPos().y(),
                 force = point.presure(),
-                state = QT_TOUCH[point.state()]))
+                state = QT_TOUCH_STATE[point.state()]))
         
         # init base event
         touch_evt = TouchEvt(
