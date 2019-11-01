@@ -22,7 +22,6 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
         
         # init buffers
-        self._dc_size = self.GetClientSize()
         self._dc_buffer = wx.Bitmap(*self.GetClientSize())
         self._dc_overlay = wx.Overlay()
         self._dc_overlay_empty = True
@@ -185,9 +184,6 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         width, height = self.GetClientSize()
         width = max(1, width)
         height = max(1, height)
-        
-        # remember current size
-        self._dc_size = (width, height)
         
         # init new buffer
         if self._use_buffer:

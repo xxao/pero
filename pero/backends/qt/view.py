@@ -24,7 +24,6 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         self.setMouseTracking(True)
         
         # init buffers
-        self._dc_size = (self.width(), self.height())
         self._dc_buffer = None
         self._dc_overlay = None
         
@@ -93,7 +92,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         
         # draw control
         if self.control is not None:
-            canvas = QtCanvas(qp, width=self._dc_size[0], height=self._dc_size[1])
+            canvas = QtCanvas(qp, width=self.width(), height=self.height())
             self.control.draw(canvas)
         
         # end drawing
@@ -148,7 +147,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         qp.setRenderHint(QPainter.SmoothPixmapTransform)
         
         # draw overlay
-        canvas = QtCanvas(qp, width=self._dc_size[0], height=self._dc_size[1])
+        canvas = QtCanvas(qp, width=self.width(), height=self.height())
         func(canvas, **kwargs)
         
         # end drawing
@@ -281,9 +280,6 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         size = evt.size()
         width = max(1, size.width())
         height = max(1, size.height())
-        
-        # remember current size
-        self._dc_size = (width, height)
         
         # make size event
         size_evt = SizeEvt(
