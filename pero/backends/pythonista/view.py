@@ -2,6 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import ui
+from objc_util import ObjCInstance
 
 from ...events import *
 from ..view import View
@@ -9,7 +10,7 @@ from .enums import *
 from .canvas import UICanvas
 
 
-class UIView(ui.View, View, metaclass=type('UIViewMeta', (type(ui.View), type(View)), {})):
+class UIView(ui.View, View):
     """Wrapper for UI View."""
     
     
@@ -119,19 +120,19 @@ class UIView(ui.View, View, metaclass=type('UIViewMeta', (type(ui.View), type(Vi
     
     
     def touch_began(self, touch):
-        """Called when a touch begins."""
-        
-        self._on_touch(touch)
-    
-    
-    def touch_moved(self, touch):
-        """Called when a touch moves."""
+        """Called when a touch event begins."""
         
         self._on_touch(touch)
     
     
     def touch_ended(self, touch):
-        """Called when a touch ends."""
+        """Called when a touch event ends."""
+    
+        self._on_touch(touch)
+    
+    
+    def touch_moved(self, touch):
+        """Called when a touch event moves."""
         
         self._on_touch(touch)
     
@@ -144,10 +145,10 @@ class UIView(ui.View, View, metaclass=type('UIViewMeta', (type(ui.View), type(Vi
             id = touch.touch_id,
             x_pos = touch.location[0],
             y_pos = touch.location[1],
-            x_last = touch.prev_location[0],
-            y_last = touch.prev_location[1],
-            force = None,
-            state = UI_TOUCH_STATE[touch.state])
+            x_prev = touch.prev_location[0],
+            y_prev = touch.prev_location[1],
+            force = ObjCInstance(touch).force(),
+            state = UI_TOUCH_STATE[touch.phase])
         
         # init base event
         touch_evt = TouchEvt(
@@ -156,7 +157,7 @@ class UIView(ui.View, View, metaclass=type('UIViewMeta', (type(ui.View), type(Vi
             view = self,
             control = self.control,
             
-            points = [point],
+            touches = [point],
             
             alt_down = False,
             cmd_down = False,
