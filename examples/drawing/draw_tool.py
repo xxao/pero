@@ -78,11 +78,11 @@ class AngleTool(pero.Tool):
         
         # draw current wedge
         if self._is_active:
-            evt.control.draw_overlay(self._draw_angle, evt=evt)
+            evt.control.draw_overlay(self._draw_angle, evt=evt, x=x, y=y)
         
         # draw current cursor
         elif length <= self._radius:
-            evt.control.draw_overlay(self._draw_position, evt=evt)
+            evt.control.draw_overlay(self._draw_position, evt=evt, x=x, y=y)
         
         # clear overlay
         else:
@@ -119,14 +119,74 @@ class AngleTool(pero.Tool):
         evt.control.draw_overlay()
     
     
-    def _draw_position(self, canvas, evt):
-        """Draws current cursor position."""
+    def on_touch_start(self, evt):
+        """Handles touch-start event."""
+        
+        # skip if active
+        if self._is_active:
+            return
         
         # get coords
-        x, y = evt.x_pos, evt.y_pos
-        cx, cy = self._center
+        touch = evt.touches[0]
+        x, y = touch.x_pos, touch.y_pos
+        length = pero.distance(self._center, (x, y))
+        
+        # skip if outside
+        if length > self._radius:
+            return
+        
+        # set active
+        self._is_active = True
+        
+        # remember dragging
+        self._dragging = (x, y)
+        
+        # draw current cursor
+        evt.control.draw_overlay(self._draw_position, evt=evt, x=x, y=y)
+    
+    
+    def on_touch_end(self, evt):
+        """Handles touch-end event."""
+        
+        # cancel action and clear overlay
+        self._is_active = False
+        evt.control.draw_overlay()
+    
+    
+    def on_touch_move(self, evt):
+        """Handles touch-move event."""
+        
+        # skip if inactive
+        if not self._is_active:
+            return
+        
+        # get coords
+        touch = evt.touches[0]
+        x, y = touch.x_pos, touch.y_pos
+        length = pero.distance(self._center, (x, y))
+        
+        # draw current wedge
+        if length <= self._radius:
+            evt.control.draw_overlay(self._draw_angle, evt=evt, x=x, y=y)
+        
+        # clear overlay
+        else:
+            evt.control.draw_overlay()
+    
+    
+    def on_touch_cancel(self, evt):
+        """Handles touch-cancel event."""
+        
+        # cancel action and clear overlay
+        self._is_active = False
+        evt.control.draw_overlay()
+    
+    
+    def _draw_position(self, canvas, evt, x, y):
+        """Draws current cursor position."""
         
         # get angle
+        cx, cy = self._center
         rads = pero.angle((cx+1, cy), (cx, cy), (x, y))
         if rads < 0:
             rads += 2*math.pi
@@ -140,20 +200,17 @@ class AngleTool(pero.Tool):
             evt.control.draw_tooltip(canvas, x=x, y=y, text=tooltip)
     
     
-    def _draw_angle(self, canvas, evt):
+    def _draw_angle(self, canvas, evt, x, y):
         """Draws current angle."""
         
-        # get coords
-        x, y = evt.x_pos, evt.y_pos
-        cx, cy = self._center
-        
         # get angle
+        cx, cy = self._center
         rads = pero.angle(self._dragging, (cx, cy), (x, y))
         start_angle = pero.angle((cx+1, cy), (cx, cy), self._dragging)
         end_angle = pero.angle((cx+1, cy), (cx, cy), (x, y))
         
         # get direction
-        if evt.right_down:
+        if evt.alt_down:
             clockwise = False
             if rads > 0:
                 rads -= 2*math.pi
