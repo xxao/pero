@@ -16,7 +16,7 @@ def show(graphics, title=None, width=None, height=None):
     Shows given graphics in the viewer app.
     
     Args:
-        graphics: pero.Graphics
+        graphics: pero.Graphics or pero.Control
             Graphics to be shown.
         
         title: str or None

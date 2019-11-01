@@ -2,6 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import ui
+from ..control import Control
 from .enums import *
 from .canvas import UICanvas
 from .viewer import UIViewer
@@ -12,7 +13,7 @@ def show(graphics, title=None, width=None, height=None):
     Shows given graphics in the viewer app.
     
     Args:
-        graphics: pero.Graphics
+        graphics: pero.Graphics or pero.Control
             Graphics to be shown.
         
         title: str or None
@@ -24,6 +25,11 @@ def show(graphics, title=None, width=None, height=None):
         height: float or None
             Viewer height in device units.
     """
+    
+    # show as image in console
+    if not isinstance(graphics, Control):
+        export(graphics, width=width, height=height)
+        return
     
     # init main window
     window = UIViewer()
