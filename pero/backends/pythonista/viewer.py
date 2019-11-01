@@ -77,7 +77,10 @@ class UIViewer(ui.View):
             raise TypeError(message)
         
         # add to sizer
-        self._sizer.add_subview(self._view)
+        self.add_subview(self._view)
+        
+        # set layout
+        self._view.flex = "WH"
     
     
     def refresh(self):
