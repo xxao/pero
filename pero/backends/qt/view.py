@@ -220,15 +220,15 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
     def _init_touch_event(self, evt):
         """Initializes touch event."""
         
-        # get points
-        points = []
+        # get touches
+        touches = []
         for point in evt.touchPoints():
-            points.append(Touch(
+            touches.append(Touch(
                 id = point.id(),
                 x_pos = point.pos().x(),
                 y_pos = point.pos().y(),
-                x_last = point.lastPos().x(),
-                y_last = point.lastPos().y(),
+                x_prev = point.lastPos().x(),
+                y_prev = point.lastPos().y(),
                 force = point.presure(),
                 state = QT_TOUCH_STATE[point.state()]))
         
@@ -239,7 +239,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             view = self,
             control = self.control,
             
-            points = points,
+            touches = touches,
             
             alt_down = bool(evt.modifiers() & Qt.AltModifier),
             cmd_down = bool(evt.modifiers() & Qt.ControlModifier),

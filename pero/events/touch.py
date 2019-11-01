@@ -123,25 +123,25 @@ class TouchEvt(ViewEvt):
             shift_down = evt.shift_down)
 
 
-class TouchStartEvt(ViewEvt):
+class TouchStartEvt(TouchEvt):
     """Defines an event which is fired if touch starts."""
     
     TYPE = EVT_TOUCH_START
 
 
-class TouchEndEvt(ViewEvt):
+class TouchEndEvt(TouchEvt):
     """Defines an event which is fired if touch ends."""
     
     TYPE = EVT_TOUCH_END
 
 
-class TouchMoveEvt(ViewEvt):
+class TouchMoveEvt(TouchEvt):
     """Defines an event which is fired if touch moves."""
     
     TYPE = EVT_TOUCH_MOVE
 
 
-class TouchCancelEvt(ViewEvt):
+class TouchCancelEvt(TouchEvt):
     """Defines an event which is fired if touch cancels."""
     
     TYPE = EVT_TOUCH_CANCEL
