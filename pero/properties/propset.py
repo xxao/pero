@@ -266,7 +266,6 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
     
     def get_child_overrides(self, child_name, overrides):
         """
-        
         Extracts the overrides for child property set. A property is considered
         as child-related if it starts with specified 'child_name' followed by
         '_' and it is not a direct property of current property set.
