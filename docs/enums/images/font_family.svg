@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-
-<svg xmlns="http://www.w3.org/2000/svg" width="450" height="80">
-  <rect x="0.0" y="0.0" width="450.0" height="80.0" stroke="#000000" stroke-width="0.0" stroke-linecap="square" stroke-linejoin="bevel" fill="#f8f8ff" />
-  <text x="30.0" y="46.5" font-family="Times New Roman" font-size="18.0" fill="#000000" >pero.SERIF</text>
-  <text x="160.0" y="46.5" font-family="Arial" font-size="18.0" fill="#000000" >pero.SANS</text>
-  <text x="300.0" y="46.0" font-family="Courier New" font-size="18.0" fill="#000000" >pero.MONO</text>
-</svg>

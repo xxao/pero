@@ -1,3 +1,0 @@
-# Bezier Curve
-
-Under construction...

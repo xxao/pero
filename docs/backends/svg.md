@@ -1,3 +1,0 @@
-# SVG Backend
-
-Under construction...

@@ -12,8 +12,8 @@ Ever since I discovered the wonderful [d3js](https://d3js.org) JavaScript librar
 concept of dynamic properties within Python drawings. In fact, this has been the trigger to start working on the *pero*
 library. Finally, it is all now available.
 
-Until the full [documentation](https://github.com/xxao/pero/tree/master/docs) is available, please see the *examples* folder or in-code documentation
-of classes and functions to learn more about the *pero* library capabilities.
+Please see the *examples* folder or in-code documentation of classes and functions to learn more about the *pero*
+library capabilities.
 
 
 ```python
@@ -77,7 +77,7 @@ img.draw_path(path)
 img.show()
 ```
 
-![Final Image](https://raw.githubusercontent.com/xxao/pero/master/docs/drawing/images/image.png)
+![Final Image](https://raw.githubusercontent.com/xxao/pero/master/examples/drawing/image.png)
 
 
 ## Requirements
@@ -85,11 +85,15 @@ img.show()
 - [Python 3.6+](https://www.python.org)
 - [Numpy](https://pypi.org/project/numpy/)
 - [PIL (Pillow)](https://pypi.org/project/Pillow/)
-- \[[PyQt5](https://pypi.org/project/PyQt5/)\]
-- \[[wxPython](https://pypi.org/project/wxPython/)\]
-- \[[PyCairo](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pycairo)\]
-- \[[PyMuPDF](https://pypi.org/project/PyMuPDF/)\]
-- \[[Pythonista iOS App](http://omz-software.com/pythonista/)\]
+
+
+## Supported Backends
+
+- [PyQt5](https://pypi.org/project/PyQt5/)
+- [wxPython](https://pypi.org/project/wxPython/)
+- [PyCairo](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pycairo)
+- [PyMuPDF](https://pypi.org/project/PyMuPDF/)
+- [Pythonista iOS App](http://omz-software.com/pythonista/)
 
 
 ## Installation

@@ -1,3 +1,0 @@
-# Pythonista Backend
-
-Under construction...

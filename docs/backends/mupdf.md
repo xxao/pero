@@ -1,3 +1,0 @@
-# PyMuPDF Backend
-
-Under construction...
