@@ -127,8 +127,9 @@ class StraitAxis(Axis):
     """
     Strait axis is a standard type of axis used for Cartesian plots. By default
     the axis is drawn as a horizontal line with ticks and labels facing down. To
-    create a vertical or angled axis the 'angle' property must be specified and
-    the whole axis is rotated around the origin given by 'x' and 'y' properties.
+    create a vertical or angled axis either the 'position' or 'angle' property
+    must be specified and the whole axis is rotated around the origin given by
+    'x' and 'y' properties.
     
     According to the 'relative' property, the axis ticks are expected to be
     provided as relative values (True) (as a distance from axis origin) or as
@@ -601,7 +602,7 @@ class RadialAxis(Axis):
             Specifies the drawing direction. If set to True the axis is drawn
             clockwise, otherwise anti-clockwise.
         
-        label_rotation: str or callable
+        label_rotation: pero.TEXT_ROTATION or callable
             Specifies the label rotation style as any item from the
             pero.TEXT_ROTATION enum.
     """

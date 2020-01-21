@@ -12,6 +12,10 @@ class Tooltip(Glyph):
     """
     Provides a base class for tooltip drawing.
     
+    The pero.Tooltip classes can be used directly to draw tooltip or as
+    descriptor to create a pero.Tooltip instances from real data and using the
+    'clone' method and a data source.
+    
     Properties:
         
         x: int, float or callable
@@ -85,6 +89,7 @@ class TextTooltip(Tooltip):
     
     line = Include(LineProperties, line_color="#ccce")
     fill = Include(FillProperties, fill_color="#eeee")
+    
     
     def draw(self, canvas, source=UNDEF, **overrides):
         """Uses given canvas to draw tooltip."""

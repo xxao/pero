@@ -5,14 +5,6 @@ from .enum import Enum
 from .values import *
 
 
-# define angle units
-ANGLE_DEG = DEG
-ANGLE_RAD = RAD
-
-ANGLE = Enum(
-    DEG = ANGLE_DEG,
-    RAD = ANGLE_RAD)
-
 # define orientation
 ORI_HORIZONTAL = HORIZONTAL
 ORI_VERTICAL = VERTICAL

@@ -12,6 +12,10 @@ class Legend(Glyph):
     """
     Abstract base class for various types of legend items glyphs.
     
+    The pero.Legend classes can be used directly to draw legend items or as
+    descriptor to create a pero.Legend instances from real data and using the
+    'clone' method and a data source.
+    
     Properties:
         
         bull_x: int, float or callable
@@ -139,8 +143,8 @@ class LegendBox(Glyph):
             Specifies the y-coordinate of the anchor.
         
         anchor: pero.POSITION_COMPASS or callable
-            Specifies the anchor position within background box as any item from
-            the pero.POSITION_COMPASS enum.
+            Specifies the anchor position within the box as any item from the
+            pero.POSITION_COMPASS enum.
         
         orientation: pero.ORIENTATION or callable
             Specifies the orientation of legend items as any item from the

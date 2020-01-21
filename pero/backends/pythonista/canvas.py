@@ -262,7 +262,7 @@ class UICanvas(Canvas):
         ui_path = ui.Path()
         
         # convert path
-        for command in path.commands:
+        for command in path.commands():
             
             # get data
             key = command[0]

@@ -490,7 +490,7 @@ class Rect(Glyph):
         radius = self.get_property('radius', source, overrides)
         
         # shift anchor
-        if anchor == POS_NW:
+        if anchor is UNDEF or anchor == POS_NW:
             pass
         elif anchor == POS_N:
             x -= 0.5 * width

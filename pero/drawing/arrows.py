@@ -7,7 +7,7 @@ from ..properties import *
 from .path import Path
 from .matrix import Matrix
 from .glyphs import Glyph
-from .heads import Head, HeadProperty
+from .heads import HeadProperty
 
 
 class Arrow(Glyph):
@@ -294,8 +294,8 @@ class BowArrow(Arrow):
         path.bow_to(x2, y2, radius, large, clockwise)
         
         # get edge angles
-        start_angle = path.start_angle - math.pi
-        end_angle = path.end_angle
+        start_angle = path.start_angle() - math.pi
+        end_angle = path.end_angle()
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
@@ -533,8 +533,8 @@ class CurveArrow(Arrow):
         path.curve_to(cx1, cy1, cx2, cy2, x2, y2)
         
         # get angles
-        start_angle = path.start_angle + math.pi
-        end_angle = path.end_angle
+        start_angle = path.start_angle() + math.pi
+        end_angle = path.end_angle()
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
@@ -686,8 +686,8 @@ class PathArrow(Arrow):
             return
         
         # get path endpoints
-        p1x, p1y = path.start
-        p2x, p2y = path.end
+        p1x, p1y = path.start()
+        p2x, p2y = path.end()
         path_length = math.sqrt((p2x-p1x)**2 + (p2y-p1y)**2)
         
         # init matrix
@@ -714,8 +714,8 @@ class PathArrow(Arrow):
         path = path.transformed(matrix)
         
         # get angles
-        start_angle = path.start_angle + math.pi
-        end_angle = path.end_angle
+        start_angle = path.start_angle() + math.pi
+        end_angle = path.end_angle()
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)

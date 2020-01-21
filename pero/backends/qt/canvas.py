@@ -436,7 +436,7 @@ class QtCanvas(Canvas):
         qt_path.setFillRule(QT_FILL_RULE[path.fill_rule])
         
         # apply commands
-        for command in path.commands:
+        for command in path.commands():
             
             # get data
             key = command[0]

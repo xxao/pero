@@ -52,7 +52,7 @@ class Path(object):
     def __str__(self):
         """Gets standard string representation."""
         
-        return "\n".join(str(x) for x in self.commands)
+        return "\n".join(str(x) for x in self.commands())
     
     
     @property
@@ -94,7 +94,6 @@ class Path(object):
         return self._cursor
     
     
-    @property
     def commands(self):
         """
         Gets a sequence of all commands from all sub-paths.
@@ -111,7 +110,6 @@ class Path(object):
         return self._commands
     
     
-    @property
     def anchors(self):
         """
         Gets all anchors.
@@ -164,7 +162,6 @@ class Path(object):
         return self._anchors
     
     
-    @property
     def handles(self):
         """
         Gets all control handles.
@@ -209,7 +206,6 @@ class Path(object):
         return self._handles
     
     
-    @property
     def start(self):
         """
         Gets the start point of the first sub-path.
@@ -228,7 +224,7 @@ class Path(object):
         if not path:
             return self.cursor
         
-        # get angle
+        # get start
         for command in path:
             
             # get data
@@ -242,7 +238,6 @@ class Path(object):
         return self.cursor
     
     
-    @property
     def end(self):
         """
         Gets the end point of the last sub-path.
@@ -261,7 +256,7 @@ class Path(object):
         if not path:
             return self.cursor
         
-        # get angle
+        # get end
         for command in reversed(path):
             
             # get data
@@ -279,7 +274,6 @@ class Path(object):
         return self.cursor
     
     
-    @property
     def center(self):
         """
         Gets current bounding box center.
@@ -297,7 +291,6 @@ class Path(object):
         return self.bbox().center
     
     
-    @property
     def start_angle(self):
         """
         Gets the angle of the path at the start point of the first sub-path
@@ -347,7 +340,6 @@ class Path(object):
         return self._start_angle
     
     
-    @property
     def end_angle(self):
         """
         Gets the angle of the path at the end point of the last sub-path
@@ -421,7 +413,7 @@ class Path(object):
             y1 = 0
             
             # add commands
-            for command in self.commands:
+            for command in self.commands():
                 
                 # get data
                 key = command[0]
@@ -467,7 +459,7 @@ class Path(object):
         
         return json.dumps({
             "fill_rule": self.fill_rule,
-            "commands": self.commands})
+            "commands": self.commands()})
     
     
     def svg(self, indent=""):
@@ -1393,7 +1385,7 @@ class Path(object):
         """
         
         # add commands
-        for command in path.commands:
+        for command in path.commands():
             
             # get data
             key = command[0]
@@ -1550,7 +1542,7 @@ class Path(object):
             fill_rule = self._fill_rule
         
         # clone commands
-        path = Path.from_commands(self.commands, fill_rule)
+        path = Path.from_commands(self.commands(), fill_rule)
         
         # set cursor
         path._cursor = self._cursor

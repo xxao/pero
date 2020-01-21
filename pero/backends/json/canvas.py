@@ -22,7 +22,7 @@ class JsonCanvas(Canvas):
         super(JsonCanvas, self).__init__()
         
         # bind events
-        self.bind(EVT_PROPERTY_CHANGED, self._on_json_property_changed)
+        self.bind(EVT_PROPERTY_CHANGED, self._on_json_canvas_property_changed)
         
         # set overrides
         self.set_properties(overrides)
@@ -266,9 +266,9 @@ class JsonCanvas(Canvas):
     def view(self, x=None, y=None, width=None, height=None, relative=False):
         """
         Sets rectangular region currently used for drawing. This provides an
-        easy way to draw complex graphics at specific position of the
-        canvas without adjusting the coordinates of the graphics. It is achieved
-        by changing the origin coordinates and the logical width and height of
+        easy way to draw complex graphics at specific position of the canvas
+        without adjusting the coordinates of the graphics. It is achieved by
+        changing the origin coordinates and the logical width and height of
         the canvas.
         
         Args:
@@ -378,7 +378,7 @@ class JsonCanvas(Canvas):
         self._commands.append((command, args))
     
     
-    def _on_json_property_changed(self, evt):
+    def _on_json_canvas_property_changed(self, evt):
         """Called after any property has changed."""
         
         # get value

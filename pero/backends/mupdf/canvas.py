@@ -217,7 +217,7 @@ class MuPDFCanvas(Canvas):
         origin = (0, 0)
         
         # draw
-        for command in path.commands:
+        for command in path.commands():
             
             # get data
             key = command[0]

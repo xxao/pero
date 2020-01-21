@@ -16,7 +16,7 @@ class Profile(Glyph):
     
     To plot data as a line the 'show_line' property must be set to True.
     Similarly, to display individual points, the 'show_points' property must be
-    set to True. If set to UNDEF, and line is enabled, the points are
+    set to True. If set to UNDEF and line is enabled, the points are
     automatically visible if they are separated enough, as defined by the
     'spacing' property.
     

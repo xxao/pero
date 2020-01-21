@@ -120,8 +120,8 @@ class Pather(Glyph):
             return
         
         # get data
-        handles = path.handles
-        anchors = path.anchors
+        handles = path.handles()
+        anchors = path.anchors()
         
         # get overrides
         anchor_overrides = self.get_child_overrides('anchor', overrides)

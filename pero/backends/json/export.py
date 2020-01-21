@@ -7,7 +7,7 @@ from .canvas import JsonCanvas
 
 def export(graphics, path, width=None, height=None, **options):
     """
-    Draws given graphics as JSON dump into specified file.
+    Saves given graphics as JSON dump into specified file.
     
     Args:
         graphics: pero.Graphics

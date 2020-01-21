@@ -10,9 +10,9 @@ from .path import Path
 
 class Layout(Graphics):
     """
-    Layout represents a simple table-like layout manager tool. You can define
-    custom layout by specifying rows and columns of fixed or relative size. Any
-    graphics can then be inserted into specific cell.
+    Layout represents an experimental  simple table-like layout manager tool.
+    You can define custom layout by specifying rows and columns of fixed or
+    relative size. Any pero.Graphics can then be inserted into specific cell.
     
     When the layout is drawn the cells are arranged according to available space
     and specific settings. The exact position of each cell is available via its

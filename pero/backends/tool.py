@@ -117,7 +117,7 @@ class Tool(PropertySet):
         of mouse-button-down event.
         
         Args:
-            evt: pero.LeftDownEvt or pero.RightDownEvt or pero.MiddleDownEvt
+            evt: pero.LeftDownEvt, pero.RightDownEvt or pero.MiddleDownEvt
                 Event to process.
         """
         
@@ -130,7 +130,7 @@ class Tool(PropertySet):
         of mouse-button-up event.
         
         Args:
-            evt: pero.LeftUpEvt or pero.RightUpEvt or pero.MiddleUpEvt
+            evt: pero.LeftUpEvt, pero.RightUpEvt or pero.MiddleUpEvt
                 Event to process.
         """
         
@@ -143,7 +143,7 @@ class Tool(PropertySet):
         of mouse-button-double-click event.
         
         Args:
-            evt: pero.LeftDClickEvt or pero.RightDClickEvt or pero.MiddleDClickEvt
+            evt: pero.LeftDClickEvt, pero.RightDClickEvt or pero.MiddleDClickEvt
                 Event to process.
         """
         

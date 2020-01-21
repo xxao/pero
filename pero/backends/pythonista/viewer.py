@@ -54,6 +54,7 @@ class UIViewer(ui.View):
         
         Args:
             content: pero.UIView, pero.Control or pero.Graphics
+                A content to set.
         """
         
         # clean sizer

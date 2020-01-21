@@ -157,22 +157,22 @@ WhiteSmoke = Color('#F5F5F5', name='WhiteSmoke')
 Yellow = Color('#FFFF00', name='Yellow')
 YellowGreen = Color('#9ACD32', name='YellowGreen')
 
-R = Color('#FF0000', name='R') # red
-G = Color('#008000', name='G') # green
-B = Color('#0000FF', name='B') # blue
+R = Color('#FF0000', name='R')  # red
+G = Color('#008000', name='G')  # green
+B = Color('#0000FF', name='B')  # blue
 
-C = Color('#00FFFF', name='C') # cyan
-M = Color('#FF00FF', name='M') # magenta
-Y = Color('#FFFF00', name='Y') # yellow
+C = Color('#00FFFF', name='C')  # cyan
+M = Color('#FF00FF', name='M')  # magenta
+Y = Color('#FFFF00', name='Y')  # yellow
 
-T = Color('#0000', name='T') # transparent
-K = Color('#000000', name='K') # black
-W = Color('#FFFFFF', name='W') # white
-A = Color('#808080', name='A') # gray
-O = Color('#FFA500', name='O') # orange
+T = Color('#0000', name='T')  # transparent
+K = Color('#000000', name='K')  # black
+W = Color('#FFFFFF', name='W')  # white
+A = Color('#808080', name='A')  # gray
+O = Color('#FFA500', name='O')  # orange
 
 # define palettes
-Pero = Palette(('#1047b9ff','#328c00ff','#f19000ff','#4cc7c5ff','#8f8f15ff','#edbb00ff','#786dffff','#b34e00ff','#80bfbdff','#c88812ff','#c5ca3dff','#7bb6ffff','#45438aff','#188183ff','#838183ff','#457ec6ff','#7f2200ff','#4c4e4cff'), name='Pero')
+Pero = Palette(('#1047b9', '#328c00', '#f19000', '#4cc7c5', '#8f8f15', '#edbb00', '#786dff', '#b34e00', '#80bfbd', '#c88812', '#c5ca3d', '#7bb6ff', '#45438a', '#188183', '#838183', '#457ec6', '#7f2200', '#4c4e4c'), name='Pero')
 Accent = Palette(('#7fc97f', '#beaed4', '#fdc086', '#ffff99', '#386cb0', '#f0027f', '#bf5b17', '#666666'), name='Accent')
 Dark = Palette(('#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#a6761d', '#666666'), name='Dark')
 Paired = Palette(('#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928'), name='Paired')

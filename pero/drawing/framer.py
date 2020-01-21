@@ -80,9 +80,9 @@ class Framer(Glyph):
         
         # get size from canvas
         if width is UNDEF:
-            width = canvas.viewport.width
+            width = canvas.viewport.width - x
         if height is UNDEF:
-            height = canvas.viewport.height
+            height = canvas.viewport.height - y
         
         # get full label
         labels = []

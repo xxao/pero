@@ -467,7 +467,7 @@ class WXCanvas(Canvas):
         wx_path = gc.CreatePath()
         
         # apply commands
-        for command in path.commands:
+        for command in path.commands():
             
             # get data
             key = command[0]

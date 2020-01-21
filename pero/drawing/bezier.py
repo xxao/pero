@@ -17,7 +17,10 @@ INTERSECT_THRESHOLD = 0.1
 
 
 class Bezier(object):
-    """Represents a cubic Bezier curve."""
+    """
+    Represents a cubic Bezier curve. This is just an experimental object to be
+    able to calculate various attributes of a cubic Bezier curve.
+    """
     
     
     def __init__(self, x1, y1, cx1, cy1, cx2, cy2, x2, y2):

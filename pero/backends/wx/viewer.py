@@ -57,6 +57,7 @@ class WXViewer(wx.App):
         
         Args:
             content: pero.WXView, pero.Control or pero.Graphics
+                A content to set.
         """
         
         self._frame.set_content(content)

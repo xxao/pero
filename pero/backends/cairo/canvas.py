@@ -517,7 +517,7 @@ class CairoCanvas(Canvas):
         self._dc.new_path()
         
         # draw
-        for command in path.commands:
+        for command in path.commands():
             
             # get data
             key = command[0]

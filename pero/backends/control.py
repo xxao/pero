@@ -11,8 +11,8 @@ class Control(PropertySet):
     """
     Base class for all interactive controls. The main idea is to provide
     a backend-independent interface for drawing the control graphics, overlays
-    and tooltips as well as assignment of specific interactivity tools for mouse
-    keyboard and touches.
+    and tooltips as well as assignment of specific interactivity tools for
+    mouse, keyboard and touches.
     
     Properties:
         

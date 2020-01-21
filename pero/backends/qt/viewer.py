@@ -66,6 +66,7 @@ class QtViewer(QWidget):
         
         Args:
             content: pero.QtView, pero.Control or pero.Graphics
+                A content to set.
         """
         
         # clean sizer

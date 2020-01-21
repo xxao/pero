@@ -12,6 +12,10 @@ class Label(Glyph):
     """
     Abstract base class for various types of label items glyphs.
     
+    The pero.Label classes can be used directly to draw labels or as descriptor
+    to create a pero.Label instances from real data and using the 'clone'
+    method and a data source.
+    
     Properties:
         
         x: int, float or callable
@@ -154,7 +158,7 @@ class LabelBox(Glyph):
     """
     Labels box provides a simple tool to draw all given labels at once in
     the order defined by their 'z_index' property. This can be useful in case of
-    drawing plot labels as one consistent 'layer'.
+    drawing plot labels as one consistent layer or group.
     
     If the 'clip' frame is provided, all the labels having the anchor
     coordinates outside the frame are ignored and not drawn. In addition, labels

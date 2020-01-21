@@ -56,8 +56,10 @@ class DrawTest(pero.Graphics):
         # draw markers
         marker.draw_many(canvas, self._values)
         
-        # draw labels
+        # create labels
         labels = [label.clone(source=val) for val in self._values]
+        
+        # draw labels
         container.draw(canvas, items=labels)
 
 

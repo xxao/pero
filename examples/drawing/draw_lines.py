@@ -106,7 +106,7 @@ class DrawTest(pero.Graphics):
         # draw custom line
         y += margin
         line.draw(canvas, x1=x1, y1=y, x2=x2, y2=y, line_style=pero.LINE_STYLE_CUSTOM, line_dash=[5, 7, 1, 2, 1, 7])
-        label.draw(canvas, x=x1, y=y+10, text="Custom")
+        label.draw(canvas, x=x1, y=y+10, text="Custom [5, 7, 1, 2, 1, 7]")
 
 
 # run test

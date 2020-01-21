@@ -55,7 +55,7 @@ class Canvas(PropertySet):
         line_dash: (float,), None or UNDEF
             Specifies the line dash style as a collection of numbers defining the
             lengths of lines and spaces in-between. Specified value is used only
-            if the 'line_style' property is set to pero.LINE_STYLE_CUSTOM.
+            if the 'line_style' property is set to pero.LINE_STYLE.CUSTOM.
         
         line_cap: pero.LINE_CAP or UNDEF
             Specifies the line ends shape as any item from the pero.LINE_CAP
@@ -542,7 +542,7 @@ class Canvas(PropertySet):
         Draws an arc of specified radius centered around given coordinates.
         
         This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
+        implementation other than the default, using pero.Path.
         
         Args:
             x: int or float
@@ -577,7 +577,7 @@ class Canvas(PropertySet):
         Draws a circle of specified radius centered around given coordinates.
         
         This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
+        implementation other than the default using, pero.Path.
         
         Args:
             x: int or float
@@ -604,7 +604,7 @@ class Canvas(PropertySet):
         width and height.
         
         This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
+        implementation other than the default, using pero.Path.
         
         Args:
             x: int or float
@@ -684,7 +684,7 @@ class Canvas(PropertySet):
         Draws a line between two points.
         
         This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
+        implementation other than the default, using pero.Path.
         
         Args:
             x1: int or float
@@ -714,7 +714,7 @@ class Canvas(PropertySet):
         Draws continuous open line using sequence of points.
         
         This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
+        implementation other than the default, using pero.Path.
         
         Args:
             points: ((float, float),)
@@ -753,7 +753,7 @@ class Canvas(PropertySet):
         Draws a closed polygon using sequence of points.
         
         This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
+        implementation other than the default, using pero.Path.
         
         Args:
             points: ((float, float),)
@@ -786,7 +786,7 @@ class Canvas(PropertySet):
         for each corners starting from top-left.
         
         This method should be overridden by specific backend to provide native
-        implementation other than the default using pero.Path.
+        implementation other than the default, using pero.Path.
         
         Args:
             x: int or float
@@ -984,9 +984,13 @@ class Canvas(PropertySet):
         """
         Sets rectangular region currently used for drawing. This provides an
         easy way to draw complex graphics at specific position of the canvas
-        without adjusting the coordinates of the graphics. It is achieved
-        by changing the origin coordinates and the logical width and height of
+        without adjusting the coordinates of the graphics. It is achieved by
+        changing the origin coordinates and the logical width and height of
         the canvas.
+        
+        This method returns a context manager class so it can be used as part of
+        the 'with' statement to make the changes temporary and automatically
+        reverted back to original state.
         
         Args:
             x: int or float
@@ -1053,9 +1057,12 @@ class Canvas(PropertySet):
         """
         Sets clipping path as intersection with current one.
         
+        This method returns a context manager class so it can be used as part of
+        the 'with' statement to make the changes temporary and automatically
+        reverted back to original state.
+        
         This method needs be overwritten by specific backend to provide native
-        implementation for clipping. The method is expected to return a
-        pero.ClipState instance so it can be used within 'with' statement.
+        implementation for clipping.
         
         Args:
             path: pero.Path
@@ -1085,9 +1092,12 @@ class Canvas(PropertySet):
         """
         Opens new drawing group.
         
+        This method returns a context manager class so it can be used as part of
+        the 'with' statement to make the changes temporary and automatically
+        reverted back to original state.
+        
         This method needs be overwritten by specific backend to provide native
-        implementation for objects grouping. The method is expected to return a
-        pero.GroupState instance so it can be used within 'with' statement.
+        implementation for objects grouping.
         
         Args:
             id_tag: str

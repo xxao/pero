@@ -124,7 +124,7 @@ class DrawTest(pero.Graphics):
         matrix.clear().translate(x, y)
         
         # add polygon
-        points = pero.Path.make_star(6, x=265, y=35, outer_radius=40, inner_radius=20).anchors
+        points = pero.Path.make_star(6, x=265, y=35, outer_radius=40, inner_radius=20).anchors()
         path.polygon(points)
         glyph.draw(canvas, path=path.transformed(matrix))
         label.draw(canvas, x=x, y=y+80, text="Star Polygon")
@@ -133,7 +133,7 @@ class DrawTest(pero.Graphics):
         matrix.clear().translate(x, y)
         
         # add polygon
-        points = pero.Path.make_ngon(6, x=265, y=35, radius=10).anchors
+        points = pero.Path.make_ngon(6, x=265, y=35, radius=10).anchors()
         path.polygon(points)
         glyph.draw(canvas, path=path.transformed(matrix))
         label.draw(canvas, x=x, y=y+80, text="Regular Polygon")

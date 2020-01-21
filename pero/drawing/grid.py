@@ -47,8 +47,9 @@ class ParallelGrid(Grid):
     """
     Parallel grid is drawn as a series of horizontal or vertical parallel
     lines of specified length. This type of grid is typically used by
-    Cartesian plots. Ticks are expected to be provided as values relative to the
-    origin.
+    Cartesian plots.
+    
+    The 'ticks' are expected to be provided as distance values from the origin.
     
     Properties:
         
@@ -201,7 +202,7 @@ class RadialGrid(Grid):
     by 'start_angle' and 'end_angle'. This type of grid is typically used
     by polar plots.
     
-    The 'ticks' are expected to be provided as a distance from given origin.
+    The 'ticks' are expected to be provided as distance values from the origin.
     
     Properties:
         
