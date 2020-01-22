@@ -11,4 +11,4 @@ from .scalar import ScalarFormatter
 from .stringed import EmptyFormatter, StrFormatter, PrintfFormatter
 from .timed import TimeFormatter
 
-from .helpers import *
+from .utils import *
