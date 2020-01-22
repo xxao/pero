@@ -24,7 +24,7 @@ class ContinuousScale(Scale):
     To make a specific scale it is mostly sufficient to create an instance of
     ContinuousScale and set the 'normalizer' and/or 'converter' to provide
     specific conversion. There are already some predefined scales for convenient
-    use like LinScale, LogScale and PowScale.
+    use like pero.LinScale, pero.LogScale and pero.PowScale.
     
     For the input values outside specified range the clipping can be applied by
     setting the 'clip' property to True. Otherwise such values will be
@@ -37,10 +37,10 @@ class ContinuousScale(Scale):
     Properties:
         
         in_range: (float, float)
-            Specifies the minimum and maximum value of the input range.
+            Specifies the start and end value of the input range.
         
         out_range: (float, float)
-            Specifies the minimum and maximum value of the output range.
+            Specifies the start and end value of the output range.
         
         normalizer: pero.Interpol
             Specifies the normalization interpolator.
@@ -53,12 +53,12 @@ class ContinuousScale(Scale):
             clipped (True) or interpolated (False).
     """
     
+    in_range = TupleProperty((), intypes=(int, float), dynamic=False)
+    out_range = TupleProperty((), intypes=(int, float), dynamic=False)
+    
     normalizer = Property(UNDEF, types=(Interpol,), dynamic=False)
     converter = Property(UNDEF, types=(Interpol,), dynamic=False)
     clip = BoolProperty(False, dynamic=False)
-    
-    in_range = TupleProperty((), intypes=(int, float), dynamic=False)
-    out_range = TupleProperty((), intypes=(int, float), dynamic=False)
     
     
     def __init__(self, **overrides):
@@ -73,6 +73,18 @@ class ContinuousScale(Scale):
         
         # init base
         super(ContinuousScale, self).__init__(**overrides)
+        
+        # init indexes
+        self._in_min = 0
+        self._in_max = 1
+        self._out_min = 0
+        self._out_max = 1
+        
+        # update indexes
+        self._on_continuous_scale_property_changed()
+        
+        # bind events
+        self.bind(EVT_PROPERTY_CHANGED, self._on_continuous_scale_property_changed)
     
     
     def scale(self, value, *args, **kwargs):
@@ -94,11 +106,13 @@ class ContinuousScale(Scale):
             return self._scale_array(value)
         
         # clip values outside
-        if self.clip and value <= self.in_range[0]:
-            return self.out_range[0]
-        
-        if self.clip and value >= self.in_range[1]:
-            return self.out_range[1]
+        if self.clip:
+            
+            if value <= self.in_range[self._in_min]:
+                return self.out_range[self._in_min]
+            
+            if value >= self.in_range[self._in_max]:
+                return self.out_range[self._in_max]
         
         # normalize value
         norm = self.normalizer.normalize(value, self.in_range[0], self.in_range[1])
@@ -126,11 +140,13 @@ class ContinuousScale(Scale):
             return self._invert_array(value)
         
         # clip values outside
-        if self.clip and value <= self.out_range[0]:
-            return self.in_range[0]
-        
-        if self.clip and value >= self.out_range[1]:
-            return self.in_range[1]
+        if self.clip:
+            
+            if value <= self.out_range[self._out_min]:
+                return self.in_range[self._out_min]
+            
+            if value >= self.out_range[self._out_max]:
+                return self.in_range[self._out_max]
         
         # normalize value
         norm = self.converter.normalize(value, self.out_range[0], self.out_range[1])
@@ -141,7 +157,7 @@ class ContinuousScale(Scale):
     
     def normalize(self, value, *args, **kwargs):
         """
-        Returns normalized value for given input value.
+        Returns normalized value (in range 0 to 1) for given input value.
         
         Args:
             value: int, float, (int,), (float,)
@@ -158,11 +174,13 @@ class ContinuousScale(Scale):
             return self._normalize_array(value)
         
         # clip values outside
-        if self.clip and value <= self.in_range[0]:
-            return 0.
-        
-        if self.clip and value >= self.in_range[1]:
-            return 1.
+        if self.clip:
+            
+            if value <= self.in_range[self._in_min]:
+                return float(self._in_min)
+            
+            if value >= self.in_range[self._in_max]:
+                return float(self._in_max)
         
         # normalize value
         return self.normalizer.normalize(value, self.in_range[0], self.in_range[1])
@@ -175,15 +193,15 @@ class ContinuousScale(Scale):
         if not isinstance(value, numpy.ndarray):
             value = numpy.array(value)
         
+        # clip values
+        if self.clip:
+            numpy.clip(value, self.in_range[self._in_min], self.in_range[self._in_max], out=value)
+        
         # normalize values
         norm = self.normalizer.normalize(value, self.in_range[0], self.in_range[1])
         
         # convert normalized values
         denorm = self.converter.denormalize(norm, self.out_range[0], self.out_range[1])
-        
-        # clip values
-        if self.clip:
-            numpy.clip(denorm, self.out_range[0], self.out_range[1], out=denorm)
         
         return denorm
     
@@ -195,15 +213,15 @@ class ContinuousScale(Scale):
         if not isinstance(value, numpy.ndarray):
             value = numpy.array(value)
         
+        # clip values
+        if self.clip:
+            numpy.clip(value, self.out_range[self._out_min], self.out_range[self._out_max], out=value)
+        
         # normalize values
         norm = self.converter.normalize(value, self.out_range[0], self.out_range[1])
         
         # convert normalized values
         denorm = self.normalizer.denormalize(norm, self.in_range[0], self.in_range[1])
-        
-        # clip values
-        if self.clip:
-            numpy.clip(denorm, self.out_range[0], self.out_range[1], out=denorm)
         
         return denorm
     
@@ -220,9 +238,29 @@ class ContinuousScale(Scale):
         
         # clip values
         if self.clip:
-            numpy.clip(norm, 0, 1, out=norm)
+            numpy.clip(norm, 0., 1., out=norm)
         
         return norm
+    
+    
+    def _on_continuous_scale_property_changed(self, evt=None):
+        """Called after a property has changed."""
+        
+        # check in_range
+        if evt is None or evt.name in 'in_range':
+            self._in_min = 0
+            self._in_max = 1
+            if self.in_range and self.in_range[0] > self.in_range[1]:
+                self._in_min = 1
+                self._in_max = 0
+        
+        # check out_range
+        if evt is None or evt.name == 'out_range':
+            self._out_min = 0
+            self._out_max = 1
+            if self.out_range and self.out_range[0] > self.out_range[1]:
+                self._out_min = 1
+                self._out_max = 0
 
 
 class LinScale(ContinuousScale):
@@ -301,5 +339,5 @@ class PowScale(ContinuousScale):
         """Called after a property has changed."""
         
         # check power
-        if evt.name == 'power':
+        if evt is None or evt.name == 'power':
             self.normalizer.power = self.power

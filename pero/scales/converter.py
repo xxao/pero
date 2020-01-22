@@ -8,8 +8,8 @@ from ..properties import *
 
 class Converter(PropertySet):
     """
-    Converter is a simple tool to convert from one value to another by custom
-    forward and reverse functions.
+    Converter is a simple scale-like tool to convert from one value to another
+    by custom forward and reverse functions.
     
     Properties:
         
@@ -41,13 +41,13 @@ class Converter(PropertySet):
                 Converted value.
         """
         
-        # apply array scaling
-        if isinstance(value, (numpy.ndarray, list, tuple)):
-            return tuple(map(self.scale, value))
-        
         # no function defined
         if self.forward is UNDEF:
             return None
+        
+        # apply array scaling
+        if isinstance(value, (numpy.ndarray, list, tuple)):
+            return tuple(map(self.forward, value))
         
         # convert
         return self.forward(value)
@@ -65,14 +65,14 @@ class Converter(PropertySet):
             any
                 Reversed value.
         """
-        
-        # apply array scaling
-        if isinstance(value, (numpy.ndarray, list, tuple)):
-            return tuple(map(self.invert, value))
 
         # no function defined
         if self.reverse is UNDEF:
             return None
+        
+        # apply array scaling
+        if isinstance(value, (numpy.ndarray, list, tuple)):
+            return tuple(map(self.reverse, value))
         
         # convert
         return self.reverse(value)
