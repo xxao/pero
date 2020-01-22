@@ -3,7 +3,7 @@
 
 import math
 from ..properties import *
-from ..formatters import LogFormatter
+from ..formatters import ScalarFormatter
 from .ticker import Ticker
 from .helpers import *
 
@@ -11,8 +11,7 @@ from .helpers import *
 class LogTicker(Ticker):
     """
     This type of ticker generates nice looking ticks and labels according to
-    logarithmic scale. The label 'formatter' is by default set to
-    pero.LogFormatter, but can be changed if needed.
+    logarithmic scale.
     
     Properties:
         
@@ -40,7 +39,7 @@ class LogTicker(Ticker):
         
         # init formatter
         if 'formatter' not in overrides:
-            overrides['formatter'] = LogFormatter(base=self.base)
+            overrides['formatter'] = ScalarFormatter()
         
         # init base
         super(LogTicker, self).__init__(**overrides)
@@ -80,7 +79,10 @@ class LogTicker(Ticker):
             minor_ticks.reverse()
         
         # update formatter
-        self.formatter.precision = abs(step)
+        if step < self.base:
+            self.formatter.precision = step
+        else:
+            self.formatter.precision = start*step
         
         return tuple(major_ticks), tuple(minor_ticks)
     
@@ -133,11 +135,11 @@ class LogTicker(Ticker):
         if domain >= count or abs(stage1) <= abs(stage2):
             
             count = min(domain, count)
-            splits = (base,1) if domain <= count else (1,2,5)
+            splits = (base, 1) if domain <= count else (1, 2, 5)
             step = step_size(domain, count, splits, base)
             
             ticks = make_ticks(lo, hi, step)
-            ticks = tuple(map(lambda x:math.pow(base, x), ticks))
+            ticks = tuple(map(lambda t: math.pow(base, t), ticks))
             
             return ticks, math.pow(base, step), 1
         
