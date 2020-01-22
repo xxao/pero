@@ -12,7 +12,7 @@ class TestCase(unittest.TestCase):
     def test_scale(self):
         """Tests whether scale works correctly."""
         
-        in_range = [1,2,3]
+        in_range = [1, 2, 3]
         out_range = ["red", "green", "blue"]
         
         scale = pero.OrdinalScale(
@@ -27,7 +27,7 @@ class TestCase(unittest.TestCase):
     def test_invert(self):
         """Tests whether invert works correctly."""
         
-        in_range = [1,2,3]
+        in_range = [1, 2, 3]
         out_range = ["red", "green", "blue"]
         
         scale = pero.OrdinalScale(
@@ -43,7 +43,7 @@ class TestCase(unittest.TestCase):
     def test_default(self):
         """Tests whether default value works correctly."""
         
-        in_range = [1,2,3]
+        in_range = [1, 2, 3]
         out_range = ["red", "green", "blue"]
         default = "black"
         
@@ -90,7 +90,7 @@ class TestCase(unittest.TestCase):
     def test_recycle(self):
         """Tests whether recycling works correctly."""
         
-        in_range = [1,2,3,4,5,6,7]
+        in_range = [1, 2, 3, 4, 5, 6, 7]
         out_range = ["red", "green", "blue"]
         default = None
         

@@ -11,10 +11,10 @@ class Scale(PropertySet):
     conversion between real data values into device screen units, conversion
     of values into categories or levels etc.
     
-    All derived classes should implement conversion methods for both directions:
-    the 'scale' method, which converts values from the input range to output
-    range and the 'invert' method, which converts from the output range to input
-    range.
+    If possible, derived classes should implement conversion methods for both
+    directions: the 'scale' method, which converts values from the input range
+    to output range and the 'invert' method, which converts from the output
+    range to input range.
     
     To convert more data conveniently and/or efficiently, the scales can convert
     not only a single value but whole sequence such as list or numpy.array at

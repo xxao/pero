@@ -12,7 +12,7 @@ class FuncFormatter(Formatter):
     Properties:
         
         func: callable
-            Specifies the function to be used for custom formatting. The function
+            Specifies a function to be used for custom formatting. The function
             is expected to have just one argument for the input value and
             should return formatted string.
     """

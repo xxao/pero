@@ -28,7 +28,7 @@ class GradientScale(Scale):
     Properties:
         
         in_range: (float, float)
-            Specifies the minimum and maximum value of the input range.
+            Specifies the start and end value of the input range.
         
         out_range: pero.Gradient, pero.Palette, (color,), str
             Specifies the output gradient as a sequence of supported pero.Color
@@ -39,10 +39,10 @@ class GradientScale(Scale):
             Specifies the normalization interpolator.
     """
     
-    normalizer = Property(UNDEF, types=(Interpol,), dynamic=False)
-    
     in_range = TupleProperty((), intypes=(int, float), dynamic=False)
     out_range = GradientProperty(UNDEF, dynamic=False)
+    
+    normalizer = Property(UNDEF, types=(Interpol,), dynamic=False)
     
     
     def __init__(self, **overrides):
@@ -101,7 +101,7 @@ class GradientScale(Scale):
         """Called after a property has changed."""
         
         # update gradient
-        if evt.name == 'out_range':
+        if evt is None or evt.name == 'out_range':
             self._update_gradient()
 
 
@@ -175,5 +175,5 @@ class GradientPowScale(GradientScale):
         """Called after a property has changed."""
         
         # check power
-        if evt.name == 'power':
+        if evt is None or evt.name == 'power':
             self.normalizer.power = self.power

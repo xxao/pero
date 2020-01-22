@@ -13,7 +13,7 @@ class TestCase(unittest.TestCase):
         """Tests whether scale works correctly for exact thresholds."""
         
         levels = ["red", "green", "blue"]
-        thresholds = [1,2,3]
+        thresholds = [1, 2, 3]
         
         scale = pero.LevelScale(
             in_range = thresholds,
@@ -28,7 +28,7 @@ class TestCase(unittest.TestCase):
         """Tests whether scale works correctly for values inside."""
         
         levels = ["red", "green", "blue"]
-        thresholds = [1,2,3]
+        thresholds = [1, 2, 3]
         
         scale = pero.LevelScale(
             in_range = thresholds,
@@ -42,7 +42,7 @@ class TestCase(unittest.TestCase):
         """Tests whether scale works correctly for values outside."""
         
         levels = ["red", "green", "blue"]
-        thresholds = [1,2,3]
+        thresholds = [1, 2, 3]
         
         scale = pero.LevelScale(
             in_range = thresholds,
@@ -56,7 +56,7 @@ class TestCase(unittest.TestCase):
         """Tests whether invert works correctly."""
         
         levels = ["red", "green", "blue"]
-        thresholds = [1,2,3]
+        thresholds = [1, 2, 3]
         
         scale = pero.LevelScale(
             in_range = thresholds,

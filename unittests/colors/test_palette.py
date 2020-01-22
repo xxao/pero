@@ -13,7 +13,7 @@ class TestCase(unittest.TestCase):
         """Tests whether constructor works correctly."""
         
         color0 = pero.Color.Red
-        color1 = pero.Color(100,150,200)
+        color1 = pero.Color(100, 150, 200)
         color2 = "#aaa"
         
         palette = pero.Palette((color0, color1, color2))
@@ -128,14 +128,14 @@ class TestCase(unittest.TestCase):
         picked = pero.Palette.from_gradient(gradient, 3)
         self.assertEqual(len(picked), 3)
         self.assertEqual(picked[0], color0)
-        self.assertEqual(picked[1], (128,128,128))
+        self.assertEqual(picked[1], (128, 128, 128))
         self.assertEqual(picked[2], color1)
         
         picked = pero.Palette.from_gradient(gradient, 4)
         self.assertEqual(len(picked), 4)
         self.assertEqual(picked[0], color0)
-        self.assertEqual(picked[1], (85,85,85))
-        self.assertEqual(picked[2], (170,170,170))
+        self.assertEqual(picked[1], (85, 85, 85))
+        self.assertEqual(picked[2], (170, 170, 170))
         self.assertEqual(picked[3], color1)
     
     
@@ -144,7 +144,7 @@ class TestCase(unittest.TestCase):
         
         # init named palette
         colors = (pero.Color.Red, pero.Color.Green, pero.Color.Blue)
-        model = pero.Palette(colors,"MyPalette")
+        model = pero.Palette(colors, "MyPalette")
         
         # test from name
         palette = pero.Palette.from_name('MyPalette')

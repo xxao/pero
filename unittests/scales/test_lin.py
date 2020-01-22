@@ -108,11 +108,11 @@ class TestCase(unittest.TestCase):
         self.assertEqual(interpol.denormalize(0.5, -2, 6), 2)
         
         # test left
-        self.assertEqual(interpol.normalize(-4, -2,6), -0.25)
+        self.assertEqual(interpol.normalize(-4, -2, 6), -0.25)
         self.assertEqual(interpol.denormalize(-0.25, -2, 6), -4)
         
         # test right
-        self.assertEqual(interpol.normalize(8, -2,6), 1.25)
+        self.assertEqual(interpol.normalize(8, -2, 6), 1.25)
         self.assertEqual(interpol.denormalize(1.25, -2, 6), 8)
         
         # test zero

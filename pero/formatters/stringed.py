@@ -57,10 +57,12 @@ class StrFormatter(Formatter):
             str
                 Formatted label."""
         
+        # format and trim
         if self.trim:
             return self.template.format(value).strip()
-        else:
-            return self.template.format(value)
+        
+        # format only
+        return self.template.format(value)
 
 
 class PrintfFormatter(Formatter):
@@ -93,8 +95,10 @@ class PrintfFormatter(Formatter):
             str
                 Formatted label.
         """
-        
+
+        # format and trim
         if self.trim:
             return (self.template % value).strip()
-        else:
-            return self.template % value
+        
+        # format only
+        return self.template % value

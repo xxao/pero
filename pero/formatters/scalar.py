@@ -9,15 +9,18 @@ from .formatter import Formatter
 
 class ScalarFormatter(Formatter):
     """
-    This formatter tool uses an automatic formatting of given number according to
-    current 'domain', 'precision' and additional settings. It is typically used
-    to format labels for standard numeric axes.
+    This formatter tool uses an automatic formatting of given number according
+    to current 'domain', 'precision' and additional settings. It is typically
+    used to format labels for standard numeric axes.
     
     A scientific notation style (e.g. 2e6) can be used to format numbers
     exceeding specific threshold, which can be specified by the 'sci_threshold'
-    property as a power of 10. The notation suffix can be removed from labels by
-    setting the 'hide_suffix' property to True and becomes available using the
-    'suffix' method. Specific formatting of the suffix can also be defined by the
+    property as a power of 10. (E.g. if set to 3, all the values grater than
+    1000 or smaller than -1000 wil be formatted with scientific notation.)
+    
+    The scientific notation suffix can be removed from labels by setting the
+    'hide_suffix' property to True and it becomes available using the 'suffix'
+    method. Specific formatting of the suffix can also be defined by the
     'suffix_template' property expecting the power as input (e.g. 'e{:.0f}').
     
     Properties:
@@ -91,7 +94,7 @@ class ScalarFormatter(Formatter):
                 value_power = int(math.floor(math.log10(abs(value))))
                 if value_power > self._last_digit:
                     last_digit = self._last_digit - value_power
-            
+                
             template = "{:1.%de}" % abs(last_digit)
         
         # use current precision
@@ -136,14 +139,9 @@ class ScalarFormatter(Formatter):
     def _init_formatting(self):
         """Initializes formatting based on current range."""
         
-        # get range
-        domain = self.domain
-        if not self.domain:
-            domain = 1
-        
-        precision = self.precision
-        if not self.precision:
-            precision = 1
+        # get range and precision
+        domain = self.domain or 1.
+        precision = self.precision or 1.
         
         # calc power and digits
         self._power = int(math.floor(math.log10(abs(domain))))

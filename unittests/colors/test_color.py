@@ -63,31 +63,31 @@ class TestCase(unittest.TestCase):
         
         # test incorrect type
         with self.assertRaises(ValueError):
-            color = pero.Color("red",150,200,10)
+            color = pero.Color("red", 150, 200, 10)
         with self.assertRaises(ValueError):
-            color = pero.Color(100,"green",200,10)
+            color = pero.Color(100, "green", 200, 10)
         with self.assertRaises(ValueError):
-            color = pero.Color(100,150,"blue",100)
+            color = pero.Color(100, 150, "blue", 100)
         with self.assertRaises(ValueError):
-            color = pero.Color(100,150,200,"alpha")
+            color = pero.Color(100, 150, 200, "alpha")
         
         # test incorrect values
         with self.assertRaises(ValueError):
-            color = pero.Color(300,150,200,10)
+            color = pero.Color(300, 150, 200, 10)
         with self.assertRaises(ValueError):
-            color = pero.Color(100,300,200,10)
+            color = pero.Color(100, 300, 200, 10)
         with self.assertRaises(ValueError):
-            color = pero.Color(100,150,300,100)
+            color = pero.Color(100, 150, 300, 100)
         with self.assertRaises(ValueError):
-            color = pero.Color(100,150,200,300)
+            color = pero.Color(100, 150, 200, 300)
         with self.assertRaises(ValueError):
-            color = pero.Color(-1,150,200,10)
+            color = pero.Color(-1, 150, 200, 10)
         with self.assertRaises(ValueError):
-            color = pero.Color(100,-1,200,10)
+            color = pero.Color(100, -1, 200, 10)
         with self.assertRaises(ValueError):
-            color = pero.Color(100,150,-1,100)
+            color = pero.Color(100, 150, -1, 100)
         with self.assertRaises(ValueError):
-            color = pero.Color(100,150,200,-1)
+            color = pero.Color(100, 150, 200, -1)
     
     
     def test_equals(self):
@@ -152,23 +152,23 @@ class TestCase(unittest.TestCase):
     def test_hex(self):
         """Tests whether RGBA hex is returned correctly."""
         
-        color = pero.Color(0,150,200,250)
+        color = pero.Color(0, 150, 200, 250)
         self.assertEqual(color.hex, "#0096c8fa")
     
     
     def test_lighter(self):
         """Tests whether making lighter color works correctly."""
         
-        color = pero.Color(50,100,180,200)
+        color = pero.Color(50, 100, 180, 200)
         
         lighter = color.lighter(0)
-        self.assertEqual(lighter.rgba, (50,100,180,200))
+        self.assertEqual(lighter.rgba, (50, 100, 180, 200))
         
         lighter = color.lighter(0.5)
-        self.assertEqual(lighter.rgba, (153, 178, 218,200))
+        self.assertEqual(lighter.rgba, (153, 178, 218, 200))
         
         lighter = color.lighter(1)
-        self.assertEqual(lighter.rgba, (255,255,255,200))
+        self.assertEqual(lighter.rgba, (255, 255, 255, 200))
         
         # test incorrect value
         with self.assertRaises(ValueError):
@@ -181,16 +181,16 @@ class TestCase(unittest.TestCase):
     def test_darker(self):
         """Tests whether making darker color works correctly."""
         
-        color = pero.Color(152,177,217,200)
+        color = pero.Color(152, 177, 217, 200)
         
         darker = color.darker(0)
-        self.assertEqual(darker.rgba, (152,177,217,200))
+        self.assertEqual(darker.rgba, (152, 177, 217, 200))
         
         darker = color.darker(0.5)
         self.assertEqual(darker.rgba, (76, 89, 109, 200))
         
         darker = color.darker(1)
-        self.assertEqual(darker.rgba, (0,0,0,200))
+        self.assertEqual(darker.rgba, (0, 0, 0, 200))
         
         # test incorrect value
         with self.assertRaises(ValueError):
@@ -203,16 +203,16 @@ class TestCase(unittest.TestCase):
     def test_opaque(self):
         """Tests whether making opaque color works correctly."""
         
-        color = pero.Color(152,177,217,200)
+        color = pero.Color(152, 177, 217, 200)
         
         trans = color.opaque(0)
-        self.assertEqual(trans.rgba, (152,177,217,0))
+        self.assertEqual(trans.rgba, (152, 177, 217, 0))
         
         trans = color.opaque(1)
-        self.assertEqual(trans.rgba, (152,177,217,255))
+        self.assertEqual(trans.rgba, (152, 177, 217, 255))
         
         trans = color.opaque(0.5)
-        self.assertEqual(trans.rgba, (152,177,217,128))
+        self.assertEqual(trans.rgba, (152, 177, 217, 128))
         
         # test incorrect value
         with self.assertRaises(ValueError):
@@ -225,16 +225,16 @@ class TestCase(unittest.TestCase):
     def test_trans(self):
         """Tests whether making transparent color works correctly."""
         
-        color = pero.Color(152,177,217,200)
+        color = pero.Color(152, 177, 217, 200)
         
         trans = color.trans(0)
-        self.assertEqual(trans.rgba, (152,177,217,255))
+        self.assertEqual(trans.rgba, (152, 177, 217, 255))
         
         trans = color.trans(1)
-        self.assertEqual(trans.rgba, (152,177,217,0))
+        self.assertEqual(trans.rgba, (152, 177, 217, 0))
         
         trans = color.trans(0.5)
-        self.assertEqual(trans.rgba, (152,177,217,128))
+        self.assertEqual(trans.rgba, (152, 177, 217, 128))
         
         # test incorrect value
         with self.assertRaises(ValueError):
@@ -247,43 +247,43 @@ class TestCase(unittest.TestCase):
     def test_interpolate(self):
         """Tests whether interpolation works correctly."""
         
-        c1 = pero.Color(50,100,150,200)
-        c2 = pero.Color(100,150,200,250)
+        c1 = pero.Color(50, 100, 150, 200)
+        c2 = pero.Color(100, 150, 200, 250)
         
         inter = pero.Color.interpolate(c1, c2, 0.5)
-        self.assertEqual(inter.rgba, (75,125,175,225))
+        self.assertEqual(inter.rgba, (75, 125, 175, 225))
         
         inter = pero.Color.interpolate(c1, c2, -0.5)
-        self.assertEqual(inter.rgba, (25,75,125,175))
+        self.assertEqual(inter.rgba, (25, 75, 125, 175))
         
         inter = pero.Color.interpolate(c1, c2, -1000)
-        self.assertEqual(inter.rgba, (0,0,0,0))
+        self.assertEqual(inter.rgba, (0, 0, 0, 0))
         
         inter = pero.Color.interpolate(c1, c2, 1.5)
-        self.assertEqual(inter.rgba, (125,175,225,255))
+        self.assertEqual(inter.rgba, (125, 175, 225, 255))
         
         inter = pero.Color.interpolate(c1, c2, 1000)
-        self.assertEqual(inter.rgba, (255,255,255,255))
+        self.assertEqual(inter.rgba, (255, 255, 255, 255))
     
     
     def test_create(self):
         """Tests whether create method works correctly."""
         
         # test from color
-        color = pero.Color.create(pero.Color(255,0,0,255))
-        self.assertEqual(color.rgba, (255,0,0,255))
+        color = pero.Color.create(pero.Color(255, 0, 0, 255))
+        self.assertEqual(color.rgba, (255, 0, 0, 255))
         
         # test from name
         color = pero.Color.create('Red')
-        self.assertEqual(color.rgba, (255,0,0,255))
+        self.assertEqual(color.rgba, (255, 0, 0, 255))
         
         # test from tuple
-        color = pero.Color.create((170,187,204,221))
-        self.assertEqual(color.rgba, (170,187,204,221))
+        color = pero.Color.create((170, 187, 204, 221))
+        self.assertEqual(color.rgba, (170, 187, 204, 221))
         
         # test from hex
         color = pero.Color.create("#aabbccdd")
-        self.assertEqual(color.rgba, (170,187,204,221))
+        self.assertEqual(color.rgba, (170, 187, 204, 221))
     
     
     def test_from_name(self):

@@ -12,7 +12,7 @@ class TestCase(unittest.TestCase):
     def test_formatter(self):
         """Tests whether formatter works as standalone tool."""
         
-        formatter = pero.FuncFormatter(func=lambda x:"{:0.2f} u".format(x))
+        formatter = pero.FuncFormatter(func=lambda d: "{:0.2f} u".format(d))
         
         self.assertEqual(formatter.format(0), "0.00 u")
         self.assertEqual(formatter.format(1.5), "1.50 u")

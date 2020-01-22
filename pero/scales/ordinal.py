@@ -148,15 +148,13 @@ class OrdinalScale(Scale):
         """Called after a property has changed."""
         
         # check in_range
-        if evt.name == 'in_range':
+        if evt is None or evt.name == 'in_range':
             self._in_range_idx = None
-            
             if self.in_range is None or self.in_range is UNDEF:
                 self.in_range = ()
         
         # check out_range
-        if evt.name == 'out_range':
+        if evt is None or evt.name == 'out_range':
             self._out_range_idx = None
-            
             if self.out_range is None or self.out_range is UNDEF:
                 self.out_range = ()

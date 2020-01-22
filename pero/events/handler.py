@@ -152,4 +152,3 @@ class EvtHandler(object):
         
         if issubclass(evt, Event):
             return evt.TYPE
-

@@ -59,6 +59,7 @@ class SizeEvt(ViewEvt):
     Defines an event which is fired if view size was changed.
     
     Attributes:
+        
         width: int or float
             New width of the view.
         

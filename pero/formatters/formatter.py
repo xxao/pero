@@ -6,14 +6,14 @@ from ..properties import *
 
 class Formatter(PropertySet):
     """
-    This class mainly provides a base class for all specific formatter. It can
+    This class mainly serves as a base class for all specific formatters. It can
     be also used alone just to convert given value into a string using the
-    native implementation of provided values (i.e. __str__ method).
+    native implementation of provided value (i.e. __str__ method).
     
-    Each formatter has the 'domain' and 'precision' properties, which should be
-    set automatically if formatter is used as part of an axis ticker. They can
-    be used to prepare formatting according to actual data range and required
-    step size.
+    Each formatter has the 'domain' and 'precision' properties. They are used to
+    prepare formatting according to actual data range and required precision
+    (e.g. axis step size). If the formatter is used as part of an axis ticker,
+    these properties are set automatically.
     
     Sometimes it might be handy to remove specific part from all the labels and
     put it for example at the end of the axis title (e.g. Axis Title [10^5]).
@@ -38,7 +38,7 @@ class Formatter(PropertySet):
         provided value (i.e. __str__ method).
         
         This method should be overridden in derived classes to provide specific
-        formatting.
+        formatting mechanism.
         
         Args:
             value: any

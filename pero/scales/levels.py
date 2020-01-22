@@ -13,7 +13,7 @@ class LevelScale(Scale):
     predefined categorical threshold-based output. The input range should
     contain thresholds for each predefined level (maximum value allowed). The
     output range defines the final values representing particular level
-    (e.g. color or name).
+    (e.g. color, name etc.).
     
     Properties:
         
@@ -84,7 +84,7 @@ class LevelScale(Scale):
                 Level value.
         
         Returns:
-            threshold: float
+            float
                 Maximum threshold of the level.
         """
         
@@ -114,12 +114,12 @@ class LevelScale(Scale):
         """Called after a property has changed."""
         
         # check in_range
-        if evt.name in 'in_range':
+        if evt is None or evt.name in 'in_range':
             if self.in_range is None or self.in_range is UNDEF:
                 self.in_range = ()
         
         # check out_range
-        if evt.name == 'out_range':
+        if evt is None or evt.name == 'out_range':
             self._levels_idx = None
             if self.out_range is None or self.out_range is UNDEF:
                 self.out_range = ()

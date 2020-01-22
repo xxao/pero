@@ -29,7 +29,7 @@ class EngFormatter(Formatter):
             label.
         
         places: int or UNDEF
-            Specifies the explicit number of decimal placed to show. If not
+            Specifies the requested number of decimal placed to show. If not
             specified, the formatting is automatically set by current
             'precision' and 'domain'.
         
@@ -118,7 +118,7 @@ class EngFormatter(Formatter):
         self._is_dirty = False
         
         # init prefixes
-        self._prefixes = {v:k for k,v in ENG_PREFIXES.items()}
+        self._prefixes = {v: k for k, v in ENG_PREFIXES.items()}
         
         # check domain
         if not self.domain:

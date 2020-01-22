@@ -114,6 +114,26 @@ class TestCase(unittest.TestCase):
         self.assertAlmostEqual(y, 10)
     
     
+    def test_ray(self):
+        """Tests whether points are rayed correctly."""
+        
+        # ray positive
+        matrix = pero.Matrix()
+        matrix.ray(10, numpy.pi/2)
+        x, y = matrix.transform(10, 20)
+        
+        self.assertEqual(x, 10)
+        self.assertEqual(y, 30)
+        
+        # ray negative
+        matrix = pero.Matrix()
+        matrix.ray(-10, numpy.pi/2)
+        x, y = matrix.transform(10, 20)
+        
+        self.assertEqual(x, 10)
+        self.assertEqual(y, 10)
+    
+    
     def test_hflip(self):
         """Tests whether points are flipped horizontally correctly."""
         
