@@ -94,7 +94,7 @@ class ScalarFormatter(Formatter):
                 value_power = int(math.floor(math.log10(abs(value))))
                 if value_power > self._last_digit:
                     last_digit = self._last_digit - value_power
-                
+            
             template = "{:1.%de}" % abs(last_digit)
         
         # use current precision

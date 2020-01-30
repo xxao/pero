@@ -144,7 +144,7 @@ class LogTicker(Ticker):
             return ticks, math.pow(base, step), 1
         
         domain = abs(end - start)
-        splits = (base,1) if base != 10 else (1,2,5)
+        splits = (base, 1) if base != 10 else (1, 2, 5)
         step = step_size(domain, count, splits, base)
         stage3 = (count - domain/step)
         
@@ -161,7 +161,7 @@ class LogTicker(Ticker):
         """Makes minor ticks."""
         
         if stage != 1:
-            step = step_size(step, count, (base,1), base)
+            step = step_size(step, count, (base, 1), base)
             return make_ticks(start, end, step)
         
         if step <= base:
@@ -171,10 +171,10 @@ class LogTicker(Ticker):
         end = math.log(end, base)
         
         step = math.log(step, base)
-        step = step_size(step, count, (1,2,5), base)
+        step = step_size(step, count, (1, 2, 5), base)
         step = max(step, 1.)
         
         ticks = make_ticks(start, end, step)
-        ticks = tuple(map(lambda x:math.pow(base, x), ticks))
+        ticks = tuple(map(lambda t: math.pow(base, t), ticks))
         
         return ticks
