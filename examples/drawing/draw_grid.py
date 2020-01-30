@@ -32,14 +32,14 @@ class DrawTest(pero.Graphics):
         
         # draw horizontal grid
         ticks = (0, 10, 20, 30, 40)
-        grid = pero.ParallelGrid(ticks=ticks, length=40, angle=0, line_color=line_color, orientation=pero.ORI_HORIZONTAL)
+        grid = pero.ParallelGrid(ticks=ticks, length=40, angle=0, line_color=line_color, orientation=pero.ORI_HORIZONTAL, relative=True)
         grid.draw(canvas, x=x, y=y)
         origin.draw(canvas, x=x, y=y)
         
         x += 80
         
         # draw horizontal grid (angled)
-        grid = pero.ParallelGrid(ticks=ticks, length=40, angle=pero.rads(15), line_color=line_color, orientation=pero.ORI_HORIZONTAL)
+        grid = pero.ParallelGrid(ticks=ticks, length=40, angle=pero.rads(15), line_color=line_color, orientation=pero.ORI_HORIZONTAL, relative=True)
         grid.draw(canvas, x=x, y=y)
         origin.draw(canvas, x=x, y=y)
         
@@ -49,14 +49,14 @@ class DrawTest(pero.Graphics):
         
         # draw vertical grid
         ticks = (0, 10, 20, 30, 40)
-        grid = pero.ParallelGrid(ticks=ticks, length=40, angle=0, line_color=line_color, orientation=pero.ORI_VERTICAL)
+        grid = pero.ParallelGrid(ticks=ticks, length=40, angle=0, line_color=line_color, orientation=pero.ORI_VERTICAL, relative=True)
         grid.draw(canvas, x=x, y=y)
         origin.draw(canvas, x=x, y=y)
         
         x += 90
         
         # draw vertical grid (angled)
-        grid = pero.ParallelGrid(ticks=ticks, length=40, angle=pero.rads(15), line_color=line_color, orientation=pero.ORI_VERTICAL)
+        grid = pero.ParallelGrid(ticks=ticks, length=40, angle=pero.rads(15), line_color=line_color, orientation=pero.ORI_VERTICAL, relative=True)
         grid.draw(canvas, x=x, y=y)
         origin.draw(canvas, x=x, y=y)
         

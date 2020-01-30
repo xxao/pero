@@ -40,12 +40,13 @@ class DrawTest(pero.Graphics):
             title = "angle",
             labels = self.x_ticker.labels(),
             title_offset = 25,
-            relative = False,
-            position = pero.POS_BOTTOM)
+            position = pero.POS_BOTTOM,
+            relative = False)
         
         self.x_grid = pero.ParallelGrid(
             line_color = pero.colors.LightGrey,
-            orientation = pero.ORI_VERTICAL)
+            orientation = pero.ORI_VERTICAL,
+            relative = False)
         
         # init y-axis
         self.y_ticker = pero.LinTicker(
@@ -56,12 +57,13 @@ class DrawTest(pero.Graphics):
             title = "fn(x)",
             labels = self.y_ticker.labels(),
             title_offset = 30,
-            relative = False,
-            position = pero.LEFT)
+            position = pero.LEFT,
+            relative = False)
         
         self.y_grid = pero.ParallelGrid(
             line_color = pero.colors.LightGrey,
-            orientation = pero.ORI_HORIZONTAL)
+            orientation = pero.ORI_HORIZONTAL,
+            relative = False)
         
         # init series marker
         self.marker = pero.Circle(
@@ -116,10 +118,10 @@ class DrawTest(pero.Graphics):
         y_ticks_min = self.y_scale.scale(self.y_ticker.minor_ticks())
         
         # draw grids
-        self.x_grid.draw(canvas, y=padding, length=v_length, ticks=x_ticks_min, line_alpha=60)
-        self.y_grid.draw(canvas, x=padding, length=h_length, ticks=y_ticks_min, line_alpha=60)
-        self.x_grid.draw(canvas, y=padding, length=v_length, ticks=x_ticks_maj)
-        self.y_grid.draw(canvas, x=padding, length=h_length, ticks=y_ticks_maj)
+        self.x_grid.draw(canvas, x=padding, y=padding, length=v_length, ticks=x_ticks_min, line_alpha=60)
+        self.y_grid.draw(canvas, x=padding, y=padding, length=h_length, ticks=y_ticks_min, line_alpha=60)
+        self.x_grid.draw(canvas, x=padding, y=padding, length=v_length, ticks=x_ticks_maj)
+        self.y_grid.draw(canvas, x=padding, y=padding, length=h_length, ticks=y_ticks_maj)
         
         # draw axes
         self.x_axis.draw(canvas, x=padding, y=height-padding, length=h_length, major_ticks=x_ticks_maj, minor_ticks=x_ticks_min)

@@ -73,7 +73,7 @@ class Grid(InGraphics):
             self.ticker = LinTicker()
         
         # init glyph
-        self._glyph = ParallelGrid()
+        self._glyph = ParallelGrid(relative=False)
     
     
     def initialize(self, canvas, plot):
@@ -102,10 +102,6 @@ class Grid(InGraphics):
     def draw(self, canvas, source=UNDEF, **overrides):
         """Uses given canvas to draw the grid."""
         
-        # check if visible
-        if not self.is_visible(source, overrides):
-            return
-        
         self.draw_minor(canvas, source, **overrides)
         self.draw_major(canvas, source, **overrides)
     
@@ -122,40 +118,15 @@ class Grid(InGraphics):
             return
         
         # get properties
-        tag = self.get_property('tag', source, overrides)
         scale = self.get_property('scale', source, overrides)
         ticker = self.get_property('ticker', source, overrides)
-        frame = self.get_property('frame', source, overrides)
-        orientation = self.get_property('orientation', source, overrides)
         
         # get ticks
         ticker(start=scale.in_range[0], end=scale.in_range[1])
         ticks = tuple(map(scale.scale, ticker.major_ticks()))
         
-        # finalize tag
-        tag = tag + "_major" if tag else None
-        
-        # get coords
-        if orientation == ORI_HORIZONTAL:
-            x = frame.x
-            y = 0
-            length = frame.width
-        else:
-            x = 0
-            y = frame.y
-            length = frame.height
-        
-        # update glyph
-        self._glyph.set_properties_from(self, "major_", source=source, overrides=overrides)
-        
         # draw grid
-        self._glyph.draw(canvas,
-            tag = tag,
-            x = x,
-            y = y,
-            ticks = ticks,
-            length = length,
-            orientation = orientation)
+        self._draw_grid(canvas, source, overrides, 'major', ticks)
     
     
     def draw_minor(self, canvas, source=UNDEF, **overrides):
@@ -170,37 +141,41 @@ class Grid(InGraphics):
             return
         
         # get properties
-        tag = self.get_property('tag', source, overrides)
         scale = self.get_property('scale', source, overrides)
         ticker = self.get_property('ticker', source, overrides)
-        frame = self.get_property('frame', source, overrides)
-        orientation = self.get_property('orientation', source, overrides)
         
         # get ticks
         ticker(start=scale.in_range[0], end=scale.in_range[1])
         ticks = tuple(map(scale.scale, ticker.minor_ticks()))
         
+        # draw grid
+        self._draw_grid(canvas, source, overrides, 'minor', ticks)
+    
+    
+    def _draw_grid(self, canvas, source, overrides, mode, ticks):
+        """Uses given canvas to draw lines of the grid."""
+        
+        # get properties
+        tag = self.get_property('tag', source, overrides)
+        frame = self.get_property('frame', source, overrides)
+        orientation = self.get_property('orientation', source, overrides)
+        
         # finalize tag
-        tag = tag + "_minor" if tag else None
+        tag = tag + "_" + mode if tag else None
         
         # get coords
-        if orientation == ORI_HORIZONTAL:
-            x = frame.x
-            y = 0
-            length = frame.width
-        else:
-            x = 0
-            y = frame.y
+        length = frame.width
+        if orientation == ORI_VERTICAL:
             length = frame.height
         
         # update glyph
-        self._glyph.set_properties_from(self, "minor_", source=source, overrides=overrides)
+        self._glyph.set_properties_from(self, mode+"_", source=source, overrides=overrides)
         
         # draw grid
         self._glyph.draw(canvas,
             tag = tag,
-            x = x,
-            y = y,
+            x = frame.x,
+            y = frame.y,
             ticks = ticks,
             length = length,
             orientation = orientation)

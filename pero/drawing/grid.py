@@ -49,13 +49,20 @@ class ParallelGrid(Grid):
     lines of specified length. This type of grid is typically used by
     Cartesian plots.
     
-    The 'ticks' are expected to be provided as distance values from the origin.
+    According to the 'relative' property, the ticks are expected to be provided
+    as relative values (True) (as distances from the origin) or as absolute
+    values (False) (as distances from device zero). The coordination of the
+    distances is defined by the 'orientation' property.
     
     Properties:
         
         orientation: pero.ORIENTATION or callable
             Specifies the lines orientation as any item from the
             pero.ORIENTATION enum.
+        
+        relative: bool or callable
+            Specifier whether the ticks values are given as a shift from the
+            origin (True) or as absolute values (False).
         
         length: int, float or callable
             Specifies the lines length.
@@ -65,6 +72,7 @@ class ParallelGrid(Grid):
     """
     
     orientation = EnumProperty(ORI_HORIZONTAL, enum=ORIENTATION)
+    relative = BoolProperty(False)
     length = NumProperty(UNDEF)
     angle = Include(AngleProperties)
     
@@ -82,6 +90,7 @@ class ParallelGrid(Grid):
         x = self.get_property('x', source, overrides)
         y = self.get_property('y', source, overrides)
         orientation = self.get_property('orientation', source, overrides)
+        relative = self.get_property('relative', source, overrides)
         length = self.get_property('length', source, overrides)
         angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
@@ -98,9 +107,14 @@ class ParallelGrid(Grid):
             angle -= 0.5*math.pi
             length *= -1
         
+        # make ticks relative
+        offset = 0
+        if not relative:
+            offset -= x if orientation == ORI_VERTICAL else y
+        
         # calc sin/cos
-        sin = math.sin(angle)
-        cos = math.cos(angle)
+        sin = round(math.sin(angle), 5)
+        cos = round(math.cos(angle), 5)
         
         # start drawing group
         canvas.group(tag, "grid")
@@ -108,10 +122,10 @@ class ParallelGrid(Grid):
         # draw lines
         for tick in ticks:
             
-            x1 = x - tick * sin
-            y1 = y + tick * cos
-            x2 = x + length * cos - tick * sin
-            y2 = y + length * sin + tick * cos
+            x1 = x - (tick+offset) * sin
+            y1 = y + (tick+offset) * cos
+            x2 = x + length * cos - (tick+offset) * sin
+            y2 = y + length * sin + (tick+offset) * cos
             
             canvas.draw_line(x1=x1, y1=y1, x2=x2, y2=y2)
         
