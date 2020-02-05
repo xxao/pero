@@ -12,8 +12,7 @@ class DrawTest(pero.Graphics):
         """Draws the test."""
         
         # clear canvas
-        canvas.fill_color = pero.colors.White
-        canvas.fill()
+        canvas.fill(pero.colors.White)
         
         # prepare series
         data = [10, 25, 15, 30, 5, 10, 5]

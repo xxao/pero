@@ -12,8 +12,7 @@ class DrawTest(pero.Graphics):
         """Draws the test."""
         
         # clear canvas
-        canvas.fill_color = pero.colors.White
-        canvas.fill()
+        canvas.fill(pero.colors.White)
         
         # make path
         path = pero.Path.from_svg("M70,250 Q20,110  208,63")

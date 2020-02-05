@@ -271,8 +271,7 @@ class DrawTest(pero.Graphics):
         """Draws the test."""
         
         # clear canvas
-        canvas.fill_color = pero.colors.Black.lighter(.9)
-        canvas.fill()
+        canvas.fill(pero.colors.Black.lighter(.9))
         
         # get coords
         margin = 30

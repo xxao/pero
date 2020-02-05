@@ -966,18 +966,31 @@ class Canvas(PropertySet):
         self.text_base = ori_text_base
     
     
-    def fill(self):
-        """Fills current drawing region by actual fill color."""
+    def fill(self, color=UNDEF):
+        """
+        Fills current drawing region by specified or actual fill color.
+        
+        Args:
+            color: pero.Color, (int,), str, None or UNDEF
+                Specifies the fill color as an RGB or RGBA tuple, hex code, name
+                or pero.Color. If not set, current fill color will be used.
+        """
         
         # remove current pen
         line_width = self.line_width
         self.line_width = 0
         
+        # set fill color
+        fill_color = self.fill_color
+        if color:
+            self.fill_color = color
+        
         # draw rectangle
         self.draw_rect(*self.viewport.rect)
         
-        # reset pen
+        # reset pen and brush
         self.line_width = line_width
+        self.fill_color = fill_color
     
     
     def view(self, x=None, y=None, width=None, height=None, relative=False):

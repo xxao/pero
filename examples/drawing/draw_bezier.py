@@ -295,8 +295,7 @@ class DrawTest(pero.Graphics):
         """Draws the test."""
         
         # clear canvas
-        canvas.fill_color = pero.colors.White
-        canvas.fill()
+        canvas.fill(pero.colors.White)
         
         # init label
         label = pero.Text(text_align=pero.TEXT_ALIGN_CENTER, x=100, y=220)

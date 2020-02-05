@@ -21,8 +21,7 @@ class DrawTest(pero.Graphics):
         """Draws the test."""
         
         # clear canvas
-        canvas.fill_color = pero.colors.White
-        canvas.fill()
+        canvas.fill(pero.colors.White)
         
         # init scales
         x_scale = pero.LinScale(in_range=(0, 1), out_range=(0, canvas.viewport.w))

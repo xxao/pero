@@ -26,8 +26,7 @@ img.line_cap = pero.ROUND
 img.line_join = pero.ROUND
 
 # fill
-img.fill_color = pero.colors.White
-img.fill()
+img.fill(pero.colors.White)
 
 # body
 img.line_width = 2

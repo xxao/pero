@@ -12,8 +12,7 @@ class DrawTest(pero.Graphics):
         """Draws the test."""
         
         # clear canvas
-        canvas.fill_color = pero.colors.White
-        canvas.fill()
+        canvas.fill(pero.colors.White)
         
         # calc coordinates
         width, height = canvas.viewport.wh

@@ -9,8 +9,7 @@ img.line_cap = pero.LINE_CAP_ROUND
 img.line_join = pero.LINE_JOIN_ROUND
 
 # fill
-img.fill_color = pero.colors.White
-img.fill()
+img.fill(pero.colors.White)
 
 # body
 img.line_width = 3

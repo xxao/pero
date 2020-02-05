@@ -256,11 +256,18 @@ class JsonCanvas(Canvas):
             'angle': angle})
     
     
-    def fill(self):
-        """Fills current drawing region by actual fill color."""
+    def fill(self, color=None):
+        """
+        Fills current drawing region by specified or actual fill color.
+        
+        Args:
+            color: pero.Color, (int,), str, None or UNDEF
+                Specifies the fill color as an RGB or RGBA tuple, hex code, name
+                or pero.Color. If not set, current fill color will be used.
+        """
         
         # store command
-        self._store_command('fill')
+        self._store_command('fill', {'color': color or None})
     
     
     def view(self, x=None, y=None, width=None, height=None, relative=False):
