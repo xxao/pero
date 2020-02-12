@@ -10,7 +10,7 @@ image formats.
 
 Ever since I discovered the wonderful [d3js](https://d3js.org) JavaScript library, I wanted to have the same amazing
 concept of dynamic properties within Python drawings. In fact, this has been the trigger to start working on the *pero*
-library. Finally, it is all now available.
+library. Finally, it is now available.
 
 Please see the *examples* folder or in-code documentation of classes and functions to learn more about the *pero*
 library capabilities.
@@ -26,7 +26,7 @@ img.line_cap = pero.ROUND
 img.line_join = pero.ROUND
 
 # fill
-img.fill(pero.colors.White)
+img.fill("w")
 
 # body
 img.line_width = 2
@@ -102,7 +102,7 @@ code just run the following command from the *pero* folder:
 
 ```$ python setup.py install```
 
-or simply by using pip
+or simply use pip
 
 ```$ pip install pero```
 
@@ -121,7 +121,8 @@ Please note that the *pero* library is still in an alpha state. Any changes in i
 ### Using default backend
 
 If you just want to draw an image using whatever the default backend is (for requested format), or show the image
-directly (requires wxPython or Pythonista), just create an image and use it as any other *pero* canvas:
+directly (requires [PyQt5](https://pypi.org/project/PyQt5/), [wxPython](https://pypi.org/project/wxPython/) or
+[Pythonista iOS App](http://omz-software.com/pythonista/)), just create an *image* and use it as any other *pero* canvas:
 
 ```python
 
@@ -166,7 +167,7 @@ qp.begin(self)
 qp.setRenderHint(QPainter.Antialiasing)
 
 # init canvas
-canvas = pero.qt.QtCanvas(qp)
+canvas = pero.qt.QtCanvas(qp, width=width, height=height)
 
 # draw graphics
 canvas.line_color = "b"
@@ -374,12 +375,10 @@ marker = pero.Circle(
 image = pero.Image(width=width, height=height)
 
 # fill
-image.fill_color = pero.colors.White
-image.fill()
+image.fill("w")
 
 # draw points
-for p in zip(x_data, y_data):
-    marker.draw(image, source=p)
+marker.draw_many(image, zip(x_data, y_data))
 
 # show image
 image.show()
