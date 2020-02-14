@@ -122,7 +122,8 @@ class Grid(InGraphics):
         ticker = self.get_property('ticker', source, overrides)
         
         # get ticks
-        ticker(start=scale.in_range[0], end=scale.in_range[1])
+        ticker.start = scale.in_range[0]
+        ticker.end = scale.in_range[1]
         ticks = tuple(map(scale.scale, ticker.major_ticks()))
         
         # draw grid
@@ -145,7 +146,8 @@ class Grid(InGraphics):
         ticker = self.get_property('ticker', source, overrides)
         
         # get ticks
-        ticker(start=scale.in_range[0], end=scale.in_range[1])
+        ticker.start = scale.in_range[0]
+        ticker.end = scale.in_range[1]
         ticks = tuple(map(scale.scale, ticker.minor_ticks()))
         
         # draw grid

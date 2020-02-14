@@ -87,7 +87,8 @@ class DrawTest(pero.Graphics):
         x = 25
         y += 150
         matrix.clear().translate(x, y)
-        glyph(show_anchors=False, show_handles=False)
+        glyph.show_anchors = False
+        glyph.show_handles = False
         
         # add circle
         path.circle(0, -30, 20, relative=True)
@@ -142,12 +143,11 @@ class DrawTest(pero.Graphics):
         matrix.clear().translate(x, y)
         
         # split path
-        glyph(
-            show_anchors = False,
-            show_handles = False,
-            fill_color = None,
-            line_color = lambda d: pero.colors.Pero[d],
-            line_width = 2)
+        glyph.show_anchors = False
+        glyph.show_handles = False
+        glyph.fill_color = None
+        glyph.line_color = lambda d: pero.colors.Pero[d]
+        glyph.line_width = 2
         
         for i, subpath in enumerate(path.transformed(matrix).split()):
             glyph.draw(canvas, i, path=subpath)

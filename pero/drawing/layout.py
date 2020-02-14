@@ -10,7 +10,7 @@ from .path import Path
 
 class Layout(Graphics):
     """
-    Layout represents an experimental  simple table-like layout manager tool.
+    Layout represents an experimental simple table-like layout manager tool.
     You can define custom layout by specifying rows and columns of fixed or
     relative size. Any pero.Graphics can then be inserted into specific cell.
     

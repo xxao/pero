@@ -33,13 +33,12 @@ plot.plot(tan_series)
 
 # show labels
 tan_series.show_labels = True
-tan_series.label(
-    visible = lambda d: abs(d[1]) > 1,
-    text = lambda d: "%.1f" % d[1],
-    text_align = pero.LEFT,
-    text_base = pero.MIDDLE,
-    x_offset = 8,
-    y_offset = 0)
+tan_series.label.visible = lambda d: abs(d[1]) > 1
+tan_series.label.text = lambda d: "%.1f" % d[1]
+tan_series.label.text_align = pero.LEFT
+tan_series.label.text_base = pero.MIDDLE
+tan_series.label.x_offset = 8
+tan_series.label.y_offset = 0
 
 # show tooltip
 tooltip = lambda d: "%.2f pi\n%.2f" % tuple(d)

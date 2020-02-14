@@ -37,7 +37,7 @@ class Path(object):
         
         self._paths = [[]]
         self._subpath = self._paths[-1]
-        self._cursor = (0,0)
+        self._cursor = (0, 0)
         
         self._bbox = None
         self._commands = None
@@ -115,7 +115,7 @@ class Path(object):
         Gets all anchors.
         
         Returns:
-            ((float,float),)
+            ((float, float),)
                 Path anchors.
         """
         
@@ -555,7 +555,7 @@ class Path(object):
             y += self._cursor[1]
         
         # move cursor
-        self._cursor = (x,y)
+        self._cursor = (x, y)
         
         # init new sub-path
         if self._subpath:
@@ -612,7 +612,7 @@ class Path(object):
         self._subpath.append([PATH_LINE, x, y])
         
         # move cursor
-        self._cursor = (x,y)
+        self._cursor = (x, y)
         
         # make dirty
         self.dirty()
@@ -670,7 +670,7 @@ class Path(object):
         self._subpath.append([PATH_CURVE, cx1, cy1, cx2, cy2, x, y])
         
         # move cursor
-        self._cursor = (x,y)
+        self._cursor = (x, y)
         
         # make dirty
         self.dirty()
@@ -821,8 +821,8 @@ class Path(object):
         self.curve_to(cx1, cy1, cx2, cy2, x, y)
         
         return self
-
-
+    
+    
     def bow_to(self, x, y, radius, large=False, clockwise=True, relative=False):
         """
         Adds a circular arc from the current point, using given radius and end
@@ -906,8 +906,8 @@ class Path(object):
         self.arc_around(ox, oy, end_angle, clockwise=clockwise)
         
         return self
-
-
+    
+    
     def arc_to(self, cx, cy, x, y, radius=None, relative=False, finalize=False, limit=True):
         """
         Adds a circular arc from the current point, using given radius and
@@ -1217,7 +1217,7 @@ class Path(object):
         self.close()
         
         # move cursor to center
-        self._cursor = (x,y)
+        self._cursor = (x, y)
         
         return self
     

@@ -100,7 +100,7 @@ class TimeFormatter(Formatter):
         self.bind(EVT_PROPERTY_CHANGED, self._on_time_formatter_property_changed)
     
     
-    def format(self, value):
+    def format(self, value, *args, **kwargs):
         """
         Formats a given value using time formatting.
         

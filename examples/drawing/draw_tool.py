@@ -50,15 +50,13 @@ class AngleTool(pero.Tool):
         self._radius = length
         
         # update glyphs
-        self._arrow(
-            x = cx,
-            y = cy,
-            length = length)
+        self._arrow.x = cx
+        self._arrow.y = cy
+        self._arrow.length = length
         
-        self._wedge(
-            x = cx,
-            y = cy,
-            outer_radius = length)
+        self._wedge.x = cx
+        self._wedge.y = cy
+        self._wedge.outer_radius = length
     
     
     def on_mouse_leave(self, evt):

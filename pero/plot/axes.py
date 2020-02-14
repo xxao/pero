@@ -261,7 +261,8 @@ class Axis(OutGraphics):
         label_offset = self.get_property('label_offset', source, overrides)
         
         # make ticks
-        ticker(start=scale.in_range[0], end=scale.in_range[1])
+        ticker.start = scale.in_range[0]
+        ticker.end = scale.in_range[1]
         major_ticks = tuple(map(scale.scale, ticker.major_ticks()))
         minor_ticks = tuple(map(scale.scale, ticker.minor_ticks()))
         
@@ -301,7 +302,8 @@ class Axis(OutGraphics):
         # update glyph
         self._glyph.set_properties_from(self, source=source, overrides=overrides)
         
-        self._glyph(
+        # draw axis
+        self._glyph.draw(canvas,
             x = x,
             y = y,
             length = length,
@@ -311,9 +313,6 @@ class Axis(OutGraphics):
             minor_ticks = minor_ticks,
             title_offset = title_offset,
             label_offset = label_offset)
-        
-        # draw axis
-        self._glyph.draw(canvas)
     
     
     def format(self, value):
@@ -427,7 +426,8 @@ class Axis(OutGraphics):
         angle = AngleProperties.get_angle(self, 'label_', ANGLE_RAD, source, overrides)
         
         # make labels
-        ticker(start=scale.in_range[0], end=scale.in_range[1])
+        ticker.start = scale.in_range[0]
+        ticker.end = scale.in_range[1]
         labels = ticker.labels()
         
         # check labels

@@ -199,7 +199,6 @@ class OpenHead(Head):
         
         # transform path
         matrix = Matrix().scale(size, size).rotate(angle).translate(x, y)
-        
         path = self._path.transformed(matrix)
         
         # set pen and brush
@@ -213,13 +212,13 @@ class OpenHead(Head):
 class SymbolHead(Head):
     """
     Defines a custom path head. The path must be a 'symbol-path' i.e. anchored
-    at 0,0 and scaled to fit into 1x1 square. This can be created from any path
-    by calling the 'symbol' method.
+    at 0,0 coordinates, scaled to fit into 1x1 square and pointing right. This
+    can be created from any path by calling the 'symbol' method.
     
     Properties:
         
         path: pero.Path, callable, None or UNDEF
-            Specifies the unit-path to be used as head.
+            Specifies the symbol-path to be used as head.
     """
     
     path = Property(UNDEF, types=(Path,), nullable=True)

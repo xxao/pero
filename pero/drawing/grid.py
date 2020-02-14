@@ -146,11 +146,11 @@ class RayGrid(Grid):
             Specifies the lines length.
         
         offset: int, float or callable
-            Specifies the angle offset to be added to each tick.
+            Specifies the shift from center to be applied to each tick.
         
         units: pero.ANGLE or callable
-            Specifies the angle units for the ticks and offset as any item from
-            the pero.ANGLE enum.
+            Specifies the angle units for the ticks as any item from the
+            pero.ANGLE enum.
     """
     
     length = NumProperty(UNDEF)

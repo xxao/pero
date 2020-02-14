@@ -35,7 +35,8 @@ class DrawTest(pero.Graphics):
         ray.draw(canvas, angle=end_angle, line_color=pero.colors.Green)
         
         # draw standard arc
-        canvas(line_color=pero.colors.Grey, fill_color=None)
+        canvas.line_color = pero.colors.Grey
+        canvas.fill_color = None
         canvas.draw_circle(x, y, r)
         # canvas.draw_path(pero.Path().circle(x, y, r))
         
