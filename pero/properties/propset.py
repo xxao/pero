@@ -172,6 +172,19 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         self.set_properties(overrides, True)
     
     
+    def __call__(self, **overrides):
+        """
+        Updates specified properties.
+        
+        Args:
+            overrides: str:any pairs
+                Value overwrites for specific properties.
+        """
+        
+        # set given properties
+        self.set_properties(overrides, True)
+    
+    
     def has_property(self, name):
         """
         Checks whether specified property exists.
