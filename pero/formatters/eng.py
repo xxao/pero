@@ -61,7 +61,7 @@ class EngFormatter(Formatter):
         self.bind(EVT_PROPERTY_CHANGED, self._on_eng_formatter_property_changed)
     
     
-    def format(self, value):
+    def format(self, value, *args, **kwargs):
         """
         Formats a given value using engineering formatting.
         
@@ -91,7 +91,7 @@ class EngFormatter(Formatter):
         return template.format(value)
     
     
-    def suffix(self):
+    def suffix(self, *args, **kwargs):
         """
         Gets current (or the latest) suffix (e.g. kHz).
         

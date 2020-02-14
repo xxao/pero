@@ -64,7 +64,7 @@ class ScalarFormatter(Formatter):
         self.bind(EVT_PROPERTY_CHANGED, self._on_scalar_formatter_property_changed)
     
     
-    def format(self, value):
+    def format(self, value, *args, **kwargs):
         """
         Formats a given value using scalar formatting.
         
@@ -115,7 +115,7 @@ class ScalarFormatter(Formatter):
         return label
     
     
-    def suffix(self):
+    def suffix(self, *args, **kwargs):
         """
         Gets current labels suffix (e.g. e-2).
         

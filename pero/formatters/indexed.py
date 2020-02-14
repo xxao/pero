@@ -27,7 +27,7 @@ class IndexFormatter(Formatter):
     default = StringProperty("", dynamic=False, nullable=True)
     
     
-    def format(self, value):
+    def format(self, value, *args, **kwargs):
         """
         Returns a predefined label for given index.
         

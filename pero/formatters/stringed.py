@@ -9,7 +9,7 @@ class EmptyFormatter(Formatter):
     """This formatter tool returns an empty string for any given value."""
     
     
-    def format(self, value):
+    def format(self, value, *args, **kwargs):
         """
         Returns an empty string for any given value.
         
@@ -45,7 +45,7 @@ class StrFormatter(Formatter):
     trim = BoolProperty(True, dynamic=False, nullable=True)
     
     
-    def format(self, value):
+    def format(self, value, *args, **kwargs):
         """
         Formats given value using custom formatting template.
         
@@ -83,7 +83,7 @@ class PrintfFormatter(Formatter):
     trim = BoolProperty(True, dynamic=False, nullable=True)
     
     
-    def format(self, value):
+    def format(self, value, *args, **kwargs):
         """
         Formats given value using custom formatting template.
         

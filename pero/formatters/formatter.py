@@ -32,7 +32,7 @@ class Formatter(PropertySet):
     precision = NumProperty(UNDEF, dynamic=False, nullable=True)
     
     
-    def format(self, value):
+    def format(self, value, *args, **kwargs):
         """
         Formats given value into a string using the native implementation of
         provided value (i.e. __str__ method).
@@ -52,7 +52,7 @@ class Formatter(PropertySet):
         return str(value)
     
     
-    def suffix(self):
+    def suffix(self, *args, **kwargs):
         """
         Gets current suffix (e.g. "10^5" or "kHz").
         

@@ -20,7 +20,7 @@ class FuncFormatter(Formatter):
     func = FuncProperty(UNDEF)
     
     
-    def format(self, value):
+    def format(self, value, *args, **kwargs):
         """
         Formats given value using custom function.
         
