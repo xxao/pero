@@ -164,22 +164,9 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         super(PropertySet, self).__init__()
         
         # get available properties
-        self._properties = {x.name:x for x in self.properties()}
+        self._properties = {p.name: p for p in self.properties()}
         self._locked = set()
         self._held = set()
-        
-        # set given properties
-        self.set_properties(overrides, True)
-    
-    
-    def __call__(self, **overrides):
-        """
-        Updates specified properties.
-        
-        Args:
-            overrides: str:any pairs
-                Value overwrites for specific properties.
-        """
         
         # set given properties
         self.set_properties(overrides, True)
