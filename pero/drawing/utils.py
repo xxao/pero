@@ -60,8 +60,8 @@ def equals(v1, v2, epsilon=0.000001):
 
 def between(v, min_v, max_v, epsilon=0.000001):
     """
-    Returns True if given value is between minimum and maximum by specified
-    tolerance.
+    Returns True if given value is equal or between minimum and maximum by
+    specified tolerance.
     
     Args:
         v: float
@@ -78,15 +78,17 @@ def between(v, min_v, max_v, epsilon=0.000001):
     
     Returns:
         bool
-            True if value is between, False otherwise.
+            True if value is equal or between, False otherwise.
     """
     
     return (min_v <= v <= max_v) or equals(v, min_v, epsilon) or equals(v, max_v, epsilon)
 
 
-def angle(p1, p2, p3):
+def angle(p1, p2, p3, p4=None):
     """
-    Calculates angle between lines p1,p2 and p2,p3.
+    Calculates angle between two lines. If three points are given the lines are
+     defined as p1, p2 and p2, p3. If four points are given the lines are
+     defined as p1, p2 and p3, p4.
     
     Args:
         p1: (float, float)
@@ -97,16 +99,23 @@ def angle(p1, p2, p3):
         
         p3: (float, float)
             Point 3 as (x, y) coordinates.
+        
+        p4: (float, float) or None
+            Point 4 as (x, y) coordinates.
     
     Returns:
         float
             Angle in radians.
     """
     
+    if p4 is None:
+        p4 = p3
+        p3 = p2
+    
     dx1 = p1[0] - p2[0]
     dy1 = p1[1] - p2[1]
-    dx2 = p3[0] - p2[0]
-    dy2 = p3[1] - p2[1]
+    dx2 = p4[0] - p3[0]
+    dy2 = p4[1] - p3[1]
     
     cross = dx1*dy2 - dy1*dx2
     dot = dx1*dx2 + dy1*dy2
@@ -153,6 +162,7 @@ def rotate(p, angle, center=(0, 0)):
     
     dx = p[0]-center[0]
     dy = p[1]-center[1]
+    
     sin = numpy.sin(angle)
     cos = numpy.cos(angle)
     
