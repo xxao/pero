@@ -3,7 +3,6 @@
 
 from ..enums import *
 from ..properties import *
-from ..formatters import Formatter
 from .frame import FrameProperty
 from .glyphs import Glyph
 
@@ -57,9 +56,6 @@ class TextTooltip(Tooltip):
         text: str, callable, None or UNDEF
             Specifies the text to be drawn.
         
-        formatter: pero.Formatter or UNDEF
-            Specifies the raw data formatter used if the text is undefined.
-        
         text properties:
             Includes pero.TextProperties to specify the text properties. Some
             of them (e.g. alignment, angle, baseline) are set automatically.
@@ -80,7 +76,6 @@ class TextTooltip(Tooltip):
     """
     
     text = StringProperty(UNDEF)
-    formatter = Property(UNDEF, types=(Formatter,), dynamic=False)
     
     font = Include(TextProperties)
     
@@ -108,15 +103,11 @@ class TextTooltip(Tooltip):
         radius = self.get_property('radius', source, overrides)
         padding = self.get_property('padding', source, overrides)
         text = self.get_property('text', source, overrides)
-        formatter = self.get_property('formatter', source, overrides)
         align = self.get_property('text_align', source, overrides)
         base = self.get_property('text_base', source, overrides)
         clip = self.get_property('clip', source, overrides)
         
-        # get text
-        if text is UNDEF and formatter is not UNDEF:
-            text = formatter.format(source)
-        
+        # check text
         if not text:
             return
         
