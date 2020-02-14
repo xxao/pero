@@ -266,8 +266,11 @@ class JsonCanvas(Canvas):
                 or pero.Color. If not set, current fill color will be used.
         """
         
+        # convert color
+        color = Color.create(color).hex if color else None
+        
         # store command
-        self._store_command('fill', {'color': color or None})
+        self._store_command('fill', {'color': color})
     
     
     def view(self, x=None, y=None, width=None, height=None, relative=False):
