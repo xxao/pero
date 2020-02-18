@@ -4,7 +4,7 @@
 # import main objects
 from .undefined import UNDEF
 from .prop import Property
-from .propset import PropertySet, Include
+from .propset import PropertySet, Include, PROP_SPLITTER
 
 # import additional properties
 from .typed import FuncProperty, EnumProperty, RangeProperty, BoolProperty

@@ -55,8 +55,8 @@ class Grid(InGraphics):
     show_major_lines = BoolProperty(True, dynamic=False)
     show_minor_lines = BoolProperty(True, dynamic=False)
     
-    major_line = Include(LineProperties, prefix="major_", dynamic=False, line_color="#e6e6e6ff")
-    minor_line = Include(LineProperties, prefix="minor_", dynamic=False, line_color="#f5f5f5ff")
+    major_line = Include(LineProperties, prefix="major", dynamic=False, line_color="#e6e6e6ff")
+    minor_line = Include(LineProperties, prefix="minor", dynamic=False, line_color="#f5f5f5ff")
     
     
     def __init__(self, **overrides):

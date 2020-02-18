@@ -7,7 +7,7 @@ from ..colors import Color
 from .typed import *
 from .special import *
 from .undefined import UNDEF
-from .propset import PropertySet, Include
+from .propset import PropertySet, Include, PROP_SPLITTER
 
 
 class AngleProperties(PropertySet):
@@ -60,6 +60,10 @@ class AngleProperties(PropertySet):
         if not isinstance(prop_set, PropertySet):
             message = "Property set must be of type pero.PropertySet! -> %s" % type(prop_set)
             raise TypeError(message)
+        
+        # check prefix
+        if prefix and prefix[-1] != PROP_SPLITTER:
+            prefix = prefix + PROP_SPLITTER
         
         # get properties
         angle = prop_set.get_property(prefix+'angle', source, overrides)
@@ -133,6 +137,10 @@ class ColorProperties(PropertySet):
         if not isinstance(prop_set, PropertySet):
             message = "Property set must be of type pero.PropertySet! -> %s" % type(prop_set)
             raise TypeError(message)
+        
+        # check prefix
+        if prefix and prefix[-1] != PROP_SPLITTER:
+            prefix = prefix + PROP_SPLITTER
         
         # get properties
         color = prop_set.get_property(prefix+'color', source, overrides)
@@ -296,8 +304,8 @@ class TextProperties(PropertySet):
     text_align = EnumProperty(TEXT_ALIGN_LEFT, enum=TEXT_ALIGN, nullable=True)
     text_base = EnumProperty(TEXT_BASE_TOP, enum=TEXT_BASE, nullable=True)
     
-    for_color = Include(ColorProperties, prefix="text_", color='#000')
-    bgr_color = Include(ColorProperties, prefix="text_bgr_", color=None)
+    for_color = Include(ColorProperties, prefix="text", color='#000')
+    bgr_color = Include(ColorProperties, prefix="text_bgr", color=None)
     
     text_split = BoolProperty(True)
     text_splitter = StringProperty(LINE_SPLITTER)

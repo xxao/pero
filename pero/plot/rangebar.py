@@ -56,10 +56,10 @@ class RangeBar(OutGraphics):
     radius = QuadProperty(0, dynamic=False)
     limit = NumProperty(5)
     
-    bgr_pen = Include(LineProperties, prefix="bgr_", dynamic=False, line_color="#555")
-    bgr_fill = Include(FillProperties, prefix="bgr_", dynamic=False, fill_color="#ccc")
-    for_pen = Include(LineProperties, prefix="for_", dynamic=False, line_color="#000a")
-    for_fill = Include(FillProperties, prefix="for_", dynamic=False, fill_color="#000a")
+    bgr_pen = Include(LineProperties, prefix="bgr", dynamic=False, line_color="#555")
+    bgr_fill = Include(FillProperties, prefix="bgr", dynamic=False, fill_color="#ccc")
+    for_pen = Include(LineProperties, prefix="for", dynamic=False, line_color="#000a")
+    for_fill = Include(FillProperties, prefix="for", dynamic=False, fill_color="#000a")
     
     
     def __init__(self, **overrides):

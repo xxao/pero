@@ -6,6 +6,10 @@ from ..events import EvtHandler
 from .undefined import UNDEF
 from .prop import Property
 
+# define property names splitter
+PROP_SPLITTER = '_'
+
+# init properties cache
 _PROPERTIES_CACHE = {}
 
 
@@ -29,7 +33,9 @@ class Include(object):
             
             prefix: str
                 Optional prefix to be added to the names of all included
-                properties.
+                properties. If prefix does not end with '_' it is added
+                automatically. Such pattern is required to retrieve child
+                properties etc.
             
             dynamic: bool or None
                 If set to True or False the value overwrites the original value
@@ -53,6 +59,11 @@ class Include(object):
             message = "Properties must be subclass of pero.PropertySet! -> %s" % type(prop_set)
             raise TypeError(message)
         
+        # check prefix
+        if prefix and prefix[-1] != PROP_SPLITTER:
+            prefix = prefix + PROP_SPLITTER
+        
+        # set values
         self._property_set = prop_set
         self._prefix = prefix
         self._dynamic = dynamic
@@ -287,7 +298,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             return {}
         
         # get prefix
-        prefix = child_name + '_'
+        prefix = child_name + PROP_SPLITTER
         
         # init child overrides
         child_overrides = {}
@@ -345,7 +356,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         # try child properties
         else:
             
-            idx = name.find('_')
+            idx = name.find(PROP_SPLITTER)
             while idx > 0:
                 
                 parent = name[:idx]
@@ -355,7 +366,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                         prop.set_property(name[idx+1:], value, raise_error)
                         return
                 
-                idx = name.find('_', idx+1)
+                idx = name.find(PROP_SPLITTER, idx+1)
         
         # raise error for unknown property
         if raise_error:
@@ -434,6 +445,13 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 directly without calling.
         """
         
+        # check prefixes
+        if src_prefix and src_prefix[-1] != PROP_SPLITTER:
+            src_prefix = src_prefix + PROP_SPLITTER
+        
+        if dst_prefix and dst_prefix[-1] != PROP_SPLITTER:
+            dst_prefix = dst_prefix + PROP_SPLITTER
+        
         # process source properties
         for prop in prop_set.properties():
             
@@ -500,6 +518,13 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 If set to True callable properties from the source are used
                 directly without calling.
         """
+        
+        # check prefixes
+        if src_prefix and src_prefix[-1] != PROP_SPLITTER:
+            src_prefix = src_prefix + PROP_SPLITTER
+        
+        if dst_prefix and dst_prefix[-1] != PROP_SPLITTER:
+            dst_prefix = dst_prefix + PROP_SPLITTER
         
         # process current properties
         for prop in self.properties():
@@ -634,7 +659,10 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         If any property is available within 'overrides' the value in
         'overrides' is used instead of current one. If allowed and the value is
         callable but still not of the requested type, given 'source' is provided
-        as argument for calling it and returned value is finally used.
+        as argument for calling it and returned value is finally used. This is
+        very useful for defining a 'template' with some properties as functions
+        and create a cloned instance with final values. A nice example could be
+        labels for scatter plot.
         
         In some cases it might be useful to retrieve the callable function
         itself, without applying it onto given source. This can be achieved by

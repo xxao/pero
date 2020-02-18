@@ -143,11 +143,11 @@ class Plot(Graphics):
     plot_y1 = NumProperty(UNDEF, dynamic=False)
     plot_y2 = NumProperty(UNDEF, dynamic=False)
     
-    bgr_line = Include(LineProperties, prefix="bgr_", dynamic=False, line_width=0)
-    bgr_fill = Include(FillProperties, prefix="bgr_", dynamic=False, fill_color="#fff")
+    bgr_line = Include(LineProperties, prefix="bgr", dynamic=False, line_width=0)
+    bgr_fill = Include(FillProperties, prefix="bgr", dynamic=False, fill_color="#fff")
     
-    plot_line = Include(LineProperties, prefix="plot_", dynamic=False, line_color="#000")
-    plot_fill = Include(FillProperties, prefix="plot_", dynamic=False, fill_color=None)
+    plot_line = Include(LineProperties, prefix="plot", dynamic=False, line_color="#000")
+    plot_fill = Include(FillProperties, prefix="plot", dynamic=False, fill_color=None)
     
     palette = PaletteProperty(colors.Pero, dynamic=False, nullable=True)
     
@@ -518,8 +518,8 @@ class Plot(Graphics):
         self._init_objects(canvas, source, overrides)
         
         # draw main bgr
-        canvas.set_pen_by(self, prefix="bgr_", source=source, overrides=overrides)
-        canvas.set_brush_by(self, prefix="bgr_", source=source, overrides=overrides)
+        canvas.set_pen_by(self, prefix="bgr", source=source, overrides=overrides)
+        canvas.set_brush_by(self, prefix="bgr", source=source, overrides=overrides)
         canvas.draw_rect(x, y, width, height)
         
         # refuse to draw plot if "negative" size
@@ -528,7 +528,7 @@ class Plot(Graphics):
         
         # draw plot bgr
         canvas.line_width = 0
-        canvas.set_brush_by(self, prefix="plot_", source=source, overrides=overrides)
+        canvas.set_brush_by(self, prefix="plot", source=source, overrides=overrides)
         canvas.draw_rect(*self._frame.rect)
         
         # get objects
@@ -566,7 +566,7 @@ class Plot(Graphics):
         
         # draw plot outline
         canvas.fill_style = FILL_STYLE_TRANS
-        canvas.set_pen_by(self, prefix="plot_", source=source, overrides=overrides)
+        canvas.set_pen_by(self, prefix="plot", source=source, overrides=overrides)
         canvas.draw_rect(*self._frame.rect)
         
         # draw outside objects

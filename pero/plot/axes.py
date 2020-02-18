@@ -157,20 +157,20 @@ class Axis(OutGraphics):
     line = Include(LineProperties, dynamic=False, line_color="#000")
     
     title = StringProperty(None, dynamic=False, nullable=True)
-    title_text = Include(TextProperties, prefix="title_", dynamic=False, font_weight=FONT_WEIGHT_BOLD, font_size=12)
+    title_text = Include(TextProperties, prefix="title", dynamic=False, font_weight=FONT_WEIGHT_BOLD, font_size=12)
     title_position = EnumProperty(POS_MIDDLE, enum=POSITION_SEM, dynamic=False)
     title_offset = NumProperty(5, dynamic=False)
     
-    label_text = Include(TextProperties, prefix="label_", dynamic=False, font_size=11)
+    label_text = Include(TextProperties, prefix="label", dynamic=False, font_size=11)
     label_offset = NumProperty(3, dynamic=False)
-    label_angle = Include(AngleProperties, prefix="label_", dynamic=False)
+    label_angle = Include(AngleProperties, prefix="label", dynamic=False)
     label_overlap = BoolProperty(False, dynamic=False)
     
-    major_tick_line = Include(LineProperties, prefix="major_tick_", dynamic=False, line_color="#000")
+    major_tick_line = Include(LineProperties, prefix="major_tick", dynamic=False, line_color="#000")
     major_tick_size = NumProperty(6, dynamic=False)
     major_tick_offset = NumProperty(0, dynamic=False)
     
-    minor_tick_line = Include(LineProperties, prefix="minor_tick_", dynamic=False, line_color="#000")
+    minor_tick_line = Include(LineProperties, prefix="minor_tick", dynamic=False, line_color="#000")
     minor_tick_size = NumProperty(3, dynamic=False)
     minor_tick_offset = NumProperty(0, dynamic=False)
     
@@ -438,7 +438,7 @@ class Axis(OutGraphics):
         max_label = max(labels, key=lambda x: len(x))
         
         # set text
-        canvas.set_text_by(self, prefix="label_", source=source, overrides=overrides)
+        canvas.set_text_by(self, prefix="label", source=source, overrides=overrides)
         
         # get size
         bbox = canvas.get_text_bbox(max_label, angle=angle)
@@ -461,7 +461,7 @@ class Axis(OutGraphics):
         offset = self.get_property('title_offset', source, overrides)
         
         # set text
-        canvas.set_text_by(self, prefix="title_", source=source, overrides=overrides)
+        canvas.set_text_by(self, prefix="title", source=source, overrides=overrides)
         
         # get size
         return offset + canvas.get_text_size(title)[1]

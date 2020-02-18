@@ -171,8 +171,8 @@ class ArcArrow(Arrow):
     y = NumProperty(0)
     radius = NumProperty(0)
     clockwise = BoolProperty(True)
-    start_angle = Include(AngleProperties, prefix="start_")
-    end_angle = Include(AngleProperties, prefix="end_")
+    start_angle = Include(AngleProperties, prefix="start")
+    end_angle = Include(AngleProperties, prefix="end")
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
