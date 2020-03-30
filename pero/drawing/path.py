@@ -462,30 +462,41 @@ class Path(object):
             "commands": self.commands()})
     
     
-    def svg(self, indent=""):
+    def svg(self, indent="", rounding=None):
         """
         Gets current path as SVG commands.
         
         Args:
             indent: str
                 XML indentation.
+            
+            rounding: int or None
+                Rounding applied to all coordinates.
         
         Returns:
             str
                 SVG commands
         """
         
-        svg = []
+        full_svg = []
         for path in self._paths:
+            
+            path_svg = []
             for commands in path:
                 key = commands[0]
+                
                 values = commands[1:]
+                if rounding is not None:
+                    values = (round(x, rounding) for x in values)
+                
                 command = " ".join(str(x) for x in values) if values else ""
-                svg.append(key+command)
+                path_svg.append(key+command)
+            
+            full_svg.append(" ".join(path_svg))
         
         indent = "\n" + indent
         
-        return indent + indent.join(svg)
+        return indent + indent.join(full_svg)
     
     
     def dirty(self):
