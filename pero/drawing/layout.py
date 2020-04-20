@@ -399,7 +399,7 @@ class Layout(Graphics):
             # set relative row
             else:
                 heights[i] = max(0, (available - fix_sum) * row.height / rel_sum)
-                cells = [c for c in self._grid[i] if c.height and c.row_span == 1]
+                cells = [c for c in self._grid[i] if c and c.height and c.row_span == 1]
                 minima[i] = max(c.height for c in cells) if cells else 0
             
             # check minimum height
@@ -448,7 +448,7 @@ class Layout(Graphics):
             else:
                 widths[i] = max(0, (available - fix_sum) * col.width / rel_sum)
                 cells = [self._grid[r][i] for r in range(len(self._rows))]
-                cells = [c for c in cells if c.width and c.col_span == 1]
+                cells = [c for c in cells if c and c.width and c.col_span == 1]
                 minima[i] = max(c.width for c in cells) if cells else 0
             
             # check minimum height
