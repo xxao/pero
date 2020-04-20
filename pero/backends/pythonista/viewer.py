@@ -16,7 +16,7 @@ class UIViewer(ui.View):
         """Initializes a new instance of UIViewer."""
         
         # init base
-        super(UIViewer, self).__init__()
+        super().__init__()
         self.name = "Pero"
         
         # init view

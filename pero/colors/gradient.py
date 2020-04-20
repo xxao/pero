@@ -53,8 +53,6 @@ class Gradient(object, metaclass=GradientMeta):
                 Unique name to register.
         """
         
-        super(Gradient, self).__init__()
-        
         # set name
         self._name = name
         

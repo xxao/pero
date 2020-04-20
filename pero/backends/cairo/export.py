@@ -132,9 +132,9 @@ def export_raster(graphics, path, width=None, height=None, **options):
     width, height = surface.get_width(), surface.get_height()
     data = numpy.frombuffer(surface.get_data(), numpy.uint8)
     data.shape = (width, height, 4)
-    tmp = numpy.copy(data[:,:,0])
-    data[:,:,0] = data[:,:,2]
-    data[:,:,2] = tmp
+    tmp = numpy.copy(data[:, :, 0])
+    data[:, :, 0] = data[:, :, 2]
+    data[:, :, 2] = tmp
     image = PIL.Image.frombuffer("RGBA", (width, height), data, 'raw', "RGBA", 0, 1)
     
     # get image options

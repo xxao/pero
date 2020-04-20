@@ -12,7 +12,7 @@ class DrawTest(pero.Graphics):
     def __init__(self):
         """Initializes a new instance of DrawTest."""
         
-        super(DrawTest, self).__init__()
+        super().__init__()
         
         self._values = numpy.random.rand(50, 3)
     

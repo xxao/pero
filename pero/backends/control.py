@@ -71,7 +71,7 @@ class Control(PropertySet):
         """Initializes a new instance of Control."""
         
         # init base
-        super(Control, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init buffers
         self._parent = None

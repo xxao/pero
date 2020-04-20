@@ -62,7 +62,7 @@ class Grid(InGraphics):
     def __init__(self, **overrides):
         """Initializes a new instance of Grid."""
         
-        super(Grid, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init scale
         if self.scale is UNDEF:

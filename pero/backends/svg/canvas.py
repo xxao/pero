@@ -48,7 +48,7 @@ class SVGCanvas(Canvas):
         self._font_descent = 0
         
         # init base
-        super(SVGCanvas, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init canvas
         self._update_pen()

@@ -189,7 +189,7 @@ class Axis(OutGraphics):
     def __init__(self, **overrides):
         """Initializes a new instance of Axis."""
         
-        super(Axis, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init properties
         if self.scale is UNDEF:
@@ -529,7 +529,7 @@ class LinAxis(Axis):
             overrides['ticker'] = LinTicker()
         
         # init base
-        super(LinAxis, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # lock scale and ticker
         self.lock_property('scale')
@@ -563,7 +563,7 @@ class LogAxis(Axis):
             overrides['empty_range'] = (1., 10.)
         
         # init base
-        super(LogAxis, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # lock scale and ticker
         self.lock_property('scale')
@@ -623,7 +623,7 @@ class OrdinalAxis(Axis):
             overrides['ticker'] = FixTicker(formatter=IndexFormatter())
         
         # init base
-        super(OrdinalAxis, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # lock scale and ticker
         self.lock_property('scale')

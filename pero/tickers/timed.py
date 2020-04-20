@@ -55,7 +55,7 @@ class TimeTicker(Ticker):
             overrides['formatter'] = TimeFormatter(rounding=ROUNDING.HALFUP)
         
         # init base
-        super(TimeTicker, self).__init__(**overrides)
+        super().__init__(**overrides)
     
     
     def make_ticks(self):

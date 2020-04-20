@@ -32,7 +32,7 @@ class PropertyChangedEvt(Event):
         self.old_value = None
         self.new_value = None
         
-        super(PropertyChangedEvt, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     @classmethod

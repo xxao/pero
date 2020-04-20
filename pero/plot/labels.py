@@ -50,7 +50,7 @@ class Labels(InGraphics):
     def __init__(self, **overrides):
         """Initializes a new instance of Grid."""
         
-        super(Labels, self).__init__(**overrides)
+        super().__init__(**overrides)
         self._glyph = LabelBox()
     
     

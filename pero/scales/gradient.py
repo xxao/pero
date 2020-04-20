@@ -53,7 +53,7 @@ class GradientScale(Scale):
             overrides['normalizer'] = LinInterpol()
         
         # init base
-        super(GradientScale, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init gradient
         self._gradient = None
@@ -116,7 +116,7 @@ class GradientLinScale(GradientScale):
         overrides['normalizer'] = LinInterpol()
         
         # init base
-        super(GradientLinScale, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # lock normalizer
         self.lock_property('normalizer')
@@ -133,7 +133,7 @@ class GradientLogScale(GradientScale):
         overrides['normalizer'] = LogInterpol()
         
         # init base
-        super(GradientLogScale, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # lock normalizer
         self.lock_property('normalizer')
@@ -159,7 +159,7 @@ class GradientPowScale(GradientScale):
         overrides['normalizer'] = PowInterpol()
         
         # init base
-        super(GradientPowScale, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # lock normalizer
         self.lock_property('normalizer')

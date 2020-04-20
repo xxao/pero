@@ -307,7 +307,7 @@ class HeadProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (Head, str,)
         
-        super(HeadProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     def parse(self, value):
@@ -318,7 +318,7 @@ class HeadProperty(Property):
             return value
         
         # parse main
-        value = super(HeadProperty, self).parse(value)
+        value = super().parse(value)
         
         # allow UNDEF and None
         if value is UNDEF or value is None:

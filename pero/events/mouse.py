@@ -66,7 +66,7 @@ class MouseEvt(ViewEvt):
         self.ctrl_down = None
         self.shift_down = None
         
-        super(MouseEvt, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     @classmethod

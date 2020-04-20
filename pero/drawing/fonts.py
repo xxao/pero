@@ -18,8 +18,6 @@ class FontManager(object):
     def __init__(self):
         """Initializes a new instance of FontManager."""
         
-        super(FontManager, self).__init__()
-        
         self._fonts = {}
     
     
@@ -212,8 +210,6 @@ class Font(object):
     
     def __init__(self, path, name, family, style, weight):
         """Initializes a new instance of Font."""
-        
-        super(Font, self).__init__()
         
         self._path = path
         self._name = name

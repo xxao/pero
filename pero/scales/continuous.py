@@ -72,7 +72,7 @@ class ContinuousScale(Scale):
             overrides['converter'] = LinInterpol()
         
         # init base
-        super(ContinuousScale, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init indexes
         self._in_min = 0
@@ -275,7 +275,7 @@ class LinScale(ContinuousScale):
         overrides['converter'] = LinInterpol()
         
         # init base
-        super(LinScale, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # lock interpolators
         self.lock_property('normalizer')
@@ -294,7 +294,7 @@ class LogScale(ContinuousScale):
         overrides['converter'] = LinInterpol()
         
         # init base
-        super(LogScale, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # lock interpolators
         self.lock_property('normalizer')
@@ -322,7 +322,7 @@ class PowScale(ContinuousScale):
         overrides['converter'] = LinInterpol()
         
         # init base
-        super(PowScale, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # lock interpolators
         self.lock_property('normalizer')

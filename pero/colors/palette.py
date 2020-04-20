@@ -43,8 +43,6 @@ class Palette(object, metaclass=PaletteMeta):
                 Unique name to register.
         """
         
-        super(Palette, self).__init__()
-        
         # set name
         self._name = name
         

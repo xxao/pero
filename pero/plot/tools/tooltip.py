@@ -41,7 +41,7 @@ class TooltipTool(Tool):
                 fill_color = "#f00c")
         
         # init base
-        super(TooltipTool, self).__init__(**overrides)
+        super().__init__(**overrides)
     
     
     def on_mouse_motion(self, evt):

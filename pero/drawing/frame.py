@@ -494,7 +494,7 @@ class FrameProperty(Property):
         
         kwargs['default'] = default
         kwargs['types'] = (Frame, tuple, list)
-        super(FrameProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     def parse(self, value):
@@ -505,7 +505,7 @@ class FrameProperty(Property):
             return value
         
         # parse main
-        value = super(FrameProperty, self).parse(value)
+        value = super().parse(value)
         
         # allow UNDEF and None
         if value is UNDEF or value is None:

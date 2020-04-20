@@ -54,8 +54,7 @@ class Scatter(Series):
     def __init__(self, **overrides):
         """Initializes a new instance of Scatter series."""
         
-        # init base
-        super(Scatter, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init buffers
         self._x_data = []

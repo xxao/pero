@@ -42,7 +42,7 @@ class LogTicker(Ticker):
             overrides['formatter'] = ScalarFormatter()
         
         # init base
-        super(LogTicker, self).__init__(**overrides)
+        super().__init__(**overrides)
     
     
     def make_ticks(self):

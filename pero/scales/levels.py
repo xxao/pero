@@ -30,7 +30,7 @@ class LevelScale(Scale):
     def __init__(self, **overrides):
         """Initializes a new instance of LevelScale."""
         
-        super(LevelScale, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init index
         self._levels_idx = None

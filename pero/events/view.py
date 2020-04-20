@@ -31,7 +31,7 @@ class ViewEvt(Event):
         self.view = None
         self.control = None
         
-        super(ViewEvt, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     @classmethod
@@ -76,7 +76,7 @@ class SizeEvt(ViewEvt):
         self.width = None
         self.height = None
         
-        super(SizeEvt, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
 
 class ZoomEvt(ViewEvt):

@@ -71,7 +71,7 @@ class Legend(InGraphics):
     def __init__(self, **overrides):
         """Initializes a new instance of Legend."""
         
-        super(Legend, self).__init__(**overrides)
+        super().__init__(**overrides)
         self._glyph = LegendBox()
     
     

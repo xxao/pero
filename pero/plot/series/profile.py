@@ -104,7 +104,7 @@ class Profile(Series):
     def __init__(self, **overrides):
         """Initializes a new instance of Profile series."""
         
-        super(Profile, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init profile glyph
         self._glyph = ProfileGlyph()

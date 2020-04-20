@@ -133,7 +133,7 @@ class Series(InGraphics):
                 text = lambda d: str(d))
         
         # init base
-        super(Series, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # lock properties
         self.lock_property('x_mapper')

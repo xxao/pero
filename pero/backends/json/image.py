@@ -15,12 +15,6 @@ class Image(JsonCanvas, Graphics):
     """
     
     
-    def __init__(self, **overrides):
-        """Initializes a new instance of Image."""
-        
-        super(Image, self).__init__(**overrides)
-    
-    
     def show(self, title=None, width=None, height=None, backend=None):
         """
         Shows the image in available viewer app. This method makes sure

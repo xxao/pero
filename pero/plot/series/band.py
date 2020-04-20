@@ -94,7 +94,7 @@ class Band(Series):
     def __init__(self, **overrides):
         """Initializes a new instance of Band series."""
         
-        super(Band, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init band glyph
         self._glyph = BandGlyph()

@@ -19,7 +19,7 @@ class JsonCanvas(Canvas):
         self._commands = []
         
         # init base
-        super(JsonCanvas, self).__init__()
+        super().__init__()
         
         # bind events
         self.bind(EVT_PROPERTY_CHANGED, self._on_json_canvas_property_changed)
@@ -304,7 +304,7 @@ class JsonCanvas(Canvas):
         """
         
         # set to base
-        state = super(JsonCanvas, self).view(x, y, width, height, relative)
+        state = super().view(x, y, width, height, relative)
         
         # store command
         self._store_command('view', {

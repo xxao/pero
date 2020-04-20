@@ -35,7 +35,7 @@ class Graphics(PropertySet):
     def __init__(self, **overrides):
         """Initializes a new instance of Graphics."""
         
-        super(Graphics, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init default tag
         if self.tag is UNDEF:

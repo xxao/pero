@@ -33,8 +33,6 @@ class Path(object):
                 pero.FILL_RULE enum. 
         """
         
-        super(Path, self).__init__()
-        
         self._paths = [[]]
         self._subpath = self._paths[-1]
         self._cursor = (0, 0)

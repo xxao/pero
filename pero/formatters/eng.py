@@ -47,7 +47,7 @@ class EngFormatter(Formatter):
     def __init__(self, **overrides):
         """Initializes a new instance of EngFormatter."""
         
-        super(EngFormatter, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init buffers
         self._power = 0

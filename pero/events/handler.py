@@ -19,8 +19,6 @@ class EvtHandler(object):
     def __init__(self):
         """Initializes a new instance of EvtHandler."""
         
-        super(EvtHandler, self).__init__()
-        
         self._callbacks = {}
     
     

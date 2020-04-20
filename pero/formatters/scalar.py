@@ -52,7 +52,7 @@ class ScalarFormatter(Formatter):
     def __init__(self, **overrides):
         """Initializes a new instance of ScalarFormatter."""
         
-        super(ScalarFormatter, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init buffers
         self._power = 0

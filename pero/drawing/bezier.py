@@ -53,8 +53,6 @@ class Bezier(object):
                 Y-coordinate of the end point.
         """
         
-        super(Bezier, self).__init__()
-        
         self._x1 = float(x1)
         self._y1 = float(y1)
         self._p1 = (self._x1, self._y1)

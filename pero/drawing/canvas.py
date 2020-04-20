@@ -160,7 +160,7 @@ class Canvas(PropertySet):
     def __init__(self, **overrides):
         """Initializes a new instance of Canvas."""
         
-        super(Canvas, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # hold properties
         self.hold_property('line_color')
@@ -1292,7 +1292,7 @@ class ViewState(CanvasState):
                 Viewport state to keep.
         """
         
-        super(ViewState, self).__init__(canvas)
+        super().__init__(canvas)
         self._viewport = viewport
     
     

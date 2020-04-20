@@ -13,7 +13,7 @@ class Tool(PropertySet):
     def __init__(self, **overrides):
         """Initializes a new instance of Tool."""
         
-        super(Tool, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init buffers
         if self.keys == UNDEF:

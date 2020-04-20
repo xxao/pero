@@ -20,8 +20,6 @@ class Proxy(object):
                 Callback function or method to be encapsulated.
         """
         
-        super(Proxy, self).__init__()
-        
         # instance methods
         if hasattr(callback, '__self__'):
             self.obj = weakref.ref(callback.__self__)

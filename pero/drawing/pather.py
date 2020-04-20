@@ -94,7 +94,7 @@ class Pather(Glyph):
                 line_color = "#77f")
         
         # init base
-        super(Pather, self).__init__(**overrides)
+        super().__init__(**overrides)
     
     
     def draw(self, canvas, source=UNDEF, **overrides):

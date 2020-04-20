@@ -165,7 +165,7 @@ class Plot(Graphics):
     def __init__(self, **overrides):
         """Initializes a new instance of Plot."""
         
-        super(Plot, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init containers
         self._graphics = {}
@@ -1059,7 +1059,7 @@ class Plot(Graphics):
             height = self.height
         
         # show plot
-        super(Plot, self).show(title, width, height, backend)
+        super().show(title, width, height, backend)
     
     
     def export(self, path, width=None, height=None, backend=None, **options):
@@ -1097,7 +1097,7 @@ class Plot(Graphics):
             height = self.height
         
         # export plot
-        super(Plot, self).export(path, width, height, backend, **options)
+        super().export(path, width, height, backend, **options)
     
     
     def view(self, title=None, width=None, height=None, backend=None):

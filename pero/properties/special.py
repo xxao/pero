@@ -21,7 +21,7 @@ class ColorProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (Color, str, tuple, list)
         
-        super(ColorProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     def parse(self, value):
@@ -32,7 +32,7 @@ class ColorProperty(Property):
             return value
         
         # parse main
-        value = super(ColorProperty, self).parse(value)
+        value = super().parse(value)
         
         # allow UNDEF and None
         if value is UNDEF or value is None:
@@ -61,7 +61,7 @@ class PaletteProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (Palette, str, tuple, list)
         
-        super(PaletteProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     def parse(self, value):
@@ -72,7 +72,7 @@ class PaletteProperty(Property):
             return value
         
         # parse main
-        value = super(PaletteProperty, self).parse(value)
+        value = super().parse(value)
         
         # allow UNDEF and None
         if value is UNDEF or value is None:
@@ -101,7 +101,7 @@ class GradientProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (Gradient, Palette, str, tuple, list)
         
-        super(GradientProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     def parse(self, value):
@@ -112,7 +112,7 @@ class GradientProperty(Property):
             return value
         
         # parse main
-        value = super(GradientProperty, self).parse(value)
+        value = super().parse(value)
         
         # allow UNDEF and None
         if value is UNDEF or value is None:
@@ -139,7 +139,7 @@ class DashProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (tuple, list)
         
-        super(DashProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     def parse(self, value):
@@ -150,7 +150,7 @@ class DashProperty(Property):
             return value
         
         # parse main
-        value = super(DashProperty, self).parse(value)
+        value = super().parse(value)
         
         # allow None or UNDEF
         if value is None or value is UNDEF:

@@ -57,7 +57,7 @@ class Rectangles(Series):
     def __init__(self, **overrides):
         """Initializes a new instance of Rectangles series base."""
         
-        super(Rectangles, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init buffers
         self._left_data = []

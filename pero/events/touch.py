@@ -92,7 +92,7 @@ class TouchEvt(ViewEvt):
         self.ctrl_down = None
         self.shift_down = None
         
-        super(TouchEvt, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     @classmethod

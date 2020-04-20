@@ -47,7 +47,7 @@ class KeyEvt(ViewEvt):
         self.ctrl_down = None
         self.shift_down = None
         
-        super(KeyEvt, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     @classmethod

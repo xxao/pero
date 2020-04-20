@@ -67,7 +67,7 @@ class Layout(Graphics):
     def __init__(self, **overrides):
         """Initializes a new instance of Layout."""
         
-        super(Layout, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         self._rows = []
         self._cols = []
@@ -616,9 +616,9 @@ class Cell(Graphics):
     def __init__(self, **overrides):
         """Initializes a new instance of layout Cell."""
         
-        super(Cell, self).__init__(**overrides)
+        super().__init__(**overrides)
         
-        self._content_origin = (0,0)
+        self._content_origin = (0, 0)
         
         # lock properties
         self.lock_property('row')

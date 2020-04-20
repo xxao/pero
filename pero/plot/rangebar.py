@@ -65,7 +65,7 @@ class RangeBar(OutGraphics):
     def __init__(self, **overrides):
         """Initializes a new instance of RangeBar."""
         
-        super(RangeBar, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init scale
         if self.scale is UNDEF:

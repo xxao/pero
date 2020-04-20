@@ -172,7 +172,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 Value overwrites for specific properties.
         """
         
-        super(PropertySet, self).__init__()
+        super().__init__()
         
         # get available properties
         self._properties = {p.name: p for p in self.properties()}

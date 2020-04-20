@@ -337,7 +337,7 @@ class MarkerProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (Marker, str,)
         
-        super(MarkerProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     def parse(self, value):
@@ -348,7 +348,7 @@ class MarkerProperty(Property):
             return value
         
         # parse main
-        value = super(MarkerProperty, self).parse(value)
+        value = super().parse(value)
         
         # allow UNDEF and None
         if value is UNDEF or value is None:

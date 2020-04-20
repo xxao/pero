@@ -65,8 +65,6 @@ class Property(object):
                 Property name.
         """
         
-        super(Property, self).__init__()
-        
         self._name = name
         self._types = types
         self._dynamic = bool(dynamic)

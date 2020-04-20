@@ -16,8 +16,6 @@ class Matrix(object):
     def __init__(self):
         """Initializes a new instance of Matrix."""
         
-        super(Matrix, self).__init__()
-        
         self._matrix = numpy.identity(3)
     
     

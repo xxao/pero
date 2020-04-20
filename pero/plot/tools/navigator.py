@@ -59,7 +59,7 @@ class NavigatorTool(Tool):
             overrides['scale_factor'] = 0.02 if sys.platform == 'darwin' else 0.05
         
         # init base
-        super(NavigatorTool, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init buffers
         self._event = None

@@ -48,7 +48,7 @@ class OrdinalScale(Scale):
     def __init__(self, **overrides):
         """Initializes a new instance of OrdinalScale."""
         
-        super(OrdinalScale, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init indexes
         self._in_range_idx = None

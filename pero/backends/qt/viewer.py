@@ -16,7 +16,7 @@ class QtViewer(QWidget):
         """Initializes a new instance of QtViewer."""
         
         # init base
-        super(QtViewer, self).__init__()
+        super().__init__()
         self.setWindowTitle("Pero")
         self.resize(750, 500)
         

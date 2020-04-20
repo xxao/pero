@@ -33,7 +33,7 @@ class FixTicker(Ticker):
             overrides['formatter'] = Formatter()
         
         # init base
-        super(FixTicker, self).__init__(**overrides)
+        super().__init__(**overrides)
     
     
     def make_ticks(self):

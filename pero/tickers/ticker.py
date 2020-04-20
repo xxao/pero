@@ -54,7 +54,7 @@ class Ticker(PropertySet):
     def __init__(self, **overrides):
         """Initializes a new instance of Ticker."""
         
-        super(Ticker, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init buffers
         self._major_ticks = ()
@@ -97,7 +97,7 @@ class Ticker(PropertySet):
         major and minor ticks.
         
         Returns:
-            (float,..), (float,...)
+            (float,), (float,)
                 Generated major and minor ticks.
         """
         
@@ -236,7 +236,7 @@ class Ticker(PropertySet):
                 Maximum value of the range.
         
         Returns:
-            range: (float, float)
+            (float, float)
                 New extended range.
         """
         

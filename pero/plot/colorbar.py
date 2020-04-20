@@ -56,7 +56,7 @@ class ColorBar(OutGraphics):
     def __init__(self, **overrides):
         """Initializes a new instance of ColorBar."""
         
-        super(ColorBar, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init gradient
         if self.gradient is UNDEF:

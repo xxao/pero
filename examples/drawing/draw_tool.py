@@ -11,7 +11,7 @@ class AngleTool(pero.Tool):
     
     def __init__(self, **overrides):
         
-        super(AngleTool, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init buffers
         self._center = (0, 0)
@@ -240,7 +240,7 @@ class DrawTest(pero.Graphics):
     def __init__(self):
         """Initializes a new instance of DrawTest."""
         
-        super(DrawTest, self).__init__()
+        super().__init__()
         
         # init glyphs
         self._axis = pero.RadialAxis(

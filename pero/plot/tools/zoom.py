@@ -50,7 +50,7 @@ class ZoomTool(Tool):
     def __init__(self, **overrides):
         """Initializes a new instance of ZoomTool."""
         
-        super(ZoomTool, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init buffers
         self._is_active = False

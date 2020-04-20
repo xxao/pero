@@ -13,8 +13,6 @@ class Library(object):
     def __init__(self):
         """Initializes a new instance of Library."""
         
-        super(Library, self).__init__()
-        
         self._items = {}
         self._names = {}
 

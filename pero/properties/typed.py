@@ -22,7 +22,7 @@ class EnumProperty(Property):
         self._enum = set(enum)
         
         kwargs['default'] = default
-        super(EnumProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     def parse(self, value):
@@ -33,7 +33,7 @@ class EnumProperty(Property):
             return value
         
         # parse main
-        value = super(EnumProperty, self).parse(value)
+        value = super().parse(value)
         
         # allow None or UNDEF
         if value is None or value is UNDEF:
@@ -52,9 +52,7 @@ class EnumProperty(Property):
     def clone(self, **kwargs):
         """Creates a clone of current property."""
         
-        return super(EnumProperty, self).clone(
-            enum = self._enum,
-            **kwargs)
+        return super().clone(enum=self._enum, **kwargs)
 
 
 class RangeProperty(Property):
@@ -87,14 +85,14 @@ class RangeProperty(Property):
         self._maximum_incl = maximum_incl
         
         kwargs['default'] = default
-        super(RangeProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     def parse(self, value):
         """Validates and converts given value."""
         
         # parse main
-        value = super(RangeProperty, self).parse(value)
+        value = super().parse(value)
         
         # allow None or UNDEF
         if value is None or value is UNDEF:
@@ -132,7 +130,7 @@ class RangeProperty(Property):
     def clone(self, **kwargs):
         """Creates a clone of current property."""
         
-        return super(RangeProperty, self).clone(
+        return super().clone(
             minimum = self._minimum,
             maximum = self._maximum,
             minimum_incl = self._minimum_incl,
@@ -152,7 +150,7 @@ class FuncProperty(Property):
             return value
         
         # parse main
-        value = super(FuncProperty, self).parse(value)
+        value = super().parse(value)
         
         # allow None or UNDEF
         if value is None or value is UNDEF:
@@ -173,7 +171,7 @@ class BoolProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (bool,)
         
-        super(BoolProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
 
 class IntProperty(Property):
@@ -186,7 +184,7 @@ class IntProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (int,)
         
-        super(IntProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
 
 class FloatProperty(Property):
@@ -199,7 +197,7 @@ class FloatProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (float,)
         
-        super(FloatProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
 
 class NumProperty(Property):
@@ -212,7 +210,7 @@ class NumProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (int, float)
         
-        super(NumProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
 
 class StringProperty(Property):
@@ -225,7 +223,7 @@ class StringProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (str,)
         
-        super(StringProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
 
 class IterProperty(Property):
@@ -253,14 +251,14 @@ class IterProperty(Property):
         
         # init property
         kwargs['default'] = default
-        super(IterProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     def parse(self, value):
         """Validates and converts given value."""
         
         # parse main
-        value = super(IterProperty, self).parse(value)
+        value = super().parse(value)
         
         # allow None or UNDEF
         if value is None or value is UNDEF:
@@ -287,9 +285,7 @@ class IterProperty(Property):
     def clone(self, **kwargs):
         """Creates a clone of current property."""
         
-        return super(IterProperty, self).clone(
-            intypes = self._intypes,
-            **kwargs)
+        return super().clone(intypes=self._intypes, **kwargs)
 
 
 class SequenceProperty(IterProperty):
@@ -302,7 +298,7 @@ class SequenceProperty(IterProperty):
         kwargs['default'] = default
         kwargs['types'] = (list, tuple, numpy.ndarray)
         
-        super(SequenceProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
 
 class ListProperty(IterProperty):
@@ -315,7 +311,7 @@ class ListProperty(IterProperty):
         kwargs['default'] = default
         kwargs['types'] = (list,)
         
-        super(ListProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
 
 class TupleProperty(IterProperty):
@@ -328,7 +324,7 @@ class TupleProperty(IterProperty):
         kwargs['default'] = default
         kwargs['types'] = (tuple,)
         
-        super(TupleProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
 
 class SetProperty(IterProperty):
@@ -341,7 +337,7 @@ class SetProperty(IterProperty):
         kwargs['default'] = default
         kwargs['types'] = (set,)
         
-        super(SetProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
 
 class DictProperty(Property):
@@ -354,7 +350,7 @@ class DictProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (dict,)
         
-        super(DictProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
 
 class QuadProperty(Property):
@@ -374,7 +370,7 @@ class QuadProperty(Property):
         kwargs['default'] = default
         kwargs['types'] = (int, float, tuple, list)
         
-        super(QuadProperty, self).__init__(**kwargs)
+        super().__init__(**kwargs)
     
     
     def parse(self, value):
@@ -397,7 +393,7 @@ class QuadProperty(Property):
                 return tuple(value)
         
         # parse main
-        value = super(QuadProperty, self).parse(value)
+        value = super().parse(value)
         
         # allow None or UNDEF
         if value is None or value is UNDEF:

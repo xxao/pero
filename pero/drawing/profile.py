@@ -118,7 +118,7 @@ class Profile(Glyph):
             overrides['marker'] = Circle(size=4)
         
         # init base
-        super(Profile, self).__init__(**overrides)
+        super().__init__(**overrides)
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
@@ -385,7 +385,7 @@ class Band(Glyph):
             overrides['marker'] = Circle(size=4)
         
         # init base
-        super(Band, self).__init__(**overrides)
+        super().__init__(**overrides)
     
     
     def draw(self, canvas, source=UNDEF, **overrides):

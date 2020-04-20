@@ -81,7 +81,7 @@ class Lines(Series):
     def __init__(self, **overrides):
         """Initializes a new instance of Lines series base."""
         
-        super(Lines, self).__init__(**overrides)
+        super().__init__(**overrides)
         
         # init buffers
         self._x1_data = []

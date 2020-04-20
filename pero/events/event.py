@@ -14,8 +14,6 @@ class Event(object):
     def __init__(self, **kwargs):
         """Initializes a new instance of Event."""
         
-        super(Event, self).__init__()
-        
         self._canceled = False
         
         # set given arguments

@@ -12,7 +12,7 @@ class DrawTest(pero.Graphics):
     def __init__(self):
         """Initializes plot."""
         
-        super(DrawTest, self).__init__()
+        super().__init__()
         
         # init data range
         x_range = (-2 * numpy.pi, 2 * numpy.pi)

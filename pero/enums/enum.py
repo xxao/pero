@@ -16,8 +16,6 @@ class Enum(object):
     def __init__(self, **kwargs):
         """Initializes a new instance of Enum."""
         
-        super(Enum, self).__init__()
-        
         # get named values
         self._map = kwargs
         
