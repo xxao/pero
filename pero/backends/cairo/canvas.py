@@ -441,8 +441,12 @@ class CairoCanvas(Canvas):
             y_offset += i * font_height * (1 + self.text_spacing)
             
             # apply scaling and offset
-            line_x = self._scale[0] * (x + x_offset + self._offset[0])
-            line_y = self._scale[1] * (y + y_offset + self._offset[1])
+            if angle:
+                line_x = self._scale[0] * x_offset
+                line_y = self._scale[1] * y_offset
+            else:
+                line_x = self._scale[0] * (x + x_offset + self._offset[0])
+                line_y = self._scale[1] * (y + y_offset + self._offset[1])
             
             # draw background
             if self._font['bgr_color']:
