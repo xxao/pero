@@ -62,15 +62,16 @@ class Grid(InGraphics):
     def __init__(self, **overrides):
         """Initializes a new instance of Grid."""
         
-        super().__init__(**overrides)
-        
         # init scale
-        if self.scale is UNDEF:
-            self.scale = LinScale()
+        if 'scale' not in overrides:
+            overrides['scale'] = LinScale()
         
         # init ticker
-        if self.ticker is UNDEF:
-            self.ticker = LinTicker()
+        if 'ticker' not in overrides:
+            overrides['ticker'] = LinTicker()
+        
+        # init base
+        super().__init__(**overrides)
         
         # init glyph
         self._glyph = ParallelGrid(relative=False)

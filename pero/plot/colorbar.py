@@ -56,15 +56,16 @@ class ColorBar(OutGraphics):
     def __init__(self, **overrides):
         """Initializes a new instance of ColorBar."""
         
-        super().__init__(**overrides)
+        # init scale
+        if 'scale' not in overrides:
+            overrides['scale'] = LinScale()
         
         # init gradient
-        if self.gradient is UNDEF:
-            self.gradient = colors.YlOrBr
+        if 'gradient' not in overrides:
+            overrides['gradient'] = colors.YlOrBr
         
-        # init scale
-        if self.scale is UNDEF:
-            self.scale = LinScale()
+        # init base
+        super().__init__(**overrides)
         
         # init glyph
         self._glyph = ColorBarGlyph()

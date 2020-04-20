@@ -65,11 +65,12 @@ class RangeBar(OutGraphics):
     def __init__(self, **overrides):
         """Initializes a new instance of RangeBar."""
         
-        super().__init__(**overrides)
-        
         # init scale
-        if self.scale is UNDEF:
-            self.scale = LinScale()
+        if 'scale' not in overrides:
+            overrides['scale'] = LinScale()
+        
+        # init base
+        super().__init__(**overrides)
         
         # init glyph
         self._glyph = StraitGauge()

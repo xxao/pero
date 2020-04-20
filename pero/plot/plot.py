@@ -165,6 +165,35 @@ class Plot(Graphics):
     def __init__(self, **overrides):
         """Initializes a new instance of Plot."""
         
+        # init main graphics
+        if 'title' not in overrides:
+            overrides['title'] = Title(tag='title', position=POS_TOP, z_index=TITLE_Z)
+        
+        if 'legend' not in overrides:
+            overrides['legend'] = Legend(tag='legend', z_index=LEGEND_Z)
+        
+        if 'labels' not in overrides:
+            overrides['labels'] = Labels(tag='labels', z_index=LABELS_Z)
+        
+        if 'x_axis' not in overrides:
+            overrides['x_axis'] = Axis(tag='x_axis', position=POS_BOTTOM, level=1, margin=0)
+        
+        if 'y_axis' not in overrides:
+            overrides['y_axis'] = Axis(tag='y_axis', position=POS_LEFT, level=2, margin=0)
+        
+        if 'x_grid' not in overrides:
+            overrides['x_grid'] = Grid(tag='x_grid', z_index=GRID_Z)
+        
+        if 'y_grid' not in overrides:
+            overrides['y_grid'] = Grid(tag='y_grid', z_index=GRID_Z)
+        
+        if 'x_rangebar' not in overrides:
+            overrides['x_rangebar'] = RangeBar(tag='x_rangebar', position=POS_TOP)
+        
+        if 'y_rangebar' not in overrides:
+            overrides['y_rangebar'] = RangeBar(tag='y_rangebar', position=POS_RIGHT)
+        
+        # init base
         super().__init__(**overrides)
         
         # init containers
@@ -175,7 +204,7 @@ class Plot(Graphics):
         self._mapping = {}
         self._frame = Frame(0, 0, 1, 1)
         
-        # init default graphics
+        # register main graphics
         self._init_graphics()
         
         # init color scale
@@ -1317,35 +1346,7 @@ class Plot(Graphics):
     
     
     def _init_graphics(self):
-        """Initializes default objects."""
-        
-        # init objects
-        if self.title is UNDEF:
-            self.title = Title(tag='title', position=POS_TOP, z_index=TITLE_Z)
-        
-        if self.legend is UNDEF:
-            self.legend = Legend(tag='legend', z_index=LEGEND_Z)
-        
-        if self.labels is UNDEF:
-            self.labels = Labels(tag='labels', z_index=LABELS_Z)
-        
-        if self.x_axis is UNDEF:
-            self.x_axis = Axis(tag='x_axis', position=POS_BOTTOM, level=1, margin=0)
-        
-        if self.y_axis is UNDEF:
-            self.y_axis = Axis(tag='y_axis', position=POS_LEFT, level=2, margin=0)
-        
-        if self.x_grid is UNDEF and self.x_axis:
-            self.x_grid = Grid(tag='x_grid', z_index=GRID_Z)
-        
-        if self.y_grid is UNDEF and self.y_axis:
-            self.y_grid = Grid(tag='y_grid', z_index=GRID_Z)
-        
-        if self.x_rangebar is UNDEF and self.x_axis:
-            self.x_rangebar = RangeBar(tag='x_rangebar', position=POS_TOP)
-        
-        if self.y_rangebar is UNDEF and self.y_axis:
-            self.y_rangebar = RangeBar(tag='y_rangebar', position=POS_RIGHT)
+        """Registers main objects."""
         
         # register objects
         if self.title:

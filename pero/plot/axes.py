@@ -189,14 +189,16 @@ class Axis(OutGraphics):
     def __init__(self, **overrides):
         """Initializes a new instance of Axis."""
         
+        # init scale
+        if 'scale' not in overrides:
+            overrides['scale'] = LinScale(in_range=(0., 1.))
+        
+        # init ticker
+        if 'ticker' not in overrides:
+            overrides['ticker'] = LinTicker()
+        
+        # init base
         super().__init__(**overrides)
-        
-        # init properties
-        if self.scale is UNDEF:
-            self.scale = LinScale(in_range=(0., 1.))
-        
-        if self.ticker is UNDEF:
-            self.ticker = LinTicker()
         
         # init axis glyph
         self._glyph = StraitAxis()
