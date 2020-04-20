@@ -86,7 +86,7 @@ class UICanvas(Canvas):
         # apply scaling and offset
         matrix = Matrix()
         matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale[0], self._scale[1])
+        matrix.scale(self._scale, self._scale)
         path = path.transformed(matrix)
         
         # make ui path
@@ -143,8 +143,8 @@ class UICanvas(Canvas):
             # apply angle transformation
             if angle:
                 
-                x = self._scale[0] * (x + self._offset[0])
-                y = self._scale[1] * (y + self._offset[1])
+                x = self._scale * (x + self._offset[0])
+                y = self._scale * (y + self._offset[1])
                 
                 ui.concat_ctm(ui.Transform.translation(x, y))
                 ui.concat_ctm(ui.Transform.rotation(angle))
@@ -161,8 +161,8 @@ class UICanvas(Canvas):
                 
                 # get line size
                 line_width, line_height = self.get_line_size(line)
-                line_width /= self._scale[0]
-                line_height /= self._scale[1]
+                line_width /= self._scale
+                line_height /= self._scale
                 
                 # adjust alignment
                 if self.text_align == TEXT_ALIGN_CENTER:
@@ -182,10 +182,10 @@ class UICanvas(Canvas):
                 y_offset += i * line_height * (1 + self.text_spacing)
                 
                 # apply scaling and offset
-                text_x = self._scale[0] * (x + x_offset + self._offset[0])
-                text_y = self._scale[1] * (y + y_offset + self._offset[1])
-                bgr_width = line_width * self._scale[0]
-                bgr_height = line_height * self._scale[1]
+                text_x = self._scale * (x + x_offset + self._offset[0])
+                text_y = self._scale * (y + y_offset + self._offset[1])
+                bgr_width = line_width * self._scale
+                bgr_height = line_height * self._scale
                 
                 # draw background
                 if self._font['bgr_color'].alpha:
@@ -220,7 +220,7 @@ class UICanvas(Canvas):
         # apply scaling and offset
         matrix = Matrix()
         matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale[0], self._scale[1])
+        matrix.scale(self._scale, self._scale)
         path = path.transformed(matrix)
         
         # save current canvas state

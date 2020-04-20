@@ -120,10 +120,10 @@ class QtCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        width = self._scale[0] * width
-        height = self._scale[1] * height
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        width = self._scale * width
+        height = self._scale * height
         
         # draw
         self._dc.drawEllipse(x-0.5*width, y-0.5*height, width, height)
@@ -148,10 +148,10 @@ class QtCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x1 = self._scale[0] * (x1 + self._offset[0])
-        y1 = self._scale[1] * (y1 + self._offset[1])
-        x2 = self._scale[0] * (x2 + self._offset[0])
-        y2 = self._scale[1] * (y2 + self._offset[1])
+        x1 = self._scale * (x1 + self._offset[0])
+        y1 = self._scale * (y1 + self._offset[1])
+        x2 = self._scale * (x2 + self._offset[0])
+        y2 = self._scale * (y2 + self._offset[1])
         
         # draw
         self._dc.drawLine(x1, y1, x2, y2)
@@ -171,7 +171,7 @@ class QtCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * self._scale
+        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # get lines
         lines = []
@@ -194,7 +194,7 @@ class QtCanvas(Canvas):
         # apply scaling and offset
         matrix = Matrix()
         matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale[0], self._scale[1])
+        matrix.scale(self._scale, self._scale)
         path = path.transformed(matrix)
         
         # make qt path
@@ -218,7 +218,7 @@ class QtCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * self._scale
+        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # draw
         self._dc.drawPolygon(*(QPoint(*p) for p in points))
@@ -259,10 +259,10 @@ class QtCanvas(Canvas):
             return
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        width = self._scale[0] * width + .5
-        height = self._scale[1] * height + .5
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        width = self._scale * width + .5
+        height = self._scale * height + .5
         
         # no round corners
         if not radius:
@@ -270,7 +270,7 @@ class QtCanvas(Canvas):
         
         # same radius for all corners
         else:
-            radius = self._scale[0] * radius[0]
+            radius = self._scale * radius[0]
             self._dc.drawRoundedRect(x, y, width, height, radius, radius)
     
     
@@ -309,8 +309,8 @@ class QtCanvas(Canvas):
         # apply angle transformation
         if angle:
             
-            x = self._scale[0] * (x + self._offset[0])
-            y = self._scale[1] * (y + self._offset[1])
+            x = self._scale * (x + self._offset[0])
+            y = self._scale * (y + self._offset[1])
             
             self._dc.save()
             self._dc.translate(x, y)
@@ -329,13 +329,13 @@ class QtCanvas(Canvas):
             
             # get line size
             line_width, line_height = self.get_line_size(line)
-            line_width /= self._scale[0]
-            line_height /= self._scale[1]
+            line_width /= self._scale
+            line_height /= self._scale
             ascent = self._font_metrics.ascent()
             
             # init offset
             x_offset = 0
-            y_offset = ascent / self._scale[1]
+            y_offset = ascent / self._scale
             
             # adjust alignment
             if self.text_align == TEXT_ALIGN_CENTER:
@@ -356,19 +356,19 @@ class QtCanvas(Canvas):
             
             # apply scaling and offset
             if angle:
-                line_x = self._scale[0] * x_offset
-                line_y = self._scale[1] * y_offset
+                line_x = self._scale * x_offset
+                line_y = self._scale * y_offset
             else:
-                line_x = self._scale[0] * (x + x_offset + self._offset[0])
-                line_y = self._scale[1] * (y + y_offset + self._offset[1])
+                line_x = self._scale * (x + x_offset + self._offset[0])
+                line_y = self._scale * (y + y_offset + self._offset[1])
             
             # draw background
             if self._bgr_color is not None:
                 
                 bgr_x = line_x
                 bgr_y = line_y - ascent
-                bgr_width = line_width * self._scale[0]
-                bgr_height = line_height * self._scale[1]
+                bgr_width = line_width * self._scale
+                bgr_height = line_height * self._scale
                 
                 self._dc.setPen(Qt.NoPen)
                 self._dc.drawRect(bgr_x, bgr_y, bgr_width, bgr_height)
@@ -404,7 +404,7 @@ class QtCanvas(Canvas):
         # apply scaling and offset
         matrix = Matrix()
         matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale[0], self._scale[1])
+        matrix.scale(self._scale, self._scale)
         path = path.transformed(matrix)
         
         # save current canvas state

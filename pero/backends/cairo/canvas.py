@@ -100,9 +100,9 @@ class CairoCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        radius = self._scale[0] * radius
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        radius = self._scale * radius
         
         # init drawing
         self._dc.new_path()
@@ -133,9 +133,9 @@ class CairoCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        radius = self._scale[0] * radius
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        radius = self._scale * radius
         
         # init drawing
         self._dc.new_path()
@@ -166,10 +166,10 @@ class CairoCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        width = self._scale[0] * width
-        height = self._scale[1] * height
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        width = self._scale * width
+        height = self._scale * height
         
         # check size
         if not width or not height:
@@ -211,10 +211,10 @@ class CairoCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x1 = self._scale[0] * (x1 + self._offset[0])
-        y1 = self._scale[1] * (y1 + self._offset[1])
-        x2 = self._scale[0] * (x2 + self._offset[0])
-        y2 = self._scale[1] * (y2 + self._offset[1])
+        x1 = self._scale * (x1 + self._offset[0])
+        y1 = self._scale * (y1 + self._offset[1])
+        x2 = self._scale * (x2 + self._offset[0])
+        y2 = self._scale * (y2 + self._offset[1])
         
         # init drawing
         self._dc.new_path()
@@ -241,7 +241,7 @@ class CairoCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * self._scale
+        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # init drawing
         self._dc.new_path()
@@ -267,7 +267,7 @@ class CairoCanvas(Canvas):
         # apply scaling and offset
         matrix = Matrix()
         matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale[0], self._scale[1])
+        matrix.scale(self._scale, self._scale)
         path = path.transformed(matrix)
         
         # set new fill rule
@@ -298,7 +298,7 @@ class CairoCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * self._scale
+        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # init drawing
         self._dc.new_path()
@@ -349,10 +349,10 @@ class CairoCanvas(Canvas):
             return
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        width = self._scale[0] * width
-        height = self._scale[1] * height
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        width = self._scale * width
+        height = self._scale * height
         
         # init drawing
         self._dc.new_path()
@@ -391,13 +391,13 @@ class CairoCanvas(Canvas):
         
         # get font size
         ascent, descent, font_height, max_x_advance, max_y_advance = self._dc.font_extents()
-        font_height /= self._scale[1]
+        font_height /= self._scale
         
         # apply angle transformation
         if angle:
             
-            x = self._scale[0] * (x + self._offset[0])
-            y = self._scale[1] * (y + self._offset[1])
+            x = self._scale * (x + self._offset[0])
+            y = self._scale * (y + self._offset[1])
             
             self._dc.save()
             self._dc.translate(x, y)
@@ -416,12 +416,12 @@ class CairoCanvas(Canvas):
             
             # get line size
             x_bearing, y_bearing, line_width, line_height, x_advance, y_advance = self._dc.text_extents(line)
-            line_width /= self._scale[0]
-            line_height /= self._scale[1]
+            line_width /= self._scale
+            line_height /= self._scale
             
             # init offset
-            x_offset = -x_bearing / self._scale[0]
-            y_offset = ascent / self._scale[1]
+            x_offset = -x_bearing / self._scale
+            y_offset = ascent / self._scale
             
             # adjust alignment
             if self.text_align == TEXT_ALIGN_CENTER:
@@ -442,19 +442,19 @@ class CairoCanvas(Canvas):
             
             # apply scaling and offset
             if angle:
-                line_x = self._scale[0] * x_offset
-                line_y = self._scale[1] * y_offset
+                line_x = self._scale * x_offset
+                line_y = self._scale * y_offset
             else:
-                line_x = self._scale[0] * (x + x_offset + self._offset[0])
-                line_y = self._scale[1] * (y + y_offset + self._offset[1])
+                line_x = self._scale * (x + x_offset + self._offset[0])
+                line_y = self._scale * (y + y_offset + self._offset[1])
             
             # draw background
             if self._font['bgr_color']:
                 
                 bgr_x = line_x + x_bearing
                 bgr_y = line_y - ascent
-                bgr_width = line_width * self._scale[0]
-                bgr_height = font_height * self._scale[1]
+                bgr_width = line_width * self._scale
+                bgr_height = font_height * self._scale
                 
                 self._dc.set_source_rgba(*self._font['bgr_color'])
                 self._dc.rectangle(bgr_x, bgr_y, bgr_width, bgr_height)
@@ -486,7 +486,7 @@ class CairoCanvas(Canvas):
         # apply scaling and offset
         matrix = Matrix()
         matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale[0], self._scale[1])
+        matrix.scale(self._scale, self._scale)
         path = path.transformed(matrix)
         
         # save current canvas state

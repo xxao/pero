@@ -131,9 +131,9 @@ class SVGCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        radius = self._scale[0] * radius
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        radius = self._scale * radius
         
         # get pen and brush
         pen = self._get_pen_attrs()
@@ -166,10 +166,10 @@ class SVGCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        width = self._scale[0] * width
-        height = self._scale[1] * height
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        width = self._scale * width
+        height = self._scale * height
         
         # get pen and brush
         pen = self._get_pen_attrs()
@@ -201,10 +201,10 @@ class SVGCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x1 = self._scale[0] * (x1 + self._offset[0])
-        y1 = self._scale[1] * (y1 + self._offset[1])
-        x2 = self._scale[0] * (x2 + self._offset[0])
-        y2 = self._scale[1] * (y2 + self._offset[1])
+        x1 = self._scale * (x1 + self._offset[0])
+        y1 = self._scale * (y1 + self._offset[1])
+        x2 = self._scale * (x2 + self._offset[0])
+        y2 = self._scale * (y2 + self._offset[1])
         
         # get pen
         pen = self._get_pen_attrs()
@@ -230,7 +230,7 @@ class SVGCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * self._scale
+        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # format
         points = ("%s,%s" % (x,y) for x,y in points)
@@ -258,7 +258,7 @@ class SVGCanvas(Canvas):
         # apply scaling and offset
         matrix = Matrix()
         matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale[0], self._scale[1])
+        matrix.scale(self._scale, self._scale)
         path = path.transformed(matrix)
         
         # get svg
@@ -290,7 +290,7 @@ class SVGCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * self._scale
+        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # format
         points = ("%s,%s" % (x,y) for x,y in points)
@@ -343,10 +343,10 @@ class SVGCanvas(Canvas):
             return
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        width = self._scale[0] * width
-        height = self._scale[1] * height
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        width = self._scale * width
+        height = self._scale * height
         
         # get pen and brush
         pen = self._get_pen_attrs()
@@ -358,7 +358,7 @@ class SVGCanvas(Canvas):
         
         # same radius for all corners
         else:
-            radius = self._scale[0] * radius[0]
+            radius = self._scale * radius[0]
             command = self._indent + '<rect x="%s" y="%s" width="%s" height="%s" rx="%s" ry="%s" %s %s />' % (x, y, width, height, radius, radius, pen, brush)
         
         # add command
@@ -389,11 +389,11 @@ class SVGCanvas(Canvas):
         
         # get full size
         full_width, full_height = self.get_text_size(text)
-        descent = self._font_descent / self._scale[1]
+        descent = self._font_descent / self._scale
         
         # get rotation origin
-        trans_x = self._scale[0] * (x + self._offset[0])
-        trans_y = self._scale[1] * (y + self._offset[1])
+        trans_x = self._scale * (x + self._offset[0])
+        trans_y = self._scale * (y + self._offset[1])
         angle = numpy.rad2deg(angle)
         
         # split lines
@@ -406,8 +406,8 @@ class SVGCanvas(Canvas):
             
             # get line size
             line_width, line_height = self.get_line_size(line)
-            line_width /= self._scale[0]
-            line_height /= self._scale[1]
+            line_width /= self._scale
+            line_height /= self._scale
             
             # init offset
             x_offset = 0
@@ -431,8 +431,8 @@ class SVGCanvas(Canvas):
             y_offset += i * line_height * (1 + self.text_spacing)
             
             # apply scaling and offset
-            text_x = self._scale[0] * (x + x_offset + self._offset[0])
-            text_y = self._scale[1] * (y + y_offset + self._offset[1])
+            text_x = self._scale * (x + x_offset + self._offset[0])
+            text_y = self._scale * (y + y_offset + self._offset[1])
             
             # escape line
             line = html.escape(line)
@@ -461,7 +461,7 @@ class SVGCanvas(Canvas):
         # apply scaling and offset
         matrix = Matrix()
         matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale[0], self._scale[1])
+        matrix.scale(self._scale, self._scale)
         path = path.transformed(matrix)
         
         # make clip path

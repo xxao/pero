@@ -174,7 +174,7 @@ class Canvas(PropertySet):
         self._text_properties = set(x.name for x in TextProperties.properties())
         
         # init scale and offset
-        self._scale = numpy.array((self.line_scale, self.line_scale))
+        self._scale = self.line_scale
         self._offset = numpy.array((0, 0))
         
         # set font
@@ -444,8 +444,8 @@ class Canvas(PropertySet):
         
         # invert scaling
         if invert_scaling:
-            width /= self._scale[0]
-            height /= self._scale[1]
+            width /= self._scale
+            height /= self._scale
         
         return width, height
     
@@ -504,8 +504,8 @@ class Canvas(PropertySet):
             
             # invert scaling
             if invert_scaling:
-                width /= self._scale[0]
-                height /= self._scale[1]
+                width /= self._scale
+                height /= self._scale
             
             # apply alignment
             if self.text_align == TEXT_ALIGN_CENTER:
@@ -1169,8 +1169,8 @@ class Canvas(PropertySet):
                 Absolute device x and y coordinates.
         """
         
-        x = (x + self._offset[0]) * self._scale[0]
-        y = (y + self._offset[1]) * self._scale[0] 
+        x = (x + self._offset[0]) * self._scale
+        y = (y + self._offset[1]) * self._scale
         
         return x, y
     
@@ -1192,8 +1192,8 @@ class Canvas(PropertySet):
                 Logical x and y coordinates within current view.
         """
         
-        x = x / self._scale[0] - self._offset[0]
-        y = y / self._scale[0] - self._offset[1]
+        x = x / self._scale - self._offset[0]
+        y = y / self._scale - self._offset[1]
         
         return x, y
     
@@ -1203,7 +1203,7 @@ class Canvas(PropertySet):
         
         # update line scaling
         if evt.name == 'line_scale':
-            self._scale = numpy.array((self.line_scale, self.line_scale))
+            self._scale = self.line_scale
         
         # update full viewport
         if evt.name in ('line_scale', 'width', 'height'):

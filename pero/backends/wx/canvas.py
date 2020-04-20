@@ -108,9 +108,9 @@ class WXCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        radius = self._scale[0] * radius
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        radius = self._scale * radius
         
         # make path
         gc = self._get_gc(self._dc)
@@ -137,9 +137,9 @@ class WXCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        radius = self._scale[0] * radius
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        radius = self._scale * radius
         
         # draw
         self._dc.DrawCircle(x, y, radius)
@@ -165,10 +165,10 @@ class WXCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        width = self._scale[0] * width
-        height = self._scale[1] * height
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        width = self._scale * width
+        height = self._scale * height
         
         # make path
         gc = self._get_gc(self._dc)
@@ -198,10 +198,10 @@ class WXCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x1 = self._scale[0] * (x1 + self._offset[0])
-        y1 = self._scale[1] * (y1 + self._offset[1])
-        x2 = self._scale[0] * (x2 + self._offset[0])
-        y2 = self._scale[1] * (y2 + self._offset[1])
+        x1 = self._scale * (x1 + self._offset[0])
+        y1 = self._scale * (y1 + self._offset[1])
+        x2 = self._scale * (x2 + self._offset[0])
+        y2 = self._scale * (y2 + self._offset[1])
         
         # draw
         self._dc.DrawLine(x1, y1, x2, y2)
@@ -221,7 +221,7 @@ class WXCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * self._scale
+        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # draw
         self._dc.DrawLines(points)
@@ -239,7 +239,7 @@ class WXCanvas(Canvas):
         # apply scaling and offset
         matrix = Matrix()
         matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale[0], self._scale[1])
+        matrix.scale(self._scale, self._scale)
         path = path.transformed(matrix)
         
         # make wx path
@@ -264,7 +264,7 @@ class WXCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * self._scale
+        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # draw
         self._dc.DrawPolygon(points)
@@ -305,10 +305,10 @@ class WXCanvas(Canvas):
             return
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        width = self._scale[0] * width + 1
-        height = self._scale[1] * height + 1
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        width = self._scale * width + 1
+        height = self._scale * height + 1
         
         # no round corners
         if not radius:
@@ -316,7 +316,7 @@ class WXCanvas(Canvas):
         
         # same radius for all corners
         else:
-            radius = self._scale[0] * radius[0]
+            radius = self._scale * radius[0]
             self._dc.DrawRoundedRectangle(x, y, width, height, radius)
     
     
@@ -355,8 +355,8 @@ class WXCanvas(Canvas):
             
             # get line size
             line_width, line_height = self.get_line_size(line)
-            line_width /= self._scale[0]
-            line_height /= self._scale[1]
+            line_width /= self._scale
+            line_height /= self._scale
             
             # init offset
             x_offset = 0
@@ -387,8 +387,8 @@ class WXCanvas(Canvas):
                 y_offset = y_shift
             
             # apply scaling and offset
-            text_x = self._scale[0] * (x + x_offset + self._offset[0])
-            text_y = self._scale[1] * (y + y_offset + self._offset[1])
+            text_x = self._scale * (x + x_offset + self._offset[0])
+            text_y = self._scale * (y + y_offset + self._offset[1])
             
             # draw
             if angle:
@@ -416,7 +416,7 @@ class WXCanvas(Canvas):
         # apply scaling and offset
         matrix = Matrix()
         matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale[0], self._scale[1])
+        matrix.scale(self._scale, self._scale)
         path = path.transformed(matrix)
         
         # set clipping

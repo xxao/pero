@@ -84,9 +84,9 @@ class MuPDFCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        radius = self._scale[0] * radius
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        radius = self._scale * radius
         
         # init shape
         shape = self._page.newShape()
@@ -117,10 +117,10 @@ class MuPDFCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        width = self._scale[0] * width
-        height = self._scale[1] * height
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        width = self._scale * width
+        height = self._scale * height
         
         # check size
         if not width or not height:
@@ -155,10 +155,10 @@ class MuPDFCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x1 = self._scale[0] * (x1 + self._offset[0])
-        y1 = self._scale[1] * (y1 + self._offset[1])
-        x2 = self._scale[0] * (x2 + self._offset[0])
-        y2 = self._scale[1] * (y2 + self._offset[1])
+        x1 = self._scale * (x1 + self._offset[0])
+        y1 = self._scale * (y1 + self._offset[1])
+        x2 = self._scale * (x2 + self._offset[0])
+        y2 = self._scale * (y2 + self._offset[1])
         
         # init shape
         shape = self._page.newShape()
@@ -184,7 +184,7 @@ class MuPDFCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * self._scale
+        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # init shape
         shape = self._page.newShape()
@@ -208,7 +208,7 @@ class MuPDFCanvas(Canvas):
         # apply scaling and offset
         matrix = Matrix()
         matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale[0], self._scale[1])
+        matrix.scale(self._scale, self._scale)
         path = path.transformed(matrix)
         
         # init shape
@@ -261,7 +261,7 @@ class MuPDFCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * self._scale
+        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # init shape
         shape = self._page.newShape()
@@ -308,10 +308,10 @@ class MuPDFCanvas(Canvas):
             return
         
         # apply scaling and offset
-        x = self._scale[0] * (x + self._offset[0])
-        y = self._scale[1] * (y + self._offset[1])
-        width = self._scale[0] * width
-        height = self._scale[1] * height
+        x = self._scale * (x + self._offset[0])
+        y = self._scale * (y + self._offset[1])
+        width = self._scale * width
+        height = self._scale * height
         
         # init shape
         shape = self._page.newShape()
@@ -347,7 +347,7 @@ class MuPDFCanvas(Canvas):
         
         # get full size
         full_width, full_height = self.get_text_size(text)
-        descent = self._font['descent'] / self._scale[1]
+        descent = self._font['descent'] / self._scale
         
         # get angle transformation
         text_morph = None
@@ -373,8 +373,8 @@ class MuPDFCanvas(Canvas):
             
             # get line size
             line_width, line_height = self.get_line_size(line)
-            line_width /= self._scale[0]
-            line_height /= self._scale[1]
+            line_width /= self._scale
+            line_height /= self._scale
             
             # init offset
             x_offset = 0
@@ -417,13 +417,13 @@ class MuPDFCanvas(Canvas):
                 bgr_y = y_shift
             
             # apply scaling and offset
-            text_x = self._scale[0] * (x + text_x + self._offset[0])
-            text_y = self._scale[1] * (y + text_y + self._offset[1])
+            text_x = self._scale * (x + text_x + self._offset[0])
+            text_y = self._scale * (y + text_y + self._offset[1])
             
-            bgr_x1 = self._scale[0] * (x + bgr_x + self._offset[0])
-            bgr_y2 = self._scale[1] * (y + bgr_y + self._offset[1])
-            bgr_x2 = bgr_x1 + line_width * self._scale[0]
-            bgr_y1 = bgr_y2 - line_height * self._scale[1]
+            bgr_x1 = self._scale * (x + bgr_x + self._offset[0])
+            bgr_y2 = self._scale * (y + bgr_y + self._offset[1])
+            bgr_x2 = bgr_x1 + line_width * self._scale
+            bgr_y1 = bgr_y2 - line_height * self._scale
             
             # set angle pivot
             if angle:
