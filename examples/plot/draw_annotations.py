@@ -62,15 +62,15 @@ x_zero = pero.Line(
     line_color = pero.colors.Grey,
     x1 = 0,
     x2 = 0,
-    y1 = lambda x: plot.y_axis.scale.out_range[0],
-    y2 = lambda x: plot.y_axis.scale.out_range[1])
+    y1 = lambda d: plot.y_axis.minimum(True),
+    y2 = lambda d: plot.y_axis.maximum(True))
 
 plot.annotate(x_zero, x_props=('x1', 'x2'), z_index=.5)
 
 y_zero = pero.Line(
     line_color = pero.colors.Grey,
-    x1 = lambda x: plot.x_axis.scale.out_range[0],
-    x2 = lambda x: plot.x_axis.scale.out_range[1],
+    x1 = lambda d: plot.x_axis.minimum(True),
+    x2 = lambda d: plot.x_axis.maximum(True),
     y1 = 0,
     y2 = 0)
 

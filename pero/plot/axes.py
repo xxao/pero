@@ -388,6 +388,44 @@ class Axis(OutGraphics):
         self.scale.in_range = (start, end)
     
     
+    def minimum(self, device=False):
+        """
+        Gets minimum of current displayed range of the axis using device or
+        real data units. In fact, this method just provides a shortcut to
+        self.scale.in_range[0] or self.scale.out_range[0].
+        
+        Args:
+            device: bool
+                If set to True, device units are returned instead of real data
+                units.
+        
+        Returns:
+            float
+                Current range minimum.
+        """
+        
+        return self.scale.out_range[0] if device else self.scale.in_range[0]
+    
+    
+    def maximum(self, device=False):
+        """
+        Gets maximum of current displayed range of the axis using device or
+        real data units. In fact, this method just provides a shortcut to
+        self.scale.in_range[1] or self.scale.out_range[1].
+        
+        Args:
+            device: bool
+                If set to True, device units are returned instead of real data
+                units.
+        
+        Returns:
+            float
+                Current range maximum.
+        """
+        
+        return self.scale.out_range[1] if device else self.scale.in_range[1]
+    
+    
     def _get_ticks_extent(self, canvas, source=None, overrides=None):
         """Calculates the space needed for ticks."""
         
