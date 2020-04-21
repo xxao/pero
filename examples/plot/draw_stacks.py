@@ -19,8 +19,9 @@ x_axis = pero.plot.OrdinalAxis(
     level = 1)
 
 # init plot
-plot = pero.plot.Plot(x_axis=x_axis)
-plot.y_axis.title = "count"
+plot = pero.plot.Plot(
+    x_axis = x_axis,
+    y_axis_title = "count")
 
 # init labels
 label = pero.TextLabel(

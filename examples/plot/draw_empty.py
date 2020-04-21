@@ -4,12 +4,12 @@
 import pero
 
 # init plot
-plot = pero.plot.Plot()
-plot.title.text = "Plot Title"
-plot.x_axis.title = "x-axis"
-plot.y_axis.title = "y-axis"
-plot.bgr_fill_color = pero.colors.White.darker(.1)
-plot.plot_fill_color = pero.colors.White
+plot = pero.plot.Plot(
+    title_text = "Plot Title",
+    x_axis_title = "x-axis",
+    y_axis_title = "y-axis",
+    bgr_fill_color = pero.colors.White.darker(.1),
+    plot_fill_color = pero.colors.White)
 
 # show plot
 plot.view("Empty Plot")

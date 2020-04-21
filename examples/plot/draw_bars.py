@@ -21,11 +21,13 @@ x_axis = pero.plot.OrdinalAxis(
     level = 1)
 
 # init plot
-plot = pero.plot.Plot(x_axis=x_axis)
-plot.y_axis.title = "count"
+plot = pero.plot.Plot(
+    x_axis = x_axis,
+    y_axis_title = "count")
 
 # init labels
 label = lambda d: str(d[1])
+tooltip = lambda d: "%s (%s)" % (d[1], d[0])
 
 # add series
 series1 = pero.plot.VBars(
@@ -36,7 +38,8 @@ series1 = pero.plot.VBars(
     x_offset = -(width+spacing),
     x_mapper = x_axis.mapper,
     show_labels = True,
-    label_text = label)
+    label_text = label,
+    tooltip_text = tooltip)
 
 series2 = pero.plot.VBars(
     title = "Series 2",
@@ -45,7 +48,8 @@ series2 = pero.plot.VBars(
     width = width,
     x_mapper = x_axis.mapper,
     show_labels = True,
-    label_text = label)
+    label_text = label,
+    tooltip_text = tooltip)
 
 series3 = pero.plot.VBars(
     title = "Series 3",
@@ -55,7 +59,8 @@ series3 = pero.plot.VBars(
     x_offset = width+spacing,
     x_mapper = x_axis.mapper,
     show_labels = True,
-    label_text = label)
+    label_text = label,
+    tooltip_text = tooltip)
 
 plot.plot(series1, x_axis=x_axis)
 plot.plot(series2, x_axis=x_axis)

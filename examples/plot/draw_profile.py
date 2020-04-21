@@ -10,9 +10,9 @@ y_data = numpy.sin(x_data)
 x_data /= numpy.pi
 
 # init plot
-plot = pero.plot.Plot()
-plot.x_axis.title = "pi"
-plot.y_axis.title = "f(x)"
+plot = pero.plot.Plot(
+    x_axis_title = "pi",
+    y_axis_title = "f(x)")
 
 # add series
 series = pero.plot.Profile(

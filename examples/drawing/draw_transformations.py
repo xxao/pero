@@ -38,6 +38,14 @@ class DrawTest(pero.Graphics):
             size = 10,
             line_color = pero.colors.Red)
         
+        zero = pero.Text(
+            text = "0,0",
+            x = -2,
+            y = 0,
+            font_size = 8,
+            text_base = pero.TEXT_BASE_BOTTOM,
+            text_align = pero.TEXT_ALIGN_RIGHT)
+        
         label = pero.Text(
             x = 0,
             y = 60,
@@ -51,6 +59,7 @@ class DrawTest(pero.Graphics):
         canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
+        zero.draw(canvas)
         
         matrix = pero.Matrix().translate(10, 10)
         shape.draw(canvas, path=path.transformed(matrix))
@@ -62,6 +71,7 @@ class DrawTest(pero.Graphics):
         canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
+        zero.draw(canvas)
         
         matrix = pero.Matrix().ray(10, pero.rads(-45))
         shape.draw(canvas, path=path.transformed(matrix))
@@ -73,6 +83,7 @@ class DrawTest(pero.Graphics):
         canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
+        zero.draw(canvas)
         
         matrix = pero.Matrix().rotate(pero.rads(45))
         shape.draw(canvas, path=path.transformed(matrix))
@@ -84,6 +95,7 @@ class DrawTest(pero.Graphics):
         canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
+        zero.draw(canvas)
         
         matrix = pero.Matrix().rotate(pero.rads(45), x=20, y=20)
         shape.draw(canvas, path=path.transformed(matrix))
@@ -97,6 +109,7 @@ class DrawTest(pero.Graphics):
         canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
+        zero.draw(canvas)
         
         matrix = pero.Matrix().scale(0.75, 1.5)
         shape.draw(canvas, path=path.transformed(matrix))
@@ -108,6 +121,7 @@ class DrawTest(pero.Graphics):
         canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
+        zero.draw(canvas)
         
         matrix = pero.Matrix().scale(0.75, 1.5, x=20, y=20)
         shape.draw(canvas, path=path.transformed(matrix))
@@ -120,6 +134,7 @@ class DrawTest(pero.Graphics):
         canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
+        zero.draw(canvas)
         
         matrix = pero.Matrix().skew(pero.rads(20), 10)
         shape.draw(canvas, path=path.transformed(matrix))
@@ -131,6 +146,7 @@ class DrawTest(pero.Graphics):
         canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
+        zero.draw(canvas)
         
         matrix = pero.Matrix().skew(pero.rads(20), 10, x=20, y=20)
         shape.draw(canvas, path=path.transformed(matrix))
@@ -138,7 +154,7 @@ class DrawTest(pero.Graphics):
         label.draw(canvas, text="Skew (ori)")
         
         x = 50
-        y += 120
+        y += 130
         
         # init flipping path
         path = pero.Path()
@@ -154,6 +170,7 @@ class DrawTest(pero.Graphics):
         canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
+        zero.draw(canvas)
         
         matrix = pero.Matrix().hflip()
         shape.draw(canvas, path=path.transformed(matrix))
@@ -165,6 +182,7 @@ class DrawTest(pero.Graphics):
         canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
+        zero.draw(canvas)
         
         matrix = pero.Matrix().hflip(20)
         shape.draw(canvas, path=path.transformed(matrix))
@@ -177,6 +195,7 @@ class DrawTest(pero.Graphics):
         canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
+        zero.draw(canvas)
         
         matrix = pero.Matrix().vflip()
         shape.draw(canvas, path=path.transformed(matrix))
@@ -188,6 +207,7 @@ class DrawTest(pero.Graphics):
         canvas.view(x, y)
         ghost.draw(canvas)
         origin.draw(canvas)
+        zero.draw(canvas)
         
         matrix = pero.Matrix().vflip(20)
         shape.draw(canvas, path=path.transformed(matrix))

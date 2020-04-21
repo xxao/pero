@@ -18,11 +18,11 @@ z_min = numpy.min(data[:, 2])
 z_max = numpy.max(data[:, 2])
 
 # init plot
-plot = pero.plot.Plot()
-plot.x_axis.title = "pi"
-plot.x_axis.ticker.major_step = 0.5
-plot.y_axis.title = "pi"
-plot.y_axis.ticker.major_step = 0.5
+plot = pero.plot.Plot(
+    x_axis_title = "pi",
+    x_axis_ticker_major_step = 0.5,
+    y_axis_title = "pi",
+    y_axis_ticker_major_step = 0.5,)
 
 # init color bar
 color_bar = pero.plot.ColorBar(

@@ -12,9 +12,9 @@ x2_data = x1_data-x1_data**3/10 + 0.3
 y2_data = y1_data-x1_data**2/10 + 0.5
 
 # init plot
-plot = pero.plot.Plot()
-plot.x_axis.title = "x-value"
-plot.y_axis.title = "random"
+plot = pero.plot.Plot(
+    x_axis_title = "x-value",
+    y_axis_title = "random")
 
 # add series
 series = pero.plot.Lines(
