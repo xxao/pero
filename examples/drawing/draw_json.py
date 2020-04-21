@@ -3,12 +3,5 @@
 
 import pero
 
-# init image
-img = pero.Image()
-
-# load json
-with open('image.json') as dump:
-    img.draw_json(dump.read())
-
-# show image
-img.show()
+# create image from JSON file
+pero.Image.load_json('image.json').show()

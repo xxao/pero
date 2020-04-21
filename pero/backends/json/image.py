@@ -114,4 +114,27 @@ class Image(JsonCanvas, Graphics):
             pero.Image
         """
         
-        return Image().draw_json(dump)
+        img = Image()
+        img.draw_json(dump)
+        
+        return img
+    
+    
+    @staticmethod
+    def load_json(path):
+        """
+        Creates a new pero.Image from given JSON dump path.
+        
+        Args:
+            path: str or dict
+                Path to JSON dump.
+        
+        Returns:
+            pero.Image
+        """
+
+        img = Image()
+        with open(path) as dump:
+            img.draw_json(dump.read())
+        
+        return img
