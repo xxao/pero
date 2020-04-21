@@ -204,7 +204,7 @@ class Axis(OutGraphics):
         self._glyph = StraitAxis()
         
         # set defaults by position
-        self._update_position()
+        self._update_position(overrides)
         
         # bind events
         self.bind(EVT_PROPERTY_CHANGED, self._on_axis_property_changed)
@@ -507,43 +507,59 @@ class Axis(OutGraphics):
         return offset + canvas.get_text_size(title)[1]
     
     
-    def _update_position(self):
+    def _update_position(self, keep={}):
         """Updates properties according to current position."""
+        
+        # init values
+        title_text_align = UNDEF
+        title_text_base = UNDEF
+        label_text_align = UNDEF
+        label_text_base = UNDEF
         
         # left axis
         if self.position == POS_LEFT:
-            self.title_text_align = TEXT_ALIGN_CENTER
-            self.title_text_base = TEXT_BASE_BOTTOM
-            self.label_text_align = TEXT_ALIGN_RIGHT
-            self.label_text_base = TEXT_BASE_MIDDLE
+            title_text_align = TEXT_ALIGN_CENTER
+            title_text_base = TEXT_BASE_BOTTOM
+            label_text_align = TEXT_ALIGN_RIGHT
+            label_text_base = TEXT_BASE_MIDDLE
         
         # right axis
         elif self.position == POS_RIGHT:
-            self.title_text_align = TEXT_ALIGN_CENTER
-            self.title_text_base = TEXT_BASE_BOTTOM
-            self.label_text_align = TEXT_ALIGN_LEFT
-            self.label_text_base = TEXT_BASE_MIDDLE
+            title_text_align = TEXT_ALIGN_CENTER
+            title_text_base = TEXT_BASE_BOTTOM
+            label_text_align = TEXT_ALIGN_LEFT
+            label_text_base = TEXT_BASE_MIDDLE
         
         # top axis
         elif self.position == POS_TOP:
-            self.title_text_align = TEXT_ALIGN_CENTER
-            self.title_text_base = TEXT_BASE_BOTTOM
-            self.label_text_align = TEXT_ALIGN_CENTER
-            self.label_text_base = TEXT_BASE_BOTTOM
+            title_text_align = TEXT_ALIGN_CENTER
+            title_text_base = TEXT_BASE_BOTTOM
+            label_text_align = TEXT_ALIGN_CENTER
+            label_text_base = TEXT_BASE_BOTTOM
         
         # bottom axis
         elif self.position == POS_BOTTOM:
-            self.title_text_align = TEXT_ALIGN_CENTER
-            self.title_text_base = TEXT_BASE_TOP
-            self.label_text_align = TEXT_ALIGN_CENTER
-            self.label_text_base = TEXT_BASE_TOP
+            title_text_align = TEXT_ALIGN_CENTER
+            title_text_base = TEXT_BASE_TOP
+            label_text_align = TEXT_ALIGN_CENTER
+            label_text_base = TEXT_BASE_TOP
         
         # automatic
-        elif self.position == UNDEF:
-            self.title_text_align = UNDEF
-            self.title_text_base = UNDEF
-            self.label_text_align = UNDEF
-            self.label_text_base = UNDEF
+        elif self.position != UNDEF:
+            return
+        
+        # apply
+        if 'title_text_align' not in keep:
+            self.title_text_align = title_text_align
+        
+        if 'title_text_base' not in keep:
+            self.title_text_base = title_text_base
+        
+        if 'label_text_align' not in keep:
+            self.label_text_align = label_text_align
+        
+        if 'label_text_base' not in keep:
+            self.label_text_base = label_text_base
     
     
     def _on_axis_property_changed(self, evt):
