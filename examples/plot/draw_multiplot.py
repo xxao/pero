@@ -11,17 +11,15 @@ cos_data = numpy.cos(x_data)
 x_data /= numpy.pi
 
 # init plots
-plot1 = pero.plot.Plot(x_rangebar=None, y_rangebar=None)
-plot1.x_axis.title = "pi"
-plot1.y_axis.title = "f(x)"
+settings = {
+    "x_axis_title": "pi",
+    "y_axis_title": "f(x)",
+    "x_rangebar": None,
+    "y_rangebar": None}
 
-plot2 = pero.plot.Plot(x_rangebar=None, y_rangebar=None)
-plot2.x_axis.title = "pi"
-plot2.y_axis.title = "f(x)"
-
-plot3 = pero.plot.Plot(x_rangebar=None, y_rangebar=None)
-plot3.x_axis.title = "pi"
-plot3.y_axis.title = "f(x)"
+plot1 = pero.plot.Plot(**settings)
+plot2 = pero.plot.Plot(**settings)
+plot3 = pero.plot.Plot(**settings)
 
 # add series
 plot1.plot(pero.plot.Profile(x=x_data, y=sin_data), title="sin(x)", color="b")
