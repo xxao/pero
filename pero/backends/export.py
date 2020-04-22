@@ -28,6 +28,9 @@ def show(graphics, title=None, width=None, height=None, backend=None, **options)
         backend: pero.BACKEND
             Specific backend to be used. The value must be an item from the
             pero.BACKEND enum.
+        
+        options: str:any pairs
+            Additional parameters for specific backend.
     """
     
     # get backends

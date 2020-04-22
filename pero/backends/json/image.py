@@ -15,7 +15,7 @@ class Image(JsonCanvas, Graphics):
     """
     
     
-    def show(self, title=None, width=None, height=None, backend=None):
+    def show(self, title=None, width=None, height=None, backend=None, **options):
         """
         Shows the image in available viewer app. This method makes sure
         appropriate backend canvas is created and provided to the 'draw' method.
@@ -38,6 +38,9 @@ class Image(JsonCanvas, Graphics):
             backend: pero.BACKEND
                 Specific backend to be used. The value must be an item from the
                 pero.BACKEND enum.
+            
+            options: str:any pairs
+                Additional parameters for specific backend.
         """
         
         # get size
@@ -47,7 +50,7 @@ class Image(JsonCanvas, Graphics):
             height = self.height
         
         # show image
-        super().show(title, width, height, backend)
+        super().show(title, width, height, backend, **options)
     
     
     def export(self, path, width=None, height=None, backend=None, **options):

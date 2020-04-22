@@ -116,7 +116,7 @@ class Control(PropertySet):
             self._parent.set_cursor(cursor)
     
     
-    def show(self, title=None, width=None, height=None, backend=None):
+    def show(self, title=None, width=None, height=None, backend=None, **options):
         """
         Shows the control in available viewer app. This method makes sure
         appropriate backend canvas is created and provided to the 'draw' method.
@@ -137,10 +137,13 @@ class Control(PropertySet):
             backend: pero.BACKEND
                 Specific backend to be used. The value must be an item from the
                 pero.BACKEND enum.
+            
+            options: str:any pairs
+                Additional parameters for specific backend.
         """
         
         from .export import show
-        show(self, title, width, height, backend)
+        show(self, title, width, height, backend, **options)
     
     
     def export(self, path, width=None, height=None, backend=None, **options):

@@ -1053,7 +1053,7 @@ class Plot(Graphics):
         axis.scale.in_range = (start, end)
     
     
-    def show(self, title=None, width=None, height=None, backend=None):
+    def show(self, title=None, width=None, height=None, backend=None, **options):
         """
         Shows current plot as static image in available viewer app.
         
@@ -1075,6 +1075,9 @@ class Plot(Graphics):
             backend: pero.BACKEND or None
                 Specific backend to be used. The value must be an item from the
                 pero.BACKEND enum.
+            
+            options: str:any pairs
+                Additional parameters for specific backend.
         """
         
         # get title
@@ -1088,7 +1091,7 @@ class Plot(Graphics):
             height = self.height
         
         # show plot
-        super().show(title, width, height, backend)
+        super().show(title, width, height, backend, **options)
     
     
     def export(self, path, width=None, height=None, backend=None, **options):
@@ -1129,7 +1132,7 @@ class Plot(Graphics):
         super().export(path, width, height, backend, **options)
     
     
-    def view(self, title=None, width=None, height=None, backend=None):
+    def view(self, title=None, width=None, height=None, backend=None, **options):
         """
         Shows current plot as interactive viewer app.
         
@@ -1151,6 +1154,9 @@ class Plot(Graphics):
             backend: pero.BACKEND or None
                 Specific backend to be used. The value must be an item from the
                 pero.BACKEND enum.
+            
+            options: str:any pairs
+                Additional parameters for specific backend.
         """
         
         # get title
@@ -1168,7 +1174,7 @@ class Plot(Graphics):
         control = PlotControl(graphics=self)
         
         # show viewer
-        control.show(title, width, height, backend)
+        control.show(title, width, height, backend, **options)
     
     
     def _init_frames(self, canvas, source, overrides):
