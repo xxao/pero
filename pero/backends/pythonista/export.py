@@ -24,12 +24,22 @@ def show(graphics, title=None, width=None, height=None, **options):
         
         height: float or None
             Viewer height in device units.
+        
+        style: str
+            Presentation style of the ui.View. Recognized values are:
+            full_screen, sheet, popover and panel. If any touch events are
+            expected to work, the full_screen should be used.
     """
     
     # show as image in console
     if not isinstance(graphics, Control):
         export(graphics, width=width, height=height, **options)
         return
+    
+    # get style
+    style = "sheet"
+    if 'style' in options:
+        style = options['style']
     
     # init main window
     window = UIViewer()
@@ -38,7 +48,7 @@ def show(graphics, title=None, width=None, height=None, **options):
     if title is not None:
         window.set_title(title)
     
-    # check size
+    # set size
     if not width:
         width = VIEWER_WIDTH
     if not height:
@@ -54,7 +64,7 @@ def show(graphics, title=None, width=None, height=None, **options):
     window.refresh()
     
     # start app
-    window.present()
+    window.present(style)
 
 
 def export(graphics, path=None, width=None, height=None, **options):
