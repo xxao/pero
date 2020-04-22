@@ -8,7 +8,7 @@ from .canvas import UICanvas
 from .viewer import UIViewer
 
 
-def show(graphics, title=None, width=None, height=None):
+def show(graphics, title=None, width=None, height=None, **options):
     """
     Shows given graphics in the viewer app.
     
@@ -28,7 +28,7 @@ def show(graphics, title=None, width=None, height=None):
     
     # show as image in console
     if not isinstance(graphics, Control):
-        export(graphics, width=width, height=height)
+        export(graphics, width=width, height=height, **options)
         return
     
     # init main window

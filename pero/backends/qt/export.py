@@ -11,7 +11,7 @@ from .canvas import QtCanvas
 from .viewer import QtViewer
 
 
-def show(graphics, title=None, width=None, height=None):
+def show(graphics, title=None, width=None, height=None, **options):
     """
     Shows given graphics in the viewer app.
     
@@ -172,7 +172,7 @@ def export_raster(graphics, path, width=None, height=None, **options):
     
     # end drawing
     qp.end()
-
+    
     # get image options
     quality = options.get('quality', -1)
     

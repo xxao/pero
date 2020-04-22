@@ -8,7 +8,7 @@ from .canvas import WXCanvas
 from .viewer import WXViewer
 
 
-def show(graphics, title=None, width=None, height=None):
+def show(graphics, title=None, width=None, height=None, **options):
     """
     Shows given graphics in the viewer app.
     

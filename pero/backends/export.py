@@ -5,7 +5,7 @@ import os.path
 from ..enums import *
 
 
-def show(graphics, title=None, width=None, height=None, backend=None):
+def show(graphics, title=None, width=None, height=None, backend=None, **options):
     """
     Shows given graphics in available viewer app. Currently this is only
     available if wxPython or PyQt5 is installed or within Pythonista app on iOS.
@@ -61,7 +61,7 @@ def show(graphics, title=None, width=None, height=None, backend=None):
         raise ImportError(message)
     
     # show viewer
-    backend.show(graphics, title, width, height)
+    backend.show(graphics, title, width, height, **options)
 
 
 def export(graphics, path, width=None, height=None, backend=None, **options):
@@ -182,22 +182,22 @@ def debug(graphics, canvas='show', title="", width=None, height=None, backend=No
     
     # render graphics in available viewer
     if canvas == 'show':
-        show(graphics, title, width, height, backend)
+        show(graphics, title, width, height, backend, **options)
     
     # render graphics into qt viewer
     elif canvas == 'qt':
         from . import qt
-        qt.show(graphics, title, width, height)
+        qt.show(graphics, title, width, height, **options)
     
     # render graphics into wx viewer
     elif canvas == 'wx':
         from . import wx
-        wx.show(graphics, title, width, height)
+        wx.show(graphics, title, width, height, **options)
     
     # render graphics into Pythonista console
     elif canvas == 'pythonista':
         from . import pythonista
-        pythonista.show(graphics, width, height)
+        pythonista.show(graphics, width, height, **options)
     
     # render graphics as image file
     else:
