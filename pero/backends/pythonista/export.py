@@ -37,7 +37,7 @@ def show(graphics, title=None, width=None, height=None, **options):
         return
     
     # get style
-    style = "sheet"
+    style = "full_screen"
     if 'style' in options:
         style = options['style']
     
