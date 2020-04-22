@@ -27,7 +27,7 @@ def show(graphics, title=None, width=None, height=None, **options):
         
         style: str
             Presentation style of the ui.View. Recognized values are:
-            full_screen, sheet, popover and panel. If any touch events are
+            fullscreen, sheet, popover and panel. If any touch events are
             expected to work, the full_screen should be used.
     """
     
@@ -37,7 +37,7 @@ def show(graphics, title=None, width=None, height=None, **options):
         return
     
     # get style
-    style = "full_screen"
+    style = "fullscreen"
     if 'style' in options:
         style = options['style']
     
@@ -48,7 +48,7 @@ def show(graphics, title=None, width=None, height=None, **options):
     if title is not None:
         window.set_title(title)
     
-    # set size
+    # check size
     if not width:
         width = VIEWER_WIDTH
     if not height:
