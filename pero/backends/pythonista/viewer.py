@@ -12,11 +12,11 @@ class UIViewer(ui.View):
     """Simple graphics viewer application."""
     
     
-    def __init__(self):
+    def __init__(self, **kwargs):
         """Initializes a new instance of UIViewer."""
         
         # init base
-        super().__init__()
+        super().__init__(**kwargs)
         self.name = "Pero"
         
         # init view
@@ -82,6 +82,14 @@ class UIViewer(ui.View):
         
         # set layout
         self._view.flex = "WH"
+    
+    
+    def layout(self):
+        """Called when view is resized."""
+        
+        # set size to child
+        if self._view is not None:
+            self._view.frame = (0, 0, self.width, self.height)
     
     
     def refresh(self):
