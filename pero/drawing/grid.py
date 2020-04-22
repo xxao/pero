@@ -135,7 +135,7 @@ class ParallelGrid(Grid):
 
 class RayGrid(Grid):
     """
-    Ray grid are drawn as a star-like series of lines of specified length.
+    Ray grid is drawn as a star-like series of lines of specified length.
     This type of grid is typically used by polar plots.
     
     The 'ticks' are expected to be provided in angle 'units'.
@@ -212,7 +212,7 @@ class RayGrid(Grid):
 
 class RadialGrid(Grid):
     """
-    Radial grid are drawn as series of concentric circles or arcs defined
+    Radial grid is drawn as series of concentric circles or arcs defined
     by 'start_angle' and 'end_angle'. This type of grid is typically used
     by polar plots.
     
