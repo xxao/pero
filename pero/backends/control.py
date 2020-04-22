@@ -208,7 +208,7 @@ class Control(PropertySet):
             self.graphics.draw(canvas, source=source, **overrides)
     
     
-    def draw_tooltip(self, canvas, source=UNDEF, **overrides):
+    def draw_tooltip(self, canvas=None, source=UNDEF, **overrides):
         """
         Draws a tooltip either by custom glyph specified by the 'tooltip'
         property or using a system tooltip of the parent view.
@@ -217,6 +217,10 @@ class Control(PropertySet):
         drawing method (e.g. to display specific text use text='my tooltip').
         For the system tooltip actual text is also retrieved from given
         overrides assuming the 'text' key is used.
+        
+        If the canvas is not provided, parent view takes care to initialize it
+        if necessary and the tooltip will be drawn as overlay. Therefore this
+        method can be easily used inside overlay call as well as alone.
         
         Args:
             canvas: pero.Canvas
@@ -234,23 +238,23 @@ class Control(PropertySet):
         if self.tooltip is None:
             return
         
-        # use custom tooltip
-        if self.tooltip is not UNDEF:
-            
-            # get clip frame
-            if self.tooltip.clip is UNDEF and 'clip' not in overrides:
-                overrides['clip'] = Frame(0, 0, *self._size)
-            
-            # draw tooltip
-            self.tooltip.draw(canvas, source=source, **overrides)
+        # use system tooltip
+        if self.tooltip is UNDEF:
+            if self._parent is not None:
+                self._parent.draw_tooltip(overrides.get('text', ""))
             return
         
-        # extract text
-        text = overrides.get('text', "")
+        # initialize canvas
+        if canvas is None:
+            self.draw_overlay(self.draw_tooltip, source=source, **overrides)
+            return
         
-        # use system tooltip
-        if self._parent is not None:
-            self._parent.draw_tooltip(text)
+        # get clip frame
+        if self.tooltip.clip is UNDEF and 'clip' not in overrides:
+            overrides['clip'] = Frame(0, 0, *self._size)
+        
+        # draw tooltip
+        self.tooltip.draw(canvas, source=source, **overrides)
     
     
     def draw_overlay(self, func=None, **kwargs):
