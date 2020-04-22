@@ -182,13 +182,18 @@ class UICanvas(Canvas):
                 y_offset += i * line_height * (1 + self.text_spacing)
                 
                 # apply scaling and offset
-                text_x = self._scale * (x + x_offset + self._offset[0])
-                text_y = self._scale * (y + y_offset + self._offset[1])
-                bgr_width = line_width * self._scale
-                bgr_height = line_height * self._scale
+                if angle:
+                    text_x = self._scale * x_offset
+                    text_y = self._scale * y_offset
+                else:
+                    text_x = self._scale * (x + x_offset + self._offset[0])
+                    text_y = self._scale * (y + y_offset + self._offset[1])
                 
                 # draw background
                 if self._font['bgr_color'].alpha:
+                    
+                    bgr_width = line_width * self._scale
+                    bgr_height = line_height * self._scale
                     
                     ui.set_color(self._font['bgr_color'].rgba_r)
                     ui.fill_rect(text_x, text_y, bgr_width, bgr_height)
