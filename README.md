@@ -390,10 +390,10 @@ In the [examples](https://github.com/xxao/pero/tree/master/examples) folder you 
 understand all the following images. The basic ones are located in the *drawing* sub-folder, the interactive plots are
 within the *plot* sub-folder. Check the image name and find corresponding python draw file.
 
-<p style="text-align:center">
+<p>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/colors.png" height="150"/>
-    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/gradients.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/palettes.png" height="150"/>
+    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/gradients.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/text.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/lines.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/glyphs.png" height="150"/>
