@@ -94,4 +94,4 @@ class DrawTest(pero.Graphics):
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'qt', "Legend", 500, 350)
+    pero.debug(DrawTest(), 'show', "Legend", 500, 350)

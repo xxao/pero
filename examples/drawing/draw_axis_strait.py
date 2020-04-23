@@ -91,18 +91,21 @@ class DrawTest(pero.Graphics):
         
         for angle in angles:
             axis.draw(canvas, x=x, y=y, angle=angle, title_position=pero.START)
+            origin.draw(canvas, x=x, y=y)
         
         # draw middle title
         x += size
         
         for angle in angles:
             axis.draw(canvas, x=x, y=y, angle=angle, title_position=pero.MIDDLE)
+            origin.draw(canvas, x=x, y=y)
         
         # draw end title
         x += size
         
         for angle in angles:
             axis.draw(canvas, x=x, y=y, angle=angle, title_position=pero.END)
+            origin.draw(canvas, x=x, y=y)
 
 
 # run test
