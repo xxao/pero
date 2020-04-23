@@ -76,7 +76,7 @@ img.draw_path(path)
 img.show()
 ```
 
-![Final Image](https://raw.githubusercontent.com/xxao/pero/master/examples/drawing/image.png)
+![Final Image](https://raw.githubusercontent.com/xxao/pero/master/examples/images/image.png)
 
 
 ## Requirements
@@ -383,3 +383,40 @@ marker.draw_many(image, zip(x_data, y_data))
 # show image
 image.show()
 ```
+
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/glyphs.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/markers.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/arrows.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/connectors.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/grids.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/text.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/text_polar.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/text_box.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/legend.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/layout.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/path.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/bezier.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/pather.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/band.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/profile.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/profile_steps.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/gauge_radial.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/gauge_strait.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/transformations.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/lines.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/colors.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/gradients.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/palettes.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/axis_radial.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/axis_strait.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_axes.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_profile.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_band.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_annotations.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_scatter.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_bars.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_stacks.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_heatmap.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_layout.png" height="150"/>
+<img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/piechart.png" height="150"/>
