@@ -12,8 +12,8 @@ Ever since I discovered the wonderful [d3js](https://d3js.org) JavaScript librar
 concept of dynamic properties within Python drawings. In fact, this has been the trigger to start working on the *pero*
 library. Finally, it is now available.
 
-Please see the *examples* folder or in-code documentation of classes and functions to learn more about the *pero*
-library capabilities.
+Please see the [examples](https://github.com/xxao/pero/tree/master/examples) folder or in-code documentation of classes
+and functions to learn more about the *pero* library capabilities.
 
 
 ```python
@@ -383,6 +383,12 @@ marker.draw_many(image, zip(x_data, y_data))
 # show image
 image.show()
 ```
+
+### Example Images
+
+The code for generating following images can be found in the [examples](https://github.com/xxao/pero/tree/master/examples)
+folder.
+
 <p>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/glyphs.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/markers.png" height="150"/>
