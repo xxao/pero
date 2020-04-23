@@ -384,7 +384,7 @@ marker.draw_many(image, zip(x_data, y_data))
 image.show()
 ```
 
-### Example Images
+## Example Code
 
 The code for generating following images can be found in the [examples](https://github.com/xxao/pero/tree/master/examples)
 folder.
