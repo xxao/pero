@@ -32,9 +32,9 @@ class DrawTest(pero.Graphics):
         y = 50
         
         # draw guidelines
-        line.draw(canvas, x1=x-30, y1=y-0.5*size, x2=x+450, y2=y-0.5*size, line_color=pero.colors.LightGrey)
-        line.draw(canvas, x1=x-30, y1=y, x2=x+450, y2=y)
-        line.draw(canvas, x1=x-30, y1=y+0.5*size, x2=x+450, y2=y+0.5*size, line_color=pero.colors.LightGrey)
+        line.draw(canvas, x1=x-30, y1=y-0.5*size, x2=x+210, y2=y-0.5*size, line_color=pero.colors.LightGrey)
+        line.draw(canvas, x1=x-30, y1=y, x2=x+210, y2=y)
+        line.draw(canvas, x1=x-30, y1=y+0.5*size, x2=x+210, y2=y+0.5*size, line_color=pero.colors.LightGrey)
         
         # test asterisk
         marker = pero.Asterisk(line_width=line_width, line_color=line_color, fill_color=fill_color, size=size)
@@ -62,7 +62,13 @@ class DrawTest(pero.Graphics):
         marker.draw(canvas, x=x, y=y)
         label.draw(canvas, x=x, y=y+30, text="Circle")
         
-        x += 60
+        y += 100
+        x = 50
+        
+        # draw guidelines
+        line.draw(canvas, x1=x-30, y1=y-0.5*size, x2=x+210, y2=y-0.5*size, line_color=pero.colors.LightGrey)
+        line.draw(canvas, x1=x-30, y1=y, x2=x+210, y2=y)
+        line.draw(canvas, x1=x-30, y1=y+0.5*size, x2=x+210, y2=y+0.5*size, line_color=pero.colors.LightGrey)
         
         # test diamond
         marker = pero.Diamond(line_width=line_width, line_color=line_color, fill_color=fill_color, size=size)
@@ -94,4 +100,4 @@ class DrawTest(pero.Graphics):
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'show', "Markers", 520, 120)
+    pero.debug(DrawTest(), 'show', "Markers", 280, 220)
