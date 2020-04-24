@@ -864,6 +864,43 @@ class Canvas(PropertySet):
         self.draw_path(path)
     
     
+    def draw_ray(self, x, y, angle, length, offset=0):
+        """
+        Draws a line defined by origin, angle and length.
+        
+        Args:
+            x: int or float
+                X-coordinate of the line start.
+            
+            y: int or float
+                Y-coordinate of the line start.
+            
+            angle: int or float
+                Line angle in radians.
+            
+            length: int or float
+                Specifies the line length.
+            
+            offset: int or float
+                Specifies the shift from the origin while keeping the length and
+                angle.
+        """
+        
+        # calc end point
+        if angle:
+            x = x + offset * numpy.cos(angle)
+            y = y + offset * numpy.sin(angle)
+            x2 = x + length * numpy.cos(angle)
+            y2 = y + length * numpy.sin(angle)
+        else:
+            x = x + offset
+            x2 = x + length
+            y2 = y
+        
+        # draw path
+        self.draw_line(x, y, x2, y2)
+    
+    
     def draw_rect(self, x, y, width, height, radius=None):
         """
         Draws a rectangle specified by given top left corner and size and

@@ -629,6 +629,35 @@ class Path(object):
         return self
     
     
+    def ray_to(self, angle, length):
+        """
+        Adds a straight line from the current point by given angle and length.
+        
+        Args:
+            angle: int or float
+                Line angle in radians.
+            
+            length: int or float
+                Line length.
+        
+        Returns:
+            pero.Path
+                Returns self so that the commands can be chained.
+        """
+        
+        # get previous end point
+        x1, y1 = self._cursor
+        
+        # calc end point
+        x2 = x1 + length * numpy.cos(angle)
+        y2 = y1 + length * numpy.sin(angle)
+        
+        # add line
+        self.line_to(x2, y2)
+        
+        return self
+    
+    
     def curve_to(self, cx1, cy1, cx2, cy2, x, y, relative=False):
         """
         Adds a cubic Bezier curve from the current point using control points

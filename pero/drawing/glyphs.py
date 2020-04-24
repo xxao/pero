@@ -476,26 +476,11 @@ class Ray(Glyph):
         offset = self.get_property('offset', source, overrides)
         angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
-        # get offset
-        if not offset:
-            offset = 0
-        
-        # calc end point
-        if angle:
-            x = x + offset * math.cos(angle)
-            y = y + offset * math.sin(angle)
-            x2 = x + length * math.cos(angle)
-            y2 = y + length * math.sin(angle)
-        else:
-            x = x + offset
-            x2 = x + length
-            y2 = y
-        
         # set pen
         canvas.set_pen_by(self, source=source, overrides=overrides)
         
         # draw
-        canvas.draw_line(x, y, x2, y2)
+        canvas.draw_ray(x, y, angle, length, offset)
 
 
 class Rect(Glyph):

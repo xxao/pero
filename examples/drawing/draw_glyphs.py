@@ -79,8 +79,8 @@ class DrawTest(pero.Graphics):
         y += 100
         
         # test ray
-        glyph = pero.Ray(line_width=line_width, line_color=line_color, offset=5)
-        glyph.draw(canvas, x=x-15, y=y-15, length=45, angle=pero.rads(45))
+        glyph = pero.Ray(line_width=line_width, line_color=line_color)
+        glyph.draw(canvas, x=x-15, y=y-15, length=45, angle=pero.rads(45), offset=10)
         origin.draw(canvas, x=x-15, y=y-15)
         label.draw(canvas, x=x, y=y+30, text="Ray")
         
@@ -147,4 +147,4 @@ class DrawTest(pero.Graphics):
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'png', "Glyphs", 420, 230, backend=pero.WX)
+    pero.debug(DrawTest(), 'show', "Glyphs", 420, 230)
