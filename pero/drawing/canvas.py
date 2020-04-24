@@ -584,6 +584,79 @@ class Canvas(PropertySet):
         self.draw_path(path)
     
     
+    def draw_bow(self, x1, y1, x2, y2, radius, large=False, clockwise=True):
+        """
+        Draws an arc specified by given radius and end-point coordinates. One
+        of the four existing solutions is chosen according to the 'large' and
+        'clockwise' parameters.
+        
+        Args:
+            x1: int, float, callable
+                Specifies the x-coordinate of the arc start.
+            
+            y1: int, float, callable
+                Specifies the y-coordinate of the arc start.
+            
+            x2: int, float, callable
+                Specifies the x-coordinate of the arc end.
+            
+            y2: int, float, callable
+                Specifies the y-coordinate of the arc end.
+            
+            radius: int, float, callable
+                Specifies the arc radius.
+            
+            large: bool
+                Specifies which of the possible arcs will be drawn according
+                to its length.
+            
+            clockwise: bool, callable
+                Specifies which of the possible arcs will be drawn according to
+                drawing direction. If set to True the clockwise arc is drawn,
+                otherwise the anti-clockwise.
+        """
+        
+        # get points distance and angle
+        dist = 0.5 * numpy.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+        angle = numpy.arctan2(y2 - y1, x2 - x1)
+        
+        # check min radius
+        radius = max(radius, dist)
+        
+        # calc sin/cos
+        sin = numpy.sin(angle)
+        cos = numpy.cos(angle)
+        
+        # get origins
+        c = numpy.sqrt(radius ** 2 - dist ** 2)
+        c1x = x1 + dist * cos - c * sin
+        c1y = y1 + dist * sin + c * cos
+        c2x = x1 + dist * cos + c * sin
+        c2y = y1 + dist * sin - c * cos
+        
+        # set circles
+        if angle >= 0:
+            small = c1x, c1y
+            big = c2x, c2y
+        else:
+            big = c2x, c2y
+            small = c1x, c1y
+        
+        # apply direction
+        if not clockwise:
+            small, big = big, small
+        
+        # select final circle
+        cx, cy = big if large else small
+        
+        # get angle
+        start_angle = numpy.arctan2(y1 - cy, x1 - cx)
+        end_angle = numpy.arctan2(y2 - cy, x2 - cx)
+        
+        # draw arc
+        self.draw_arc(cx, cy, radius, start_angle, end_angle, clockwise)
+    
+    
     def draw_circle(self, x, y, radius):
         """
         Draws a circle of specified radius centered around given coordinates.
