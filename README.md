@@ -396,6 +396,7 @@ within the *plot* sub-folder. Check the image name and find corresponding python
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/gradients.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/text.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/lines.png" height="150"/>
+    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/transformations.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/glyphs.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/markers.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/grids.png" height="150"/>
@@ -406,7 +407,6 @@ within the *plot* sub-folder. Check the image name and find corresponding python
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/profile_steps.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/gauge_radial.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/gauge_strait.png" height="150"/>
-    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/transformations.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/path.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/bezier.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/text_polar.png" height="150"/>
