@@ -835,8 +835,8 @@ class Path(object):
     def bow_to(self, x, y, radius, large=False, clockwise=True, relative=False):
         """
         Adds a circular arc from the current point, using given radius and end
-        point coordinates. One of four existing solutions is chosen according to
-        the 'large' and 'clockwise' parameters.
+        point coordinates. One of the four existing solutions is chosen
+        according to the 'large' and 'clockwise' parameters.
         
         If the radius is too small for specified end points the theoretical
         minimum is used, which equals half of the end points distance.
@@ -852,11 +852,13 @@ class Path(object):
                 Radius of the arc.
             
             large: bool
-                Specifies which of the possible arcs will be drawn.
+                Specifies which of the possible arcs will be drawn according
+                to its length.
             
             clockwise: bool
-                Specifies the direction of drawing. If set to True, the arc
-                will be drawn in the clockwise direction.
+                Specifies which of the possible arcs will be drawn according to
+                drawing direction. If set to True the clockwise arc is drawn,
+                otherwise the anti-clockwise.
             
             relative: bool
                 If set to True given coordinates are considered as relative to
@@ -887,32 +889,32 @@ class Path(object):
         cos = numpy.cos(angle)
         
         # get origins
-        o = numpy.sqrt(radius ** 2 - dist ** 2)
-        o1x = x1 + dist * cos - o * sin
-        o1y = y1 + dist * sin + o * cos
-        o2x = x1 + dist * cos + o * sin
-        o2y = y1 + dist * sin - o * cos
+        c = numpy.sqrt(radius ** 2 - dist ** 2)
+        c1x = x1 + dist * cos - c * sin
+        c1y = y1 + dist * sin + c * cos
+        c2x = x1 + dist * cos + c * sin
+        c2y = y1 + dist * sin - c * cos
         
         # set circles
         if angle >= 0:
-            small = o1x, o1y
-            big = o2x, o2y
+            small = c1x, c1y
+            big = c2x, c2y
         else:
-            big = o2x, o2y
-            small = o1x, o1y
+            big = c2x, c2y
+            small = c1x, c1y
         
         # apply direction
         if not clockwise:
             small, big = big, small
         
         # select final circle
-        ox, oy = big if large else small
+        cx, cy = big if large else small
         
         # get end angle
-        end_angle = numpy.arctan2(y - oy, x - ox)
+        end_angle = numpy.arctan2(y - cy, x - cx)
         
         # add arc
-        self.arc_around(ox, oy, end_angle, clockwise=clockwise)
+        self.arc_around(cx, cy, end_angle, clockwise=clockwise)
         
         return self
     

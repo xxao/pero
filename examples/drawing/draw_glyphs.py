@@ -45,7 +45,14 @@ class DrawTest(pero.Graphics):
         origin.draw(canvas, x=x, y=y)
         label.draw(canvas, x=x, y=y+30, text="Arc")
         
-        x += 60
+        x += 50
+        
+        # test bow
+        glyph = pero.Bow(line_width=line_width, line_color=line_color, fill_color=fill_color)
+        glyph.draw(canvas, x1=x, y1=y-20, x2=x, y2=y+20, large=False, clockwise=True)
+        label.draw(canvas, x=x, y=y+30, text="Bow")
+        
+        x += 70
         
         # test ellipse
         glyph = pero.Ellipse(line_width=line_width, line_color=line_color, fill_color=fill_color)
@@ -140,4 +147,4 @@ class DrawTest(pero.Graphics):
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'show', "Glyphs", 365, 230)
+    pero.debug(DrawTest(), 'png', "Glyphs", 420, 230, backend=pero.WX)

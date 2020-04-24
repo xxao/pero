@@ -141,6 +141,75 @@ class Arc(Glyph):
         canvas.draw_arc(x, y, radius, start_angle, end_angle, clockwise)
 
 
+class Bow(Glyph):
+    """
+    Defines an arc-like glyph specified by radius and end-point coordinates.
+    One of the four existing solutions is chosen according to the 'large' and
+    'clockwise' parameters.
+    
+    Properties:
+        
+        x1: int, float, callable
+            Specifies the x-coordinate of the arc start.
+        
+        y1: int, float, callable
+            Specifies the y-coordinate of the arc start.
+        
+        x2: int, float, callable
+            Specifies the x-coordinate of the arc end.
+        
+        y2: int, float, callable
+            Specifies the y-coordinate of the arc end.
+        
+        radius: int, float, callable
+            Specifies the arc radius.
+        
+        large: bool
+            Specifies which of the possible arcs will be drawn according to
+            its length.
+        
+        clockwise: bool, callable
+            Specifies which of the possible arcs will be drawn according to
+            drawing direction. If set to True the clockwise arc is drawn,
+            otherwise the anti-clockwise.
+    """
+    
+    x1 = NumProperty(0)
+    y1 = NumProperty(0)
+    x2 = NumProperty(0)
+    y2 = NumProperty(0)
+    radius = NumProperty(0)
+    large = BoolProperty(False)
+    clockwise = BoolProperty(True)
+    
+    line = Include(LineProperties)
+    fill = Include(FillProperties)
+    
+    
+    def draw(self, canvas, source=UNDEF, **overrides):
+        """Uses given canvas to draw glyph."""
+        
+        # check if visible
+        if not self.is_visible(source, overrides):
+            return
+        
+        # get properties
+        x1 = self.get_property('x1', source, overrides)
+        y1 = self.get_property('y1', source, overrides)
+        x2 = self.get_property('x2', source, overrides)
+        y2 = self.get_property('y2', source, overrides)
+        radius = self.get_property('radius', source, overrides)
+        large = self.get_property('large', source, overrides)
+        clockwise = self.get_property('clockwise', source, overrides)
+        
+        # set pen and brush
+        canvas.set_pen_by(self, source=source, overrides=overrides)
+        canvas.set_brush_by(self, source=source, overrides=overrides)
+        
+        # draw
+        canvas.draw_bow(x1, y1, x2, y2, radius, large, clockwise)
+
+
 class Bar(Glyph):
     """
     Defines a bar glyph.

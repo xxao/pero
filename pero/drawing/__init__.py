@@ -18,7 +18,7 @@ from .layout import Layout, Row, Column, Cell
 from .utils import *
 
 # import glyphs
-from .glyphs import Glyph, Annulus, Arc, Bar, Ellipse, Line, Polygon, Ray, Rect, Shape, Text, Textbox, Wedge
+from .glyphs import Glyph, Annulus, Arc, Bar, Bow, Ellipse, Line, Polygon, Ray, Rect, Shape, Text, Textbox, Wedge
 from .markers import Marker, Asterisk, Circle, Cross, Diamond, Plus, Triangle, Square, Symbol
 from .arrows import Arrow, ArcArrow, BowArrow, ConnectorArrow, CurveArrow, LineArrow, PathArrow, RayArrow
 from .heads import Head, CircleHead, LineHead, NormalHead, OpenHead, SymbolHead, VeeHead
