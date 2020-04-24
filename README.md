@@ -115,7 +115,7 @@ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Please note that the *pero* library is still in an alpha state. Any changes in its API may occur.
 
 
-## Examples
+## Usage
 
 
 ### Using default backend
@@ -384,7 +384,7 @@ marker.draw_many(image, zip(x_data, y_data))
 image.show()
 ```
 
-## Example Code
+## Examples
 
 In the [examples](https://github.com/xxao/pero/tree/master/examples) folder you will find sample codes to generate and
 understand all the following images. The basic ones are located in the *drawing* sub-folder, the interactive plots are
