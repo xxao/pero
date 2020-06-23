@@ -25,7 +25,7 @@ class Control(PropertySet):
         
         main_tool: pero.Tool, None or UNDEF
             Specifies the main keyboard and mouse interactivity tool. This tool
-            is bound to all keyboard mouse and touch events. Note that each
+            is bound to all keyboard, mouse and touch events. Note that each
             newly assigned tool has higher priority than those currently
             assigned. Therefore this tool should be assigned first.
         
@@ -121,8 +121,8 @@ class Control(PropertySet):
         Shows the control in available viewer app. This method makes sure
         appropriate backend canvas is created and provided to the 'draw' method.
         
-        Note that is just a convenient scripting shortcut and this method cannot
-        be used if the control is already part of any UI app.
+        Note that this is just a convenient scripting shortcut and this method
+        cannot be used if the control is already part of any UI app.
         
         Args:
             title: str or None
@@ -152,8 +152,8 @@ class Control(PropertySet):
         determined automatically from the file extension. This method makes sure
         appropriate backend canvas is created and provided to the 'draw' method.
         
-        Note that is just a convenient scripting shortcut and this method cannot
-        be used if the control is already part of any UI app.
+        Note that this is just a convenient scripting shortcut and this method
+        cannot be used if the control is already part of any UI app.
         
         Args:
             path: str

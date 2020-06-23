@@ -205,10 +205,10 @@ class JsonCanvas(Canvas):
         
         Args:
             x: int or float
-                X-coordinate of the center.
+                X-coordinate of the top left corner.
             
             y: int or float
-                Y-coordinate of the center.
+                Y-coordinate of the top left corner.
             
             width: int or float
                 Full width of the rectangle.

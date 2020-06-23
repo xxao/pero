@@ -43,7 +43,7 @@ class Gradient(object, metaclass=GradientMeta):
                 pero.Color).
             
             stops: (float,) or None
-                Sequence of stop positions for each color. If set to None,
+                Sequence of positions for each specified color. If set to None,
                 equidistant stops are generated automatically using range 0 to 1.
                 If more than two colors are specified together with just two
                 numbers for stop, those are used as range to automatically
@@ -140,7 +140,7 @@ class Gradient(object, metaclass=GradientMeta):
         
         Returns:
             (float,)
-                Position of each color.
+                Positions of each color.
         """
         
         return self._stops

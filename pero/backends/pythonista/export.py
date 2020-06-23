@@ -28,7 +28,7 @@ def show(graphics, title=None, width=None, height=None, **options):
         style: str
             Presentation style of the ui.View. Recognized values are:
             fullscreen, sheet, popover and panel. If any touch events are
-            expected to work, the full_screen should be used.
+            expected to work, the fullscreen should be used.
     """
     
     # show as image in console
