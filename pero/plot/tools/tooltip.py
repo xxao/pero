@@ -67,7 +67,7 @@ class TooltipTool(Tool):
         
         # cancel event
         if obj != PLOT_TAG:
-            evt.control.draw_overlay()
+            evt.control.clear_overlay()
             return
         
         # set cursor

@@ -315,7 +315,7 @@ class NavigatorTool(Tool):
         # clear overlay
         if evt.control:
             evt.control.set_cursor(CURSOR_ARROW)
-            evt.control.draw_overlay()
+            evt.control.clear_overlay()
     
     
     def _shift_axes_by_scrolling(self, evt, obj, direction):

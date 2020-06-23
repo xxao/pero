@@ -280,6 +280,12 @@ class Control(PropertySet):
             self._parent.draw_overlay(func, **kwargs)
     
     
+    def clear_overlay(self):
+        """Clears current overlay."""
+        
+        self.draw_overlay()
+    
+    
     def _set_parent(self, parent):
         """Sets link to parent view."""
         

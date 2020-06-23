@@ -200,7 +200,7 @@ class ZoomTool(Tool):
         
         # clear overlay
         if evt.control:
-            evt.control.draw_overlay()
+            evt.control.clear_overlay()
     
     
     def _zoom_axes(self, evt):

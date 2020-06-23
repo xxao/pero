@@ -105,7 +105,7 @@ class MeasureTool(Tool):
         
         # clear overlay
         else:
-            evt.control.draw_overlay()
+            evt.control.clear_overlay()
         
         # stop event propagation
         evt.cancel()
@@ -255,7 +255,7 @@ class MeasureTool(Tool):
         
         # clear overlay
         if evt.control:
-            evt.control.draw_overlay()
+            evt.control.clear_overlay()
     
     
     def _draw_distance(self, canvas, evt):

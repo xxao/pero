@@ -123,3 +123,9 @@ class View(object):
         """
         
         raise NotImplementedError("The 'draw_overlay' method is not implemented for '%s'." % self.__class__.__name__)
+    
+    
+    def clear_overlay(self):
+        """Clears current overlay."""
+        
+        self.draw_overlay()

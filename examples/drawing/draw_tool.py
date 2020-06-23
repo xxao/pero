@@ -116,7 +116,7 @@ class AngleTool(pero.Tool):
         
         # clear overlay
         else:
-            evt.control.draw_overlay()
+            evt.control.clear_overlay()
     
     
     def on_mouse_leave(self, evt):
@@ -183,7 +183,7 @@ class AngleTool(pero.Tool):
         
         # clear overlay
         else:
-            evt.control.draw_overlay()
+            evt.control.clear_overlay()
     
     
     def on_touch_cancel(self, evt):
@@ -235,7 +235,7 @@ class AngleTool(pero.Tool):
         self._is_rotate = False
         
         # clear overlay
-        evt.control.draw_overlay()
+        evt.control.clear_overlay()
     
     
     def _rotate_axis(self, evt, x, y):
