@@ -8,7 +8,7 @@ class Formatter(PropertySet):
     """
     This class mainly serves as a base class for all specific formatters. It can
     be also used alone just to convert given value into a string using the
-    native implementation of provided value (i.e. __str__ method).
+    native implementation of provided value type (i.e. __str__ method).
     
     Each formatter has the 'domain' and 'precision' properties. They are used to
     prepare formatting according to actual data range and required precision
@@ -35,7 +35,7 @@ class Formatter(PropertySet):
     def format(self, value, *args, **kwargs):
         """
         Formats given value into a string using the native implementation of
-        provided value (i.e. __str__ method).
+        provided value type (i.e. __str__ method).
         
         This method should be overridden in derived classes to provide specific
         formatting mechanism.

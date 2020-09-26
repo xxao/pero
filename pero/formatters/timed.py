@@ -110,7 +110,7 @@ class TimeFormatter(Formatter):
         
         Returns:
             str
-                Formated label.
+                Formatted label.
         """
         
         # init formatting
@@ -193,7 +193,7 @@ class TimeFormatter(Formatter):
             NSECONDS: "{%s:03.0f}" % NSECONDS}
         
         # init default singles templates
-        self._templates_single = {x[0]:("{%s:.2f}" % x[0]) for x in self._parts}
+        self._templates_single = {x[0]: ("{%s:.2f}" % x[0]) for x in self._parts}
         
         # get user-defined templates
         for units, f in self._parts:

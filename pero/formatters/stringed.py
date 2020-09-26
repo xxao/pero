@@ -55,7 +55,8 @@ class StrFormatter(Formatter):
         
         Returns:
             str
-                Formatted label."""
+                Formatted label.
+        """
         
         # format and trim
         if self.trim:

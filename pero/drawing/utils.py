@@ -87,8 +87,8 @@ def between(v, min_v, max_v, epsilon=0.000001):
 def angle(p1, p2, p3, p4=None):
     """
     Calculates angle between two lines. If three points are given the lines are
-     defined as p1, p2 and p2, p3. If four points are given the lines are
-     defined as p1, p2 and p3, p4.
+    defined as p1, p2 and p2, p3. If four points are given the lines are
+    defined as p1, p2 and p3, p4.
     
     Args:
         p1: (float, float)
