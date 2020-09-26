@@ -20,3 +20,4 @@ from .backends import *
 from . import backends
 from . import colors
 from . import plot
+from . import venn
