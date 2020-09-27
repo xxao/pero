@@ -4,7 +4,7 @@
 import numpy
 
 
-def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., proportional=True):
+def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., proportional=True, spacing=0.1):
     """
     Calculates radii and coordinates for three Venn diagram circles.
     
@@ -32,6 +32,10 @@ def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., proportional=True):
         
         proportional: bool
             Specifies whether circles should be proportional to their area.
+        
+        spacing: float
+            Relative distance factor used if there is no overlap between the
+            circles, calculated from the biggest radius.
     
     Returns:
         (float, float, float)
@@ -49,10 +53,13 @@ def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., proportional=True):
         r_b = numpy.sqrt((b + ab + bc + abc) / numpy.pi)
         r_c = numpy.sqrt((c + ac + bc + abc) / numpy.pi)
         
+        # calc spacing
+        spacing = max(r_a, r_b, r_c) * spacing
+        
         # calc distances
-        d_ab = calc_distance(r_a, r_b, ab + abc)
-        d_bc = calc_distance(r_b, r_c, bc + abc)
-        d_ac = calc_distance(r_a, r_c, ac + abc)
+        d_ab = calc_distance(r_a, r_b, ab + abc, spacing)
+        d_bc = calc_distance(r_b, r_c, bc + abc, spacing)
+        d_ac = calc_distance(r_a, r_c, ac + abc, spacing)
     
     # make equal circles
     else:
@@ -60,12 +67,12 @@ def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., proportional=True):
         d_ab = d_bc = d_ac = 100
     
     # calc coords of circles center
-    coords = calc_triangle((r_a, r_b, r_c), (d_ab, d_bc, d_ac))
+    coords = calc_coords((r_a, r_b, r_c), (d_ab, d_bc, d_ac))
     
     return (r_a, r_b, r_c), coords
 
 
-def calc_distance(r1, r2, overlap, zero_spacing=0.1, max_error=0.001):
+def calc_distance(r1, r2, overlap, spacing=0, max_error=0.0001):
     """
     Calculates distance between two circles to achieve specified overlap area.
     
@@ -79,9 +86,8 @@ def calc_distance(r1, r2, overlap, zero_spacing=0.1, max_error=0.001):
         overlap: float
             Overlap between the circles.
         
-        zero_spacing: float
-            Relative distance factor used if there is no overlap between the
-            circles, calculated from the biggest radius.
+        spacing: float
+            Additional space between no overlapping circles.
         
         max_error: float
             Maximum allowed relative error of the overlap area.
@@ -98,7 +104,7 @@ def calc_distance(r1, r2, overlap, zero_spacing=0.1, max_error=0.001):
     
     # no overlap
     if overlap == 0:
-        return hi + max(r1, r2) * zero_spacing
+        return hi + spacing
     
     # find distance
     while True:
@@ -131,7 +137,7 @@ def calc_distance(r1, r2, overlap, zero_spacing=0.1, max_error=0.001):
     return dist
 
 
-def calc_triangle(radii, distances):
+def calc_coords(radii, distances):
     """
     Calculates coordinates of the circles centers to achieve specified
     distances. The coordinates are calculated so that the center of resulting
@@ -151,20 +157,73 @@ def calc_triangle(radii, distances):
     """
     
     # unpack data
+    r_a, r_b, r_c = radii
     d_ab, d_bc, d_ac = distances
     
-    # calc triangle zeroed on center of A
-    ax = ay = by = 0
+    # get intersections
+    i_ab = d_ab < r_a + r_b
+    i_bc = d_bc < r_b + r_c
+    i_ac = d_ac < r_a + r_c
+    
+    # add A and B on line
+    ax = 0
+    ay = 0
     bx = d_ab
-    cx = 0.5*(d_ac*d_ac - d_bc*d_bc + d_ab*d_ab) / d_ab
-    cy = numpy.sqrt(d_ac*d_ac - cx*cx)
+    by = 0
+    
+    # init C
+    cx = 0
+    cy = 0
+    
+    # try triangle first
+    n = 0.5*(d_ac*d_ac - d_bc*d_bc + d_ab*d_ab) / d_ab
+    m = d_ac*d_ac - n*n
+    if m > 0:
+        cx = n
+        cy = numpy.sqrt(m)
+    
+    # AB BC AC
+    elif i_ab and i_bc and i_ac:
+        cx = ax + d_ac
+    
+    # AB BC
+    elif i_ab and i_bc:
+        cx = bx + d_bc
+    
+    # AB AC
+    elif i_ab and i_ac:
+        cx = ax - d_ac
+    
+    # BC AC
+    elif i_bc and i_ac:
+        ax = -d_ac
+        bx = d_bc
+    
+    # AB
+    elif i_ab:
+        cx = max(ax + d_ac, bx + d_bc)
+    
+    # BC
+    elif i_bc:
+        cx = bx + d_bc
+        ax = min(cx - d_ac, bx - d_ab)
+    
+    # AC
+    elif i_ac:
+        cx = ax - d_ac
+        bx = max(ax + d_ab, cx + d_bc)
     
     # calc offset
     min_x, min_y, width, height = calc_bbox(radii, ((ax, ay), (bx, by), (cx, cy)))
     x_off = ax - min_x - 0.5*width
     y_off = ay - min_y - 0.5*height
     
-    return (ax+x_off, ay+y_off), (bx+x_off, by+y_off), (cx+x_off, cy+y_off)
+    # apply offset
+    a = (ax+x_off, ay+y_off)
+    b = (bx+x_off, by+y_off)
+    c = (cx+x_off, cy+y_off)
+    
+    return a, b, c
 
 
 def calc_intersections(c1, r1, c2, r2):
