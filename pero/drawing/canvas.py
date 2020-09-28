@@ -19,11 +19,11 @@ class Canvas(PropertySet):
     
     The canvas 'width' and 'height' is always set in original device units (e.g.
     pixels), however, all the drawing methods are using logical units, which
-    includes current line scale and drawing region aka 'viewport'. This makes
+    includes current drawing scale and drawing region aka 'viewport'. This makes
     all the drawing resolution-independent and in case of drawing the same
     graphics multiple times with different resolution, it is sufficient to
-    change the 'line_scale' and 'font_scale' properties accordingly. None of the
-    properties of the graphics needs to be changed.
+    change the 'draw_scale', 'line_scale' and 'font_scale' properties
+    accordingly. None of the properties of the graphics needs to be changed.
     
     Properties:
         
@@ -33,8 +33,11 @@ class Canvas(PropertySet):
         height: int or float
             Specifies the available height of the canvas in device units.
         
-        line_scale: int or float
+        draw_scale: int or float
             Specifies the scaling factor for drawing.
+        
+        line_scale: int or float
+            Specifies the scaling factor for line thickness.
         
         line_color: pero.Color, (int,), str, None or UNDEF
             Specifies the line color as an RGB or RGBA tuple, hex code, name or
@@ -149,6 +152,7 @@ class Canvas(PropertySet):
     width = NumProperty(100, dynamic=False)
     height = NumProperty(100, dynamic=False)
     
+    draw_scale = FloatProperty(1, dynamic=False)
     line_scale = FloatProperty(1, dynamic=False)
     font_scale = FloatProperty(1, dynamic=False)
     
@@ -174,7 +178,7 @@ class Canvas(PropertySet):
         self._text_properties = set(x.name for x in TextProperties.properties())
         
         # init scale and offset
-        self._scale = self.line_scale
+        self._scale = self.draw_scale
         self._offset = numpy.array((0, 0))
         
         # set font
@@ -182,7 +186,7 @@ class Canvas(PropertySet):
         
         # init views
         self._viewport = None
-        self._viewport_full = Frame(0, 0, self.width/self.line_scale, self.height/self.line_scale)
+        self._viewport_full = Frame(0, 0, self.width/self.draw_scale, self.height/self.draw_scale)
         
         # bind events
         self.bind(EVT_PROPERTY_CHANGED, self._on_canvas_property_changed)
@@ -1311,13 +1315,13 @@ class Canvas(PropertySet):
     def _on_canvas_property_changed(self, evt):
         """Called after any property has changed."""
         
-        # update line scaling
-        if evt.name == 'line_scale':
-            self._scale = self.line_scale
+        # update global scaling
+        if evt.name == 'draw_scale':
+            self._scale = self.draw_scale
         
         # update full viewport
-        if evt.name in ('line_scale', 'width', 'height'):
-            self._viewport_full = Frame(0, 0, self.width/self.line_scale, self.height/self.line_scale)
+        if evt.name in ('draw_scale', 'width', 'height'):
+            self._viewport_full = Frame(0, 0, self.width/self.draw_scale, self.height/self.draw_scale)
         
         # update current font
         if evt.name in ('font_name', 'font_family', 'font_style', 'font_weight'):

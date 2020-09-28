@@ -15,7 +15,8 @@ class DrawTest(pero.Graphics):
         canvas.fill(pero.colors.White)
         
         # set scaling
-        canvas.line_scale = 1
+        canvas.draw_scale = 1
+        canvas.line_scale = 3
         canvas.font_scale = 1.5
         
         # init glyphs
@@ -53,8 +54,8 @@ class DrawTest(pero.Graphics):
                 
                 origin.draw(canvas, x=x, y=y)
                 
-                x += 250/canvas.line_scale
-            y += 150/canvas.line_scale
+                x += 250/canvas.draw_scale
+            y += 150/canvas.draw_scale
 
 
 # run test

@@ -22,6 +22,9 @@ def export(graphics, path, width=None, height=None, **options):
         height: float or None
             Image height in device units.
         
+        draw_scale: float
+            Drawing scaling factor.
+        
         line_scale: float
             Line scaling factor.
         
@@ -37,6 +40,9 @@ def export(graphics, path, width=None, height=None, **options):
     
     # init canvas
     canvas = SVGCanvas(width=width, height=height)
+    
+    if 'draw_scale' in options:
+        canvas.draw_scale = options['draw_scale']
     
     if 'line_scale' in options:
         canvas.line_scale = options['line_scale']
