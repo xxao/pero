@@ -5,7 +5,7 @@ import numpy
 from ..enums import *
 
 
-def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1):
+def venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1):
     """
     Calculates radii and coordinates for three Venn diagram circles.
     
