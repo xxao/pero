@@ -148,3 +148,13 @@ HEAD = Enum(
     OPEN_B = HEAD_OPEN_B,
     VEE = HEAD_VEE,
     VEE_B = HEAD_VEE_B)
+
+# define venn diagram modes
+VENN_MODE_NONE = NONE
+VENN_MODE_SEMI = SEMI
+VENN_MODE_FULL = FULL
+
+VENN_MODE = Enum(
+    NONE = VENN_MODE_NONE,
+    SEMI = VENN_MODE_SEMI,
+    FULL = VENN_MODE_FULL)

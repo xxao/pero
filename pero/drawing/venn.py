@@ -2,9 +2,10 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
+from ..enums import *
 
 
-def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., proportional=True, spacing=0.1):
+def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1):
     """
     Calculates radii and coordinates for three Venn diagram circles.
     
@@ -30,8 +31,12 @@ def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., proportional=True, spacing=0
         abc: float
             Number of items unique to ABC overlap.
         
-        proportional: bool
-            Specifies whether circles should be proportional to their area.
+        mode: str
+            Specifies whether circles and overlaps should be proportional to
+            their area as any item from the pero.VENN_MODE enum.
+                VENN_MODE.NONE - non-proportional
+                VENN_MODE.SEMI - circles are proportional but overlaps not
+                VENN_MODE.FULL - circles and overlaps try to be proportional
         
         spacing: float
             Relative distance factor used if there is no overlap between the
@@ -45,8 +50,8 @@ def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., proportional=True, spacing=0
             Center coordinates for individual circles (A, B, C).
     """
     
-    # make proportional circles
-    if proportional:
+    # make fully proportional
+    if mode == VENN_MODE_FULL:
         
         # calc radii
         r_a = numpy.sqrt((a + ab + ac + abc) / numpy.pi)
@@ -61,7 +66,20 @@ def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., proportional=True, spacing=0
         d_bc = _calc_distance(r_b, r_c, bc + abc, spacing)
         d_ac = _calc_distance(r_a, r_c, ac + abc, spacing)
     
-    # make equal circles
+    # make semi proportional
+    elif mode == VENN_MODE_SEMI:
+        
+        # calc radii
+        r_a = numpy.sqrt((a + ab + ac + abc) / numpy.pi)
+        r_b = numpy.sqrt((b + ab + bc + abc) / numpy.pi)
+        r_c = numpy.sqrt((c + ac + bc + abc) / numpy.pi)
+        
+        # calc distances
+        d_ab = max(r_a, r_b) - abs(r_a - r_b)
+        d_bc = max(r_b, r_c) - abs(r_b - r_c)
+        d_ac = max(r_a, r_c) - abs(r_a - r_c)
+    
+    # make non-proportional
     else:
         r_a = r_b = r_c = 100
         d_ab = d_bc = d_ac = 100

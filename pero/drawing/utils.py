@@ -192,7 +192,7 @@ def intersect_circles(c1, r1, c2, r2):
     Returns:
         ((float, float), (float, float)) or None
             XY coordinates of the two intersection points. Returns None if
-            there is no overlap.
+            there is no intersection.
     """
     
     # calc distance
@@ -201,7 +201,7 @@ def intersect_circles(c1, r1, c2, r2):
     dist = numpy.sqrt(dx*dx + dy*dy)
     
     # non intersecting
-    if dist > r1 + r2:
+    if dist >= r1 + r2:
         return None
     
     # one inside another

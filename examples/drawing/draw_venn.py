@@ -19,7 +19,7 @@ class DrawTest(pero.Graphics):
         width, height = canvas.viewport.wh
         
         # calc venn
-        radii, coords = pero.venn.calc_venn(10, 8, 22, 6, 9, 4, 2, proportional=True)  # AB AC BC ABC
+        radii, coords = pero.venn.calc_venn(10, 8, 22, 6, 9, 4, 2, pero.VENN_MODE.SEMI)  # AB AC BC ABC
         
         # scale to window
         radii, coords = pero.venn.fit_into(radii, coords, padding, padding, width-2*padding, height-2*padding)
