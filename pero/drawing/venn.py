@@ -50,13 +50,13 @@ def venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1)
             Center coordinates for individual circles (A, B, C).
     """
     
+    # calc radii
+    r_a = numpy.sqrt((a + ab + ac + abc) / numpy.pi)
+    r_b = numpy.sqrt((b + ab + bc + abc) / numpy.pi)
+    r_c = numpy.sqrt((c + ac + bc + abc) / numpy.pi)
+
     # make fully proportional
     if mode == VENN_MODE_FULL:
-        
-        # calc radii
-        r_a = numpy.sqrt((a + ab + ac + abc) / numpy.pi)
-        r_b = numpy.sqrt((b + ab + bc + abc) / numpy.pi)
-        r_c = numpy.sqrt((c + ac + bc + abc) / numpy.pi)
         
         # calc spacing
         spacing = max(r_a, r_b, r_c) * spacing
@@ -69,20 +69,15 @@ def venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1)
     # make semi proportional
     elif mode == VENN_MODE_SEMI:
         
-        # calc radii
-        r_a = numpy.sqrt((a + ab + ac + abc) / numpy.pi)
-        r_b = numpy.sqrt((b + ab + bc + abc) / numpy.pi)
-        r_c = numpy.sqrt((c + ac + bc + abc) / numpy.pi)
-        
         # calc distances
-        d_ab = max(r_a, r_b) - abs(r_a - r_b)
-        d_bc = max(r_b, r_c) - abs(r_b - r_c)
-        d_ac = max(r_a, r_c) - abs(r_a - r_c)
+        d_ab = max(r_a, r_b)
+        d_bc = max(r_b, r_c)
+        d_ac = max(r_a, r_c)
     
     # make non-proportional
     else:
-        r_a = r_b = r_c = 100
-        d_ab = d_bc = d_ac = 100
+        r_a = r_b = r_c = max(r_a, r_b, r_c)
+        d_ab = d_bc = d_ac = r_a
     
     # calc coords of circles center
     coords = _calc_coords((r_a, r_b, r_c), (d_ab, d_bc, d_ac))
@@ -184,7 +179,11 @@ def _calc_distance(r1, r2, overlap, spacing=0, max_error=0.0001):
         return hi + spacing
     
     # find distance
+    cycles = 0
     while True:
+        
+        # update cycle count
+        cycles += 1
         
         # halve the distance
         dist = 0.5 * (lo + hi)
@@ -207,6 +206,10 @@ def _calc_distance(r1, r2, overlap, spacing=0, max_error=0.0001):
             lo = dist
         elif error < 0:
             hi = dist
+        
+        # check cycles
+        if cycles > 100:
+            break
     
     if dist < abs(r1 - r2):
         return abs(r1 - r2)
