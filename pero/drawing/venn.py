@@ -57,9 +57,9 @@ def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., proportional=True, spacing=0
         spacing = max(r_a, r_b, r_c) * spacing
         
         # calc distances
-        d_ab = calc_distance(r_a, r_b, ab + abc, spacing)
-        d_bc = calc_distance(r_b, r_c, bc + abc, spacing)
-        d_ac = calc_distance(r_a, r_c, ac + abc, spacing)
+        d_ab = _calc_distance(r_a, r_b, ab + abc, spacing)
+        d_bc = _calc_distance(r_b, r_c, bc + abc, spacing)
+        d_ac = _calc_distance(r_a, r_c, ac + abc, spacing)
     
     # make equal circles
     else:
@@ -67,12 +67,71 @@ def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., proportional=True, spacing=0
         d_ab = d_bc = d_ac = 100
     
     # calc coords of circles center
-    coords = calc_coords((r_a, r_b, r_c), (d_ab, d_bc, d_ac))
+    coords = _calc_coords((r_a, r_b, r_c), (d_ab, d_bc, d_ac))
     
     return (r_a, r_b, r_c), coords
 
 
-def calc_distance(r1, r2, overlap, spacing=0, max_error=0.0001):
+def fit_into(radii, coords, x, y, width, height):
+    """
+    Recalculates center coordinates to fit three circles into given rectangle.
+    
+    Args:
+        radii: (float, float, float)
+            Radius for each of the three circles.
+        
+        coords: ((float, float), (float, float), (float, float))
+            XY coordinates of the circles centers.
+        
+        x: float
+            X coordinate of the top left corner of the rectangle to fit into.
+        
+        y: float
+            Y coordinate of the top left corner of the rectangle to fit into.
+        
+        width: float
+            Width of the rectangle to fit into.
+        
+        height: float
+            Height of the rectangle to fit into.
+    
+    Returns:
+        (float, float, float)
+            Recalculated radius for individual circles.
+        
+        ((float, float), (float, float), (float, float))
+            Recalculated center coordinates for individual circles.
+    """
+    
+    # unpack data
+    r_a, r_b, r_c = radii
+    (ax, ay), (bx, by), (cx, cy) = coords
+    
+    # calc scale
+    bbox = _calc_bbox(radii, coords)
+    scale = min(width / bbox[2], height / bbox[3])
+    
+    # calc shift
+    x_off = x+0.5*width
+    y_off = y+0.5*height
+    
+    # apply to radii
+    r_a *= scale
+    r_b *= scale
+    r_c *= scale
+    
+    # apply to coords
+    ax = ax*scale + x_off
+    ay = ay*scale + y_off
+    bx = bx*scale + x_off
+    by = by*scale + y_off
+    cx = cx*scale + x_off
+    cy = cy*scale + y_off
+    
+    return (r_a, r_b, r_c), ((ax, ay), (bx, by), (cx, cy))
+
+
+def _calc_distance(r1, r2, overlap, spacing=0, max_error=0.0001):
     """
     Calculates distance between two circles to achieve specified overlap area.
     
@@ -137,7 +196,7 @@ def calc_distance(r1, r2, overlap, spacing=0, max_error=0.0001):
     return dist
 
 
-def calc_coords(radii, distances):
+def _calc_coords(radii, distances):
     """
     Calculates coordinates of the circles centers to achieve specified
     distances. The coordinates are calculated so that the center of resulting
@@ -214,7 +273,7 @@ def calc_coords(radii, distances):
         bx = max(ax + d_ab, cx + d_bc)
     
     # calc offset
-    min_x, min_y, width, height = calc_bbox(radii, ((ax, ay), (bx, by), (cx, cy)))
+    min_x, min_y, width, height = _calc_bbox(radii, ((ax, ay), (bx, by), (cx, cy)))
     x_off = ax - min_x - 0.5*width
     y_off = ay - min_y - 0.5*height
     
@@ -226,62 +285,7 @@ def calc_coords(radii, distances):
     return a, b, c
 
 
-def calc_intersections(c1, r1, c2, r2):
-    """
-    Calculates intersection points between two circles.
-    
-    Args:
-        c1: (float, float)
-            XY coordinates of the center of circle A.
-        
-        r1: float
-            Radius of the circle A.
-        
-        c2: (float, float)
-            XY coordinate of the center of circle B.
-        
-        r2: float
-            Radius of the circle b.
-    
-    Returns:
-        ((float, float), (float, float)) or None
-            XY coordinates of the two intersection points. Returns None if
-            there is no overlap.
-    """
-    
-    # calc distance
-    dx = c2[0] - c1[0]
-    dy = c2[1] - c1[1]
-    dist = numpy.sqrt(dx*dx + dy*dy)
-    
-    # non intersecting
-    if dist > r1 + r2:
-        return None
-    
-    # one inside another
-    if dist < abs(r1-r2):
-        return None
-    
-    # coincident circles
-    if dist == 0 and r1 == r2:
-        return None
-    
-    # calc intersections
-    a = (r1**2 - r2**2 + dist**2) / (2*dist)
-    h = numpy.sqrt(r1**2 - a**2)
-    
-    x = c1[0] + a*dx / dist
-    y = c1[1] + a*dy / dist
-    
-    x1 = x + h*dy / dist
-    y1 = y - h*dx / dist
-    x2 = x - h*dy / dist
-    y2 = y + h*dx / dist
-    
-    return (x1, y1), (x2, y2)
-
-
-def calc_bbox(radii, coords):
+def _calc_bbox(radii, coords):
     """
     Calculates bounding box of three given circles.
     
@@ -309,62 +313,3 @@ def calc_bbox(radii, coords):
     max_y = max(ay+r_a, by+r_b, cy+r_c)
     
     return min_x, min_y, max_x-min_x, max_y-min_y
-
-
-def fit_into(radii, coords, x, y, width, height):
-    """
-    Recalculates center coordinates to fit three circles into given rectangle.
-    
-    Args:
-        radii: (float, float, float)
-            Radius for each of the three circles.
-        
-        coords: ((float, float), (float, float), (float, float))
-            XY coordinates of the circles centers.
-        
-        x: float
-            X coordinate of the top left corner of the rectangle to fit into.
-        
-        y: float
-            Y coordinate of the top left corner of the rectangle to fit into.
-        
-        width: float
-            Width of the rectangle to fit into.
-        
-        height: float
-            Height of the rectangle to fit into.
-    
-    Returns:
-        (float, float, float)
-            Recalculated radius for individual circles.
-        
-        ((float, float), (float, float), (float, float))
-            Recalculated center coordinates for individual circles.
-    """
-    
-    # unpack data
-    r_a, r_b, r_c = radii
-    (ax, ay), (bx, by), (cx, cy) = coords
-    
-    # calc scale
-    bbox = calc_bbox(radii, coords)
-    scale = min(width / bbox[2], height / bbox[3])
-    
-    # calc shift
-    x_off = x+0.5*width
-    y_off = y+0.5*height
-    
-    # apply to radii
-    r_a *= scale
-    r_b *= scale
-    r_c *= scale
-    
-    # apply to coords
-    ax = ax*scale + x_off
-    ay = ay*scale + y_off
-    bx = bx*scale + x_off
-    by = by*scale + y_off
-    cx = cx*scale + x_off
-    cy = cy*scale + y_off
-    
-    return (r_a, r_b, r_c), ((ax, ay), (bx, by), (cx, cy))

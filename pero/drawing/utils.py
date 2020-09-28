@@ -170,3 +170,58 @@ def rotate(p, angle, center=(0, 0)):
     y = center[1] + dx * sin + dy * cos
     
     return x, y
+
+
+def intersect_circles(c1, r1, c2, r2):
+    """
+    Calculates intersection points between two circles.
+    
+    Args:
+        c1: (float, float)
+            XY coordinates of the center of circle A.
+        
+        r1: float
+            Radius of the circle A.
+        
+        c2: (float, float)
+            XY coordinate of the center of circle B.
+        
+        r2: float
+            Radius of the circle b.
+    
+    Returns:
+        ((float, float), (float, float)) or None
+            XY coordinates of the two intersection points. Returns None if
+            there is no overlap.
+    """
+    
+    # calc distance
+    dx = c2[0] - c1[0]
+    dy = c2[1] - c1[1]
+    dist = numpy.sqrt(dx*dx + dy*dy)
+    
+    # non intersecting
+    if dist > r1 + r2:
+        return None
+    
+    # one inside another
+    if dist < abs(r1-r2):
+        return None
+    
+    # coincident circles
+    if dist == 0 and r1 == r2:
+        return None
+    
+    # calc intersections
+    a = (r1**2 - r2**2 + dist**2) / (2*dist)
+    h = numpy.sqrt(r1**2 - a**2)
+    
+    x = c1[0] + a*dx / dist
+    y = c1[1] + a*dy / dist
+    
+    x1 = x + h*dy / dist
+    y1 = y - h*dx / dist
+    x2 = x - h*dy / dist
+    y2 = y + h*dx / dist
+    
+    return (x1, y1), (x2, y2)
