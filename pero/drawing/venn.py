@@ -85,6 +85,36 @@ def venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1)
     return (r_a, r_b, r_c), coords
 
 
+def calc_bbox(radii, coords):
+    """
+    Calculates bounding box of three given circles.
+    
+    Args:
+        radii: (float, float, float)
+            Radius for each of the three circles.
+        
+        coords: ((float, float), (float, float), (float, float))
+            XY coordinates of the circles centers.
+    
+    Returns:
+        (float, float, float, float)
+            Bounding box as top-left corner coordinates, width and height
+            (x, y, width, height).
+    """
+    
+    # unpack data
+    r_a, r_b, r_c = radii
+    (ax, ay), (bx, by), (cx, cy) = coords
+    
+    # get limits
+    min_x = min(ax-r_a, bx-r_b, cx-r_c)
+    max_x = max(ax+r_a, bx+r_b, cx+r_c)
+    min_y = min(ay-r_a, by-r_b, cy-r_c)
+    max_y = max(ay+r_a, by+r_b, cy+r_c)
+    
+    return min_x, min_y, max_x-min_x, max_y-min_y
+
+
 def fit_into(radii, coords, x, y, width, height):
     """
     Recalculates center coordinates to fit three circles into given rectangle.
@@ -121,7 +151,7 @@ def fit_into(radii, coords, x, y, width, height):
     (ax, ay), (bx, by), (cx, cy) = coords
     
     # calc scale
-    bbox = _calc_bbox(radii, coords)
+    bbox = calc_bbox(radii, coords)
     scale = min(width / bbox[2], height / bbox[3])
     
     # calc shift
@@ -294,7 +324,7 @@ def _calc_coords(radii, distances):
         bx = max(ax + d_ab, cx + d_bc)
     
     # calc offset
-    min_x, min_y, width, height = _calc_bbox(radii, ((ax, ay), (bx, by), (cx, cy)))
+    min_x, min_y, width, height = calc_bbox(radii, ((ax, ay), (bx, by), (cx, cy)))
     x_off = ax - min_x - 0.5*width
     y_off = ay - min_y - 0.5*height
     
@@ -304,33 +334,3 @@ def _calc_coords(radii, distances):
     c = (cx+x_off, cy+y_off)
     
     return a, b, c
-
-
-def _calc_bbox(radii, coords):
-    """
-    Calculates bounding box of three given circles.
-    
-    Args:
-        radii: (float, float, float)
-            Radius for each of the three circles.
-        
-        coords: ((float, float), (float, float), (float, float))
-            XY coordinates of the circles centers.
-    
-    Returns:
-        (float, float, float, float)
-            Bounding box as top-left corner coordinates, width and height
-            (x, y, width, height).
-    """
-    
-    # unpack data
-    r_a, r_b, r_c = radii
-    (ax, ay), (bx, by), (cx, cy) = coords
-    
-    # get limits
-    min_x = min(ax-r_a, bx-r_b, cx-r_c)
-    max_x = max(ax+r_a, bx+r_b, cx+r_c)
-    min_y = min(ay-r_a, by-r_b, cy-r_c)
-    max_y = max(ay+r_a, by+r_b, cy+r_c)
-    
-    return min_x, min_y, max_x-min_x, max_y-min_y
