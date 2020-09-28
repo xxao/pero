@@ -184,6 +184,38 @@ def distance(p1, p2):
     return numpy.sqrt(sq) if sq > 0 else 0
 
 
+def inline(*points):
+    """
+    Checks whether all given points are on a single line. The points order
+    is not important.
+    
+    Args:
+        *points: ((float, float),)
+            Collection of points to check as (x,y) coordinates.
+    
+    Returns:
+        bool
+            Returns True if all points are on a single line, False otherwise.
+    """
+    
+    if len(points) < 3:
+        return True
+    
+    x1, y1 = points[0]
+    x2, y2 = points[1]
+    
+    dx1 = x1 - x2
+    dy1 = y1 - y2
+    
+    for x2, y2 in points[2:]:
+        dx2 = x1 - x2
+        dy2 = y1 - y2
+        if (dy1*dx2) != (dx1*dy2):
+            return False
+    
+    return True
+
+
 def rotate(p, angle, center=(0, 0)):
     """
     Rotates given point around specified center.
@@ -207,6 +239,31 @@ def rotate(p, angle, center=(0, 0)):
     
     x = center[0] + dx * cos - dy * sin
     y = center[1] + dx * sin + dy * cos
+    
+    return x, y
+
+
+def ray(c, angle, distance):
+    """
+    Calculates point coordinates width distance and angle from origin.
+    
+    Args:
+        c: (float, float)
+            XY coordinates of the origin.
+        
+        angle: float
+            Angle in radians.
+        
+        distance: float
+            Distance from origin.
+    
+    Returns:
+            (float, float)
+                XY coordinates of calculated point.
+    """
+    
+    x = c[0] + distance * numpy.cos(angle)
+    y = c[1] + distance * numpy.sin(angle)
     
     return x, y
 
@@ -244,7 +301,7 @@ def intersect_circles(c1, r1, c2, r2):
         return None
     
     # one inside another
-    if dist < abs(r1-r2):
+    if dist <= abs(r1-r2):
         return None
     
     # coincident circles

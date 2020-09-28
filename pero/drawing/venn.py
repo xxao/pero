@@ -149,6 +149,10 @@ def calc_distance(r1, r2, overlap, spacing=0, max_error=0.0001):
     if overlap == 0:
         return hi + spacing
     
+    # full overlap
+    if overlap == numpy.pi*r1*r1 or overlap == numpy.pi*r2*r2:
+        return abs(r1 - r2)
+    
     # find distance
     cycles = 0
     while True:
