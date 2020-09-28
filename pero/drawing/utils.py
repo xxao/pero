@@ -268,6 +268,62 @@ def ray(c, angle, distance):
     return x, y
 
 
+def inside_circle(p, c, r):
+    """
+    Checks whether given point is within specified circle.
+    
+    Args:
+        p: (float, float)
+            XY coordinates of the point to test.
+        
+        c: (float, float)
+            XY coordinates of the circle center.
+        
+        r: float
+            Radius of the circle.
+    
+    Returns:
+        bool
+            Returns True if the point lies inside the circle, False otherwise.
+    """
+    
+    return distance(c, p) < r
+
+
+def inside_triangle(p, p1, p2, p3):
+    """
+    Checks whether given point is within specified triangle.
+    
+    Args:
+        p: (float, float)
+            XY coordinates of the point to test.
+        
+        p1: (float, float)
+            XY coordinates of the triangle point.
+        
+        p2: (float, float)
+            XY coordinates of the triangle point.
+        
+        p3: (float, float)
+            XY coordinates of the triangle point.
+    
+    Returns:
+        bool
+            Returns True if the point lies inside the circle, False otherwise.
+    """
+    
+    xp, yp = p
+    x1, y1 = p1
+    x2, y2 = p2
+    x3, y3 = p3
+    
+    c1 = (x2-x1)*(yp-y1)-(y2-y1)*(xp-x1)
+    c2 = (x3-x2)*(yp-y2)-(y3-y2)*(xp-x2)
+    c3 = (x1-x3)*(yp-y3)-(y1-y3)*(xp-x3)
+    
+    return (c1 < 0 and c2 < 0 and c3 < 0) or (c1 > 0 and c2 > 0 and c3 > 0)
+
+
 def intersect_circles(c1, r1, c2, r2):
     """
     Calculates intersection points between two circles.
