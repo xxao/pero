@@ -84,43 +84,81 @@ def between(v, min_v, max_v, epsilon=0.000001):
     return (min_v <= v <= max_v) or equals(v, min_v, epsilon) or equals(v, max_v, epsilon)
 
 
-def angle(p1, p2, p3, p4=None):
+def angle(p1, p2, p3):
     """
-    Calculates angle between two lines. If three points are given the lines are
-    defined as p1, p2 and p2, p3. If four points are given the lines are
-    defined as p1, p2 and p3, p4.
+    Calculates angle between two lines.
     
     Args:
         p1: (float, float)
-            Point 1 as (x, y) coordinates.
+            First point as (x, y) coordinates.
         
         p2: (float, float)
-            Point 2 as (x, y) coordinates.
+            Origin point as (x, y) coordinates.
         
         p3: (float, float)
-            Point 3 as (x, y) coordinates.
-        
-        p4: (float, float) or None
-            Point 4 as (x, y) coordinates.
+            Second point as (x, y) coordinates.
     
     Returns:
         float
             Angle in radians.
     """
     
-    if p4 is None:
-        p4 = p3
-        p3 = p2
-    
     dx1 = p1[0] - p2[0]
     dy1 = p1[1] - p2[1]
-    dx2 = p4[0] - p3[0]
-    dy2 = p4[1] - p3[1]
+    dx2 = p3[0] - p2[0]
+    dy2 = p3[1] - p2[1]
     
     cross = dx1*dy2 - dy1*dx2
     dot = dx1*dx2 + dy1*dy2
     
     return numpy.arctan2(cross, dot)
+
+
+def inclination(p1, p2):
+    """
+    Calculates inclination angle the line has with x-axis.
+    
+    Args:
+        p1: (float, float)
+            Origin point as (x, y) coordinates.
+        
+        p2: (float, float)
+            Second point as (x, y) coordinates.
+    
+    Returns:
+        float
+            Angle in radians.
+    """
+    
+    dx = p2[0] - p1[0]
+    dy = p2[1] - p1[1]
+    
+    return numpy.arctan2(dy, dx)
+
+
+def bisector(p1, p2, p3):
+    """
+    Calculates bisector angle between two lines.
+    
+    Args:
+        p1: (float, float)
+            First point as (x, y) coordinates.
+        
+        p2: (float, float)
+            Origin point as (x, y) coordinates.
+        
+        p3: (float, float)
+            Second point as (x, y) coordinates.
+    
+    Returns:
+        float
+            Angle in radians.
+    """
+    
+    a1 = inclination(p2, p1)
+    a2 = inclination(p2, p3)
+    
+    return 0.5 * (a1 + a2)
 
 
 def distance(p1, p2):
@@ -141,8 +179,9 @@ def distance(p1, p2):
     
     dx = p1[0] - p2[0]
     dy = p1[1] - p2[1]
+    sq = dx*dx + dy*dy
     
-    return numpy.sqrt(dx*dx + dy*dy)
+    return numpy.sqrt(sq) if sq > 0 else 0
 
 
 def rotate(p, angle, center=(0, 0)):
@@ -225,3 +264,135 @@ def intersect_circles(c1, r1, c2, r2):
     y2 = y + h*dx / dist
     
     return (x1, y1), (x2, y2)
+
+
+def intersect_lines(p1, p2, p3, p4):
+    """
+    Calculates intersection point between two lines defined as (p1, p2)
+    and (p3, p4).
+    
+    Args:
+        p1: (float, float)
+            Point 1 as (x, y) coordinates.
+        
+        p2: (float, float)
+            Point 2 as (x, y) coordinates.
+        
+        p3: (float, float)
+            Point 3 as (x, y) coordinates.
+        
+        p4: (float, float)
+            Point 4 as (x, y) coordinates.
+    
+    Returns:
+        (float, float) or None
+            XY coordinates of the intersection point. Returns None if
+            there is no intersection.
+    """
+    
+    a_dx = p2[0] - p1[0]
+    a_dy = p1[1] - p2[1]
+    a_sq = p2[0]*p1[1] - p1[0]*p2[1]
+    
+    b_dx = p4[0] - p3[0]
+    b_dy = p3[1] - p4[1]
+    b_sq = p4[0]*p3[1] - p3[0]*p4[1]
+    
+    d = a_dy * b_dx - a_dx * b_dy
+    dx = a_sq * b_dx - a_dx * b_sq
+    dy = a_dy * b_sq - a_sq * b_dy
+    
+    if d == 0:
+        return None
+    
+    return dx/d, dy/d
+
+
+def intersect_rays(p1, a1, p2, a2):
+    """
+    Calculates intersection point between two lines defined as a point
+    coordinates and angle.
+    
+    Args:
+        p1: (float, float)
+            First line point 1 as (x, y) coordinates.
+        
+        a1: float
+            First line angle in radians.
+        
+        p2: (float, float)
+            Second line point as (x, y) coordinates.
+        
+        a2: float
+            Second line angle in radians.
+    
+    Returns:
+        (float, float) or None
+            XY coordinates of the intersection point. Returns None if
+            there is no intersection.
+    """
+    
+    l1 = (p1[0] + numpy.cos(a1), p1[1] + numpy.sin(a1))
+    l2 = (p2[0] + numpy.cos(a2), p2[1] + numpy.sin(a2))
+    
+    return intersect_lines(p1, l1, p2, l2)
+
+
+def polygon_centroid(*points):
+    """
+    Calculates center point of given polygon.
+    
+    Args:
+        points: ((float, float),)
+            Collection of points as (x, y) coordinates.
+    
+    Returns:
+        (float, float)
+            Center point as (x, y) coordinates.
+    """
+    
+    x = sum(p[0] for p in points) / len(points)
+    y = sum(p[1] for p in points) / len(points)
+    
+    return x, y
+
+
+def triangle_incircle(p1, p2, p3):
+    """
+    Calculates position and size of the biggest circle inscribed into
+    specified triangle.
+    
+    Args:
+        p1: (float, float)
+            Point 1 as (x, y) coordinates.
+        
+        p2: (float, float)
+            Point 2 as (x, y) coordinates.
+        
+        p3: (float, float)
+            Point 3 as (x, y) coordinates.
+    
+    Returns:
+        (float, float)
+            XY coordinates of the circle center.
+        
+        float
+            Circle radius.
+    """
+    
+    # calc sides
+    a = distance(p1, p2)
+    b = distance(p2, p3)
+    c = distance(p3, p1)
+    
+    # calc radius
+    p = 0.5 * sum((a, b, c))
+    area = numpy.sqrt(p * (p - a) * (p - b) * (p - c))
+    radius = area / p
+    
+    # calc center
+    bis1 = bisector(p2, p1, p3)
+    bis2 = bisector(p1, p2, p3)
+    c = intersect_rays(p1, bis1, p2, bis2)
+    
+    return c, radius
