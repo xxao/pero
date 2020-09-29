@@ -7,7 +7,7 @@ from ..enums import *
 
 def venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1):
     """
-    Calculates radii and coordinates for three Venn diagram circles.
+    Calculates coordinates and radii for three Venn diagram circles.
     
     Args:
         a: float
@@ -43,11 +43,11 @@ def venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1)
             circles, calculated from the biggest radius.
     
     Returns:
-        (float, float, float)
-            Radius for individual circles (A, B, C).
-        
         ((float, float), (float, float), (float, float))
-            Center coordinates for individual circles (A, B, C).
+            Center coordinates for individual A, B, C circles.
+        
+        (float, float, float)
+            Radius for individual A, B, C circles.
     """
     
     # calc radii
@@ -82,19 +82,20 @@ def venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1)
     # calc coords of circles center
     coords = calc_coords((r_a, r_b, r_c), (d_ab, d_bc, d_ac))
     
-    return (r_a, r_b, r_c), coords
+    return coords, (r_a, r_b, r_c)
 
 
-def calc_bbox(radii, coords):
+def calc_bbox(coords, radii):
     """
-    Calculates bounding box of three given circles.
+    Calculates bounding box of given circles. Circles with zero radius are
+    excluded.
     
     Args:
-        radii: (float, float, float)
-            Radius for each of the three circles.
-        
         coords: ((float, float), (float, float), (float, float))
-            XY coordinates of the circles centers.
+            Center coordinates for individual A, B, C circles.
+        
+        radii: (float, float, float)
+            Radius for individual A, B, C circles.
     
     Returns:
         (float, float, float, float)
@@ -102,15 +103,14 @@ def calc_bbox(radii, coords):
             (x, y, width, height).
     """
     
-    # unpack data
-    r_a, r_b, r_c = radii
-    (ax, ay), (bx, by), (cx, cy) = coords
+    # get non-zero circles
+    circles = [(c, r) for c, r in zip(coords, radii) if r > 0]
     
     # get limits
-    min_x = min(ax-r_a, bx-r_b, cx-r_c)
-    max_x = max(ax+r_a, bx+r_b, cx+r_c)
-    min_y = min(ay-r_a, by-r_b, cy-r_c)
-    max_y = max(ay+r_a, by+r_b, cy+r_c)
+    min_x = min((c[0] - r for c, r in circles))
+    max_x = max((c[0] + r for c, r in circles))
+    min_y = min((c[1] - r for c, r in circles))
+    max_y = max((c[1] + r for c, r in circles))
     
     return min_x, min_y, max_x-min_x, max_y-min_y
 
@@ -196,19 +196,18 @@ def calc_coords(radii, distances):
     """
     Calculates coordinates of the circles centers to achieve specified
     distances. The coordinates are calculated so that the center of resulting
-    bounding box is at O,O. The first two circles are in line, the third
-    is positioned below.
+    bounding box is at O,O.
     
     Args:
         radii: (float, float, float)
-            Radius for each of the three circles.
+            Radius for individual A, B, C circles.
         
         distances: (float, float, float)
-            Distances between the circles as (AB, BC, AC).
+            Distance between individual AB, BC, AC circles.
     
     Returns:
         ((float, float), (float, float), (float, float))
-            XY coordinates of the circles centers.
+            Center coordinates for individual A, B, C circles.
     """
     
     # unpack data
@@ -268,8 +267,8 @@ def calc_coords(radii, distances):
         cx = ax - d_ac
         bx = max(ax + d_ab, cx + d_bc)
     
-    # calc offset
-    min_x, min_y, width, height = calc_bbox(radii, ((ax, ay), (bx, by), (cx, cy)))
+    # calc offset to bbox center
+    min_x, min_y, width, height = calc_bbox(((ax, ay), (bx, by), (cx, cy)), radii)
     x_off = ax - min_x - 0.5*width
     y_off = ay - min_y - 0.5*height
     
@@ -281,16 +280,17 @@ def calc_coords(radii, distances):
     return a, b, c
 
 
-def fit_into(radii, coords, x, y, width, height):
+def fit_into(coords, radii, x, y, width, height):
     """
-    Recalculates center coordinates to fit three circles into given rectangle.
+    Recalculates center coordinates and radii to fit circles into given
+    rectangle. Circles with zero radius are excluded.
     
     Args:
-        radii: (float, float, float)
-            Radius for each of the three circles.
-        
         coords: ((float, float), (float, float), (float, float))
-            XY coordinates of the circles centers.
+            Center coordinates for individual A, B, C circles.
+        
+        radii: (float, float, float)
+            Radius for individual A, B, C circles.
         
         x: float
             X coordinate of the top left corner of the rectangle to fit into.
@@ -305,19 +305,19 @@ def fit_into(radii, coords, x, y, width, height):
             Height of the rectangle to fit into.
     
     Returns:
-        (float, float, float)
-            Recalculated radius for individual circles.
-        
         ((float, float), (float, float), (float, float))
-            Recalculated center coordinates for individual circles.
+            Recalculated center coordinates for individual A, B, C circles.
+        
+        (float, float, float)
+            Recalculated radius for individual A, B, C circles.
     """
     
     # unpack data
-    r_a, r_b, r_c = radii
     (ax, ay), (bx, by), (cx, cy) = coords
+    r_a, r_b, r_c = radii
     
     # calc scale
-    bbox = calc_bbox(radii, coords)
+    bbox = calc_bbox(coords, radii)
     scale = min(width / bbox[2], height / bbox[3])
     
     # calc shift
@@ -337,4 +337,4 @@ def fit_into(radii, coords, x, y, width, height):
     cx = cx*scale + x_off
     cy = cy*scale + y_off
     
-    return (r_a, r_b, r_c), ((ax, ay), (bx, by), (cx, cy))
+    return ((ax, ay), (bx, by), (cx, cy)), (r_a, r_b, r_c)
