@@ -366,7 +366,8 @@ def intersect_circles(c1, r1, c2, r2):
     
     # calc intersections
     a = (r1**2 - r2**2 + dist**2) / (2*dist)
-    h = numpy.sqrt(r1**2 - a**2)
+    n = r1**2 - a**2
+    h = numpy.sqrt(n if n > 0 else 0)
     
     x = c1[0] + a*dx / dist
     y = c1[1] + a*dy / dist

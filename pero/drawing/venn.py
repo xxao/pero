@@ -63,24 +63,24 @@ def venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1)
         
         # calc distances
         d_ab = calc_distance(r_a, r_b, ab + abc, spacing)
-        d_bc = calc_distance(r_b, r_c, bc + abc, spacing)
         d_ac = calc_distance(r_a, r_c, ac + abc, spacing)
+        d_bc = calc_distance(r_b, r_c, bc + abc, spacing)
     
     # make semi proportional
     elif mode == VENN_MODE_SEMI:
         
         # calc distances
         d_ab = max(r_a, r_b)
-        d_bc = max(r_b, r_c)
         d_ac = max(r_a, r_c)
+        d_bc = max(r_b, r_c)
     
     # make non-proportional
     else:
         r_a = r_b = r_c = max(r_a, r_b, r_c)
-        d_ab = d_bc = d_ac = r_a
+        d_ab = d_ac = d_bc = r_a
     
     # calc coords of circles center
-    coords = calc_coords((r_a, r_b, r_c), (d_ab, d_bc, d_ac))
+    coords = calc_coords((r_a, r_b, r_c), (d_ab, d_ac, d_bc))
     
     return coords, (r_a, r_b, r_c)
 
@@ -143,6 +143,7 @@ def calc_distance(r1, r2, overlap, spacing=0, max_error=0.0001):
     # get limits
     lo = abs(r1 - r2)
     hi = r1 + r2
+    min_r = min(r1, r2)
     max_error = overlap * max_error
     
     # no overlap
@@ -150,8 +151,8 @@ def calc_distance(r1, r2, overlap, spacing=0, max_error=0.0001):
         return hi + spacing
     
     # full overlap
-    if overlap == numpy.pi*r1*r1 or overlap == numpy.pi*r2*r2:
-        return abs(r1 - r2)
+    if abs(overlap-numpy.pi*min_r*min_r) <= max_error:
+        return 0 if r1 == r2 else lo*(1-numpy.sqrt(max_error))
     
     # find distance
     cycles = 0
@@ -203,7 +204,7 @@ def calc_coords(radii, distances):
             Radius for individual A, B, C circles.
         
         distances: (float, float, float)
-            Distance between individual AB, BC, AC circles.
+            Distance between individual AB, AC, BC circles.
     
     Returns:
         ((float, float), (float, float), (float, float))
@@ -212,72 +213,80 @@ def calc_coords(radii, distances):
     
     # unpack data
     r_a, r_b, r_c = radii
-    d_ab, d_bc, d_ac = distances
+    d_ab, d_ac, d_bc = distances
+    order = (0, 1, 2)
+    
+    # reorder if 1st or 2nd is empty
+    if r_a == 0:
+        r_a, r_b, r_c = r_b, r_c, r_a
+        d_ab, d_ac, d_bc = d_bc, d_ab, d_ac
+        order = (2, 0, 1)
+    
+    elif r_b == 0:
+        r_a, r_b, r_c = r_a, r_c, r_b
+        d_ab, d_ac, d_bc = d_ac, d_ab, d_bc
+        order = (0, 2, 1)
     
     # get intersections
     i_ab = d_ab < r_a + r_b
-    i_bc = d_bc < r_b + r_c
     i_ac = d_ac < r_a + r_c
+    i_bc = d_bc < r_b + r_c
     
-    # add A and B on line
-    ax = 0
-    ay = 0
-    bx = d_ab
-    by = 0
+    # add 1st and 2nd on line
+    a_x, a_y = 0, 0
+    b_x, b_y = d_ab, 0
+    c_x, c_y = 0, 0
     
-    # init C
-    cx = 0
-    cy = 0
-    
-    # try triangle first
-    n = 0.5*(d_ac*d_ac - d_bc*d_bc + d_ab*d_ab) / d_ab
+    # try if triangle works
+    n = 0.5*(d_ab*d_ab + d_ac*d_ac - d_bc*d_bc) / d_ab if d_ab else 0.0
     m = d_ac*d_ac - n*n
-    if m > 0:
-        cx = n
-        cy = numpy.sqrt(m)
+    if n != 0 and m > 0:
+        c_x = n
+        c_y = numpy.sqrt(m)
     
-    # AB BC AC
-    elif i_ab and i_bc and i_ac:
-        cx = ax + d_ac
-    
-    # AB BC
-    elif i_ab and i_bc:
-        cx = bx + d_bc
+    # AB AC BC
+    elif i_ab and i_ac and i_bc:
+        c_x = a_x + d_ac
     
     # AB AC
     elif i_ab and i_ac:
-        cx = ax - d_ac
+        c_x = a_x - d_ac
+    
+    # AB BC
+    elif i_ab and i_bc:
+        c_x = b_x + d_bc
     
     # BC AC
     elif i_bc and i_ac:
-        ax = -d_ac
-        bx = d_bc
+        a_x = -d_ac
+        b_x = d_bc
     
     # AB
     elif i_ab:
-        cx = max(ax + d_ac, bx + d_bc)
-    
-    # BC
-    elif i_bc:
-        cx = bx + d_bc
-        ax = min(cx - d_ac, bx - d_ab)
+        c_x = max(a_x + d_ac, b_x + d_bc)
     
     # AC
     elif i_ac:
-        cx = ax - d_ac
-        bx = max(ax + d_ab, cx + d_bc)
+        c_x = a_x - d_ac
+        b_x = max(a_x + d_ab, c_x + d_bc)
+    
+    # BC
+    elif i_bc:
+        c_x = b_x + d_bc
+        a_x = min(c_x - d_ac, b_x - d_ab)
     
     # calc offset to bbox center
-    min_x, min_y, width, height = calc_bbox(((ax, ay), (bx, by), (cx, cy)), radii)
-    x_off = ax - min_x - 0.5*width
-    y_off = ay - min_y - 0.5*height
+    min_x, min_y, width, height = calc_bbox(((a_x, a_y), (b_x, b_y), (c_x, c_y)), (r_a, r_b, r_c))
+    x_off = a_x - min_x - 0.5*width
+    y_off = a_y - min_y - 0.5*height
     
     # apply offset
-    a = (ax+x_off, ay+y_off)
-    b = (bx+x_off, by+y_off)
-    c = (cx+x_off, cy+y_off)
+    centers = (
+        (a_x + x_off, a_y + y_off),
+        (b_x + x_off, b_y + y_off),
+        (c_x + x_off, c_y + y_off))
     
-    return a, b, c
+    return centers[order[0]], centers[order[1]], centers[order[2]]
 
 
 def fit_into(coords, radii, x, y, width, height):
