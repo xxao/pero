@@ -360,7 +360,7 @@ def intersect_circles(c1, r1, c2, r2):
     if dist <= abs(r1-r2):
         return None
     
-    # coincident circles
+    # same circles
     if dist == 0 and r1 == r2:
         return None
     

@@ -270,6 +270,7 @@ class AngleTool(pero.Tool):
         # get angle
         cx, cy = self._center
         rads = pero.angle((cx+1, cy), (cx, cy), (x, y))
+        incl = pero.inclination((cx, cy), (x, y))
         
         # draw glyphs
         self._arrow.draw(canvas, angle=rads)
@@ -283,7 +284,7 @@ class AngleTool(pero.Tool):
                 rads += 2*math.pi
             
             # draw tooltip
-            tooltip = "Degs: %.0f\nRads: %.2f" % (pero.degs(rads), rads)
+            tooltip = "Degs: %.0f\nRads: %.2f\nIncl: %.2f" % (pero.degs(rads), rads, incl)
             evt.control.draw_tooltip(canvas, x=x, y=y, text=tooltip)
     
     

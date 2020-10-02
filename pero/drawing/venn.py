@@ -258,8 +258,8 @@ def calc_coords(radii, distances):
     
     # BC AC
     elif i_bc and i_ac:
-        a_x = -d_ac
-        b_x = d_bc
+        c_x = a_x + d_ac
+        b_x = c_x + d_bc
     
     # AB
     elif i_ab:
