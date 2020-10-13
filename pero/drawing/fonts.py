@@ -146,7 +146,7 @@ class FontManager(object):
         
         # load TrueType or OpenType font
         font = None
-        if extension.lower() in ('.ttf', '.otf'):
+        if extension.lower() in ('.ttf', '.otf', '.ttc'):
             font = Font.from_ttf(path, name)
         
         # check font

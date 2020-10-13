@@ -349,7 +349,7 @@ class Canvas(PropertySet):
                 return self._cfont
         
         # font not found
-        message = "Cannot initialize the font! -> %s" % ",".join(names)
+        message = "Cannot initialize the font! -> %s" % ", ".join(names)
         raise ValueError(message)
     
     
