@@ -12,6 +12,7 @@ from .canvas import Canvas, ClipState, GroupState, ViewState
 from .matrix import Matrix
 from .bezier import Bezier
 from .path import Path
+from .arch import Arch
 from .layout import Layout, Row, Column, Cell
 
 # import utils
