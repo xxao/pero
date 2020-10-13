@@ -12,7 +12,8 @@ class Arch(object):
     
     def __init__(self, x, y, radius, start_angle, end_angle, clockwise):
         """
-        Defines an arch by its center coordinates, radius, start and end angle.
+        Initializes new instance of arch by its center coordinates, radius,
+        start and end angle.
         
         Args:
             x: int or float
@@ -367,3 +368,33 @@ class Arch(object):
         points = [p for p in points if arch.contains_point(p[0], p[1])]
         
         return points
+    
+    
+    @staticmethod
+    def from_points(center, start_point, end_point, radius, clockwise):
+        """
+        Initializes new instance of arch by its center coordinates, start and
+        end point coordinates, radius and direction.
+        
+        Args:
+            center: (float, float)
+                Coordinates of the center.
+            
+            start_point: (float, float)
+                Coordinates of the starting point.
+            
+            end_point: (float, float)
+                Coordinates of the end point.
+            
+            radius: int or float
+                Radius of the arch.
+            
+            clockwise: bool
+                Specifies the direction of drawing. If set to True, the arch
+                will be drawn in the clockwise direction.
+        """
+        
+        start_angle = utils.inclination(center, start_point)
+        end_angle = utils.inclination(center, end_point)
+        
+        return Arch(center[0], center[1], radius, start_angle, end_angle, clockwise)

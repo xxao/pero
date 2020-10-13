@@ -15,7 +15,7 @@ class DrawTest(pero.Graphics):
         canvas.fill(pero.colors.White)
         
         # draw tests
-        self.draw_tests(canvas, -15, 90)
+        self.draw_tests(canvas, -15, 105)
     
     
     def draw_tests(self, canvas, angle1, angle2):
