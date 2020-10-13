@@ -4,6 +4,58 @@
 import numpy
 
 
+# comparison with tolerance
+
+def equals(v1, v2, epsilon):
+    """
+    Returns True if difference between given values is less then tolerance.
+    
+    Args:
+        v1: float
+            Value one.
+        
+        v2: float
+            Value two
+        
+        epsilon: float
+            Max allowed difference.
+    
+    Returns:
+        bool
+            True if values equal, False otherwise.
+    """
+    
+    return abs(v1-v2) <= epsilon
+
+
+def between(v, min_v, max_v, epsilon):
+    """
+    Returns True if given value is equal or between minimum and maximum by
+    specified tolerance.
+    
+    Args:
+        v: float
+            Value to check.
+        
+        min_v: float
+            Minimum value.
+        
+        max_v: float
+            Maximum value.
+        
+        epsilon: float
+            Max allowed difference.
+    
+    Returns:
+        bool
+            True if value is equal or between, False otherwise.
+    """
+    
+    return (min_v <= v <= max_v) or equals(v, min_v, epsilon) or equals(v, max_v, epsilon)
+
+
+# angle calculations
+
 def rads(angle):
     """
     Converts given angle from degrees to radians.
@@ -34,54 +86,6 @@ def degs(angle):
     """
     
     return numpy.rad2deg(angle)
-
-
-def equals(v1, v2, epsilon=0.000001):
-    """
-    Returns True if difference between given values is less then tolerance.
-    
-    Args:
-        v1: float
-            Value one.
-        
-        v2: float
-            Value two
-        
-        epsilon: float
-            Max allowed difference.
-    
-    Returns:
-        bool
-            True if values equal, False otherwise.
-    """
-    
-    return abs(v1-v2) <= epsilon
-
-
-def between(v, min_v, max_v, epsilon=0.000001):
-    """
-    Returns True if given value is equal or between minimum and maximum by
-    specified tolerance.
-    
-    Args:
-        v: float
-            Value to check.
-        
-        min_v: float
-            Minimum value.
-        
-        max_v: float
-            Maximum value.
-        
-        epsilon: float
-            Max allowed difference.
-    
-    Returns:
-        bool
-            True if value is equal or between, False otherwise.
-    """
-    
-    return (min_v <= v <= max_v) or equals(v, min_v, epsilon) or equals(v, max_v, epsilon)
 
 
 def angle(p1, p2, p3):
@@ -161,6 +165,56 @@ def bisector(p1, p2, p3):
     return 0.5 * (a1 + a2)
 
 
+def normal_angle(angle):
+    """
+    Normalizes given angle to be in interval of -2pi to 2pi.
+    
+    Args:
+        angle: float
+            Angle in radians.
+    
+    Returns:
+        float
+            Normalized angle in radians.
+    """
+    
+    return angle % (2*numpy.pi)
+
+
+def angle_difference(start_angle, end_angle, clockwise):
+    """
+    Calculates difference between two given angles.
+    
+    Args:
+        start_angle: float
+            Start angle in radians.
+        
+        end_angle: float
+            End angle in radians.
+        
+        clockwise: bool
+            Specifies the direction of measurement.
+    
+    Returns:
+        float
+            Angle difference in radians.
+    """
+    
+    start = normal_angle(start_angle)
+    end = normal_angle(end_angle)
+    
+    diff = end-start if clockwise else start-end
+    if diff < 0:
+        diff = 2 * numpy.pi - abs(diff)
+    
+    if not clockwise:
+        diff *= -1
+    
+    return diff
+
+
+# points calculations
+
 def distance(p1, p2):
     """
     Calculates Euclidean distance between two points.
@@ -182,38 +236,6 @@ def distance(p1, p2):
     sq = dx*dx + dy*dy
     
     return numpy.sqrt(sq) if sq > 0 else 0
-
-
-def inline(*points):
-    """
-    Checks whether all given points are on a single line. The points order
-    is not important.
-    
-    Args:
-        *points: ((float, float),)
-            Collection of points to check as (x,y) coordinates.
-    
-    Returns:
-        bool
-            Returns True if all points are on a single line, False otherwise.
-    """
-    
-    if len(points) < 3:
-        return True
-    
-    x1, y1 = points[0]
-    x2, y2 = points[1]
-    
-    dx1 = x1 - x2
-    dy1 = y1 - y2
-    
-    for x2, y2 in points[2:]:
-        dx2 = x1 - x2
-        dy2 = y1 - y2
-        if (dy1*dx2) != (dx1*dy2):
-            return False
-    
-    return True
 
 
 def rotate(p, angle, center=(0, 0)):
@@ -245,7 +267,7 @@ def rotate(p, angle, center=(0, 0)):
 
 def ray(c, angle, distance):
     """
-    Calculates point coordinates width distance and angle from origin.
+    Calculates point coordinates with distance and angle from origin.
     
     Args:
         c: (float, float)
@@ -268,7 +290,101 @@ def ray(c, angle, distance):
     return x, y
 
 
-def inside_circle(p, c, r):
+def polygon_centroid(*points):
+    """
+    Calculates center point of given polygon.
+    
+    Args:
+        points: ((float, float),)
+            Collection of points as (x, y) coordinates.
+    
+    Returns:
+        (float, float)
+            Center point as (x, y) coordinates.
+    """
+    
+    x = sum(p[0] for p in points) / len(points)
+    y = sum(p[1] for p in points) / len(points)
+    
+    return x, y
+
+
+def triangle_incircle(p1, p2, p3):
+    """
+    Calculates position and size of the biggest circle inscribed into
+    specified triangle.
+    
+    Args:
+        p1: (float, float)
+            Point 1 as (x, y) coordinates.
+        
+        p2: (float, float)
+            Point 2 as (x, y) coordinates.
+        
+        p3: (float, float)
+            Point 3 as (x, y) coordinates.
+    
+    Returns:
+        (float, float)
+            XY coordinates of the circle center.
+        
+        float
+            Circle radius.
+    """
+    
+    # calc sides
+    a = distance(p1, p2)
+    b = distance(p2, p3)
+    c = distance(p3, p1)
+    
+    # calc radius
+    p = 0.5 * sum((a, b, c))
+    area = numpy.sqrt(p * (p - a) * (p - b) * (p - c))
+    radius = area / p
+    
+    # calc center
+    bis1 = bisector(p2, p1, p3)
+    bis2 = bisector(p1, p2, p3)
+    c = intersect_rays(p1, bis1, p2, bis2)
+    
+    return c, radius
+
+
+# position calculations
+
+def is_inline(*points):
+    """
+    Checks whether all given points are on a single line. The points order
+    is not important.
+    
+    Args:
+        *points: ((float, float),)
+            Collection of points to check as (x,y) coordinates.
+    
+    Returns:
+        bool
+            Returns True if all points are on a single line, False otherwise.
+    """
+    
+    if len(points) < 3:
+        return True
+    
+    x1, y1 = points[0]
+    x2, y2 = points[1]
+    
+    dx1 = x1 - x2
+    dy1 = y1 - y2
+    
+    for x2, y2 in points[2:]:
+        dx2 = x1 - x2
+        dy2 = y1 - y2
+        if (dy1*dx2) != (dx1*dy2):
+            return False
+    
+    return True
+
+
+def is_inside_circle(p, center, radius):
     """
     Checks whether given point is within specified circle.
     
@@ -276,10 +392,10 @@ def inside_circle(p, c, r):
         p: (float, float)
             XY coordinates of the point to test.
         
-        c: (float, float)
+        center: (float, float)
             XY coordinates of the circle center.
         
-        r: float
+        radius: float
             Radius of the circle.
     
     Returns:
@@ -287,10 +403,10 @@ def inside_circle(p, c, r):
             Returns True if the point lies inside the circle, False otherwise.
     """
     
-    return distance(c, p) < r
+    return distance(center, p) < radius
 
 
-def inside_triangle(p, p1, p2, p3):
+def is_inside_triangle(p, p1, p2, p3):
     """
     Checks whether given point is within specified triangle.
     
@@ -323,6 +439,8 @@ def inside_triangle(p, p1, p2, p3):
     
     return (c1 < 0 and c2 < 0 and c3 < 0) or (c1 > 0 and c2 > 0 and c3 > 0)
 
+
+# intersections calculations
 
 def intersect_circles(c1, r1, c2, r2):
     """
@@ -450,63 +568,3 @@ def intersect_rays(p1, a1, p2, a2):
     l2 = (p2[0] + numpy.cos(a2), p2[1] + numpy.sin(a2))
     
     return intersect_lines(p1, l1, p2, l2)
-
-
-def polygon_centroid(*points):
-    """
-    Calculates center point of given polygon.
-    
-    Args:
-        points: ((float, float),)
-            Collection of points as (x, y) coordinates.
-    
-    Returns:
-        (float, float)
-            Center point as (x, y) coordinates.
-    """
-    
-    x = sum(p[0] for p in points) / len(points)
-    y = sum(p[1] for p in points) / len(points)
-    
-    return x, y
-
-
-def triangle_incircle(p1, p2, p3):
-    """
-    Calculates position and size of the biggest circle inscribed into
-    specified triangle.
-    
-    Args:
-        p1: (float, float)
-            Point 1 as (x, y) coordinates.
-        
-        p2: (float, float)
-            Point 2 as (x, y) coordinates.
-        
-        p3: (float, float)
-            Point 3 as (x, y) coordinates.
-    
-    Returns:
-        (float, float)
-            XY coordinates of the circle center.
-        
-        float
-            Circle radius.
-    """
-    
-    # calc sides
-    a = distance(p1, p2)
-    b = distance(p2, p3)
-    c = distance(p3, p1)
-    
-    # calc radius
-    p = 0.5 * sum((a, b, c))
-    area = numpy.sqrt(p * (p - a) * (p - b) * (p - c))
-    radius = area / p
-    
-    # calc center
-    bis1 = bisector(p2, p1, p3)
-    bis2 = bisector(p1, p2, p3)
-    c = intersect_rays(p1, bis1, p2, bis2)
-    
-    return c, radius

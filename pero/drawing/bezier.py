@@ -261,16 +261,16 @@ class Bezier(object):
             v2 = 18 * (3*a - b - 3*c)
             v3 = 18 * (c - a)
             
-            if helpers.equals(v1, 0):
+            if helpers.equals(v1, 0, 1e-3):
                 
-                if not helpers.equals(v2, 0):
+                if not helpers.equals(v2, 0, 1e-3):
                     t = -v3 / v2
                     if 0 <= t <= 1:
                         return [t]
                 return []
             
             d = 2*v1
-            if helpers.equals(d, 0):
+            if helpers.equals(d, 0, 1e-3):
                 return []
             
             trm = v2*v2 - 4*v1*v3
@@ -782,11 +782,11 @@ class Bezier(object):
         
         for t2 in inters[1:]:
             
-            if not helpers.equals(t1[0], t2[0], 0.001):
+            if not helpers.equals(t1[0], t2[0], 1e-3):
                 buff.append(t2)
                 t1 = t2
             
-            elif not helpers.equals(t1[1], t2[1], 0.001):
+            elif not helpers.equals(t1[1], t2[1], 1e-3):
                 buff.append(t2)
                 t1 = t2
         
