@@ -298,23 +298,57 @@ class Arch(object):
         return utils.normal_angle(angle)
     
     
-    def contains_point(self, x, y):
-        """Returns True if given point lays on the arch."""
+    def contains_point(self, x, y, inside=False):
+        """
+        Returns True if given point lays on the arch.
+        
+        Args:
+            x: float
+                X-coordinate of the point.
+            
+            y: float
+                Y-coordinate of the point.
+            
+            inside: bool
+                If set to True, point must be inside the arch and cannot be
+                equal to start or end points.
+        
+        Returns:
+            bool
+                Returns True if the arch contains the point.
+        """
         
         angle = self.point_as_angle(x, y)
-        return self.contains_angle(angle)
+        return self.contains_angle(angle, inside)
     
     
-    def contains_angle(self, angle):
-        """Returns True if given angle lays between start and end angle of the arch."""
+    def contains_angle(self, angle, inside=False):
+        """
+        Returns True if given angle is between start and end angle of the arch.
+        
+        Args:
+            angle: float
+                The angle to check.
+            
+            inside: bool
+                If set to True, angle must be inside the arch and cannot be
+                equal to start or end angle.
+        
+        Returns:
+            bool
+                Returns True if the arch contains the angle.
+        """
         
         angle = utils.normal_angle(angle)
         diff = utils.angle_difference(self._start_angle, angle, self._clockwise)
         
+        if inside:
+            return abs(diff) < abs(self.angle())
+        
         return abs(diff) <= abs(self.angle())
     
     
-    def intersect_circle(self, x, y, radius):
+    def intersect_circle(self, x, y, radius, inside=False):
         """
         Calculates all intersection points between current arch and given
         circle.
@@ -328,6 +362,10 @@ class Arch(object):
             
             radius: float
                 Radius of the circle.
+            
+            inside: bool
+                If set to True, intersection points must be inside the arch
+                and cannot be equal to edge points.
         
         Returns:
             ((float, float),)
@@ -340,7 +378,7 @@ class Arch(object):
             return ()
         
         # get points inside current arch
-        points = [p for p in points if self.contains_point(p[0], p[1])]
+        points = [p for p in points if self.contains_point(p[0], p[1], inside)]
         
         # sort by angle
         points.sort(key=lambda p: self.point_as_angle(p[0], p[1]))
@@ -348,13 +386,17 @@ class Arch(object):
         return points
     
     
-    def intersect_arch(self, arch):
+    def intersect_arch(self, arch, inside=False):
         """
         Calculates all intersection points between current arch and given arch.
         
         Args:
             arch: pero.Arch
                 Arch to intersect.
+            
+            inside: bool
+                If set to True, intersection points must be inside the arch
+                and cannot be equal to edge points.
         
         Returns:
             ((float, float),)
@@ -362,10 +404,10 @@ class Arch(object):
         """
         
         # calc circle intersection
-        points = self.intersect_circle(arch.x, arch.y, arch.radius)
+        points = self.intersect_circle(arch.x, arch.y, arch.radius, inside)
         
         # get points inside given arch
-        points = [p for p in points if arch.contains_point(p[0], p[1])]
+        points = [p for p in points if arch.contains_point(p[0], p[1], inside)]
         
         return points
     
