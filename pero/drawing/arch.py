@@ -51,29 +51,66 @@ class Arch(object):
     
     
     @property
-    def x(self):
+    def center(self):
         """
-        Gets x-coordinate of the arch center.
+        Gets the center of the arch.
         
         Returns:
-            float
-                Center x-coordinates.
+            (float, float)
+                Arch center coordinates.
         """
         
-        return self._x
+        return self._x, self._y
     
     
     @property
-    def y(self):
+    def start(self):
         """
-        Gets y-coordinate of the arch center.
+        Gets the starting point of the arch.
         
         Returns:
-            float
-                Center y-coordinates.
+            (float, float)
+                Arch start coordinates.
         """
         
-        return self._y
+        if self._start_point is None:
+            self._start_point = self.angle_as_point(self._start_angle)
+        
+        return self._start_point
+    
+    
+    @property
+    def end(self):
+        """
+        Gets the end point of the arch.
+        
+        Returns:
+            (float, float)
+                Arch end coordinates.
+        """
+        
+        if self._end_point is None:
+            self._end_point = self.angle_as_point(self._end_angle)
+        
+        return self._end_point
+    
+    
+    @property
+    def middle(self):
+        """
+        Gets the middle angle point of the arch.
+        
+        Returns:
+            (float, float)
+                Arch middle angle coordinates.
+        """
+        
+        if self._mid_point is None:
+            angle = abs(self.angle() / 2)
+            angle += self._start_angle if self._clockwise else self._end_angle
+            self._mid_point = self.angle_as_point(angle)
+        
+        return self._mid_point
     
     
     @property
@@ -139,13 +176,9 @@ class Arch(object):
         
         if self._bbox is None:
             
-            # get end points
-            p1 = self.start_point()
-            p2 = self.end_point()
-            
             # init frame
-            self._bbox = Frame(p1[0], p1[1])
-            self._bbox.extend(p2[0], p2[1])
+            self._bbox = Frame(*self.start)
+            self._bbox.extend(*self.end)
             
             # add extremes if existing
             if self.contains_angle(0):
@@ -182,53 +215,6 @@ class Arch(object):
             self._angle = utils.angle_difference(self._start_angle, self._end_angle, self._clockwise)
         
         return self._angle
-    
-    
-    def start_point(self):
-        """
-        Gets the starting point of the arch.
-        
-        Returns:
-            (float, float)
-                Arch start coordinates.
-        """
-        
-        if self._start_point is None:
-            self._start_point = self.angle_as_point(self._start_angle)
-        
-        return self._start_point
-    
-    
-    def end_point(self):
-        """
-        Gets the end point of the arch.
-        
-        Returns:
-            (float, float)
-                Arch end coordinates.
-        """
-        
-        if self._end_point is None:
-            self._end_point = self.angle_as_point(self._end_angle)
-        
-        return self._end_point
-    
-    
-    def mid_point(self):
-        """
-        Gets the middle angle point of the arch.
-        
-        Returns:
-            (float, float)
-                Arch middle angle coordinates.
-        """
-        
-        if self._mid_point is None:
-            angle = abs(self.angle() / 2)
-            angle += self._start_angle if self._clockwise else self._end_angle
-            self._mid_point = self.angle_as_point(angle)
-        
-        return self._mid_point
     
     
     def segment_area(self):
@@ -278,9 +264,32 @@ class Arch(object):
         return x, y
     
     
+    def angle_from_start(self, x, y):
+        """
+        Calculates angle between the arch start and given point respecting
+        current direction.
+        
+        Args:
+            x: float
+                X-coordinate of the point.
+            
+            y: float
+                Y-coordinate of the point.
+        
+        Returns:
+            float
+                Angle in radians.
+        """
+        
+        angle = self.point_as_angle(x, y)
+        diff = utils.angle_difference(self._start_angle, angle, self._clockwise)
+        
+        return diff
+    
+    
     def point_as_angle(self, x, y):
         """
-        Calculates angle between given point.
+        Calculates angle of given point.
         
         Args:
             x: float
@@ -351,7 +360,7 @@ class Arch(object):
     def intersect_circle(self, x, y, radius, inside=False):
         """
         Calculates all intersection points between current arch and given
-        circle.
+        circle. The points are sorted by increasing angle from the arch start.
         
         Args:
             x: float
@@ -380,8 +389,8 @@ class Arch(object):
         # get points inside current arch
         points = [p for p in points if self.contains_point(p[0], p[1], inside)]
         
-        # sort by angle
-        points.sort(key=lambda p: self.point_as_angle(p[0], p[1]))
+        # sort by angle from start
+        points.sort(key=lambda p: abs(self.angle_from_start(p[0], p[1])))
         
         return points
     
@@ -404,7 +413,7 @@ class Arch(object):
         """
         
         # calc circle intersection
-        points = self.intersect_circle(arch.x, arch.y, arch.radius, inside)
+        points = self.intersect_circle(arch.center[0], arch.center[1], arch.radius, inside)
         
         # get points inside given arch
         points = [p for p in points if arch.contains_point(p[0], p[1], inside)]

@@ -400,7 +400,7 @@ def is_inside_circle(p, center, radius):
     
     Returns:
         bool
-            Returns True if the point lies inside the circle, False otherwise.
+            Returns True if the point is inside the circle, False otherwise.
     """
     
     return distance(center, p) < radius
@@ -425,7 +425,7 @@ def is_inside_triangle(p, p1, p2, p3):
     
     Returns:
         bool
-            Returns True if the point lies inside the circle, False otherwise.
+            Returns True if the point is inside the circle, False otherwise.
     """
     
     xp, yp = p
@@ -438,6 +438,36 @@ def is_inside_triangle(p, p1, p2, p3):
     c3 = (x1-x3)*(yp-y3)-(y1-y3)*(xp-x3)
     
     return (c1 < 0 and c2 < 0 and c3 < 0) or (c1 > 0 and c2 > 0 and c3 > 0)
+
+
+def is_inside_polygon(p, *polygon):
+    """
+    Checks whether given point is within specified polygon. This technique
+    is bases on the sum of all angles between given point and polygon vertices,
+    which must be 2pi if point is inside. This assumption only works for non-
+    overlapping polygons.
+    
+    Args:
+        p: (float, float)
+            XY coordinates of the point to test.
+        
+        *polygon: ((float, float),)
+            Collection of points defining the polygon as (x,y) coordinates.
+    
+    Returns:
+        bool
+            Returns True if the point lies inside the circle, False otherwise.
+    """
+    
+    total_angle = 0
+    polygon = list(polygon) + [polygon[0]]
+    p1 = polygon[0]
+    
+    for p2 in polygon[1:]:
+        total_angle += abs(angle(p1, p, p2)) % numpy.pi
+        p1 = p2
+    
+    return equals(total_angle, 2*numpy.pi, 1e-6)
 
 
 # intersections calculations

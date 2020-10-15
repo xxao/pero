@@ -73,26 +73,21 @@ class DrawTest(pero.Graphics):
         canvas.line_color = pero.colors.LightGray
         canvas.line_width = 1
         canvas.fill_style = pero.TRANS
-        canvas.draw_circle(arch.x, arch.y, arch.radius)
+        canvas.draw_circle(arch.center[0], arch.center[1], arch.radius)
         
         # draw arch
         canvas.line_color = "b"
         canvas.line_width = 2
-        canvas.draw_arc(arch.x, arch.y, arch.radius, arch.start_angle, arch.end_angle, arch.clockwise)
+        canvas.draw_arc(arch.center[0], arch.center[1], arch.radius, arch.start_angle, arch.end_angle, arch.clockwise)
         
         # draw angle
         angle = "%.0f°" % pero.degs(arch.angle())
-        label.draw(canvas, x=arch.x, y=arch.y, text=angle, font_size=9)
+        label.draw(canvas, x=arch.center[0], y=arch.center[1], text=angle, font_size=9)
         
         # draw points
-        start_point = arch.start_point()
-        label.draw(canvas, x=start_point[0], y=start_point[1], text="S")
-        
-        end_point = arch.end_point()
-        label.draw(canvas, x=end_point[0], y=end_point[1], text="E")
-        
-        mid_point = arch.mid_point()
-        label.draw(canvas, x=mid_point[0], y=mid_point[1], text="M")
+        label.draw(canvas, x=arch.start[0], y=arch.start[1], text="S")
+        label.draw(canvas, x=arch.end[0], y=arch.end[1], text="E")
+        label.draw(canvas, x=arch.middle[0], y=arch.middle[1], text="M")
     
     
     def draw_rays(self, canvas, arch):
@@ -111,14 +106,14 @@ class DrawTest(pero.Graphics):
             font_weight = pero.BOLD)
         
         ray = pero.Ray(
-            x = arch.x,
-            y = arch.y,
+            x = arch.center[0],
+            y = arch.center[1],
             length = arch.radius,
             line_width = 1)
         
         norm = pero.Ray(
-            x = arch.x,
-            y = arch.y,
+            x = arch.center[0],
+            y = arch.center[1],
             offset = arch.radius,
             length = 15,
             line_width = 2,
@@ -142,7 +137,7 @@ class DrawTest(pero.Graphics):
             point.draw(canvas, x=p[0], y=p[1], fill_color=color)
         
         # draw points
-        for p in (arch.start_point(), arch.mid_point(), arch.end_point()):
+        for p in (arch.start, arch.middle, arch.end):
             
             angle = arch.point_as_angle(p[0], p[1])
             norm.draw(canvas, angle=angle)
@@ -184,10 +179,10 @@ class DrawTest(pero.Graphics):
             font_weight = pero.BOLD)
         
         # init arches
-        top_arch = pero.Arch(arch.x, arch.y - 1.5*arch.radius, 0.9*arch.radius, pero.rads(20), pero.rads(160), True)
-        right_arch = pero.Arch(arch.x + 1.5*arch.radius, arch.y, 0.9*arch.radius, pero.rads(-110), pero.rads(110), False)
-        bottom_arch = pero.Arch(arch.x, arch.y + 1.5*arch.radius, 0.9*arch.radius, pero.rads(-20), pero.rads(-160), False)
-        left_arch = pero.Arch(arch.x - 1.5*arch.radius, arch.y, 0.9*arch.radius, pero.rads(-70), pero.rads(70), True)
+        top_arch = pero.Arch(arch.center[0], arch.center[1] - 1.5*arch.radius, 0.9*arch.radius, pero.rads(20), pero.rads(160), True)
+        right_arch = pero.Arch(arch.center[0] + 1.5*arch.radius, arch.center[1], 0.9*arch.radius, pero.rads(-110), pero.rads(110), False)
+        bottom_arch = pero.Arch(arch.center[0], arch.center[1] + 1.5*arch.radius, 0.9*arch.radius, pero.rads(-20), pero.rads(-160), False)
+        left_arch = pero.Arch(arch.center[0] - 1.5*arch.radius, arch.center[1], 0.9*arch.radius, pero.rads(-70), pero.rads(70), True)
         
         # draw arches
         canvas.line_style = pero.SOLID
@@ -195,10 +190,10 @@ class DrawTest(pero.Graphics):
         canvas.line_width = 1
         canvas.fill_style = pero.TRANS
         
-        canvas.draw_arc(top_arch.x, top_arch.y, top_arch.radius, top_arch.start_angle, top_arch.end_angle, top_arch.clockwise)
-        canvas.draw_arc(right_arch.x, right_arch.y, right_arch.radius, right_arch.start_angle, right_arch.end_angle, right_arch.clockwise)
-        canvas.draw_arc(bottom_arch.x, bottom_arch.y, bottom_arch.radius, bottom_arch.start_angle, bottom_arch.end_angle, bottom_arch.clockwise)
-        canvas.draw_arc(left_arch.x, left_arch.y, left_arch.radius, left_arch.start_angle, left_arch.end_angle, left_arch.clockwise)
+        canvas.draw_arc(top_arch.center[0], top_arch.center[1], top_arch.radius, top_arch.start_angle, top_arch.end_angle, top_arch.clockwise)
+        canvas.draw_arc(right_arch.center[0], right_arch.center[1], right_arch.radius, right_arch.start_angle, right_arch.end_angle, right_arch.clockwise)
+        canvas.draw_arc(bottom_arch.center[0], bottom_arch.center[1], bottom_arch.radius, bottom_arch.start_angle, bottom_arch.end_angle, bottom_arch.clockwise)
+        canvas.draw_arc(left_arch.center[0], left_arch.center[1], left_arch.radius, left_arch.start_angle, left_arch.end_angle, left_arch.clockwise)
         
         # draw intersections
         for i, p in enumerate(arch.intersect_arch(top_arch)):
