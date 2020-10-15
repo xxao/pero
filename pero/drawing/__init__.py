@@ -34,9 +34,6 @@ from .labels import LabelBox, Label, TextLabel
 from .legend import LegendBox, Legend, MarkerLegend
 from .tooltip import Tooltip, TextTooltip
 
-# register venn tools
-from . import venn
-
 # register new properties
 from .frame import FrameProperty
 from .markers import MarkerProperty

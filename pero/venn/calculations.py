@@ -3,6 +3,7 @@
 
 import numpy
 from ..enums import *
+from .regions import EmptyRegion, CircleRegion
 
 
 def venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1):
@@ -347,3 +348,54 @@ def fit_into(coords, radii, x, y, width, height):
     cy = cy*scale + y_off
     
     return ((ax, ay), (bx, by), (cx, cy)), (r_a, r_b, r_c)
+
+
+def make_regions(coords, radii):
+    """
+    Creates all unique and overlapping regions based on given center coordinates
+    and radii.
+    
+    Args:
+        coords: ((float, float), (float, float), (float, float))
+            Center coordinates for individual A, B, C circles.
+        
+        radii: (float, float, float)
+            Radius for individual A, B, C circles.
+    
+    Returns:
+        {str: pero.venn.Region)
+            Dictionary of all the regions for its lowercase name (i.e. a, b, ab,
+            c, ac, bc, abc).
+    """
+    
+    # unpack data
+    c_a, c_b, c_c = coords
+    r_a, r_b, r_c = radii
+    
+    # init regions
+    reg_a = CircleRegion(c_a, r_a)
+    reg_b = CircleRegion(c_b, r_b)
+    reg_c = CircleRegion(c_c, r_c)
+    
+    reg_a, reg_ab = reg_a.overlay(c_b, r_b)
+    reg_a, reg_ac = reg_a.overlay(c_c, r_c)
+    
+    reg_b, reg_bc = reg_b.overlay(c_c, r_c)
+    reg_b, _ = reg_b.overlay(c_a, r_a)
+    
+    reg_c, _ = reg_c.overlay(c_a, r_a)
+    reg_c, _ = reg_c.overlay(c_b, r_b)
+    
+    reg_ab, reg_abc = reg_ab.overlay(c_c, r_c)
+    reg_bc, _ = reg_bc.overlay(c_a, r_a)
+    
+    regions = {
+        'a': reg_a,
+        'b': reg_b,
+        'c': reg_c,
+        'ab': reg_ab,
+        'ac': reg_ac,
+        'bc': reg_bc,
+        'abc': reg_abc}
+    
+    return regions
