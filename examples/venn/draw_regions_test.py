@@ -2,6 +2,7 @@ import pero
 import numpy
 
 # define cases
+selected = None
 cases = (
     
     # circle regions
@@ -29,6 +30,8 @@ cases = (
     (pero.venn.CircleRegion((40, 50), 35).overlay((60, 50), 35)[1], (50, 75), 20),
     
     (pero.venn.CircleRegion((60, 50), 30).overlay((80, 50), 30)[0], (50, 50), 40),
+    (pero.venn.CircleRegion((50, 50), 30).overlay((70, 50), 30)[0], (75, 50), 20),
+    (pero.venn.CircleRegion((80, 50), 30).overlay((100, 50), 30)[0], (25, 50), 20),
     (pero.venn.CircleRegion((60, 50), 30).overlay((80, 50), 30)[0], (40, 50), 7),
     (pero.venn.CircleRegion((60, 50), 30).overlay((80, 50), 30)[0], (25, 50), 20),
     (pero.venn.CircleRegion((60, 50), 30).overlay((80, 50), 30)[0], (55, 50), 20),
@@ -54,9 +57,12 @@ class DrawTest(pero.Graphics):
         # get size
         width, height = canvas.viewport.wh
         
+        # get cases
+        items = [cases[selected]] if selected is not None else cases
+        
         # init grid
-        cols = 6 if len(cases) > 1 else 1
-        rows = int(numpy.ceil(len(cases) / cols))
+        cols = 6 if len(items) > 1 else 1
+        rows = int(numpy.ceil(len(items) / cols))
         cell_w = width / cols
         cell_h = height / rows
         
@@ -69,9 +75,9 @@ class DrawTest(pero.Graphics):
         
         # draw venn
         row = col = 0
-        for case in cases:
+        for item in items:
             with canvas.view(col * cell_w, row * cell_h, cell_w, cell_h):
-                self.draw_case(canvas, case[0], case[1], case[2])
+                self.draw_case(canvas, item[0], item[1], item[2])
             col += 1
             if not col % cols:
                 row += 1

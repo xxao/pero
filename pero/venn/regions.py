@@ -466,13 +466,20 @@ class ArcsRegion(Region):
         inside_1 = utils.is_circle_in_circle(center, radius, arc_1.center, arc_1.radius)
         inside_2 = utils.is_circle_in_circle(center, radius, arc_2.center, arc_2.radius)
         
-        # no overlap possible if not inside both arcs
-        if not (inside_1 or inside_2):
+        # no overlap possible if outside both arcs
+        if not inside_1 and not inside_2:
             return self, EmptyRegion()
         
-        # if sum of insides and directions is odd the circle is fully outside
-        if sum((inside_1, inside_2, arc_1.clockwise, arc_2.clockwise)) % 2:
-            return self, EmptyRegion()
+        # for convex shape it must be inside both to overlap
+        if arc_1.clockwise == arc_2.clockwise:
+            if not inside_1 or not inside_2:
+                return self, EmptyRegion()
+        
+        # for concave shape it cannot be inside the smaller arc to overlap
+        else:
+            inside_smaller = inside_1 if arc_1.length() < arc_2.length() else inside_2
+            if inside_smaller:
+                return self, EmptyRegion()
         
         # assemble remaining part
         remains = (
