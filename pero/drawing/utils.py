@@ -271,7 +271,7 @@ def ray(c, angle, distance):
     
     Args:
         c: (float, float)
-            XY coordinates of the origin.
+            Coordinates of the origin.
         
         angle: float
             Angle in radians.
@@ -281,7 +281,7 @@ def ray(c, angle, distance):
     
     Returns:
             (float, float)
-                XY coordinates of calculated point.
+                Coordinates of calculated point.
     """
     
     x = c[0] + distance * numpy.cos(angle)
@@ -326,7 +326,7 @@ def triangle_incircle(p1, p2, p3):
     
     Returns:
         (float, float)
-            XY coordinates of the circle center.
+            Coordinates of the circle center.
         
         float
             Circle radius.
@@ -384,16 +384,16 @@ def is_inline(*points):
     return True
 
 
-def is_inside_circle(p, center, radius):
+def is_point_in_circle(p, center, radius):
     """
     Checks whether given point is within specified circle.
     
     Args:
         p: (float, float)
-            XY coordinates of the point to test.
+            Coordinates of the point to test.
         
         center: (float, float)
-            XY coordinates of the circle center.
+            Coordinates of the circle center.
         
         radius: float
             Radius of the circle.
@@ -406,22 +406,22 @@ def is_inside_circle(p, center, radius):
     return distance(center, p) < radius
 
 
-def is_inside_triangle(p, p1, p2, p3):
+def is_point_in_triangle(p, p1, p2, p3):
     """
     Checks whether given point is within specified triangle.
     
     Args:
         p: (float, float)
-            XY coordinates of the point to test.
+            Coordinates of the point to test.
         
         p1: (float, float)
-            XY coordinates of the triangle point.
+            Coordinates of the triangle point.
         
         p2: (float, float)
-            XY coordinates of the triangle point.
+            Coordinates of the triangle point.
         
         p3: (float, float)
-            XY coordinates of the triangle point.
+            Coordinates of the triangle point.
     
     Returns:
         bool
@@ -440,7 +440,7 @@ def is_inside_triangle(p, p1, p2, p3):
     return (c1 < 0 and c2 < 0 and c3 < 0) or (c1 > 0 and c2 > 0 and c3 > 0)
 
 
-def is_inside_polygon(p, *polygon):
+def is_point_in_polygon(p, *polygon):
     """
     Checks whether given point is within specified polygon. This technique
     is bases on the sum of all angles between given point and polygon vertices,
@@ -449,7 +449,7 @@ def is_inside_polygon(p, *polygon):
     
     Args:
         p: (float, float)
-            XY coordinates of the point to test.
+            Coordinates of the point to test.
         
         *polygon: ((float, float),)
             Collection of points defining the polygon as (x,y) coordinates.
@@ -470,6 +470,31 @@ def is_inside_polygon(p, *polygon):
     return equals(total_angle, 2*numpy.pi, 1e-6)
 
 
+def is_circle_in_circle(c1, r1, c2, r2):
+    """
+    Checks whether the first circle is inside the second circle..
+    
+    Args:
+        c1: (float, float)
+            Coordinates of the center of circle A.
+        
+        r1: float
+            Radius of the circle A.
+        
+        c2: (float, float)
+            Coordinates of the center of circle B.
+        
+        r2: float
+            Radius of the circle b.
+    
+    Returns:
+        ((float, float), (float, float)) or None
+            Coordinates of the two intersection points.
+    """
+    
+    return distance(c1, c2) <= r2 - r1
+
+
 # intersections calculations
 
 def intersect_circles(c1, r1, c2, r2):
@@ -478,21 +503,20 @@ def intersect_circles(c1, r1, c2, r2):
     
     Args:
         c1: (float, float)
-            XY coordinates of the center of circle A.
+            Coordinates of the center of circle A.
         
         r1: float
             Radius of the circle A.
         
         c2: (float, float)
-            XY coordinate of the center of circle B.
+            Coordinates of the center of circle B.
         
         r2: float
             Radius of the circle b.
     
     Returns:
         ((float, float), (float, float)) or None
-            XY coordinates of the two intersection points. Returns None if
-            there is no intersection.
+            Coordinates of the two intersection points.
     """
     
     # calc distance
@@ -502,15 +526,15 @@ def intersect_circles(c1, r1, c2, r2):
     
     # non intersecting
     if dist >= r1 + r2:
-        return None
+        return ()
     
     # one inside another
     if dist <= abs(r1-r2):
-        return None
+        return ()
     
     # same circles
     if dist == 0 and r1 == r2:
-        return None
+        return ()
     
     # calc intersections
     a = (r1**2 - r2**2 + dist**2) / (2*dist)
@@ -548,7 +572,7 @@ def intersect_lines(p1, p2, p3, p4):
     
     Returns:
         (float, float) or None
-            XY coordinates of the intersection point. Returns None if
+            Coordinates of the intersection point. Returns None if
             there is no intersection.
     """
     
@@ -590,7 +614,7 @@ def intersect_rays(p1, a1, p2, a2):
     
     Returns:
         (float, float) or None
-            XY coordinates of the intersection point. Returns None if
+            Coordinates of the intersection point. Returns None if
             there is no intersection.
     """
     

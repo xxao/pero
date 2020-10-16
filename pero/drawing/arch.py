@@ -383,7 +383,7 @@ class Arch(object):
         
         # calc circles intersection
         points = utils.intersect_circles((self._x, self._y), self._radius, (x, y), radius)
-        if points is None:
+        if not points:
             return ()
         
         # get points inside current arch

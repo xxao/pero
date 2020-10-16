@@ -33,7 +33,7 @@ class Region(object):
                 Region path.
         """
         
-        return None
+        return Path()
     
     
     def overlay(self, center, radius):
@@ -48,6 +48,10 @@ class Region(object):
             
             radius: float
                 Radius of the overlapping circle.
+        
+        Returns:
+            (pero.venn.Region, pero.venn.Region),)
+                Venn regions for remaining and overlapping parts..
         """
         
         raise NotImplementedError()
@@ -67,6 +71,10 @@ class EmptyRegion(Region):
             
             radius: float
                 Radius of the overlapping circle.
+        
+        Returns:
+            (pero.venn.Region, pero.venn.Region),)
+                Venn regions for remaining and overlapping parts..
         """
         
         return self, self
@@ -117,6 +125,10 @@ class CircleRegion(Region):
             
             radius: float
                 Radius of the overlapping circle.
+        
+        Returns:
+            (pero.venn.Region, pero.venn.Region),)
+                Venn regions for remaining and overlapping parts..
         """
         
         # calc distance
@@ -140,7 +152,7 @@ class CircleRegion(Region):
         points = utils.intersect_circles(self._center, self._radius, center, radius)
         
         # make arcs
-        residue = (
+        remains = (
             Arch.from_points(center, points[0], points[1], radius, False),
             Arch.from_points(self._center, points[1], points[0], self._radius, True))
         
@@ -149,7 +161,7 @@ class CircleRegion(Region):
             Arch.from_points(center, points[1], points[0], radius, True))
         
         # make regions
-        return ArcsRegion(residue), ArcsRegion(overlap)
+        return ArcsRegion(remains), ArcsRegion(overlap)
 
 
 class RingRegion(Region):
@@ -206,6 +218,10 @@ class RingRegion(Region):
             
             radius: float
                 Radius of the overlapping circle.
+        
+        Returns:
+            (pero.venn.Region, pero.venn.Region),)
+                Venn regions for remaining and overlapping parts..
         """
         
         # calc distance
@@ -216,12 +232,111 @@ class RingRegion(Region):
             return self, EmptyRegion()
         
         # calc intersections
-        out_points = utils.intersect_circles(self._out_center, self._out_radius, center, radius)
-        int_points = utils.intersect_circles(self._in_center, self._in_radius, center, radius)
+        points_out = utils.intersect_circles(self._out_center, self._out_radius, center, radius)
+        points_in = utils.intersect_circles(self._in_center, self._in_radius, center, radius)
         
-        # TODO
+        # full overlap or outside
+        if len(points_out) == 0 and len(points_in) == 0:
+            return self._no_intersections(center, radius)
         
-        return EmptyRegion(), EmptyRegion()
+        # both circles are cut through
+        if len(points_out) == 2 and len(points_in) == 2:
+            return self._two_intersections_for_both(center, radius, points_out, points_in)
+        
+        # outer circle cut through
+        if len(points_out) == 2:
+            return self._two_intersections_for_outer(center, radius, points_out)
+        
+        # inner circle cut through
+        if len(points_in) == 2:
+            return self._two_intersections_for_inner(center, radius, points_in)
+        
+        raise ValueError("Unknown overlap scenario!")
+    
+    
+    def _no_intersections(self, center, radius):
+        """Handles the case where the circle is not outside but has no intersections."""
+        
+        # get inside flags
+        inside_out = utils.is_circle_in_circle(center, radius, self._out_center, self._out_radius)
+        inside_in = utils.is_circle_in_circle(center, radius, self._in_center, self._in_radius)
+        
+        # circle overlaps whole ring
+        if not inside_out:
+            return EmptyRegion(), self
+        
+        # circle is inside the hole
+        if inside_in:
+            return self, EmptyRegion()
+        
+        # circle is inside the ring
+        remains = (
+            Arch(self._out_center[0], self._out_center[1], self._out_radius, 0, 2*numpy.pi, True),
+            None,
+            Arch(self._in_center[0], self._in_center[1], self._in_radius, 0, 2*numpy.pi, True),
+            None,
+            Arch(center[0], center[1], radius, 0, 2 * numpy.pi, True))
+        
+        return ArcsRegion(remains), CircleRegion(center, radius)
+    
+    
+    def _two_intersections_for_both(self, center, radius, points_out, points_in):
+        """Handles the case where each of the two circles has two intersections."""
+        
+        # assemble remaining part
+        remains = (
+            Arch.from_points(center, points_out[0], points_in[0], radius, False),
+            Arch.from_points(self._in_center, points_in[0], points_in[1], self._in_radius, False),
+            Arch.from_points(center, points_in[1], points_out[1], radius, False),
+            Arch.from_points(self._out_center, points_out[1], points_out[0], self._out_radius, True))
+        
+        # assemble overlapping part
+        overlap = (
+            Arch.from_points(self._out_center, points_out[0], points_out[1], self._out_radius, True),
+            Arch.from_points(center, points_out[1], points_in[1], radius, True),
+            Arch.from_points(self._in_center, points_in[1], points_in[0], self._in_radius, False),
+            Arch.from_points(center, points_in[0], points_out[0], radius, True))
+        
+        # make regions
+        return ArcsRegion(remains), ArcsRegion(overlap)
+    
+    
+    def _two_intersections_for_outer(self, center, radius, points):
+        """Handles the case where outer circles has two intersections."""
+        
+        # assemble remaining part
+        remains = (
+            Arch.from_points(center, points[0], points[1], radius, False),
+            Arch.from_points(self._out_center, points[1], points[0], self._out_radius, True),
+            None,
+            Arch(self._in_center[0], self._in_center[1], self._in_radius, 0, 2*numpy.pi, True))
+        
+        # assemble overlapping part
+        overlap = (
+            Arch.from_points(self._out_center, points[0], points[1], self._out_radius, True),
+            Arch.from_points(center, points[1], points[0], radius, True))
+        
+        # make regions
+        return ArcsRegion(remains), ArcsRegion(overlap)
+    
+    
+    def _two_intersections_for_inner(self, center, radius, points):
+        """Handles the case where inner circles has two intersections."""
+        
+        # assemble remaining part
+        remains = (
+            Arch(self._out_center[0], self._out_center[1], self._out_radius, 0, 2*numpy.pi, True),
+            None,
+            Arch.from_points(center, points[0], points[1], radius, True),
+            Arch.from_points(self._in_center, points[1], points[0], self._in_radius, True))
+        
+        # assemble overlapping part
+        overlap = (
+            Arch.from_points(center, points[0], points[1], radius, True),
+            Arch.from_points(self._in_center, points[1], points[0], self._in_radius, False))
+        
+        # make regions
+        return ArcsRegion(remains), ArcsRegion(overlap)
 
 
 class ArcsRegion(Region):
@@ -274,6 +389,12 @@ class ArcsRegion(Region):
                 init = True
                 continue
             
+            # add circle
+            if arc.angle() % (2*numpy.pi) == 0:
+                path.circle(arc.center[0], arc.center[1], arc.radius)
+                init = True
+                continue
+            
             # init new subpath
             if init:
                 path.move_to(*arc.start)
@@ -298,6 +419,10 @@ class ArcsRegion(Region):
             
             radius: float
                 Radius of the overlapping circle.
+        
+        Returns:
+            (pero.venn.Region, pero.venn.Region),)
+                Venn regions for remaining and overlapping parts..
         """
         
         # check number of arcs
@@ -314,11 +439,11 @@ class ArcsRegion(Region):
         
         # corner overlap
         if len(points_1) == 1 and len(points_2) == 1:
-            return self._single_intersection_for_each(center, radius, points_1, points_2)
+            return self._single_intersection_for_both(center, radius, points_1, points_2)
         
         # cut through
         elif len(points_1) == 2 and len(points_2) == 2:
-            return self._two_intersections_for_each(center, radius, points_1, points_2)
+            return self._two_intersections_for_both(center, radius, points_1, points_2)
         
         # one cut twice
         elif len(points_1) == 2 or len(points_2) == 2:
@@ -331,15 +456,15 @@ class ArcsRegion(Region):
         """Handles the case where there is either complete or no overlap at all."""
         
         # circle overlaps all arcs
-        if utils.is_inside_circle(self._arcs[0].start, center, radius):
+        if utils.is_point_in_circle(self._arcs[0].start, center, radius):
             return EmptyRegion(), self
         
         # get arcs
         arc_1, arc_2 = self._arcs
         
         # check if circle is inside the arcs
-        inside_1 = utils.distance(arc_1.center, center) <= abs(arc_1.radius - radius)
-        inside_2 = utils.distance(arc_2.center, center) <= abs(arc_2.radius - radius)
+        inside_1 = utils.is_circle_in_circle(center, radius, arc_1.center, arc_1.radius)
+        inside_2 = utils.is_circle_in_circle(center, radius, arc_2.center, arc_2.radius)
         
         # no overlap possible if not inside both arcs
         if not (inside_1 or inside_2):
@@ -350,20 +475,18 @@ class ArcsRegion(Region):
             return self, EmptyRegion()
         
         # assemble remaining part
-        remain = list(self._arcs[:])
-        remain.append(None)
-        remain.append(Arch(center[0], center[1], radius, 0, 2*numpy.pi, True))
+        remains = (
+            self._arcs[0],
+            self._arcs[1],
+            None,
+            Arch(center[0], center[1], radius, 0, 2*numpy.pi, True))
         
         # make regions
-        return ArcsRegion(remain), CircleRegion(center, radius)
+        return ArcsRegion(remains), CircleRegion(center, radius)
     
     
-    def _single_intersection_for_each(self, center, radius, points_1, points_2):
+    def _single_intersection_for_both(self, center, radius, points_1, points_2):
         """Handles the case where each of the two arcs has single intersection."""
-        
-        # init parts
-        remains = []
-        overlap = []
         
         # get arcs
         arc_1, arc_2 = self._arcs
@@ -379,42 +502,31 @@ class ArcsRegion(Region):
         seg_3 = Arch.from_points(arc_2.center, arc_2.start, point_2, arc_2.radius, arc_2.clockwise)
         seg_4 = Arch.from_points(arc_2.center, point_2, arc_2.end, arc_2.radius, arc_2.clockwise)
         
-        # cut is at the beginning
-        if utils.is_inside_circle(arc_1.start, center, radius):
-            
-            # assemble remaining part
-            remains.append(seg_2)
-            remains.append(seg_3)
-            remains.append(Arch.from_points(center, point_2, point_1, radius, False))
-            
-            # assemble overlapping part
-            overlap.append(seg_1)
-            overlap.append(Arch.from_points(center, point_1, point_2, radius, True))
-            overlap.append(seg_4)
+        # check for start cut
+        start_cut = utils.is_point_in_circle(arc_1.start, center, radius)
         
-        # cut is at the end
-        else:
-            
-            # assemble remaining part
-            remains.append(seg_1)
-            remains.append(Arch.from_points(center, point_1, point_2, radius, False))
-            remains.append(seg_4)
-            
-            # assemble overlapping part
-            overlap.append(seg_2)
-            overlap.append(seg_3)
-            overlap.append(Arch.from_points(center, point_2, point_1, radius, True))
+        # assemble remaining part
+        remains = (
+            seg_2,
+            seg_3,
+            Arch.from_points(center, point_2, point_1, radius, not start_cut))
+        
+        # assemble overlapping part
+        overlap = (
+            seg_1,
+            Arch.from_points(center, point_1, point_2, radius, start_cut),
+            seg_4)
+        
+        # flip parts if end cut
+        if not start_cut:
+            remains, overlap = overlap, remains
         
         # make regions
         return ArcsRegion(remains), ArcsRegion(overlap)
     
     
-    def _two_intersections_for_each(self, center, radius, points_1, points_2):
+    def _two_intersections_for_both(self, center, radius, points_1, points_2):
         """Handles the case where each of the two arcs has two intersections."""
-        
-        # init parts
-        remain = []
-        overlap = []
         
         # get arcs
         arc_1, arc_2 = self._arcs
@@ -428,31 +540,36 @@ class ArcsRegion(Region):
         seg_5 = Arch.from_points(arc_2.center, points_2[0], points_2[1], arc_2.radius, arc_2.clockwise)
         seg_6 = Arch.from_points(arc_2.center, points_2[1], arc_2.end, arc_2.radius, arc_2.clockwise)
         
+        # check for inner cut
+        inside_cut = not utils.is_point_in_circle(arc_1.start, center, radius)
+        
         # assemble remaining part
-        remain.append(seg_1)
-        remain.append(Arch.from_points(center, points_1[0], points_2[1], radius, False))
-        remain.append(seg_6)
-        remain.append(None)
-        remain.append(seg_3)
-        remain.append(seg_4)
-        remain.append(Arch.from_points(center, points_2[0], points_1[1], radius, False))
+        remains = (
+            seg_1,
+            Arch.from_points(center, points_1[0], points_2[1], radius, not inside_cut),
+            seg_6,
+            None,
+            seg_3,
+            seg_4,
+            Arch.from_points(center, points_2[0], points_1[1], radius, not inside_cut))
         
         # assemble overlapping part
-        overlap.append(seg_2)
-        overlap.append(Arch.from_points(center, points_1[1], points_2[0], radius, True))
-        overlap.append(seg_5)
-        overlap.append(Arch.from_points(center, points_2[1], points_1[0], radius, True))
+        overlap = (
+            seg_2,
+            Arch.from_points(center, points_1[1], points_2[0], radius, inside_cut),
+            seg_5,
+            Arch.from_points(center, points_2[1], points_1[0], radius, inside_cut))
+        
+        # flip parts if corner cut
+        if not inside_cut:
+            remains, overlap = overlap, remains
         
         # make regions
-        return ArcsRegion(remain), ArcsRegion(overlap)
+        return ArcsRegion(remains), ArcsRegion(overlap)
     
     
     def _two_intersections_for_one(self, center, radius, points_1, points_2):
         """Handles the case where one arc has two intersections, the other none."""
-        
-        # init parts
-        remain = []
-        overlap = []
         
         # get arcs
         if points_1:
@@ -467,31 +584,24 @@ class ArcsRegion(Region):
         seg_2 = Arch.from_points(arc_1.center, point_1, point_2, arc_1.radius, arc_1.clockwise)
         seg_3 = Arch.from_points(arc_1.center, point_2, arc_1.end, arc_1.radius, arc_1.clockwise)
         
-        # cut is on edges
-        if utils.is_inside_circle(arc_1.start, center, radius):
-            
-            # assemble remaining part
-            remain.append(seg_2)
-            remain.append(Arch.from_points(center, point_2, point_1, radius, False))
-            
-            # assemble overlapping part
-            overlap.append(seg_1)
-            overlap.append(Arch.from_points(center, point_1, point_2, radius, True))
-            overlap.append(seg_3)
-            overlap.append(arc_2)
+        # check for inner cut
+        inside_cut = not utils.is_point_in_circle(arc_1.start, center, radius)
         
-        # cut is in middle
-        else:
-            
-            # assemble remaining part
-            remain.append(seg_1)
-            remain.append(Arch.from_points(center, point_1, point_2, radius, False))
-            remain.append(seg_3)
-            remain.append(arc_2)
-            
-            # assemble overlapping part
-            overlap.append(seg_2)
-            overlap.append(Arch.from_points(center, point_2, point_1, radius, True))
+        # assemble remaining part
+        remains = (
+            seg_1,
+            Arch.from_points(center, point_1, point_2, radius, not inside_cut),
+            seg_3,
+            arc_2)
+        
+        # assemble overlapping part
+        overlap = (
+            seg_2,
+            Arch.from_points(center, point_2, point_1, radius, inside_cut))
+        
+        # flip parts if corner cut
+        if not inside_cut:
+            remains, overlap = overlap, remains
         
         # make regions
-        return ArcsRegion(remain), ArcsRegion(overlap)
+        return ArcsRegion(remains), ArcsRegion(overlap)

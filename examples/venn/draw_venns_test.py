@@ -53,6 +53,9 @@ venns = (
     
     # three overlaps
     "AB AC BC ABC",
+    "A B ABC",
+    "A C ABC",
+    "B C ABC",
     
     # full
     "A B C AB AC BC ABC",
@@ -60,7 +63,7 @@ venns = (
 
 
 class DrawTest(pero.Graphics):
-    """Test case for arc drawing."""
+    """Test case for venn calculations."""
     
     
     def draw(self, canvas, *args, **kwargs):
@@ -151,7 +154,8 @@ class DrawTest(pero.Graphics):
         
         shape = pero.Shape(
             line_color = "r",
-            line_width = 2 if region and solo else 0)
+            line_width = 2 if region and solo else 0,
+            fill_alpha = 255 if region else 150)
         
         point = pero.Circle(
             x = lambda d: d[0],
@@ -180,7 +184,7 @@ class DrawTest(pero.Graphics):
         
         # draw regions
         palette = pero.colors.Pero
-        for i, key in enumerate(sorted(regions)):
+        for i, key in enumerate(('a', 'b', 'c', 'ab', 'ac', 'bc', 'abc')):
             if not region or key == region:
                 
                 reg = regions[key]
@@ -199,4 +203,4 @@ class DrawTest(pero.Graphics):
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'show', "Venn Tests", 800, 600)
+    pero.debug(DrawTest(), 'show', "Venn Calculations", 800, 600)
