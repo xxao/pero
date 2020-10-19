@@ -68,6 +68,12 @@ class Graphics(PropertySet):
                 Additional parameters for specific backend.
         """
         
+        # try get size
+        if width is None and self.has_property('width'):
+            width = self.get_property('width')
+        if height is None and self.has_property('height'):
+            height = self.get_property('height')
+        
         from .. import backends
         backends.show(self, title, width, height, backend, **options)
     
@@ -98,6 +104,12 @@ class Graphics(PropertySet):
             options: str:any pairs
                 Additional parameters for specific backend.
         """
+        
+        # try get size
+        if width is None and self.has_property('width'):
+            width = self.get_property('width')
+        if height is None and self.has_property('height'):
+            height = self.get_property('height')
         
         from .. import backends
         backends.export(self, path, width, height, backend, **options)

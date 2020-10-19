@@ -551,7 +551,7 @@ class Plot(Graphics):
         canvas.set_brush_by(self, prefix="bgr", source=source, overrides=overrides)
         canvas.draw_rect(x, y, width, height)
         
-        # refuse to draw plot if "negative" size
+        # refuse to draw if "negative" size
         if self._frame.reversed:
             return
         
@@ -1053,85 +1053,6 @@ class Plot(Graphics):
         axis.scale.in_range = (start, end)
     
     
-    def show(self, title=None, width=None, height=None, backend=None, **options):
-        """
-        Shows current plot as static image in available viewer app.
-        
-        Note that is just a convenient scripting shortcut and this method cannot
-        be used if the plot is already part of any UI app.
-        
-        Args:
-            title: str or None
-                Viewer frame title. If set to None, current plot title is used.
-            
-            width: float or None
-                Image width in device units. If set to None, current plot width
-                is used.
-            
-            height: float or None
-                Image height in device units. If set to None, current plot
-                height is used.
-            
-            backend: pero.BACKEND or None
-                Specific backend to be used. The value must be an item from the
-                pero.BACKEND enum.
-            
-            options: str:any pairs
-                Additional parameters for specific backend.
-        """
-        
-        # get title
-        if title is None and self.title:
-            title = self.title.text
-        
-        # get size
-        if width is None:
-            width = self.width
-        if height is None:
-            height = self.height
-        
-        # show plot
-        super().show(title, width, height, backend, **options)
-    
-    
-    def export(self, path, width=None, height=None, backend=None, **options):
-        """
-        Draws current plot into specified file using the format determined
-        automatically from the file extension.
-        
-        Note that is just a convenient scripting shortcut and this method cannot
-        be used if the plot is already part of any UI app.
-        
-        Args:
-            path: str
-                Full path of a file to save the image into.
-            
-            width: float or None
-                Image width in device units. If set to None, current plot width
-                is used.
-            
-            height: float or None
-                Image height in device units. If set to None, current plot
-                height is used.
-            
-            backend: pero.BACKEND or None
-                Specific backend to be used. The value must be an item from the
-                pero.BACKEND enum.
-            
-            options: str:any pairs
-                Additional parameters for specific backend.
-        """
-        
-        # get size
-        if width is None:
-            width = self.width
-        if height is None:
-            height = self.height
-        
-        # export plot
-        super().export(path, width, height, backend, **options)
-    
-    
     def view(self, title=None, width=None, height=None, backend=None, **options):
         """
         Shows current plot as interactive viewer app.
@@ -1158,10 +1079,6 @@ class Plot(Graphics):
             options: str:any pairs
                 Additional parameters for specific backend.
         """
-        
-        # get title
-        if title is None and self.title:
-            title = self.title.text
         
         # get size
         if width is None:
