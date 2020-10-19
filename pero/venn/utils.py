@@ -2,11 +2,11 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from ..enums import *
+from .enums import *
 from .regions import EmptyRegion, CircleRegion
 
 
-def venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1):
+def calc_venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=FULL, spacing=0.1):
     """
     Calculates coordinates and radii for three Venn diagram circles.
     
@@ -34,7 +34,7 @@ def venn(a, b, ab, c=0., ac=0., bc=0., abc=0., mode=VENN_MODE_FULL, spacing=0.1)
         
         mode: str
             Specifies whether circles and overlaps should be proportional to
-            their area as any item from the pero.VENN_MODE enum.
+            their area as any item from the pero.venn.VENN enum.
                 VENN_MODE.NONE - non-proportional
                 VENN_MODE.SEMI - circles are proportional but overlaps not
                 VENN_MODE.FULL - circles and overlaps try to be proportional

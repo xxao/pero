@@ -117,7 +117,7 @@ class DrawTest(pero.Graphics):
             values[idx] = sizes[idx]
         
         # calc venn
-        coords, radii = pero.venn.venn(*values, mode=mode)
+        coords, radii = pero.venn.calc_venn(*values, mode=mode)
         
         # scale to canvas view
         padding = 20

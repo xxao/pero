@@ -5,4 +5,4 @@
 from .regions import Region, EmptyRegion, CircleRegion, RingRegion, ArcsRegion
 
 # import calculations
-from .calculations import *
+from .utils import *
