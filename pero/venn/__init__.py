@@ -6,3 +6,6 @@ from .regions import Region, EmptyRegion, CircleRegion, RingRegion, ArcsRegion
 
 # import calculations
 from .utils import *
+
+# import venn
+from .venn import Venn
