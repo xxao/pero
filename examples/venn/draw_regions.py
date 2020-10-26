@@ -99,6 +99,10 @@ class DrawTest(pero.Graphics):
         remains_path = remains.path().transformed(matrix)
         overlap_path = overlap.path().transformed(matrix)
         
+        # get and scale label
+        remains_label = matrix.transform(*remains.label()) if remains.label() else None
+        overlap_label = matrix.transform(*overlap.label()) if overlap.label() else None
+        
         # scale circle
         radius = scale*radius
         center = matrix.transform(center[0], center[1])
@@ -140,6 +144,28 @@ class DrawTest(pero.Graphics):
             fill_color = pero.colors.Blue,
             fill_alpha = 128,
             ).draw(canvas)
+        
+        # init label
+        label = pero.Text(
+            visible = True,
+            text_base = pero.MIDDLE,
+            text_align = pero.CENTER,
+            font_size = 10,
+            font_weight = pero.BOLD)
+        
+        # draw remaining label
+        if remains_label is not None:
+            label.draw(canvas,
+                text = "Re",
+                x = remains_label[0],
+                y = remains_label[1])
+        
+        # draw overlapping label
+        if overlap_label is not None:
+            label.draw(canvas,
+                text = "Ov",
+                x = overlap_label[0],
+                y = overlap_label[1])
 
 
 # run test

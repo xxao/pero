@@ -36,6 +36,18 @@ class Region(object):
         return Path()
     
     
+    def label(self):
+        """
+        Gets the label position.
+        
+        Returns:
+            (float, float)
+                Label coordinates.
+        """
+        
+        return None
+    
+    
     def overlay(self, center, radius):
         """
         Calculates remaining and overlapping region with given circle.
@@ -96,8 +108,8 @@ class CircleRegion(Region):
                 Radius of the circle.
         """
         
-        self._center = center
-        self._radius = radius
+        self._center = tuple(center)
+        self._radius = float(radius)
     
     
     def path(self):
@@ -113,6 +125,18 @@ class CircleRegion(Region):
         path.circle(self._center[0], self._center[1], self._radius)
         
         return path
+    
+    
+    def label(self):
+        """
+        Gets the label position.
+        
+        Returns:
+            (float, float)
+                Label coordinates.
+        """
+        
+        return self._center
     
     
     def overlay(self, center, radius):
@@ -206,6 +230,26 @@ class RingRegion(Region):
         path.circle(self._in_center[0], self._in_center[1], self._in_radius)
         
         return path
+    
+    
+    def label(self):
+        """
+        Gets the label position.
+        
+        Returns:
+            (float, float)
+                Label coordinates.
+        """
+        
+        # calc angle of centers
+        angle = utils.inclination(self._in_center, self._out_center)
+        
+        # calc points at circles
+        p1 = utils.ray(self._in_center, angle, self._in_radius)
+        p2 = utils.ray(self._out_center, angle, self._out_radius)
+        
+        # calc average point
+        return tuple(numpy.mean((p1, p2), 0))
     
     
     def overlay(self, center, radius):
@@ -407,6 +451,61 @@ class ArcsRegion(Region):
         path.close()
         
         return path
+    
+    
+    def label(self):
+        """
+        Gets the label position.
+        
+        Returns:
+            (float, float)
+                Label coordinates.
+        """
+        
+        # get segments
+        segments = [[]]
+        for arc in self._arcs:
+            if arc is None:
+                segments.append([])
+            else:
+                segments[-1].append(arc)
+        
+        # single segment
+        if len(segments) == 1:
+            
+            # get arcs
+            arcs = segments[0]
+            if len(arcs) > 3:
+                arcs = sorted(arcs, key=lambda a: abs(a.angle()), reverse=True)[:2]
+            
+            # calc arcs centroid
+            points = (a.middle for a in arcs)
+            return utils.polygon_centroid(*points)
+        
+        # multiple non-circle segments
+        if all(len(s) > 1 for s in segments):
+            
+            # get biggest segment
+            length = 0
+            for segment in segments:
+                ln = sum(abs(a.length()) for a in segment)
+                if ln > length:
+                    arcs = segment
+                    length = ln
+            
+            # calc arcs centroid
+            points = (a.middle for a in arcs)
+            return utils.polygon_centroid(*points)
+        
+        # circle inside arcs
+        if len(segments) == 2:
+            return None
+        
+        # circles inside circle
+        if len(segments) == 3:
+            return None
+        
+        raise NotImplementedError("Unknown label scenario!")
     
     
     def overlay(self, center, radius):
