@@ -37,6 +37,12 @@ class Rectangles(Series):
         y_offset: tuple, list, numpy.ndarray or UNDEF
             Specifies the sequence of the y-offsets in data units.
         
+        width_limit: int or float
+            Specifies the minimum display width of the rectangle.
+        
+        height_limit: int or float
+            Specifies the minimum display height of the rectangle.
+        
         line properties:
             Includes pero.LineProperties to specify the outline.
         
@@ -49,6 +55,9 @@ class Rectangles(Series):
     
     x_offset = Property(UNDEF, dynamic=False)
     y_offset = Property(UNDEF, dynamic=False)
+    
+    width_limit = NumProperty(0, dynamic=False)
+    height_limit = NumProperty(0, dynamic=False)
     
     line = Include(LineProperties)
     fill = Include(FillProperties)
@@ -245,6 +254,8 @@ class Rectangles(Series):
         tag = self.get_property('tag', source, overrides)
         x_scale = self.get_property('x_scale', source, overrides)
         y_scale = self.get_property('y_scale', source, overrides)
+        width_limit = self.get_property('width_limit', source, overrides)
+        height_limit = self.get_property('height_limit', source, overrides)
         frame = self.get_property('frame', source, overrides)
         color = self.get_property('color', source, overrides)
         
@@ -254,6 +265,9 @@ class Rectangles(Series):
         top_data = self._top_data
         bottom_data = self._bottom_data
         raw_data = self._raw_data
+
+        width_limit = width_limit or 0
+        height_limit = height_limit or 0
         
         # check data
         if len(left_data) == 0:
@@ -306,7 +320,7 @@ class Rectangles(Series):
                     canvas.fill_color = default_fill_color
                 
                 # draw rectangle
-                canvas.draw_rect(x, y, max(2, width), max(2, height))
+                canvas.draw_rect(x, y, max(width_limit, width), max(height_limit, height))
 
 
 class Rects(Rectangles):
