@@ -1148,15 +1148,9 @@ class Plot(Graphics):
         # get extents and margins
         for obj in out_objects:
             
-            if not obj.visible:
-                continue
-            
-            extent = obj.get_extent(canvas)
             position = obj.position
-            margin = obj.margin
-            
-            if not extent:
-                continue
+            extent = obj.get_extent(canvas) if obj.visible else 0
+            margin = obj.margin if obj.visible else (0, 0, 0, 0)
             
             if position == POS_LEFT:
                 left_obj.append(obj)
@@ -1206,28 +1200,32 @@ class Plot(Graphics):
         for i, obj in enumerate(left_obj):
             extent = left_extents[i]
             obj.frame = Frame(shift-extent, plot_y1, extent, plot_y2-plot_y1)
-            shift -= extent + left_margins[i+1]
+            if obj.visible:
+                shift -= extent + left_margins[i+1]
         
         # make frame for right objects
         shift = plot_x2 + right_margins[0]
         for i, obj in enumerate(right_obj):
             extent = right_extents[i]
             obj.frame = Frame(shift, plot_y1, extent, plot_y2-plot_y1)
-            shift += extent + right_margins[i+1]
+            if obj.visible:
+                shift += extent + right_margins[i+1]
         
         # make frame for top objects
         shift = plot_y1 - top_margins[0]
         for i, obj in enumerate(top_obj):
             extent = top_extents[i]
             obj.frame = Frame(plot_x1, shift-extent, plot_x2-plot_x1, extent)
-            shift -= extent + top_margins[i+1]
+            if obj.visible:
+                shift -= extent + top_margins[i+1]
         
         # make frame for bottom objects
         shift = plot_y2 + bottom_margins[0]
         for i, obj in enumerate(bottom_obj):
             extent = bottom_extents[i]
             obj.frame = Frame(plot_x1, shift, plot_x2-plot_x1, extent)
-            shift += extent + bottom_margins[i+1]
+            if obj.visible:
+                shift += extent + bottom_margins[i+1]
         
         # set plot inside frame to inside objects
         for obj in in_objects:
