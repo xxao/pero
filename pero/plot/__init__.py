@@ -4,6 +4,9 @@
 # import enums
 from .enums import *
 
+# import utils
+from .utils import *
+
 # import main objects
 from .graphics import InGraphics, OutGraphics
 from .axes import Axis, LinAxis, LogAxis, OrdinalAxis

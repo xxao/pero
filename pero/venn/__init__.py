@@ -4,7 +4,7 @@
 # import regions
 from .regions import Region, EmptyRegion, CircleRegion, RingRegion, ArcsRegion
 
-# import calculations
+# import utils
 from .utils import *
 
 # import venn
