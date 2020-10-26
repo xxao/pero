@@ -138,10 +138,10 @@ class Plot(Graphics):
     height = NumProperty(UNDEF, dynamic=False)
     padding = QuadProperty(10, dynamic=False)
     
-    plot_x1 = NumProperty(UNDEF, dynamic=False)
-    plot_x2 = NumProperty(UNDEF, dynamic=False)
-    plot_y1 = NumProperty(UNDEF, dynamic=False)
-    plot_y2 = NumProperty(UNDEF, dynamic=False)
+    plot_x1 = NumProperty(UNDEF)
+    plot_x2 = NumProperty(UNDEF)
+    plot_y1 = NumProperty(UNDEF)
+    plot_y2 = NumProperty(UNDEF)
     
     bgr_line = Include(LineProperties, prefix="bgr", dynamic=False, line_width=0)
     bgr_fill = Include(FillProperties, prefix="bgr", dynamic=False, fill_color="#fff")
