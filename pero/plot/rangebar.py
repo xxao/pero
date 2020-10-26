@@ -47,6 +47,8 @@ class RangeBar(OutGraphics):
             Includes pero.FillProperties to specify the foreground fill.
     """
     
+    position = EnumProperty(POS_TOP, enum=POSITION_LRTB, dynamic=False)
+    
     scale = Property(UNDEF, types=(ContinuousScale,), dynamic=False)
     full_range = TupleProperty((0., 1.), types=(float,), dynamic=False)
     

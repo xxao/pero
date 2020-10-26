@@ -43,6 +43,8 @@ class ColorBar(OutGraphics):
             Includes pero.FillProperties to specify the background fill.
     """
     
+    position = EnumProperty(POS_RIGHT, enum=POSITION_LRTB, dynamic=False)
+    
     scale = Property(UNDEF, types=(ContinuousScale,), dynamic=False)
     gradient = GradientProperty(UNDEF, dynamic=False)
     

@@ -20,6 +20,8 @@ class Title(OutGraphics):
             Includes pero.TextProperties to specify the text properties.
     """
     
+    position = EnumProperty(POS_TOP, enum=POSITION_LRTB, dynamic=False)
+    
     text = StringProperty(UNDEF, dynamic=False)
     font = Include(TextProperties, dynamic=False, font_size=12, font_weight=FONT_WEIGHT_BOLD, text_align=TEXT_ALIGN_CENTER)
     
