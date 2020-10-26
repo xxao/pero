@@ -46,6 +46,9 @@ class Layout(Graphics):
         spacing: int or float
             Specifies the space in-between individual cells.
         
+        fill properties:
+            Includes pero.FillProperties to specify the background fill.
+        
         rows: (pero.Row,) (read-only)
             Gets rows definitions.
         
@@ -62,6 +65,8 @@ class Layout(Graphics):
     height = NumProperty(UNDEF)
     padding = QuadProperty(0)
     spacing = NumProperty(0)
+    
+    fill = Include(FillProperties, fill_color="w")
     
     
     def __init__(self, **overrides):
@@ -165,12 +170,29 @@ class Layout(Graphics):
         
         # get properties
         tag = self.get_property('tag', source, overrides)
+        x = self.get_property('x', source, overrides)
+        y = self.get_property('y', source, overrides)
+        width = self.get_property('width', source, overrides)
+        height = self.get_property('height', source, overrides)
+        
+        # get size from canvas
+        if width is UNDEF:
+            width = canvas.viewport.width if canvas else 0
+        if height is UNDEF:
+            height = canvas.viewport.height if canvas else 0
         
         # arrange cells
         self.arrange(canvas, source, **overrides)
         
         # start drawing group
         canvas.group(tag, "layout")
+        
+        # set pen and brush
+        canvas.line_width = 0
+        canvas.set_brush_by(self, source=source, overrides=overrides)
+        
+        # draw background
+        canvas.draw_rect(x, y, width, height)
         
         # draw cells
         for cell in sorted(self._cells, key=lambda c: c.z_index):
@@ -255,7 +277,7 @@ class Layout(Graphics):
             padding: int, float or tuple
                 Inner empty space of the cell as a single value or values for
                 individual sides starting from top.
-        
+            
             h_expand: bool
                 If set to True the cell content can use full available width
                 even if the 'width' property is set.
@@ -575,7 +597,7 @@ class Cell(Graphics):
         line properties:
             Includes pero.LineProperties to specify the cell background
             outline.
-    
+        
         fill properties:
             Includes pero.FillProperties to specify the cell background fill.
         
