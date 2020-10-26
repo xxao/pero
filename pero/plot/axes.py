@@ -5,7 +5,7 @@ from ..enums import *
 from ..properties import *
 from ..drawing import StraitAxis
 from ..scales import Scale, ContinuousScale, LinScale, LogScale, OrdinalScale
-from ..tickers import Ticker, LinTicker, LogTicker, FixTicker
+from ..tickers import Ticker, LinTicker, LogTicker, FixTicker, TimeTicker
 from ..formatters import Formatter, IndexFormatter
 from .graphics import OutGraphics
 
@@ -740,3 +740,27 @@ class OrdinalAxis(Axis):
         # labels changed
         if evt.name in ('labels', 'label_between'):
             self._update_labels()
+
+
+class TimeAxis(Axis):
+    """Predefined axis with linear scale and time ticker."""
+    
+    
+    def __init__(self, **overrides):
+        """Initializes a new instance of LinAxis."""
+        
+        # init defaults
+        if 'scale' not in overrides:
+            overrides['scale'] = LinScale(in_range=(0., 1.))
+        
+        if 'ticker' not in overrides:
+            overrides['ticker'] = TimeTicker()
+        
+        # init base
+        super().__init__(**overrides)
+        
+        # lock scale and ticker
+        self.lock_property('scale')
+        self.lock_property('ticker')
+
+

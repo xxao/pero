@@ -9,7 +9,7 @@ from .utils import *
 
 # import main objects
 from .graphics import InGraphics, OutGraphics
-from .axes import Axis, LinAxis, LogAxis, OrdinalAxis
+from .axes import Axis, LinAxis, LogAxis, OrdinalAxis, TimeAxis
 from .grid import Grid
 from .legend import Legend
 from .title import Title
