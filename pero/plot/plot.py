@@ -1280,9 +1280,13 @@ class Plot(Graphics):
             self.add(self.labels)
         
         if self.x_axis:
+            self.x_axis.tag = 'x_axis'
+            self.x_axis.position = self.x_axis.position or POS_BOTTOM
             self.add(self.x_axis)
         
         if self.y_axis:
+            self.y_axis.tag = 'y_axis'
+            self.y_axis.position = self.y_axis.position or POS_LEFT
             self.add(self.y_axis)
         
         if self.x_grid and self.x_axis:
