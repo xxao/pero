@@ -275,6 +275,34 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         return prop.parse(value)
     
     
+    def get_own_overrides(self, overrides):
+        """
+        Extracts the overrides for direct properties of current property set.
+        
+        Args:
+            overrides: dict or None
+                Overrides to extract the properties from.
+        
+        Returns:
+            dict
+                Extracted self overrides as {name: value}.
+        """
+        
+        # check overrides
+        if overrides is None:
+            return {}
+        
+        # init own overrides
+        own_overrides = {}
+        
+        # get own overrides
+        for name in overrides:
+            if name in self._properties:
+                own_overrides[name] = overrides[name]
+        
+        return own_overrides
+    
+    
     def get_child_overrides(self, child_name, overrides):
         """
         Extracts the overrides for child property set. A property is considered
@@ -286,7 +314,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 Name of the child property set.
             
             overrides: dict or None
-                Overrides to extract the child from.
+                Overrides to extract the properties from.
         
         Returns:
             dict
