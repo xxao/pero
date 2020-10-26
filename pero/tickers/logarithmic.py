@@ -82,7 +82,7 @@ class LogTicker(Ticker):
         if step < self.base:
             self.formatter.precision = step
         else:
-            self.formatter.precision = start*step
+            self.formatter.precision = end
         
         return tuple(major_ticks), tuple(minor_ticks)
     
