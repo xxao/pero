@@ -6,16 +6,26 @@ import pero
 
 # prepare data
 data = numpy.random.normal(size=1000)
+
 hist1, bins1 = pero.plot.calc_histogram(data, 50, cumulative=False)
 hist2, bins2 = pero.plot.calc_histogram(data, 50, cumulative=True)
 
-# normalize cumulative
-hist2 = hist2 * hist1.max() / hist2.max()
+# normalize cumulative line
+hist2 = hist2 / len(data) * 100
 
 # init plot
 plot = pero.plot.Plot(
     x_axis_title = 'random',
     y_axis_title = 'count')
+
+# add additional axis
+right_axis = pero.plot.LinAxis(
+    title = '%',
+    position = pero.RIGHT,
+    z_index = 1,
+    margin = 0)
+
+plot.add(right_axis)
 
 # add bars
 series = pero.plot.Bars(
@@ -33,7 +43,8 @@ series = pero.plot.Profile(
     x = bins1[1:],
     y = hist1,
     line_width = 3,
-    steps = pero.BEFORE)
+    steps = pero.BEFORE,
+    margin = 0)
 
 plot.plot(series)
 
@@ -41,9 +52,11 @@ plot.plot(series)
 series = pero.plot.Profile(
     x = bins2[1:],
     y = hist2,
-    line_width = 2)
+    line_width = 2,
+    steps = pero.BEFORE,
+    margin = 0)
 
-plot.plot(series)
+plot.plot(series, y_axis=right_axis)
 
 # show plot
 plot.zoom()
