@@ -38,23 +38,14 @@ series = pero.plot.Bars(
 
 plot.plot(series)
 
-# add step line
-series = pero.plot.Profile(
-    x = bins1[1:],
-    y = hist1,
-    line_width = 3,
-    steps = pero.BEFORE,
-    margin = 0)
-
-plot.plot(series)
-
 # add cumulative
 series = pero.plot.Profile(
     x = bins2[1:],
     y = hist2,
     line_width = 2,
     steps = pero.BEFORE,
-    margin = 0)
+    margin = 0,
+    color = "o")
 
 plot.plot(series, y_axis=right_axis)
 

@@ -39,8 +39,8 @@ cases = (
     (pero.venn.CircleRegion((60, 50), 30).overlay((80, 50), 30)[0], (55, 75), 20),
     (pero.venn.CircleRegion((60, 50), 30).overlay((80, 50), 30)[0], (40, 50), 20),
     (pero.venn.CircleRegion((50, 50), 30).overlay((60, 50), 22)[0], (60, 50), 30),
-    (pero.venn.CircleRegion((35, 50), 30).overlay((45, 50), 22)[0], (65, 50), 35),
-    (pero.venn.CircleRegion((75, 50), 30).overlay((85, 50), 22)[0], (45, 50), 35),
+    (pero.venn.CircleRegion((35, 47), 30).overlay((45, 50), 22)[0], (65, 50), 35),
+    (pero.venn.CircleRegion((75, 53), 30).overlay((85, 50), 22)[0], (45, 50), 35),
 )
 
 
