@@ -56,8 +56,8 @@ class Rectangles(Series):
     x_offset = Property(UNDEF, dynamic=False)
     y_offset = Property(UNDEF, dynamic=False)
     
-    width_limit = NumProperty(0, dynamic=False)
-    height_limit = NumProperty(0, dynamic=False)
+    width_limit = NumProperty(1, dynamic=False)
+    height_limit = NumProperty(1, dynamic=False)
     
     line = Include(LineProperties)
     fill = Include(FillProperties)

@@ -2,6 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
+from ...enums import *
 from ...properties import *
 from ...scales import Scale, ContinuousScale, LinScale
 from ...drawing import Legend, MarkerLegend
@@ -159,8 +160,7 @@ class Series(InGraphics):
                 Data limits as sequence of (min, max) for each dimension.
         """
         
-        raise NotImplementedError(
-            "The 'get_limits' method is not implemented for '%s'." % self.__class__.__name__)
+        raise NotImplementedError("The 'get_limits' method is not implemented for '%s'." % self.__class__.__name__)
     
     
     def get_legend(self):
@@ -220,7 +220,7 @@ class Series(InGraphics):
         return None
     
     
-    def make_labels(self, x_data, y_data, raw_data):
+    def make_labels(self, x_data, y_data, raw_data, v_flip=False, h_flip=False):
         """
         Prepares labels for given data range.
         
@@ -233,6 +233,14 @@ class Series(InGraphics):
             
             raw_data: 1D numpy.ndarray
                 Original data points.
+            
+            v_flip: bool
+                If set to True, y_offset and text base are flipped to their
+                complementary values.
+            
+            h_flip: bool
+                If set to True, x_offset and text alignment are flipped to their
+                complementary values.
         
         Returns:
             (pero.Label,)
@@ -263,6 +271,24 @@ class Series(InGraphics):
         for i in range(len(raw_data)):
             overrides = {'x': x_data[i], 'y': y_data[i]}
             labels.append(self.label.clone(raw_data[i], overrides))
+        
+        # apply veritcal flip
+        if v_flip:
+            for label in labels:
+                label.y_offset *= -1
+                if label.text_base == TEXT_BASE_TOP:
+                    label.text_base = TEXT_BASE_BOTTOM
+                elif label.text_base == TEXT_BASE_BOTTOM:
+                    label.text_base = TEXT_BASE_TOP
+        
+        # apply horizontal flip
+        if h_flip:
+            for label in labels:
+                label.x_offset *= -1
+                if label.text_align == TEXT_ALIGN_LEFT:
+                    label.text_align = TEXT_BASE_RIGHT
+                elif label.text_align == TEXT_BASE_RIGHT:
+                    label.text_align = TEXT_ALIGN_LEFT
         
         return labels
     
