@@ -201,8 +201,8 @@ class LineProperties(PropertySet):
     line_width = NumProperty(1)
     line_dash = DashProperty(None, nullable=True)
     line_style = EnumProperty(LINE_STYLE_SOLID, enum=LINE_STYLE)
-    line_cap = EnumProperty(LINE_CAP_SQUARE, enum=LINE_CAP)
-    line_join = EnumProperty(LINE_JOIN_BEVEL, enum=LINE_JOIN)
+    line_cap = EnumProperty(LINE_CAP_ROUND, enum=LINE_CAP)
+    line_join = EnumProperty(LINE_JOIN_ROUND, enum=LINE_JOIN)
 
 
 class FillProperties(PropertySet):

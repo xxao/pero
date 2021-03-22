@@ -137,7 +137,7 @@ class Graphics(PropertySet):
         """
         Uses given canvas to draw the graphics for each item in given source.
         In fact this is just a convenient shortcut to call the 'draw' method in
-        a for loop.
+        a loop.
         
         Args:
             canvas: pero.Canvas

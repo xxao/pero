@@ -339,7 +339,7 @@ class Frame(object):
     def extend(self, x=None, y=None, width=0, height=0):
         """
         Extends current frame to include given coordinate, single point or 
-        a whole frame.
+        additional frame.
         
         Args:
             x: int, float, pero.Frame or None

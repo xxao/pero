@@ -9,13 +9,13 @@ from .glyphs import Glyph, Wedge
 
 class Gauge(Glyph):
     """
-    Abstract base class for various types of gauge. It provides a simple glyph
+    Abstract base class for various types of gauges. It provides a simple glyph
     to visualize specific portion within a context of full data range.
     
     The 'start' and 'end' positions of the selected range are given as relative
     values within the range as %/100.
     
-    By default the range increases the same ways as device units, i.e. from left
+    By default the range increases the same way as device units, i.e. from left
     to right, from top to bottom or clockwise. This behavior can be changed by
     setting the 'reverse' property to True.
     

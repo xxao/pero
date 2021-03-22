@@ -135,9 +135,6 @@ class Image(JsonCanvas, Graphics):
         Returns:
             pero.Image
         """
-
-        img = Image()
-        with open(path) as dump:
-            img.draw_json(dump.read())
         
-        return img
+        with open(path) as dump:
+            return Image.from_json(dump.read())

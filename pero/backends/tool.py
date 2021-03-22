@@ -224,8 +224,8 @@ class Tool(PropertySet):
         """
         
         self.keys.discard(key)
-
-
+    
+    
     def clear_keys(self):
         """Removes all keys."""
     
