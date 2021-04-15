@@ -60,6 +60,24 @@ class Palette(object, metaclass=PaletteMeta):
             PALETTES.add(self)
     
     
+    def __str__(self):
+        """Gets standard string representation."""
+        
+        name = ""
+        if self._name is not None:
+            name = " %s" % self._name
+        
+        colors = [str(c) for c in self._colors]
+        
+        return "%s(\n\t%s)" % (name, ",\n\t".join(colors))
+    
+    
+    def __repr__(self):
+        """Gets debug string representation."""
+        
+        return "%s(%s)" % (self.__class__.__name__, self.__str__())
+    
+    
     def __len__(self):
         """Gets number of available colors."""
         
@@ -102,6 +120,98 @@ class Palette(object, metaclass=PaletteMeta):
         """
         
         return self._colors
+    
+    
+    def lighter(self, factor=0.2, name=None):
+        """
+        Creates derived palette by making current colors lighter. The factor
+        specifies relative amount of white to be added, i.e. 1 results in full
+        white color while 0 makes no change. The new palette is automatically
+        registered for later use if the name is specified.
+        
+        Args:
+            factor: float
+                Relative amount of white to be added in range 0 to 1.
+            
+            name: str or None
+                Unique name to register.
+        
+        Returns:
+            pero.Palette
+                Lighter palette.
+        """
+        
+        colors = [c.lighter(factor) for c in self._colors]
+        return Palette(colors, name)
+    
+    
+    def darker(self, factor=0.2, name=None):
+        """
+        Creates derived palette by making current colors darker. The factor
+        specifies relative amount of black to be added, i.e. 1 results in full
+        black color while 0 makes no change. The new palette is automatically
+        registered for later use if the name is specified.
+        
+        Args:
+            factor: float
+                Relative amount of black to be added in range 0 to 1.
+            
+            name: str or None
+                Unique name to register.
+        
+        Returns:
+            pero.Palette
+                Darker palette.
+        """
+        
+        colors = [c.darker(factor) for c in self._colors]
+        return Palette(colors, name)
+    
+    
+    def opaque(self, opacity=1, name=None):
+        """
+        Creates derived palette by setting the opacity to current colors.
+        0 results in fully transparent colors while 1 means fully opaque.
+        The new palette is automatically registered for later use if the name
+        is specified.
+        
+        Args:
+            opacity: float
+                Opacity value in range 0 to 1.
+            
+            name: str or None
+                Unique name to register.
+        
+        Returns:
+            pero.Palette
+                New palette with specified opacity.
+        """
+        
+        colors = [c.opaque(opacity) for c in self._colors]
+        return Palette(colors, name)
+    
+    
+    def trans(self, transparency=1, name=None):
+        """
+        Creates derived palette by setting the transparency to current colors.
+        0 results in fully opaque colors while 1 means fully transparent.
+        The new palette is automatically registered for later use if the name
+        is specified.
+        
+        Args:
+            transparency: float
+                Transparency value in range 0 to 1.
+            
+            name: str or None
+                Unique name to register.
+        
+        Returns:
+            pero.Palette
+                New palette with specified transparency.
+        """
+        
+        colors = [c.opaque(transparency) for c in self._colors]
+        return Palette(colors, name)
     
     
     def reversed(self, name=None):
