@@ -63,7 +63,7 @@ class Region(object):
         
         Returns:
             (pero.venn.Region, pero.venn.Region),)
-                Venn regions for remaining and overlapping parts..
+                Venn regions for remaining and overlapping parts.
         """
         
         raise NotImplementedError()
@@ -86,7 +86,7 @@ class EmptyRegion(Region):
         
         Returns:
             (pero.venn.Region, pero.venn.Region),)
-                Venn regions for remaining and overlapping parts..
+                Venn regions for remaining and overlapping parts.
         """
         
         return self, self
@@ -152,7 +152,7 @@ class CircleRegion(Region):
         
         Returns:
             (pero.venn.Region, pero.venn.Region),)
-                Venn regions for remaining and overlapping parts..
+                Venn regions for remaining and overlapping parts.
         """
         
         # calc distance
@@ -265,7 +265,7 @@ class RingRegion(Region):
         
         Returns:
             (pero.venn.Region, pero.venn.Region),)
-                Venn regions for remaining and overlapping parts..
+                Venn regions for remaining and overlapping parts.
         """
         
         # calc distance
@@ -521,7 +521,7 @@ class ArcsRegion(Region):
         
         Returns:
             (pero.venn.Region, pero.venn.Region),)
-                Venn regions for remaining and overlapping parts..
+                Venn regions for remaining and overlapping parts.
         """
         
         # check number of arcs
