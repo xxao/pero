@@ -417,14 +417,5 @@ within the *plot* sub-folder. Check the image name and find corresponding python
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/text_box.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/pather.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/piechart.png" height="150"/>
-    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_axes.png" height="150"/>
-    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_layout.png" height="150"/>
-    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_profile.png" height="150"/>
-    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_band.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot.png" height="150"/>
-    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_annotations.png" height="150"/>
-    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_scatter.png" height="150"/>
-    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_bars.png" height="150"/>
-    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_stacks.png" height="150"/>
-    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/plot_heatmap.png" height="150"/>
 </p>

@@ -92,6 +92,3 @@ NSECONDS = 'ns'
 CEIL = 'ceil'
 FLOOR = 'floor'
 HALFUP = 'halfup'
-
-FULL = 'full'
-SEMI = 'semi'
