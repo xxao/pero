@@ -4,7 +4,7 @@
 import sys
 import os.path
 from PIL import ImageFont
-from ..enums import *
+from .. enums import *
 
 
 class FontManager(object):

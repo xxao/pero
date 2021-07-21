@@ -6,7 +6,7 @@
 
 # import modules
 import numpy
-from .frame import Frame
+from . frame import Frame
 from . import helpers
 
 # define constants

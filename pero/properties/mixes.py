@@ -2,12 +2,12 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import math
-from ..enums import *
-from ..colors import Color
-from .typed import *
-from .special import *
-from .undefined import UNDEF
-from .propset import PropertySet, Include, PROP_SPLITTER
+from .. enums import *
+from .. colors import Color
+from . typed import *
+from . special import *
+from . undefined import UNDEF
+from . propset import PropertySet, Include, PROP_SPLITTER
 
 
 class AngleProperties(PropertySet):

@@ -1,10 +1,11 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..properties import *
-from .glyphs import Glyph, Line
-from .path import Path
-from .markers import MarkerProperty, Circle
+from ... properties import *
+from .. path import Path
+from . glyph import Glyph
+from . shapes import Line
+from . markers import MarkerProperty, Circle
 
 
 class Pather(Glyph):

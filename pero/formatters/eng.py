@@ -2,9 +2,9 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import math
-from ..enums import *
-from ..properties import *
-from .formatter import Formatter
+from .. enums import *
+from .. properties import *
+from . formatter import Formatter
 
 
 class EngFormatter(Formatter):

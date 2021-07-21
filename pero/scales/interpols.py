@@ -2,8 +2,8 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from ..enums import *
-from ..properties import *
+from .. enums import *
+from .. properties import *
 
 
 class Interpol(PropertySet):

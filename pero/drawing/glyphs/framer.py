@@ -1,9 +1,9 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..enums import *
-from ..properties import *
-from .glyphs import Glyph
+from ... enums import *
+from ... properties import *
+from . glyph import Glyph
 
 
 class Framer(Glyph):

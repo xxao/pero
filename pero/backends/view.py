@@ -1,8 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..properties import UNDEF
-from .control import Control
+from .. properties import UNDEF
+from . control import Control
 
 
 class View(object):

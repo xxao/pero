@@ -4,7 +4,7 @@
 import math
 
 
-def step_size(domain, count=7, splits=(5,3,2,1), base=10):
+def step_size(domain, count=7, splits=(5, 3, 2, 1), base=10):
     """
     Calculates visually nice step size for given range.
     

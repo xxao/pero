@@ -1,13 +1,12 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
-from ..enums import *
-from ..properties import *
-from .path import Path
-from .matrix import Matrix
-from .glyphs import Glyph
-from .heads import HeadProperty
+from ... enums import *
+from ... properties import *
+from .. matrix import Matrix
+from .. path import Path
+from . glyph import Glyph
+from . heads import HeadProperty
 
 
 class Arrow(Glyph):

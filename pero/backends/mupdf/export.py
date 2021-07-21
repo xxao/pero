@@ -2,8 +2,8 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import fitz
-from .enums import *
-from .canvas import MuPDFCanvas
+from . enums import *
+from . canvas import MuPDFCanvas
 
 
 def export(graphics, path, width=None, height=None, **options):

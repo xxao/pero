@@ -3,11 +3,10 @@
 
 import ui
 from objc_util import ObjCInstance
-
-from ...events import *
-from ..view import View
-from .enums import *
-from .canvas import UICanvas
+from ... events import *
+from .. view import View
+from . enums import *
+from . canvas import UICanvas
 
 
 class UIView(ui.View, View):

@@ -2,17 +2,11 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import math
-from ..enums import *
-from ..properties import *
-from .graphics import Graphics
-from .matrix import Matrix
-from .path import Path
-
-
-class Glyph(Graphics):
-    """Abstract base class for simple graphical entities."""
-    
-    pass
+from ... enums import *
+from ... properties import *
+from .. matrix import Matrix
+from .. path import Path
+from . glyph import Glyph
 
 
 class Annulus(Glyph):

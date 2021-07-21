@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..properties import UNDEF, PropertySet, SetProperty
+from .. properties import UNDEF, PropertySet, SetProperty
 
 
 class Tool(PropertySet):

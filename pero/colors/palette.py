@@ -2,8 +2,8 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from .library import Library
-from .color import Color
+from . library import Library
+from . color import Color
 
 # init library
 PALETTES = Library()

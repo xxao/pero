@@ -2,9 +2,9 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from ..enums import *
-from ..properties import *
-from ..formatters import Formatter
+from .. enums import *
+from .. properties import *
+from .. formatters import Formatter
 
 
 class Ticker(PropertySet):

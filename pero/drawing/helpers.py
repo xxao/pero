@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from .utils import *
+from . utils import *
 
 # Legendre-Gauss abscissas
 T_VALUES = (

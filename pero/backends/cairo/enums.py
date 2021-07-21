@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import cairo
-from ...enums import *
+from ... enums import *
 
 
 CAIRO_LINE_CAP = {

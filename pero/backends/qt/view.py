@@ -4,11 +4,10 @@
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import QEvent
 from PyQt5.QtGui import QPainter, QPicture, QPixmap
-
-from ...events import *
-from ..view import View
-from .enums import *
-from .canvas import QtCanvas
+from ... events import *
+from .. view import View
+from . enums import *
+from . canvas import QtCanvas
 
 
 class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(View)), {})):

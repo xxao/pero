@@ -2,10 +2,10 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import ui
-from ..control import Control
-from .enums import *
-from .canvas import UICanvas
-from .viewer import UIViewer
+from .. control import Control
+from . enums import *
+from . canvas import UICanvas
+from . viewer import UIViewer
 
 
 def show(graphics, title=None, width=None, height=None, **options):

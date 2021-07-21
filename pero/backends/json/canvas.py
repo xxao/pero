@@ -2,10 +2,10 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import json
-from ...enums import *
-from ...colors import Color
-from ...properties import UNDEF
-from ...drawing import Canvas, ClipState, GroupState
+from ... enums import *
+from ... colors import Color
+from ... properties import UNDEF
+from ... drawing import Canvas, ClipState, GroupState
 
 
 class JsonCanvas(Canvas):

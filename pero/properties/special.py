@@ -1,9 +1,9 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..colors import Color, Palette, Gradient
-from .undefined import UNDEF
-from .prop import Property
+from .. colors import Color, Palette, Gradient
+from . undefined import UNDEF
+from . prop import Property
 
 
 class ColorProperty(Property):

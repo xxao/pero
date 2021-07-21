@@ -1,10 +1,10 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..enums import *
-from ..properties import *
-from ..drawing import Graphics, Tooltip, TextTooltip, Frame
-from .tool import Tool
+from .. enums import *
+from .. properties import *
+from .. drawing import Graphics, Tooltip, TextTooltip, Frame
+from . tool import Tool
 
 
 class Control(PropertySet):

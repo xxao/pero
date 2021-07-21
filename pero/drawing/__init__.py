@@ -5,40 +5,23 @@
 from . import np
 
 # import main objects
-from .fonts import Font, FontManager, FONTS
-from .frame import Frame
-from .graphics import Graphics
-from .canvas import Canvas, ClipState, GroupState, ViewState
-from .matrix import Matrix
-from .bezier import Bezier
-from .path import Path
-from .arch import Arch
-from .layout import Layout, Row, Column, Cell
-
-# import utils
-from .utils import *
+from . fonts import Font, FontManager, FONTS
+from . frame import Frame, FrameProperty
+from . graphics import Graphics
+from . canvas import Canvas, ClipState, GroupState, ViewState
+from . matrix import Matrix
+from . bezier import Bezier
+from . path import Path
+from . arch import Arch
+from . layout import Layout, Row, Column, Cell
 
 # import glyphs
-from .glyphs import Glyph, Annulus, Arc, Bar, Bow, Ellipse, Line, Polygon, Ray, Rect, Shape, Text, Textbox, Wedge
-from .markers import Marker, Asterisk, Circle, Cross, Diamond, Plus, Triangle, Square, Symbol
-from .arrows import Arrow, ArcArrow, BowArrow, ConnectorArrow, CurveArrow, LineArrow, PathArrow, RayArrow
-from .heads import Head, CircleHead, LineHead, NormalHead, OpenHead, SymbolHead, VeeHead
-from .grid import Grid, ParallelGrid, RayGrid, RadialGrid
-from .axes import Axis, StraitAxis, RadialAxis
-from .gauge import Gauge, StraitGauge, RadialGauge
-from .colorbar import ColorBar
-from .pather import Pather
-from .framer import Framer
-from .profile import Profile, Band
-from .labels import LabelBox, Label, TextLabel
-from .legend import LegendBox, Legend, MarkerLegend
-from .tooltip import Tooltip, TextTooltip
+from . glyphs import *
+
+# import utils
+from . utils import *
 
 # register new properties
-from .frame import FrameProperty
-from .markers import MarkerProperty
-from .heads import HeadProperty
-
 from .. import properties
 properties.FrameProperty = FrameProperty
 properties.MarkerProperty = MarkerProperty

@@ -4,10 +4,10 @@
 import numpy
 from PyQt5.QtCore import QPoint, QLineF
 from PyQt5.QtGui import QColor, QPen, QBrush, QPainterPath, QFontMetrics
-from ...enums import *
-from ...properties import *
-from ...drawing import Canvas, Path, Matrix, ClipState
-from .enums import *
+from ... enums import *
+from ... properties import *
+from ... drawing import Canvas, Path, Matrix, ClipState
+from . enums import *
 
 
 class QtCanvas(Canvas):

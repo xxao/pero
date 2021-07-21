@@ -1,8 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..enums import *
-from .prop import PropertyChangedEvt
+from .. enums import *
+from . prop import PropertyChangedEvt
 
 
 class PenChangedEvt(PropertyChangedEvt):

@@ -2,9 +2,9 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from .scale import Scale
-from ..enums import *
-from ..properties import *
+from .. enums import *
+from .. properties import *
+from . scale import Scale
 
 
 class OrdinalScale(Scale):

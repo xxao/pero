@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import wx
-from ...enums import *
+from ... enums import *
 
 
 WX_LINE_CAP = {

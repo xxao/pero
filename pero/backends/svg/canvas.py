@@ -3,9 +3,9 @@
 
 import numpy
 import html
-from ...properties import *
-from ...drawing import Canvas, Path, Matrix, ClipState, GroupState
-from .enums import *
+from ... properties import *
+from ... drawing import Canvas, Path, Matrix, ClipState, GroupState
+from . enums import *
 
 # define constants
 _INDENT = "  "

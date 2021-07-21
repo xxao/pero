@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from .library import Library
+from . library import Library
 
 # init library
 COLORS = Library()

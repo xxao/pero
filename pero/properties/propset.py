@@ -2,9 +2,9 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import inspect
-from ..events import EvtHandler
-from .undefined import UNDEF
-from .prop import Property
+from .. events import EvtHandler
+from . undefined import UNDEF
+from . prop import Property
 
 # define property names splitter
 PROP_SPLITTER = '_'

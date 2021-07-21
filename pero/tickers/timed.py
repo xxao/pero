@@ -1,12 +1,12 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..enums import *
-from ..properties import *
-from ..formatters import TimeFormatter
-from ..formatters.utils import *
-from .ticker import Ticker
-from .helpers import *
+from .. enums import *
+from .. properties import *
+from .. formatters import TimeFormatter
+from .. formatters.utils import *
+from . utils import *
+from . ticker import Ticker
 
 
 class TimeTicker(Ticker):

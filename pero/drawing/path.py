@@ -4,9 +4,9 @@
 import numpy
 import re
 import json
-from ..enums import *
-from .matrix import Matrix
-from .frame import Frame
+from .. enums import *
+from . matrix import Matrix
+from . frame import Frame
 
 # define constants
 _CIRCLE_FORCE = (4./3.)*numpy.tan(numpy.pi/(2*4))

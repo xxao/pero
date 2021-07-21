@@ -2,10 +2,10 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import decimal
-from ..enums import *
-from ..properties import *
-from .utils import *
-from .formatter import Formatter
+from .. enums import *
+from .. properties import *
+from . utils import *
+from . formatter import Formatter
 
 
 class TimeFormatter(Formatter):

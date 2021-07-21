@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from .enum import Enum
+from . enum import Enum
 
 
 # define events

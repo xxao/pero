@@ -1,8 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..properties import *
-from .formatter import Formatter
+from .. properties import *
+from . formatter import Formatter
 
 
 class FuncFormatter(Formatter):

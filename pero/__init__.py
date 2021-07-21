@@ -5,16 +5,16 @@
 version = (0, 15, 0)
 
 # import main objects
-from .enums import *
-from .events import *
-from .colors import Color, Palette, Gradient
-from .colors import COLORS, PALETTES, GRADIENTS
-from .properties import *
-from .scales import *
-from .formatters import *
-from .tickers import *
-from .drawing import *
-from .backends import *
+from . enums import *
+from . events import *
+from . colors import Color, Palette, Gradient
+from . colors import COLORS, PALETTES, GRADIENTS
+from . properties import *
+from . scales import *
+from . formatters import *
+from . tickers import *
+from . drawing import *
+from . backends import *
 
 # import modules
 from . import backends

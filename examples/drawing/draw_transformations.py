@@ -111,7 +111,7 @@ class DrawTest(pero.Graphics):
         origin.draw(canvas)
         zero.draw(canvas)
         
-        matrix = pero.Matrix().scale(0.75, 1.5)
+        matrix = pero.Matrix().scale(1.5, 0.75)
         shape.draw(canvas, path=path.transformed(matrix))
         label.draw(canvas, text="Scale")
         
@@ -123,7 +123,7 @@ class DrawTest(pero.Graphics):
         origin.draw(canvas)
         zero.draw(canvas)
         
-        matrix = pero.Matrix().scale(0.75, 1.5, x=20, y=20)
+        matrix = pero.Matrix().scale(1.5, 0.75, x=20, y=20)
         shape.draw(canvas, path=path.transformed(matrix))
         origin.draw(canvas, x=20, y=20, line_color=pero.colors.White)
         label.draw(canvas, text="Scale (ori)")

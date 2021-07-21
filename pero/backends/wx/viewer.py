@@ -2,10 +2,9 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import wx
-
-from ...drawing import Graphics
-from ..view import Control
-from .view import WXView
+from ... drawing import Graphics
+from .. view import Control
+from . view import WXView
 
 
 class WXViewer(wx.App):

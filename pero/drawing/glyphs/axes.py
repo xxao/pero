@@ -1,11 +1,10 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
 import numpy
-from ..enums import *
-from ..properties import *
-from .glyphs import Glyph
+from ... enums import *
+from ... properties import *
+from . glyph import Glyph
 
 
 class Axis(Glyph):

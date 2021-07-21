@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..properties import *
+from .. properties import *
 
 
 class Frame(object):

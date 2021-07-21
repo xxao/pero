@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ...enums import *
+from ... enums import *
 
 
 SVG_LINE_CAP = {

@@ -1,11 +1,11 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..enums import *
-from ..properties import *
-from ..colors import Gradient, Transparent
-from .scale import Scale
-from .interpols import *
+from .. enums import *
+from .. properties import *
+from .. colors import Gradient, Transparent
+from . interpols import *
+from . scale import Scale
 
 
 class GradientScale(Scale):

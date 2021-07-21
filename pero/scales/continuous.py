@@ -2,10 +2,10 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from ..enums import *
-from ..properties import *
-from .scale import Scale
-from .interpols import *
+from .. enums import *
+from .. properties import *
+from . interpols import *
+from . scale import Scale
 
 
 class ContinuousScale(Scale):

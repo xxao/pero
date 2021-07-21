@@ -3,9 +3,9 @@
 
 import os.path
 import wx
-from .enums import *
-from .canvas import WXCanvas
-from .viewer import WXViewer
+from . enums import *
+from . canvas import WXCanvas
+from . viewer import WXViewer
 
 
 def show(graphics, title=None, width=None, height=None, **options):

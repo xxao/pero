@@ -1,10 +1,10 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..enums import *
-from ..properties import *
-from .frame import FrameProperty
-from .glyphs import Glyph
+from ... enums import *
+from ... properties import *
+from .. frame import FrameProperty
+from . glyph import Glyph
 
 
 class Tooltip(Glyph):

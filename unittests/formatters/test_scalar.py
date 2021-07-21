@@ -52,7 +52,8 @@ class TestCase(unittest.TestCase):
         formatter = pero.ScalarFormatter(
             domain = 7e6,
             precision = 100,
-            sci_notation = True)
+            sci_notation = True,
+            sci_threshold = 3)
         
         self.assertEqual(formatter.format(0), "0e+00")
         self.assertEqual(formatter.format(0.123456), "1e-01")
@@ -63,7 +64,8 @@ class TestCase(unittest.TestCase):
         formatter = pero.ScalarFormatter(
             domain = 7e3,
             precision = 0.1,
-            sci_notation = True)
+            sci_notation = True,
+            sci_threshold = 3)
         
         self.assertEqual(formatter.format(0), "0e+00")
         self.assertEqual(formatter.format(0.123456), "1e-01")
@@ -74,7 +76,8 @@ class TestCase(unittest.TestCase):
         formatter = pero.ScalarFormatter(
             domain = 7e-3,
             precision = 0.001,
-            sci_notation = True)
+            sci_notation = True,
+            sci_threshold = 3)
         
         self.assertEqual(formatter.format(0), "0e+00")
         self.assertEqual(formatter.format(0.123456), "1.23e-01")
@@ -90,6 +93,7 @@ class TestCase(unittest.TestCase):
             domain = 7e6,
             precision = 100,
             sci_notation = True,
+            sci_threshold = 3,
             hide_suffix = True,
             suffix_template = "e{:.0f}")
         
@@ -105,6 +109,7 @@ class TestCase(unittest.TestCase):
             domain = 7e3,
             precision = 0.1,
             sci_notation = True,
+            sci_threshold = 3,
             hide_suffix = True,
             suffix_template = "e{:.0f}")
         
@@ -120,6 +125,7 @@ class TestCase(unittest.TestCase):
             domain = 7e-3,
             precision = 0.001,
             sci_notation = True,
+            sci_threshold = 3,
             hide_suffix = True,
             suffix_template = "e{:.0f}")
         

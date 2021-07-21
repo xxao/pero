@@ -1,8 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from .proxy import Proxy
-from .event import Event
+from . proxy import Proxy
+from . event import Event
 
 
 class EvtHandler(object):

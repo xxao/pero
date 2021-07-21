@@ -6,9 +6,9 @@ from PyQt5.QtCore import Qt, QSizeF
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QPainter, QImage
 from PyQt5.QtPrintSupport import QPrinter
-from .enums import *
-from .canvas import QtCanvas
-from .viewer import QtViewer
+from . enums import *
+from . canvas import QtCanvas
+from . viewer import QtViewer
 
 
 def show(graphics, title=None, width=None, height=None, **options):

@@ -1,12 +1,11 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
-from ..enums import *
-from ..properties import *
-from .path import Path
-from .matrix import Matrix
-from .glyphs import Glyph
+from ... enums import *
+from ... properties import *
+from .. matrix import Matrix
+from .. path import Path
+from . glyph import Glyph
 
 
 class Head(Glyph):

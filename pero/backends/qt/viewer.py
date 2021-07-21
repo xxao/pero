@@ -2,10 +2,9 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 from PyQt5.QtWidgets import QWidget, QDesktopWidget, QHBoxLayout
-
-from ...drawing import Graphics
-from ..view import Control
-from .view import QtView
+from ... drawing import Graphics
+from .. view import Control
+from . view import QtView
 
 
 class QtViewer(QWidget):

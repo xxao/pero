@@ -2,10 +2,10 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import ui
-from ...properties import *
-from ...colors import Transparent, Black
-from ...drawing import Canvas, Matrix, ClipState
-from .enums import *
+from ... properties import *
+from ... colors import Transparent, Black
+from ... drawing import Canvas, Matrix, ClipState
+from . enums import *
 
 
 class UICanvas(Canvas):

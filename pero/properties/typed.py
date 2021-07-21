@@ -2,8 +2,8 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from .undefined import UNDEF
-from .prop import Property
+from . undefined import UNDEF
+from . prop import Property
 
 
 class EnumProperty(Property):

@@ -2,11 +2,11 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # import main objects
-from .control import Control
-from .tool import Tool
-from .view import View
-from .export import show, export, debug
-from .json import Image
+from . control import Control
+from . tool import Tool
+from . view import View
+from . export import show, export, debug
+from . json import Image
 
 # import main backends
 from . import json

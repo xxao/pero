@@ -5,7 +5,7 @@ import pero
 
 
 class DrawTest(pero.Graphics):
-    """Test case for glyphs drawing."""
+    """Test case for shapes drawing."""
     
     
     def draw(self, canvas, *args, **kwargs):
@@ -147,4 +147,4 @@ class DrawTest(pero.Graphics):
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'show', "Glyphs", 420, 230)
+    pero.debug(DrawTest(), 'show', "Shapes", 420, 230)

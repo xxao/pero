@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from ..properties import *
+from .. properties import *
 
 
 class Converter(PropertySet):

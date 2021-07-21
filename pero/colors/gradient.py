@@ -1,9 +1,9 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from .library import Library
-from .color import Color
-from .palette import Palette, PALETTES
+from . library import Library
+from . color import Color
+from . palette import Palette, PALETTES
 
 # init library
 GRADIENTS = Library()

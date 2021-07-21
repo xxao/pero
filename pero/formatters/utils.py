@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..enums import TIME_FACTORS
+from .. enums import TIME_FACTORS
 
 
 def split_time(seconds):

@@ -2,10 +2,10 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import math
-from ..properties import *
-from ..formatters import ScalarFormatter
-from .ticker import Ticker
-from .helpers import *
+from .. properties import *
+from .. formatters import ScalarFormatter
+from . utils import *
+from . ticker import Ticker
 
 
 class LinTicker(Ticker):

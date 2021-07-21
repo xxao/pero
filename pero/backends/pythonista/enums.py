@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import ui
-from ...enums import *
+from ... enums import *
 
 
 UI_LINE_CAP = {

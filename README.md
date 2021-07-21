@@ -397,7 +397,7 @@ within the *plot* sub-folder. Check the image name and find corresponding python
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/text.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/lines.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/transformations.png" height="150"/>
-    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/glyphs.png" height="150"/>
+    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/shapes.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/markers.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/grids.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/arrows.png" height="150"/>

@@ -1,9 +1,9 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from .color import Color
-from .palette import Palette
-from .gradient import Gradient
+from . color import Color
+from . palette import Palette
+from . gradient import Gradient
 
 
 # define colors

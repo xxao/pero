@@ -1,8 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from .enum import Enum
-from .values import *
+from . enum import Enum
+from . values import *
 
 # define backends
 BACKEND_JSON = JSON

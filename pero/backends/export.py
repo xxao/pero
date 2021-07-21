@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import os.path
-from ..enums import *
+from .. enums import *
 
 
 def show(graphics, title=None, width=None, height=None, backend=None, **options):

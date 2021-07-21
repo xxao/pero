@@ -2,10 +2,9 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import ui
-
-from ...drawing import Graphics
-from ..view import Control
-from .view import UIView
+from ... drawing import Graphics
+from .. view import Control
+from . view import UIView
 
 
 class UIViewer(ui.View):

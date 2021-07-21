@@ -1,11 +1,11 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..enums import *
-from ..properties import *
-from .frame import Frame
-from .glyphs import Glyph
-from .markers import MarkerProperty
+from ... enums import *
+from ... properties import *
+from .. frame import Frame
+from . glyph import Glyph
+from . markers import MarkerProperty
 
 
 class Legend(Glyph):

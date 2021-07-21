@@ -3,7 +3,7 @@
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
-from ...enums import *
+from ... enums import *
 
 
 QT_LINE_CAP = {

@@ -1,8 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from .enums import *
-from .canvas import SVGCanvas
+from . enums import *
+from . canvas import SVGCanvas
 
 
 def export(graphics, path, width=None, height=None, **options):

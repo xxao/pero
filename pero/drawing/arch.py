@@ -3,7 +3,7 @@
 
 import numpy
 from . import utils
-from .frame import Frame
+from . frame import Frame
 
 
 class Arch(object):

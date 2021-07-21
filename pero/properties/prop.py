@@ -2,8 +2,8 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from ..events import PropertyChangedEvt
-from .undefined import UNDEF
+from .. events import PropertyChangedEvt
+from . undefined import UNDEF
 
 
 class Property(object):

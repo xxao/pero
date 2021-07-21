@@ -1,8 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..enums import *
-from .view import ViewEvt
+from .. enums import *
+from . view import ViewEvt
 
 
 class KeyEvt(ViewEvt):

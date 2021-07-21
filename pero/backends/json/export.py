@@ -1,8 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ...enums import *
-from .canvas import JsonCanvas
+from ... enums import *
+from . canvas import JsonCanvas
 
 
 def export(graphics, path, width=None, height=None, **options):

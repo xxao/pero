@@ -1,8 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..enums import *
-from .event import Event
+from .. enums import *
+from . event import Event
 
 
 class ViewEvt(Event):

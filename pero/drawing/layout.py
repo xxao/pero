@@ -1,11 +1,11 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ..enums import *
-from ..properties import *
-from .graphics import Graphics
-from .frame import Frame, FrameProperty
-from .path import Path
+from .. enums import *
+from .. properties import *
+from . graphics import Graphics
+from . frame import Frame, FrameProperty
+from . path import Path
 
 
 class Layout(Graphics):

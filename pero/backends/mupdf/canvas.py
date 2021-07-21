@@ -3,9 +3,9 @@
 
 import fitz
 import numpy
-from ...properties import *
-from ...drawing import Canvas, Path, Matrix
-from .enums import *
+from ... properties import *
+from ... drawing import Canvas, Path, Matrix
+from . enums import *
 
 
 class MuPDFCanvas(Canvas):

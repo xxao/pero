@@ -2,11 +2,10 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import wx
-
-from ...events import *
-from ..view import View
-from .enums import *
-from .canvas import WXCanvas
+from ... events import *
+from .. view import View
+from . enums import *
+from . canvas import WXCanvas
 
 
 class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), type(View)), {})):

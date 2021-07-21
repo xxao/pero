@@ -1,8 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ...drawing import Graphics
-from .canvas import JsonCanvas
+from ... drawing import Graphics
+from . canvas import JsonCanvas
 
 
 class Image(JsonCanvas, Graphics):

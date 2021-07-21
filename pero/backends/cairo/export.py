@@ -5,8 +5,8 @@ import os.path
 import cairo
 import PIL
 import numpy
-from .enums import *
-from .canvas import CairoCanvas
+from . enums import *
+from . canvas import CairoCanvas
 
 
 def export(graphics, path, width=None, height=None, **options):
