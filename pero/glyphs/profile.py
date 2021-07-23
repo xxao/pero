@@ -2,9 +2,9 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from ... enums import *
-from ... properties import *
-from .. frame import FrameProperty
+from .. enums import *
+from .. properties import *
+from .. drawing import FrameProperty
 from . glyph import Glyph
 from . markers import MarkerProperty, Circle
 

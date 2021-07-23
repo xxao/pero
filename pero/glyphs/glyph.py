@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from .. graphics import Graphics
+from .. drawing import Graphics
 
 
 class Glyph(Graphics):

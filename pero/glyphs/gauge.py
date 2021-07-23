@@ -1,8 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ... enums import *
-from ... properties import *
+from .. enums import *
+from .. properties import *
 from . glyph import Glyph
 from . shapes import Wedge
 

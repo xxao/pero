@@ -1,10 +1,9 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ... enums import *
-from ... properties import *
-from .. matrix import Matrix
-from .. path import Path
+from .. enums import *
+from .. properties import *
+from .. drawing import Matrix, Path
 from . glyph import Glyph
 from . heads import HeadProperty
 
@@ -29,7 +28,7 @@ class Arrow(Glyph):
         
         end_head: pero.Head, pero.HEAD, callable, None or UNDEF
             Specifies the head glyph to be drawn at the end or the arrow. The
-            value can be specified by any item from the pero.HEAD enum or 
+            value can be specified by any item from the pero.HEAD enum or
             pero.Head instance.
         
         line properties:

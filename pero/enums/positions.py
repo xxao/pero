@@ -1,9 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from . enum import Enum
 from . values import *
-
+from . enum import Enum
 
 # define orientation
 ORI_HORIZONTAL = HORIZONTAL

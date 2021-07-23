@@ -6,8 +6,8 @@
 
 # import modules
 import numpy
-from . frame import Frame
 from . import helpers
+from . frame import Frame
 
 # define constants
 PROJECTION_STEP = 0.1

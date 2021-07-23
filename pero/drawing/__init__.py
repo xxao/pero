@@ -15,14 +15,9 @@ from . path import Path
 from . arch import Arch
 from . layout import Layout, Row, Column, Cell
 
-# import glyphs
-from . glyphs import *
-
 # import utils
 from . utils import *
 
 # register new properties
 from .. import properties
 properties.FrameProperty = FrameProperty
-properties.MarkerProperty = MarkerProperty
-properties.HeadProperty = HeadProperty

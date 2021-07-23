@@ -3,7 +3,6 @@
 
 from . enum import Enum
 
-
 # define keys
 KEY_BACK = 8
 KEY_TAB = 9

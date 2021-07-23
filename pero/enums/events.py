@@ -3,7 +3,6 @@
 
 from . enum import Enum
 
-
 # define events
 EVT_PROPERTY_CHANGED = 'evt_prop_changed'
 EVT_PEN_CHANGED = 'evt_pen_changed'

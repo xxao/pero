@@ -2,10 +2,9 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from ... enums import *
-from ... properties import *
-from .. matrix import Matrix
-from .. path import Path
+from .. enums import *
+from .. properties import *
+from .. drawing import Matrix, Path
 from . glyph import Glyph
 
 

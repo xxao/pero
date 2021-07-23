@@ -203,7 +203,7 @@ def droots(p):
             return []
         
         if d != 0:
-            m1 = -numpy.sqrt(e) 
+            m1 = -numpy.sqrt(e)
             m2 = -a + b
             v1 = -(m1 + m2)/d
             v2 = -(-m1 + m2)/d

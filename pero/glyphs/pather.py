@@ -1,8 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ... properties import *
-from .. path import Path
+from .. properties import *
+from .. drawing import Path
 from . glyph import Glyph
 from . shapes import Line
 from . markers import MarkerProperty, Circle

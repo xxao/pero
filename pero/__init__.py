@@ -14,6 +14,7 @@ from . scales import *
 from . formatters import *
 from . tickers import *
 from . drawing import *
+from . glyphs import *
 from . backends import *
 
 # import modules

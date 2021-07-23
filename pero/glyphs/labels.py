@@ -1,9 +1,9 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ... enums import *
-from ... properties import *
-from .. frame import Frame, FrameProperty
+from .. enums import *
+from .. properties import *
+from .. drawing import Frame, FrameProperty
 from . glyph import Glyph
 
 

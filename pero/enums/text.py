@@ -2,8 +2,8 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import sys
-from . enum import Enum
 from . values import *
+from . enum import Enum
 
 # define line splitting character
 LINE_SPLITTER = "\n"

@@ -2,8 +2,8 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import math
-from . enum import Enum
 from . values import *
+from . enum import Enum
 
 # define pi
 PI2X = math.pi*2  # 360

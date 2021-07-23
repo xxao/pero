@@ -3,7 +3,6 @@
 
 import numpy
 import wx
-from ... enums import *
 from ... properties import *
 from ... colors import Transparent
 from ... drawing import Canvas, Path, Matrix, ClipState

@@ -1,10 +1,9 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from ... enums import *
-from ... properties import *
-from .. matrix import Matrix
-from .. path import Path
+from .. enums import *
+from .. properties import *
+from .. drawing import Matrix, Path
 from . glyph import Glyph
 
 
