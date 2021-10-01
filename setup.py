@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 # get version
-from pero import version
+from . import version
 version = '.'.join(str(x) for x in version)
 
 # get description
