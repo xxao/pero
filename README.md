@@ -276,7 +276,7 @@ doc.close()
 
 ### Using SVG
 
-The *pero* library implements its own way to draw and save SVG files Just create a *pero* canvas:
+The *pero* library implements its own way to draw and save SVG files. Just create a *pero* canvas:
 
 ```python
 
@@ -387,8 +387,7 @@ image.show()
 ## Examples
 
 In the [examples](https://github.com/xxao/pero/tree/master/examples) folder you will find sample codes to generate and
-understand all the following images. The basic ones are located in the *drawing* sub-folder, the interactive plots are
-within the *plot* sub-folder. Check the image name and find corresponding python draw file.
+understand all the following images. Check the image name and find corresponding python draw file.
 
 <p>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/colors.png" height="150"/>
