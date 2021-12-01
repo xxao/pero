@@ -104,19 +104,19 @@ class Axis(Glyph):
     line = Include(LineProperties, line_color="#000")
     
     labels = TupleProperty(None, nullable=True, intypes=(str,))
-    label_text = Include(TextProperties, prefix="label", font_size=11, text_align=UNDEF, text_base=UNDEF)
+    label_text = Include(TextProperties, prefix="label_", font_size=11, text_align=UNDEF, text_base=UNDEF)
     label_between = BoolProperty(False)
     label_offset = NumProperty(10)
     label_flip = BoolProperty(False)
     
     major_ticks = TupleProperty(None, nullable=True, intypes=(int, float))
-    major_tick_line = Include(LineProperties, prefix="major_tick", line_color="#000")
+    major_tick_line = Include(LineProperties, prefix="major_tick_", line_color="#000")
     major_tick_size = NumProperty(5)
     major_tick_offset = NumProperty(0)
     major_tick_flip = BoolProperty(False)
     
     minor_ticks = TupleProperty(None, nullable=True, intypes=(int, float))
-    minor_tick_line = Include(LineProperties, prefix="minor_tick", line_color="#000")
+    minor_tick_line = Include(LineProperties, prefix="minor_tick_", line_color="#000")
     minor_tick_size = NumProperty(3)
     minor_tick_offset = NumProperty(0)
     minor_tick_flip = BoolProperty(False)
@@ -203,10 +203,10 @@ class StraitAxis(Axis):
     title_position = EnumProperty(POS_MIDDLE, enum=POSITION_SEM)
     title_offset = NumProperty(25)
     title_flip = BoolProperty(False)
-    title_text = Include(TextProperties, prefix="title", font_weight=FONT_WEIGHT_BOLD, font_size=12, text_align=UNDEF, text_base=UNDEF)
-    title_angle = Include(AngleProperties, prefix="title", angle=UNDEF)
+    title_text = Include(TextProperties, prefix="title_", font_weight=FONT_WEIGHT_BOLD, font_size=12, text_align=UNDEF, text_base=UNDEF)
+    title_angle = Include(AngleProperties, prefix="title_", angle=UNDEF)
     
-    label_angle = Include(AngleProperties, prefix="label")
+    label_angle = Include(AngleProperties, prefix="label_")
     label_overlap = BoolProperty(False)
     
     
@@ -360,7 +360,7 @@ class StraitAxis(Axis):
             return
         
         # set font
-        canvas.set_text_by(self, prefix="label", source=source, overrides=overrides)
+        canvas.set_text_by(self, prefix="label_", source=source, overrides=overrides)
         
         # apply position
         if position in POSITION_LR:
@@ -464,7 +464,7 @@ class StraitAxis(Axis):
             return
         
         # set font
-        canvas.set_text_by(self, prefix="title", source=source, overrides=overrides)
+        canvas.set_text_by(self, prefix="title_", source=source, overrides=overrides)
         
         # apply position
         if position in POSITION_LR:
@@ -608,8 +608,8 @@ class RadialAxis(Axis):
     
     radius = NumProperty(100)
     units = EnumProperty(ANGLE_RAD, enum=ANGLE)
-    start_angle = Include(AngleProperties, prefix="start")
-    end_angle = Include(AngleProperties, prefix="end")
+    start_angle = Include(AngleProperties, prefix="start_")
+    end_angle = Include(AngleProperties, prefix="end_")
     clockwise = BoolProperty(True)
     
     label_rotation = EnumProperty(TEXT_ROT_FOLLOW, enum=TEXT_ROTATION)
@@ -750,7 +750,7 @@ class RadialAxis(Axis):
             return
         
         # set font
-        canvas.set_text_by(self, prefix="label", source=source, overrides=overrides)
+        canvas.set_text_by(self, prefix="label_", source=source, overrides=overrides)
         
         # set ticks in-between
         if label_between:

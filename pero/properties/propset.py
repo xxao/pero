@@ -33,9 +33,7 @@ class Include(object):
             
             prefix: str
                 Optional prefix to be added to the names of all included
-                properties. If prefix does not end with '_' it is added
-                automatically. Such pattern is required to retrieve child
-                properties etc.
+                properties.
             
             dynamic: bool or None
                 If set to True or False the value overwrites the original value
@@ -58,10 +56,6 @@ class Include(object):
         if not issubclass(prop_set, PropertySet):
             message = "Properties must be subclass of pero.PropertySet! -> %s" % type(prop_set)
             raise TypeError(message)
-        
-        # check prefix
-        if prefix and prefix[-1] != PROP_SPLITTER:
-            prefix = prefix + PROP_SPLITTER
         
         # set values
         self._property_set = prop_set
@@ -307,7 +301,8 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         """
         Extracts the overrides for child property set. A property is considered
         as child-related if it starts with specified 'child_name' followed by
-        '_' and it is not a direct property of current property set.
+        pero.PROP_SPLITTER character and it is not a direct property of current
+        property set.
         
         Args:
             child_name: str
@@ -343,7 +338,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 continue
             
             # add override
-            new_name = name.split(prefix, 1)[1] 
+            new_name = name.split(prefix, 1)[1]
             child_overrides[new_name] = overrides[name]
         
         return child_overrides
@@ -353,15 +348,10 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         """
         Sets given value for specified property.
         
-        In some cases it might be useful to initialize also some properties of
-        a child property set directly along the current one. Therefore, if the
-        property name is not found within current property set its name is split
-        by '_' and it tries to search for a property matching the left
-        side of the split. If such property is found in current property set,
-        then the right part of the split is used to set the child property. E.g.
-        if current set has a property 'marker', its line properties can be set
-        directly as 'marker_line_color'. However, this mechanism assumes the
-        child property to be also derived from pero.PropertySet and it must be
+        If specified property is not found directly child properties are
+        searched automatically considering the pero.PROP_SPLITTER character as
+        a splitter between parent and child property name. This mechanism
+        assumes the parent is derived from pero.PropertySet and it must be
         initialized already.
         
         Args:
@@ -406,15 +396,10 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         """
         Sets multiple properties in a batch using name:value dictionary.
         
-        In some cases it might be useful to initialize also some properties of
-        a child property set directly along the current one. Therefore, if the
-        property name is not found within current property set its name is split
-        by '_' and it tries to search for a property matching the left
-        side of the split. If such property is found in current property set,
-        then the right part of the split is used to set the child property. E.g.
-        if current set has a property 'marker', its line properties can be set
-        directly as 'marker_line_color'. However, this mechanism assumes the
-        child property to be also derived from pero.PropertySet and it must be
+        If specified property is not found directly child properties are
+        searched automatically considering the pero.PROP_SPLITTER character as
+        a splitter between parent and child property name. This mechanism
+        assumes the parent is derived from pero.PropertySet and it must be
         initialized already.
         
         Args:
@@ -472,13 +457,6 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 If set to True callable properties from the source are used
                 directly without calling.
         """
-        
-        # check prefixes
-        if src_prefix and src_prefix[-1] != PROP_SPLITTER:
-            src_prefix = src_prefix + PROP_SPLITTER
-        
-        if dst_prefix and dst_prefix[-1] != PROP_SPLITTER:
-            dst_prefix = dst_prefix + PROP_SPLITTER
         
         # process source properties
         for prop in prop_set.properties():
@@ -546,13 +524,6 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 If set to True callable properties from the source are used
                 directly without calling.
         """
-        
-        # check prefixes
-        if src_prefix and src_prefix[-1] != PROP_SPLITTER:
-            src_prefix = src_prefix + PROP_SPLITTER
-        
-        if dst_prefix and dst_prefix[-1] != PROP_SPLITTER:
-            dst_prefix = dst_prefix + PROP_SPLITTER
         
         # process current properties
         for prop in self.properties():

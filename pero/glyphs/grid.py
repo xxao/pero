@@ -230,8 +230,8 @@ class RadialGrid(Grid):
             clockwise, otherwise anti-clockwise.
     """
     
-    start_angle = Include(AngleProperties, prefix="start")
-    end_angle = Include(AngleProperties, prefix="end")
+    start_angle = Include(AngleProperties, prefix="start_")
+    end_angle = Include(AngleProperties, prefix="end_")
     clockwise = BoolProperty(True)
     
     

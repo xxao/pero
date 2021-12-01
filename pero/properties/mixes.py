@@ -304,8 +304,8 @@ class TextProperties(PropertySet):
     text_align = EnumProperty(TEXT_ALIGN_LEFT, enum=TEXT_ALIGN, nullable=True)
     text_base = EnumProperty(TEXT_BASE_TOP, enum=TEXT_BASE, nullable=True)
     
-    for_color = Include(ColorProperties, prefix="text", color='#000')
-    bgr_color = Include(ColorProperties, prefix="text_bgr", color=None)
+    for_color = Include(ColorProperties, prefix="text_", color='#000')
+    bgr_color = Include(ColorProperties, prefix="text_bgr_", color=None)
     
     text_split = BoolProperty(True)
     text_splitter = StringProperty(LINE_SPLITTER)

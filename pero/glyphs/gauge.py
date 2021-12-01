@@ -63,11 +63,11 @@ class Gauge(Glyph):
     limit = NumProperty(0)
     reverse = BoolProperty(False)
     
-    bgr_pen = Include(LineProperties, prefix="bgr", line_color="#000")
-    bgr_fill = Include(FillProperties, prefix="bgr", fill_color="#ddd")
+    bgr_pen = Include(LineProperties, prefix="bgr_", line_color="#000")
+    bgr_fill = Include(FillProperties, prefix="bgr_", fill_color="#ddd")
     
-    for_pen = Include(LineProperties, prefix="for", line_color="#000")
-    for_fill = Include(FillProperties, prefix="for", fill_color="#000")
+    for_pen = Include(LineProperties, prefix="for_", line_color="#000")
+    for_fill = Include(FillProperties, prefix="for_", fill_color="#000")
 
 
 class StraitGauge(Gauge):
@@ -179,15 +179,15 @@ class StraitGauge(Gauge):
         canvas.group(tag, "gauge")
         
         # set pen and brush for background
-        canvas.set_pen_by(self, prefix="bgr", source=source, overrides=overrides)
-        canvas.set_brush_by(self, prefix="bgr", source=source, overrides=overrides)
+        canvas.set_pen_by(self, prefix="bgr_", source=source, overrides=overrides)
+        canvas.set_brush_by(self, prefix="bgr_", source=source, overrides=overrides)
         
         # draw background
         canvas.draw_rect(x, y, bgr_width, bgr_height, radius)
         
         # set pen and brush for range
-        canvas.set_pen_by(self, prefix="for", source=source, overrides=overrides)
-        canvas.set_brush_by(self, prefix="for", source=source, overrides=overrides)
+        canvas.set_pen_by(self, prefix="for_", source=source, overrides=overrides)
+        canvas.set_brush_by(self, prefix="for_", source=source, overrides=overrides)
         
         # draw range
         canvas.draw_rect(for_x, for_y, for_width, for_height, radius)
@@ -221,8 +221,8 @@ class RadialGauge(Gauge):
     
     inner_radius = NumProperty(UNDEF)
     outer_radius = NumProperty(UNDEF)
-    start_angle = Include(AngleProperties, prefix="start")
-    end_angle = Include(AngleProperties, prefix="end")
+    start_angle = Include(AngleProperties, prefix="start_")
+    end_angle = Include(AngleProperties, prefix="end_")
     clockwise = BoolProperty(True)
     
     
@@ -290,11 +290,11 @@ class RadialGauge(Gauge):
         canvas.group(tag, "gauge")
         
         # draw background
-        glyph.set_properties_from(self, src_prefix="bgr", source=source, overrides=overrides)
+        glyph.set_properties_from(self, src_prefix="bgr_", source=source, overrides=overrides)
         glyph.draw(canvas, start_angle=bgr_start, end_angle=bgr_end)
         
         # draw range
-        glyph.set_properties_from(self, src_prefix="for", source=source, overrides=overrides)
+        glyph.set_properties_from(self, src_prefix="for_", source=source, overrides=overrides)
         glyph.draw(canvas, start_angle=for_start, end_angle=for_end)
         
         # end drawing group

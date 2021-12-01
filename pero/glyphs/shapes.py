@@ -103,8 +103,8 @@ class Arc(Glyph):
     x = NumProperty(0)
     y = NumProperty(0)
     radius = NumProperty(UNDEF)
-    start_angle = Include(AngleProperties, prefix="start")
-    end_angle = Include(AngleProperties, prefix="end")
+    start_angle = Include(AngleProperties, prefix="start_")
+    end_angle = Include(AngleProperties, prefix="end_")
     clockwise = BoolProperty(True)
     
     line = Include(LineProperties)
@@ -658,8 +658,8 @@ class Wedge(Glyph):
     inner_radius = NumProperty(UNDEF)
     outer_radius = NumProperty(UNDEF)
     
-    start_angle = Include(AngleProperties, prefix="start")
-    end_angle = Include(AngleProperties, prefix="end")
+    start_angle = Include(AngleProperties, prefix="start_")
+    end_angle = Include(AngleProperties, prefix="end_")
     clockwise = BoolProperty(True)
     
     line = Include(LineProperties)
