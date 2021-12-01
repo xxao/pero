@@ -194,6 +194,12 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         """
         Checks whether specified property exists.
         
+        If specified property is not found directly, child properties are
+        searched automatically considering the pero.PROP_SPLITTER character as
+        a splitter between parent and child property name. This mechanism
+        assumes the parent is derived from pero.PropertySet and it must be
+        initialized already.
+        
         Args:
             name: str
                 Name of the property.
@@ -203,12 +209,24 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 True if the property exists, False otherwise.
         """
         
-        return name in self._properties
+        # check known property
+        if name in self._properties:
+            return True
+        
+        # check child property
+        path = self.get_property_path(name, False)
+        return path is not None
     
     
     def get_property(self, name, source=UNDEF, overrides=None, native=False):
         """
         Gets the value of specified property.
+        
+        If specified property is not found directly, child properties are
+        searched automatically considering the pero.PROP_SPLITTER character as
+        a splitter between parent and child property name. This mechanism
+        assumes the parent is derived from pero.PropertySet and it must be
+        initialized already.
         
         If specified property is available within 'overrides' the value in
         'overrides' is used instead of current one. If allowed and the value is
@@ -239,25 +257,20 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 Property value.
         """
         
-        # get property
-        prop = self._properties[name]
+        # get property path
+        parent, prop = self.get_property_path(name, True)[-2:]
+        
+        # get value
+        if overrides and name in overrides:
+            value = prop.parse(overrides[name])
+        else:
+            value = getattr(parent, prop.name)
         
         # use native value
         if native:
-            if overrides and name in overrides:
-                return overrides[name]
-            
-            return getattr(self, name)
+            return value
         
-        # use overrides
-        if overrides and name in overrides:
-            value = prop.parse(overrides[name])
-        
-        # get property value
-        else:
-            value = getattr(self, name)
-        
-        # requested type
+        # requested type already
         if isinstance(value, prop.types):
             return value
         
@@ -267,6 +280,66 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         
         # parse value
         return prop.parse(value)
+    
+    
+    def get_property_path(self, name, raise_error=False):
+        """
+        Gets the full path of specified property. It includes all the parents
+        and finally the property itself.
+        
+        If specified property is not found directly, child properties are
+        searched automatically considering the pero.PROP_SPLITTER character as
+        a splitter between parent and child property name. This mechanism
+        assumes the parent is derived from pero.PropertySet and it must be
+        initialized already.
+        
+        Args:
+            name: str
+                Name of the property.
+            
+            raise_error: bool
+                If set to True, an error is raised if unknown property is about
+                to be retrieved.
+        
+        Returns:
+            (..., pero.PropertySet, pero.Property) or None
+                Property path or None if not found.
+        """
+        
+        # init path
+        path = [self]
+        
+        # get known property
+        if name in self._properties:
+            return path + [self._properties[name]]
+        
+        # get first split
+        idx = name.find(PROP_SPLITTER)
+        
+        # search child properties
+        while idx > 0:
+            
+            # get parent name
+            parent = name[:idx]
+            
+            # check parent
+            if parent in self._properties:
+                parent_prop = getattr(self, parent)
+                if isinstance(parent_prop, PropertySet):
+                    child_prop = parent_prop.get_property_path(name[idx+1:])
+                    if child_prop:
+                        return path + child_prop
+            
+            # get next split
+            idx = name.find(PROP_SPLITTER, idx+1)
+        
+        # raise error for unknown property
+        if raise_error:
+            message = "%s has no property '%s'!" % (self.__class__.__name__, name)
+            raise AttributeError(message)
+        
+        # property not found
+        return None
     
     
     def get_own_overrides(self, overrides):
@@ -348,7 +421,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         """
         Sets given value for specified property.
         
-        If specified property is not found directly child properties are
+        If specified property is not found directly, child properties are
         searched automatically considering the pero.PROP_SPLITTER character as
         a splitter between parent and child property name. This mechanism
         assumes the parent is derived from pero.PropertySet and it must be
@@ -371,32 +444,20 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             setattr(self, name, value)
             return
         
-        # try child properties
-        else:
-            
-            idx = name.find(PROP_SPLITTER)
-            while idx > 0:
-                
-                parent = name[:idx]
-                if parent in self._properties:
-                    prop = getattr(self, parent)
-                    if isinstance(prop, PropertySet):
-                        prop.set_property(name[idx+1:], value, raise_error)
-                        return
-                
-                idx = name.find(PROP_SPLITTER, idx+1)
+        # get child property path
+        path = self.get_property_path(name, raise_error)
+        if not path:
+            return
         
-        # raise error for unknown property
-        if raise_error:
-            message = "%s has no property '%s'!" % (self.__class__.__name__, name)
-            raise AttributeError(message)
+        # set value
+        setattr(path[-2], path[-1].name, value)
     
     
     def set_properties(self, properties, raise_error=True):
         """
         Sets multiple properties in a batch using name:value dictionary.
         
-        If specified property is not found directly child properties are
+        If specified property is not found directly, child properties are
         searched automatically considering the pero.PROP_SPLITTER character as
         a splitter between parent and child property name. This mechanism
         assumes the parent is derived from pero.PropertySet and it must be
@@ -554,6 +615,12 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         Locks or unlocks specified property to disable or enable any further
         changes.
         
+        If specified property is not found directly, child properties are
+        searched automatically considering the pero.PROP_SPLITTER character as
+        a splitter between parent and child property name. This mechanism
+        assumes the parent is derived from pero.PropertySet and it must be
+        initialized already.
+        
         Args:
             name: str
                 Name of the property to be locked/unlocked.
@@ -567,26 +634,33 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 to be locked/unlocked.
         """
         
-        # lock/unlock property
+        # lock/unlock known property
         if name in self._properties:
-            
             if lock:
                 self._locked.add(name)
             else:
                 self._locked.discard(name)
-            
             return
         
-        # raise error for unknown property
-        if raise_error:
-            message = "%s has no property '%s'!" % (self.__class__.__name__, name)
-            raise AttributeError(message)
+        # get child property path
+        path = self.get_property_path(name, raise_error)
+        if not path:
+            return
+        
+        # lock/unlock
+        path[-2].lock_property(path[-1].name, lock)
     
     
     def hold_property(self, name, hold=True, raise_error=True):
         """
         Holds or releases specified property to keep its previous value if the
         new value is undefined (pero.UNDEF).
+        
+        If specified property is not found directly, child properties are
+        searched automatically considering the pero.PROP_SPLITTER character as
+        a splitter between parent and child property name. This mechanism
+        assumes the parent is derived from pero.PropertySet and it must be
+        initialized already.
         
         Args:
             name: str
@@ -601,52 +675,93 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 to be held/released.
         """
         
-        # hold/release property
+        # hold/release known property
         if name in self._properties:
-            
             if hold:
                 self._held.add(name)
             else:
                 self._held.discard(name)
-            
             return
         
-        # raise error for unknown property
-        if raise_error:
-            message = "%s has no property '%s'!" % (self.__class__.__name__, name)
-            raise AttributeError(message)
+        # get child property path
+        path = self.get_property_path(name, raise_error)
+        if not path:
+            return
+        
+        # hold/release
+        path[-2].hold_property(path[-1].name, hold)
     
     
-    def is_property_locked(self, name):
+    def is_property_locked(self, name, raise_error=True):
         """
         Checks whether specified property is locked.
+        
+        If specified property is not found directly, child properties are
+        searched automatically considering the pero.PROP_SPLITTER character as
+        a splitter between parent and child property name. This mechanism
+        assumes the parent is derived from pero.PropertySet and it must be
+        initialized already.
         
         Args:
             name: str
                 Name of the property.
+            
+            raise_error: bool
+                If set to True, an error is raised if unknown property is about
+                to be checked.
         
         Returns:
             bool
                 True if the property is locked, False otherwise.
         """
         
-        return name in self._locked
+        # check known property
+        if name in self._properties:
+            return name in self._locked
+        
+        # get child property path
+        path = self.get_property_path(name, raise_error)
+        if not path:
+            return
+        
+        # check property
+        path[-2].is_property_locked(path[-1].name)
     
     
-    def is_property_held(self, name):
+    def is_property_held(self, name, raise_error=True):
         """
         Checks whether specified property is held.
+        
+        If specified property is not found directly, child properties are
+        searched automatically considering the pero.PROP_SPLITTER character as
+        a splitter between parent and child property name. This mechanism
+        assumes the parent is derived from pero.PropertySet and it must be
+        initialized already.
         
         Args:
             name: str
                 Name of the property.
+            
+            raise_error: bool
+                If set to True, an error is raised if unknown property is about
+                to be checked.
         
         Returns:
             bool
                 True if the property is held, False otherwise.
         """
         
-        return name in self._held
+        # check known property
+        if name in self._properties:
+            return name in self._held
+        
+        # get child property path
+        path = self.get_property_path(name, raise_error)
+        if not path:
+            return
+        
+        # check property
+        path[-2].is_property_held(path[-1].name)
     
     
     def clone(self, source=UNDEF, overrides=None, native=False):
