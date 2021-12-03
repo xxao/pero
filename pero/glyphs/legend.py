@@ -81,7 +81,7 @@ class MarkerLegend(Legend):
             pero.MARKER instance.
     """
     
-    marker = MarkerProperty(MARKER_CIRCLE, dynamic=False, nullable=True)
+    marker = MarkerProperty(UNDEF, dynamic=False, nullable=True)
     
     
     def get_bull_size(self, canvas, source=UNDEF, **overrides):
@@ -114,8 +114,9 @@ class MarkerLegend(Legend):
         canvas.group(tag, "legend")
         
         # draw marker
-        offset = 0.5*marker.size
-        marker.draw(canvas, x=bull_x+offset, y=bull_y+offset)
+        if marker:
+            offset = 0.5*marker.size
+            marker.draw(canvas, x=bull_x+offset, y=bull_y+offset)
         
         # draw text
         canvas.set_text_by(self, source=source, overrides=overrides)
