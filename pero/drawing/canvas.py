@@ -156,9 +156,30 @@ class Canvas(PropertySet):
     line_scale = FloatProperty(1, dynamic=False)
     font_scale = FloatProperty(1, dynamic=False)
     
-    pen = Include(LineProperties, dynamic=False, line_color="#000")
-    brush = Include(FillProperties, dynamic=False, fill_color=None)
-    text = Include(TextProperties, dynamic=False, font_size=10)
+    pen = Include(LineProperties, dynamic=False,
+        line_color = "#000",
+        line_width = 1,
+        line_dash = None,
+        line_style = LINE_STYLE_SOLID,
+        line_cap = LINE_CAP_ROUND,
+        line_join = LINE_JOIN_ROUND)
+    
+    brush = Include(FillProperties, dynamic=False,
+        fill_color = None,
+        fill_style = FILL_STYLE_SOLID)
+    
+    text = Include(TextProperties, dynamic=False,
+        font_size = 10,
+        font_family = FONT_FAMILY_SANS,
+        font_style = FONT_STYLE_NORMAL,
+        font_weight = FONT_WEIGHT_NORMAL,
+        text_align = TEXT_ALIGN_LEFT,
+        text_base = TEXT_BASE_TOP,
+        text_color = "#000",
+        text_bgr_color = None,
+        text_split = True,
+        text_splitter = LINE_SPLITTER,
+        text_spacing = 0)
     
     
     def __init__(self, **overrides):
@@ -167,15 +188,19 @@ class Canvas(PropertySet):
         super().__init__(**overrides)
         
         # hold properties
-        self.hold_property('line_color')
-        self.hold_property('fill_color')
-        self.hold_property('text_color')
-        self.hold_property('text_bgr_color')
+        for prop in LineProperties.properties():
+            self.hold_property(prop.name)
+        
+        for prop in FillProperties.properties():
+            self.hold_property(prop.name)
+        
+        for prop in TextProperties.properties():
+            self.hold_property(prop.name)
         
         # init property names
-        self._pen_properties = set(x.name for x in LineProperties.properties())
-        self._brush_properties = set(x.name for x in FillProperties.properties())
-        self._text_properties = set(x.name for x in TextProperties.properties())
+        self._pen_properties = set(p.name for p in LineProperties.properties())
+        self._brush_properties = set(p.name for p in FillProperties.properties())
+        self._text_properties = set(p.name for p in TextProperties.properties())
         
         # init scale and offset
         self._scale = self.draw_scale
@@ -1345,6 +1370,7 @@ class CanvasState(object):
     Allows using 'with' statement for canvas state methods like 'view', 'clip'
     or 'group'.
     """
+    
     
     def __init__(self, canvas, *args, **kwargs):
         """
