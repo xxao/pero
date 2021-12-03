@@ -36,19 +36,10 @@ class Frame(object):
         self._bottom = y + height
         self._width = width
         self._height = height
-        
         self._reversed = False
         
         # check values
-        if self._left > self._right:
-            self._left, self._right = self._right, self._left
-            self._width *= -1
-            self._reversed = True
-        
-        if self._top > self._bottom:
-            self._top, self._bottom = self._bottom, self._top
-            self._height *= -1
-            self._reversed = True
+        self._check_values()
     
     
     def __str__(self):
@@ -273,6 +264,7 @@ class Frame(object):
                 Y-coordinate offset.
         """
         
+        # apply offset
         if x:
             self._left += x
             self._right += x
@@ -280,6 +272,9 @@ class Frame(object):
         if y:
             self._top += y
             self._bottom += y
+        
+        # check values
+        self._check_values()
     
     
     def shrink(self, top=0, right=0, bottom=0, left=0):
@@ -300,6 +295,7 @@ class Frame(object):
                 Left padding.
         """
         
+        # shrink values
         self._left += left
         self._right -= right
         self._top += top
@@ -307,6 +303,9 @@ class Frame(object):
         
         self._width = self._right - self._left
         self._height = self._bottom - self._top
+        
+        # check values
+        self._check_values()
     
     
     def expand(self, top=0, right=0, bottom=0, left=0):
@@ -327,6 +326,7 @@ class Frame(object):
                 Left padding.
         """
         
+        # expand values
         self._left -= left
         self._right += right
         self._top -= top
@@ -334,6 +334,9 @@ class Frame(object):
         
         self._width = self._right - self._left
         self._height = self._bottom - self._top
+        
+        # check values
+        self._check_values()
     
     
     def extend(self, x=None, y=None, width=0, height=0):
@@ -355,9 +358,11 @@ class Frame(object):
                 Height of the frame to include.
         """
         
+        # get values from frame
         if isinstance(x, Frame):
             x, y, width, height = x.rect
         
+        # extend width
         if x is not None:
             
             left = min(self._left, self._right, x, x+width)
@@ -367,6 +372,7 @@ class Frame(object):
             self._right = right
             self._width = right - left
         
+        # extend height
         if y is not None:
             
             top = min(self._top, self._bottom, y, y+height)
@@ -375,6 +381,9 @@ class Frame(object):
             self._top = top
             self._bottom = bottom
             self._height = bottom - top
+        
+        # check values
+        self._check_values()
     
     
     def union(self, other):
@@ -480,6 +489,22 @@ class Frame(object):
             return False
         
         return True
+    
+    
+    def _check_values(self):
+        """Checks negative values."""
+        
+        # check width
+        if self._left > self._right:
+            self._left, self._right = self._right, self._left
+            self._width *= -1
+            self._reversed = True
+        
+        # check height
+        if self._top > self._bottom:
+            self._top, self._bottom = self._bottom, self._top
+            self._height *= -1
+            self._reversed = True
 
 
 class FrameProperty(Property):
