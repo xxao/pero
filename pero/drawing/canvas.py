@@ -253,10 +253,6 @@ class Canvas(PropertySet):
                 Specific properties to be overwritten.
         """
         
-        # check prefix
-        if prefix and prefix[-1] != PROP_SPLITTER:
-            prefix = prefix + PROP_SPLITTER
-        
         # extract and set line properties
         for prop in self._pen_properties:
             value = prop_set.get_property(prefix+prop, source, overrides)
@@ -281,10 +277,6 @@ class Canvas(PropertySet):
                 Specific properties to be overwritten.
         """
         
-        # check prefix
-        if prefix and prefix[-1] != PROP_SPLITTER:
-            prefix = prefix + PROP_SPLITTER
-        
         # extract and set fill properties
         for prop in self._brush_properties:
             value = prop_set.get_property(prefix+prop, source, overrides)
@@ -308,10 +300,6 @@ class Canvas(PropertySet):
             overrides:
                 Specific properties to be overwritten.
         """
-        
-        # check prefix
-        if prefix and prefix[-1] != PROP_SPLITTER:
-            prefix = prefix + PROP_SPLITTER
         
         # extract and set text properties
         for prop in self._text_properties:
