@@ -20,6 +20,9 @@ class Framer(Glyph):
         show_size: bool, callable
             Specifies whether width and height should be shown.
         
+        label: str, callable
+            Specifies the label text to show.
+        
         x: int, float or callable
             Specifies the x-coordinate of the top-left corner.
         
@@ -87,10 +90,10 @@ class Framer(Glyph):
         # get full label
         labels = []
         
-        if show_label:
+        if show_label and label:
             labels.append("%s" % label)
         if show_size:
-            labels.append("%s x %s" % (width, height))
+            labels.append("%d x %d" % (width, height))
         
         label = "\n".join(labels)
         
@@ -108,6 +111,8 @@ class Framer(Glyph):
         
         # draw
         canvas.draw_rect(x, y, width, height)
+        canvas.draw_line(x, y, x+width, y+height)
+        canvas.draw_line(x, y+height, x+width, y)
         canvas.draw_text(label, x+0.5*width, y+0.5*height)
         
         # end drawing group
