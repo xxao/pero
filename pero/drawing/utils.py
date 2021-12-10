@@ -601,16 +601,16 @@ def intersect_rays(p1, a1, p2, a2):
     
     Args:
         p1: (float, float)
-            First line point 1 as (x, y) coordinates.
+            First ray point as (x, y) coordinates.
         
         a1: float
-            First line angle in radians.
+            First ray angle in radians.
         
         p2: (float, float)
-            Second line point as (x, y) coordinates.
+            Second ray point as (x, y) coordinates.
         
         a2: float
-            Second line angle in radians.
+            Second ray angle in radians.
     
     Returns:
         (float, float) or None
@@ -622,3 +622,32 @@ def intersect_rays(p1, a1, p2, a2):
     l2 = (p2[0] + numpy.cos(a2), p2[1] + numpy.sin(a2))
     
     return intersect_lines(p1, l1, p2, l2)
+
+
+def intersect_line_ray(p1, p2, p3, a):
+    """
+    Calculates intersection point between two lines defined as a point
+    coordinates and angle.
+    
+    Args:
+        p1: (float, float)
+            Line point 1 as (x, y) coordinates.
+        
+        p2: (float, float)
+            Line point 2 as (x, y) coordinates.
+        
+        p3: (float, float)
+            Ray point as (x, y) coordinates.
+        
+        a: float
+            Second line angle in radians.
+    
+    Returns:
+        (float, float) or None
+            Coordinates of the intersection point. Returns None if
+            there is no intersection.
+    """
+    
+    p4 = (p3[0] + numpy.cos(a), p3[1] + numpy.sin(a))
+    
+    return intersect_lines(p1, p2, p3, p4)
