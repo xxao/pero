@@ -39,12 +39,6 @@ class Axis(Glyph):
         labels: (str,), callable, None or UNDEF
             Specifies the major ticks labels.
         
-        label_between: bool
-            Specifies whether labels should be in-between the major ticks (True)
-            or stick to them (False). If set to True, number of ticks should be
-            one item bigger compared to the labels, otherwise the last label
-            will not be shown.
-        
         label_offset: int, float or callable
             Specifies the shift of the labels from the main line.
         
@@ -105,7 +99,6 @@ class Axis(Glyph):
     
     labels = TupleProperty(None, nullable=True, intypes=(str,))
     label_text = Include(TextProperties, prefix="label_", font_size=11, text_align=UNDEF, text_base=UNDEF)
-    label_between = BoolProperty(False)
     label_offset = NumProperty(10)
     label_flip = BoolProperty(False)
     
@@ -186,7 +179,7 @@ class StraitAxis(Axis):
         
         title_angle properties:
             Includes pero.AngleProperties to specify the title angle. By
-            default the angle is set automatically according to other axis
+            default, the angle is set automatically according to other axis
             properties.
     """
     
@@ -348,11 +341,12 @@ class StraitAxis(Axis):
         angle = AngleProperties.get_angle(self, '', ANGLE_RAD, source, overrides)
         
         labels = self.get_property('labels', source, overrides)
-        label_between = self.get_property('label_between', source, overrides)
         label_offset = self.get_property('label_offset', source, overrides)
         label_angle = AngleProperties.get_angle(self, 'label_', ANGLE_RAD, source, overrides)
         label_flip = self.get_property('label_flip', source, overrides)
         label_overlap = self.get_property('label_overlap', source, overrides)
+        label_text_align = self.get_property('label_text_align', source, overrides)
+        label_text_base = self.get_property('label_text_base', source, overrides)
         ticks = self.get_property('major_ticks', source, overrides)
         
         # check data
@@ -378,11 +372,6 @@ class StraitAxis(Axis):
         if not relative:
             offset -= y if position in POSITION_LR else x
         
-        # set ticks in-between
-        if label_between:
-            ticks = numpy.array(ticks)
-            ticks = .5*(ticks[:-1] + ticks[1:])
-        
         # calc sin and cos
         sin = round(math.sin(angle), 5)
         cos = round(math.cos(angle), 5)
@@ -395,7 +384,7 @@ class StraitAxis(Axis):
         is_flipped = bool(label_flip) != bool(position in POSITION_TR)
         
         # set alignment
-        if canvas.text_align is UNDEF:
+        if label_text_align is UNDEF:
             
             if is_horizontal:
                 canvas.text_align = TEXT_ALIGN_CENTER
@@ -405,7 +394,7 @@ class StraitAxis(Axis):
                 canvas.text_align = TEXT_ALIGN_RIGHT if is_flipped else TEXT_ALIGN_LEFT
         
         # set baseline
-        if canvas.text_base is UNDEF:
+        if label_text_base is UNDEF:
             
             if is_vertical:
                 canvas.text_base = TEXT_BASE_MIDDLE
@@ -458,6 +447,8 @@ class StraitAxis(Axis):
         title_offset = self.get_property('title_offset', source, overrides)
         title_angle = AngleProperties.get_angle(self, 'title_', ANGLE_RAD, source, overrides)
         title_flip = self.get_property('title_flip', source, overrides)
+        title_text_align = self.get_property('title_text_align', source, overrides)
+        title_text_base = self.get_property('title_text_base', source, overrides)
         
         # check data
         if not title:
@@ -501,7 +492,7 @@ class StraitAxis(Axis):
         y = y + x_offset * sin + y_offset * cos
         
         # set alignment
-        if canvas.text_align is UNDEF:
+        if title_text_align is UNDEF:
             
             if title_position == POS_MIDDLE:
                 canvas.text_align = TEXT_ALIGN_CENTER
@@ -519,7 +510,7 @@ class StraitAxis(Axis):
                 canvas.text_align = TEXT_ALIGN_LEFT if is_left else TEXT_ALIGN_RIGHT
         
         # set baseline
-        if canvas.text_base is UNDEF:
+        if title_text_base is UNDEF:
             
             if is_vertical:
                 canvas.text_base = TEXT_BASE_BOTTOM
@@ -739,7 +730,6 @@ class RadialAxis(Axis):
         
         flip = self.get_property('label_flip', source, overrides)
         labels = self.get_property('labels', source, overrides)
-        label_between = self.get_property('label_between', source, overrides)
         label_offset = self.get_property('label_offset', source, overrides)
         label_rotation = self.get_property('label_rotation', source, overrides)
         ticks = self.get_property('major_ticks', source, overrides)
@@ -751,11 +741,6 @@ class RadialAxis(Axis):
         
         # set font
         canvas.set_text_by(self, prefix="label_", source=source, overrides=overrides)
-        
-        # set ticks in-between
-        if label_between:
-            ticks = numpy.array(ticks)
-            ticks = .5*(ticks[:-1] + ticks[1:])
         
         # convert angles
         if units == ANGLE_DEG:
