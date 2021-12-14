@@ -87,7 +87,7 @@ class Textbox(Text):
         fill properties:
             Includes pero.FillProperties to specify the glyph fill.
     """
-
+    
     anchor = EnumProperty(UNDEF, enum=POSITION_COMPASS)
     
     radius = QuadProperty(0)
