@@ -764,11 +764,13 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         path[-2].is_property_held(path[-1].name)
     
     
-    def clone(self, source=UNDEF, overrides=None, native=False):
+    def clone(self, source=UNDEF, overrides=None, native=False, deep=False):
         """
-        Creates a shallow copy of current instance. A new pero.PropertySet
-        is created with all the properties cloned, however, the actual values
-        of the properties are just copied but not cloned.
+        Creates a clone of current instance. A new pero.PropertySet
+        is created with all the properties cloned. Depending on the 'deep'
+        value, the actual values of the properties are just copied, but not
+        cloned (False) or cloned as well, if they are also instances of the
+        PropertySet (True).
         
         If any property is available within 'overrides' the value in
         'overrides' is used instead of current one. If allowed and the value is
@@ -793,6 +795,10 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             native: bool
                 If set to True callable properties are returned directly
                 without calling.
+            
+            deep: bool
+                If set to True properties, which are instances of PropertySet
+                will be cloned as well.
         
         Returns:
             pero.PropertySet
@@ -804,7 +810,16 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         
         # get properties
         for name in self._properties:
+            
+            # get value
             value = self.get_property(name, source, overrides, native)
+            
+            # clone value
+            if deep and isinstance(value, PropertySet):
+                child_overrides = self.get_child_overrides(name, overrides)
+                value = value.clone(source, child_overrides, native, deep)
+            
+            # set value
             setattr(clone, name, value)
         
         # keep locks
