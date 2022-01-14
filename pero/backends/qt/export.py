@@ -2,10 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import os.path
-from PyQt5.QtCore import Qt, QSizeF
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtGui import QPainter, QImage
-from PyQt5.QtPrintSupport import QPrinter
+from . loader import Qt, QSizeF, QImage, QPrinter, QPainter, QApplication
 from . enums import *
 from . canvas import QtCanvas
 from . viewer import QtViewer

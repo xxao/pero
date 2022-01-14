@@ -2,8 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from PyQt5.QtCore import QPoint, QLineF
-from PyQt5.QtGui import QColor, QPen, QBrush, QPainterPath, QFontMetrics
+from . loader import QPoint, QLineF, QColor, QPen, QBrush, QPainterPath, QFontMetrics
 from ... properties import *
 from ... drawing import Canvas, Path, Matrix, ClipState
 from . enums import *

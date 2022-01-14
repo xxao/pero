@@ -1,9 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtCore import QEvent
-from PyQt5.QtGui import QPainter, QPicture, QPixmap
+from . loader import QWidget, QEvent, QPainter, QPicture, QPixmap
 from ... events import *
 from .. view import View
 from . enums import *
