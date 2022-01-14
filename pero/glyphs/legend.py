@@ -81,7 +81,7 @@ class MarkerLegend(Legend):
             pero.MARKER instance.
     """
     
-    marker = MarkerProperty(UNDEF, dynamic=False, nullable=True)
+    marker = MarkerProperty(MARKER_CIRCLE, dynamic=False, nullable=True)
     
     
     def get_bull_size(self, canvas, source=UNDEF, **overrides):
