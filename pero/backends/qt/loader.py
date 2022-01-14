@@ -22,7 +22,7 @@ if QT_VERSION is None:
     except ImportError:
         pass
 
-# import PySlide2
+# import PySide2
 if QT_VERSION is None:
     
     try:
@@ -55,7 +55,7 @@ if QT_VERSION is None:
     except ImportError:
         pass
 
-# import PySlide6
+# import PySide6
 if QT_VERSION is None:
     
     try:

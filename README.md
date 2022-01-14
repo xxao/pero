@@ -1,7 +1,8 @@
 # Pero
 
 The main motivation behind the *pero* library is to provide unified API for multiple drawing backends like
-[PyQt5](https://pypi.org/project/PyQt5/), [PySide2](https://pypi.org/project/PySide2/),
+[PyQt5](https://pypi.org/project/PyQt5/), [PyQt6](https://pypi.org/project/PyQt6/),
+[PySide2](https://pypi.org/project/PySide2/), [PySide6](https://pypi.org/project/PySide6/),
 [wxPython](https://pypi.org/project/wxPython/), [PyCairo](https://pypi.org/project/pycairo/),
 [PyMuPDF](https://pypi.org/project/PyMuPDF/), [Pythonista](http://omz-software.com/pythonista/) (and possibly more),
 which is easy to understand and use. Beside the common drawing capabilities, numerous pre-build glyphs are available,
@@ -89,7 +90,9 @@ img.show()
 ## Supported Backends
 
 - [PyQt5](https://pypi.org/project/PyQt5/)
+- [PyQt6](https://pypi.org/project/PyQt6/)
 - [PySide2](https://pypi.org/project/PySide2/)
+- [PySide6](https://pypi.org/project/PySide6/)
 - [wxPython](https://pypi.org/project/wxPython/)
 - [PyCairo](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pycairo)
 - [PyMuPDF](https://pypi.org/project/PyMuPDF/)
@@ -122,7 +125,8 @@ Please note that the *pero* library is still in an alpha state. Any changes in i
 ### Using default backend
 
 If you just want to draw an image using whatever the default backend is (for requested format), or show the image
-directly (requires [PyQt5](https://pypi.org/project/PyQt5/), [PySide2](https://pypi.org/project/PySide2/),
+directly (requires [PyQt5](https://pypi.org/project/PyQt5/), [PyQt6](https://pypi.org/project/PyQt6/),
+[PySide2](https://pypi.org/project/PySide2/), [PySide6](https://pypi.org/project/PySide6/),
 [wxPython](https://pypi.org/project/wxPython/) or [Pythonista iOS App](http://omz-software.com/pythonista/)),
 just create an *image* and use it as any other *pero* canvas:
 
@@ -150,7 +154,7 @@ img.export('image.png')
 img.show()
 ```
 
-### Using PyQt5 or PySide2
+### Using PyQt5, PyQt6, PySide2 or PySide6
 
 Inside a *QWidget* you can create a *QPainter* and encapsulate it into the *pero* canvas:
 
@@ -166,7 +170,7 @@ height = 200
 # init painter
 qp = QPainter()
 qp.begin(self)
-qp.setRenderHint(QPainter.Antialiasing)
+qp.setRenderHint(QPainter.RenderHint.Antialiasing)
 
 # init canvas
 canvas = pero.qt.QtCanvas(qp, width=width, height=height)

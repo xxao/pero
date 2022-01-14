@@ -8,9 +8,9 @@ from .. enums import *
 def show(graphics, title=None, width=None, height=None, backend=None, **options):
     """
     Shows given graphics in available viewer app. Currently, this is only
-    available if wxPython or PyQt5 (PySide2) is installed or within Pythonista
-    app on iOS. This method makes sure appropriate backend canvas is created and
-    provided to graphics 'draw' method.
+    available if wxPython, PyQt5, PyQt6, PySide2 or PySide2 is installed or
+    within Pythonista app on iOS. This method makes sure appropriate backend
+    canvas is created and provided to graphics 'draw' method.
     
     Args:
         graphics: pero.Graphics
@@ -60,7 +60,7 @@ def show(graphics, title=None, width=None, height=None, backend=None, **options)
     
     # no viewer available
     if backend is None:
-        message = "No viewer available or missing library (e.g. wxPython, PyQt5, PySide2 or Pythonista)!"
+        message = "No viewer available or missing library (e.g. wxPython, PyQt5, PyQt6, PySide2, PySide6 or Pythonista)!"
         raise ImportError(message)
     
     # show viewer
@@ -142,7 +142,7 @@ def export(graphics, path, width=None, height=None, backend=None, **options):
     
     # unsupported format
     if backend is None:
-        message = "Unsupported image format or missing library (e.g. wxPython, PyCairo, PyQt)! -> %s" % extension
+        message = "Unsupported image format or missing library (e.g. wxPython, PyCairo, PyQt5, PyQt6, PySide2, PySide6)! -> %s" % extension
         raise ImportError(message)
     
     # export image
