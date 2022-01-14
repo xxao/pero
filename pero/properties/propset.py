@@ -18,7 +18,7 @@ class Include(object):
     This class is used as a tool to include all available properties of another
     property set. The properties can be included with optional prefix, which is
     added then to the name of each included property, and custom defaults
-    provided as overrides. In addition the 'dynamic' and 'nullable' flags can
+    provided as overrides. In addition, the 'dynamic' and 'nullable' flags can
     also be changed for all the included property.
     """
     
@@ -116,7 +116,7 @@ class Include(object):
 
 
 class PropertySetMeta(type):
-    """Defines a meta class for pero.PropertySet classes."""
+    """Defines a metaclass for pero.PropertySet classes."""
     
     
     def __new__(cls, cls_name, bases, cls_dict):

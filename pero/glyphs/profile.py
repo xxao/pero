@@ -40,7 +40,7 @@ class Profile(Glyph):
         
         show_points: bool, callable or UNDEF
             Specifies whether individual points should be displayed. If set to
-            UNDEF, the points are displayed automatically as long as they are
+            UNDEF, the points are displayed automatically as long as their
             distance is big enough.
         
         show_area: bool or callable
