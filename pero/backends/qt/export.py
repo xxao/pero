@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import os.path
-from . loader import Qt, QSizeF, QImage, QPrinter, QPainter, QApplication
+from . loader import QSizeF, QPageSize, QImage, QPrinter, QPainter, QApplication
 from . enums import *
 from . canvas import QtCanvas
 from . viewer import QtViewer
@@ -27,9 +27,9 @@ def show(graphics, title=None, width=None, height=None, **options):
     """
     
     # init app
-    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-    app = QApplication([])
+    app = QApplication.instance()
+    if app is None:
+        app = QApplication([])
     
     # init main window
     window = QtViewer()
@@ -55,7 +55,7 @@ def show(graphics, title=None, width=None, height=None, **options):
     
     # start app
     window.show()
-    app.exec_()
+    app.exec()
 
 
 def export(graphics, path, width=None, height=None, **options):
@@ -150,16 +150,18 @@ def export_raster(graphics, path, width=None, height=None, **options):
         height = EXPORT_HEIGHT
     
     # init app
-    app = QApplication([])
+    app = QApplication.instance()
+    if app is None:
+        app = QApplication([])
     
     # init image
-    image = QImage(width, height, QImage.Format_ARGB32)
+    image = QImage(width, height, QImage.Format.Format_ARGB32)
     
     # init painter
     qp = QPainter()
     qp.begin(image)
-    qp.setRenderHint(QPainter.Antialiasing)
-    qp.setRenderHint(QPainter.SmoothPixmapTransform)
+    qp.setRenderHint(QPainter.RenderHint.Antialiasing)
+    qp.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
     
     # init canvas
     canvas = QtCanvas(qp, width=width, height=height)
@@ -222,19 +224,24 @@ def export_vector(graphics, path, width=None, height=None, **options):
         height = EXPORT_HEIGHT
     
     # init app
-    app = QApplication([])
+    app = QApplication.instance()
+    if app is None:
+        app = QApplication([])
+    
+    # init page size
+    size = QPageSize(QSizeF(width, height), QPageSize.Unit.Point)
     
     # init printer
     printer = QPrinter()
-    printer.setPaperSize(QSizeF(width, height), QPrinter.Point)
-    printer.setOutputFormat(QPrinter.PdfFormat)
+    printer.setPageSize(size)
+    printer.setOutputFormat(QPrinter.OutputFormat.PdfFormat)
     printer.setOutputFileName(path)
     
     # init painter
     qp = QPainter()
     qp.begin(printer)
-    qp.setRenderHint(QPainter.Antialiasing)
-    qp.setRenderHint(QPainter.SmoothPixmapTransform)
+    qp.setRenderHint(QPainter.RenderHint.Antialiasing)
+    qp.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
     
     # init canvas
     canvas = QtCanvas(qp, width=width, height=height)

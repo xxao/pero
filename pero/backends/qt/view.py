@@ -84,8 +84,8 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         # init painter
         qp = QPainter()
         qp.begin(self._dc_buffer)
-        qp.setRenderHint(QPainter.Antialiasing)
-        qp.setRenderHint(QPainter.SmoothPixmapTransform)
+        qp.setRenderHint(QPainter.RenderHint.Antialiasing)
+        qp.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
         
         # draw control
         if self.control is not None:
@@ -140,8 +140,8 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         # init painter
         qp = QPainter()
         qp.begin(self._dc_overlay)
-        qp.setRenderHint(QPainter.Antialiasing)
-        qp.setRenderHint(QPainter.SmoothPixmapTransform)
+        qp.setRenderHint(QPainter.RenderHint.Antialiasing)
+        qp.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
         
         # draw overlay
         canvas = QtCanvas(qp, width=self.width(), height=self.height())
@@ -180,10 +180,10 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             key = evt.key(),
             char = evt.text(),
             
-            alt_down = bool(evt.modifiers() & Qt.AltModifier),
-            cmd_down = bool(evt.modifiers() & Qt.ControlModifier),
-            ctrl_down = bool(evt.modifiers() & Qt.ControlModifier),
-            shift_down = bool(evt.modifiers() & Qt.ShiftModifier))
+            alt_down = bool(evt.modifiers() & Qt.KeyboardModifier.AltModifier),
+            cmd_down = bool(evt.modifiers() & Qt.KeyboardModifier.ControlModifier),
+            ctrl_down = bool(evt.modifiers() & Qt.KeyboardModifier.ControlModifier),
+            shift_down = bool(evt.modifiers() & Qt.KeyboardModifier.ShiftModifier))
         
         return key_evt
     
@@ -198,17 +198,17 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             view = self,
             control = self.control,
             
-            x_pos = evt.x(),
-            y_pos = evt.y(),
+            x_pos = evt.position().x(),
+            y_pos = evt.position().y(),
             
-            left_down = bool(evt.buttons() & Qt.LeftButton),
-            middle_down = bool(evt.buttons() & Qt.MiddleButton),
-            right_down = bool(evt.buttons() & Qt.RightButton),
+            left_down = bool(evt.buttons() & Qt.MouseButton.LeftButton),
+            middle_down = bool(evt.buttons() & Qt.MouseButton.MiddleButton),
+            right_down = bool(evt.buttons() & Qt.MouseButton.RightButton),
             
-            alt_down = bool(evt.modifiers() & Qt.AltModifier),
-            cmd_down = bool(evt.modifiers() & Qt.ControlModifier),
-            ctrl_down = bool(evt.modifiers() & Qt.ControlModifier),
-            shift_down = bool(evt.modifiers() & Qt.ShiftModifier))
+            alt_down = bool(evt.modifiers() & Qt.KeyboardModifier.AltModifier),
+            cmd_down = bool(evt.modifiers() & Qt.KeyboardModifier.ControlModifier),
+            ctrl_down = bool(evt.modifiers() & Qt.KeyboardModifier.ControlModifier),
+            shift_down = bool(evt.modifiers() & Qt.KeyboardModifier.ShiftModifier))
         
         return mouse_evt
     
@@ -218,13 +218,13 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         
         # get touches
         touches = []
-        for point in evt.touchPoints():
+        for point in evt.points():
             touches.append(Touch(
                 id = point.id(),
-                x_pos = point.pos().x(),
-                y_pos = point.pos().y(),
-                x_prev = point.lastPos().x(),
-                y_prev = point.lastPos().y(),
+                x_pos = point.position().x(),
+                y_pos = point.position().y(),
+                x_prev = point.lastPosition().x(),
+                y_prev = point.lastPosition().y(),
                 force = point.presure(),
                 state = QT_TOUCH_STATE[point.state()]))
         
@@ -237,10 +237,10 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             
             touches = touches,
             
-            alt_down = bool(evt.modifiers() & Qt.AltModifier),
-            cmd_down = bool(evt.modifiers() & Qt.ControlModifier),
-            ctrl_down = bool(evt.modifiers() & Qt.ControlModifier),
-            shift_down = bool(evt.modifiers() & Qt.ShiftModifier))
+            alt_down = bool(evt.modifiers() & Qt.KeyboardModifier.AltModifier),
+            cmd_down = bool(evt.modifiers() & Qt.KeyboardModifier.ControlModifier),
+            ctrl_down = bool(evt.modifiers() & Qt.KeyboardModifier.ControlModifier),
+            shift_down = bool(evt.modifiers() & Qt.KeyboardModifier.ShiftModifier))
         
         return touch_evt
     
@@ -251,8 +251,8 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         # init painter
         qp = QPainter()
         qp.begin(self)
-        qp.setRenderHint(QPainter.Antialiasing)
-        qp.setRenderHint(QPainter.SmoothPixmapTransform)
+        qp.setRenderHint(QPainter.RenderHint.Antialiasing)
+        qp.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
         
         # draw control
         if self._dc_buffer is not None:
@@ -395,17 +395,17 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         mouse_evt = self._init_mouse_event(evt)
         
         # make specific event type
-        if evt.button() == Qt.LeftButton:
+        if evt.button() == Qt.MouseButton.LeftButton:
             mouse_evt = LeftDownEvt.from_evt(mouse_evt)
         
-        elif evt.button() == Qt.MiddleButton:
+        elif evt.button() == Qt.MouseButton.MiddleButton:
             mouse_evt = MiddleDownEvt.from_evt(mouse_evt)
         
-        elif evt.button() == Qt.RightButton:
+        elif evt.button() == Qt.MouseButton.RightButton:
             mouse_evt = RightDownEvt.from_evt(mouse_evt)
         
         # set focus
-        self.setFocus(Qt.MouseFocusReason)
+        self.setFocus(Qt.FocusReason.MouseFocusReason)
         
         # fire event
         if self.control is not None:
@@ -419,13 +419,13 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         mouse_evt = self._init_mouse_event(evt)
         
         # make specific event type
-        if evt.button() == Qt.LeftButton:
+        if evt.button() == Qt.MouseButton.LeftButton:
             mouse_evt = LeftUpEvt.from_evt(mouse_evt)
         
-        elif evt.button() == Qt.MiddleButton:
+        elif evt.button() == Qt.MouseButton.MiddleButton:
             mouse_evt = MiddleUpEvt.from_evt(mouse_evt)
         
-        elif evt.button() == Qt.RightButton:
+        elif evt.button() == Qt.MouseButton.RightButton:
             mouse_evt = RightUpEvt.from_evt(mouse_evt)
         
         # fire event
@@ -440,13 +440,13 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         mouse_evt = self._init_mouse_event(evt)
         
         # make specific event type
-        if evt.button() == Qt.LeftButton:
+        if evt.button() == Qt.MouseButton.LeftButton:
             mouse_evt = LeftDClickEvt.from_evt(mouse_evt)
         
-        elif evt.button() == Qt.MiddleButton:
+        elif evt.button() == Qt.MouseButton.MiddleButton:
             mouse_evt = MiddleDClickEvt.from_evt(mouse_evt)
         
-        elif evt.button() == Qt.RightButton:
+        elif evt.button() == Qt.MouseButton.RightButton:
             mouse_evt = RightDClickEvt.from_evt(mouse_evt)
         
         # fire event

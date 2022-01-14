@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from . loader import QWidget, QDesktopWidget, QHBoxLayout
+from . loader import QWidget, QHBoxLayout
 from ... drawing import Graphics
 from .. view import Control
 from . view import QtView
@@ -42,7 +42,7 @@ class QtViewer(QWidget):
         
         # center on screen
         geo = self.frameGeometry()
-        center = QDesktopWidget().availableGeometry().center()
+        center = self.screen().availableGeometry().center()
         geo.moveCenter(center)
         self.move(geo.topLeft())
     

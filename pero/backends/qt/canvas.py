@@ -368,7 +368,7 @@ class QtCanvas(Canvas):
                 bgr_width = line_width * self._scale
                 bgr_height = line_height * self._scale
                 
-                self._dc.setPen(Qt.NoPen)
+                self._dc.setPen(Qt.PenStyle.NoPen)
                 self._dc.drawRect(bgr_x, bgr_y, bgr_width, bgr_height)
                 
                 if self._for_color is not None:
@@ -412,7 +412,7 @@ class QtCanvas(Canvas):
         qt_path = self._make_native_path(path)
         
         # set as clipping
-        self._dc.setClipPath(qt_path, Qt.IntersectClip)
+        self._dc.setClipPath(qt_path, Qt.ClipOperation.IntersectClip)
         
         # return state
         return ClipState(self)
@@ -511,7 +511,7 @@ class QtCanvas(Canvas):
         
         # set pen
         if self._pen.width() == 0:
-            self._dc.setPen(Qt.NoPen)
+            self._dc.setPen(Qt.PenStyle.NoPen)
         else:
             self._dc.setPen(self._pen)
     
@@ -575,9 +575,9 @@ class QtCanvas(Canvas):
         if prop_name is None or prop_name == 'font_style':
             font_style = self.font_style
             if font_style is None:
-                font.setItalic(False)
+                font.setStyle(self._default_font.style())
             elif font_style is not UNDEF:
-                font.setItalic(QT_FONT_STYLE[font_style])
+                font.setStyle(QT_FONT_STYLE[font_style])
         
         # update font weight
         if prop_name is None or prop_name == 'font_weight':
