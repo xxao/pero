@@ -77,8 +77,11 @@ class Property(object):
         elif not isinstance(types, tuple):
             self._types = (types,)
         
-        # set default value
-        self._default = self.parse(default)
+        # check default
+        self.parse(default)
+        
+        # set default
+        self._default = default
     
     
     def __str__(self):
@@ -121,7 +124,7 @@ class Property(object):
             
             # initialize by default value
             else:
-                new_value = self._default
+                new_value = self.parse(self._default)
                 obj.__dict__[name] = new_value
                 return new_value
         
@@ -139,7 +142,7 @@ class Property(object):
         the instance or changes the default value of the property.
         
         If the 'obj' is set to an instance of PropertySet, given value is set to
-        the instance. If the value is different than the one previously set,
+        the instance. If the value is different from the one previously set,
         the pero.EVT_PROPERTY_CHANGED event is fired with current property
         name and the old and the new values.
         
@@ -189,7 +192,7 @@ class Property(object):
         
         # set class default
         else:
-            self._default = new_value
+            self._default = value
     
     
     @property
@@ -255,19 +258,6 @@ class Property(object):
         """
         
         return self._default
-    
-    
-    @default.setter
-    def default(self, value):
-        """
-        Sets default value.
-        
-        Args:
-            value: any
-                Default value to be set.
-        """
-        
-        self._default = self.parse(value)
     
     
     def parse(self, value):
