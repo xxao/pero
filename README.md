@@ -1,12 +1,12 @@
 # Pero
 
 The main motivation behind the *pero* library is to provide unified API for multiple drawing backends like
-[PyQt5](https://pypi.org/project/PyQt5/), [wxPython](https://pypi.org/project/wxPython/),
-[PyCairo](https://pypi.org/project/pycairo/), [PyMuPDF](https://pypi.org/project/PyMuPDF/),
-[Pythonista](http://omz-software.com/pythonista/) (and possibly more), which is easy to understand and use. Beside the
-common drawing capabilities, numerous pre-build glyphs are available, as well as an easy to use path, matrix
-transformations etc. Depending on available backend libraries, drawings can be viewed directly or exported into various
-image formats.
+[PyQt5](https://pypi.org/project/PyQt5/), [PySide2](https://pypi.org/project/PySide2/),
+[wxPython](https://pypi.org/project/wxPython/), [PyCairo](https://pypi.org/project/pycairo/),
+[PyMuPDF](https://pypi.org/project/PyMuPDF/), [Pythonista](http://omz-software.com/pythonista/) (and possibly more),
+which is easy to understand and use. Beside the common drawing capabilities, numerous pre-build glyphs are available,
+as well as an easy-to-use path, matrix transformations etc. Depending on available backend libraries, drawings can be
+viewed directly or exported into various image formats.
 
 Ever since I discovered the wonderful [d3js](https://d3js.org) JavaScript library, I wanted to have the same amazing
 concept of dynamic properties within Python drawings. In fact, this has been the trigger to start working on the *pero*
@@ -89,6 +89,7 @@ img.show()
 ## Supported Backends
 
 - [PyQt5](https://pypi.org/project/PyQt5/)
+- [PySide2](https://pypi.org/project/PySide2/)
 - [wxPython](https://pypi.org/project/wxPython/)
 - [PyCairo](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pycairo)
 - [PyMuPDF](https://pypi.org/project/PyMuPDF/)
@@ -121,8 +122,9 @@ Please note that the *pero* library is still in an alpha state. Any changes in i
 ### Using default backend
 
 If you just want to draw an image using whatever the default backend is (for requested format), or show the image
-directly (requires [PyQt5](https://pypi.org/project/PyQt5/), [wxPython](https://pypi.org/project/wxPython/) or
-[Pythonista iOS App](http://omz-software.com/pythonista/)), just create an *image* and use it as any other *pero* canvas:
+directly (requires [PyQt5](https://pypi.org/project/PyQt5/), [PySide2](https://pypi.org/project/PySide2/),
+[wxPython](https://pypi.org/project/wxPython/) or [Pythonista iOS App](http://omz-software.com/pythonista/)),
+just create an *image* and use it as any other *pero* canvas:
 
 ```python
 
@@ -148,7 +150,7 @@ img.export('image.png')
 img.show()
 ```
 
-### Using PyQt5
+### Using PyQt5 or PySide2
 
 Inside a *QWidget* you can create a *QPainter* and encapsulate it into the *pero* canvas:
 

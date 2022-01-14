@@ -7,10 +7,10 @@ from .. enums import *
 
 def show(graphics, title=None, width=None, height=None, backend=None, **options):
     """
-    Shows given graphics in available viewer app. Currently this is only
-    available if wxPython or PyQt5 is installed or within Pythonista app on iOS.
-    This method makes sure appropriate backend canvas is created and provided to
-    graphics 'draw' method.
+    Shows given graphics in available viewer app. Currently, this is only
+    available if wxPython or PyQt5 (PySide2) is installed or within Pythonista
+    app on iOS. This method makes sure appropriate backend canvas is created and
+    provided to graphics 'draw' method.
     
     Args:
         graphics: pero.Graphics
@@ -60,7 +60,7 @@ def show(graphics, title=None, width=None, height=None, backend=None, **options)
     
     # no viewer available
     if backend is None:
-        message = "No viewer available or missing library (e.g. wxPython, PyQt5 or Pythonista)!"
+        message = "No viewer available or missing library (e.g. wxPython, PyQt5, PySide2 or Pythonista)!"
         raise ImportError(message)
     
     # show viewer
