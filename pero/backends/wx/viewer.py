@@ -69,9 +69,15 @@ class WXViewer(wx.App):
     
     
     def refresh(self):
-        """Redraws graphics."""
+        """Redraws view."""
         
         self._frame.refresh()
+    
+    
+    def focus(self):
+        """Sets focus to view."""
+        
+        self._frame.focus()
 
 
 class WXViewFrame(wx.Frame):
@@ -127,10 +133,13 @@ class WXViewFrame(wx.Frame):
         # add to sizer
         self._panel.Sizer.Add(self._view, 1, wx.EXPAND)
         self._panel.Sizer.Layout()
+        
+        # set focus
+        self._view.SetFocus()
     
     
     def refresh(self):
-        """Redraws graphics."""
+        """Redraws view."""
         
         if self._view is not None:
             self._view.refresh()

@@ -90,10 +90,13 @@ class QtViewer(QWidget):
         
         # add to sizer
         self._sizer.addWidget(self._view, 1)
+        
+        # set focus
+        self._view.setFocus()
     
     
     def refresh(self):
-        """Redraws graphics."""
+        """Redraws view."""
         
         if self._view is not None:
             self._view.refresh()
