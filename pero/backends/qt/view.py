@@ -170,6 +170,14 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
     def _init_key_event(self, evt):
         """Initialize key event."""
         
+        # get key
+        key = evt.key()
+        char = evt.text()
+        
+        # convert to known key
+        if key in QT_KEYS:
+            key = QT_KEYS[key]
+        
         # init base event
         key_evt = KeyEvt(
             
@@ -177,8 +185,8 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             view = self,
             control = self.control,
             
-            key = evt.key(),
-            char = evt.text(),
+            key = key,
+            char = char,
             
             alt_down = bool(evt.modifiers() & Qt.KeyboardModifier.AltModifier),
             cmd_down = bool(evt.modifiers() & Qt.KeyboardModifier.ControlModifier),
