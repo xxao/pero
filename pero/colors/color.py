@@ -414,6 +414,22 @@ class Color(object, metaclass=ColorMeta):
         return Color(self._red, self._green, self._blue, alpha, name=name)
     
     
+    def invert(self, name=None):
+        """
+        Creates derived color by inverting all color channels.
+        
+        Args:
+            name: str or None
+                Unique name to register.
+        
+        Returns:
+            pero.Color
+                New inverted color.
+        """
+        
+        return Color(255-self._red, 255-self._green, 255-self._blue, self._alpha, name=name)
+    
+    
     @staticmethod
     def create(value, name=None):
         """
