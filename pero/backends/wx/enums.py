@@ -60,11 +60,14 @@ WX_CURSORS = {
 WX_KEYS = {
     wx.WXK_TAB: KEY_TAB,
     wx.WXK_RETURN: KEY_RETURN,
-    wx.WXK_CONTROL: KEY_CTRL,
+    
     wx.WXK_SHIFT: KEY_SHIFT,
+    wx.WXK_CONTROL: KEY_CTRL,
     wx.WXK_ALT: KEY_ALT,
+    
     wx.WXK_ESCAPE: KEY_ESC,
     wx.WXK_SPACE: KEY_SPACE,
+    
     wx.WXK_PAGEUP: KEY_PAGEUP,
     wx.WXK_PAGEDOWN: KEY_PAGEDOWN,
     wx.WXK_END: KEY_END,
@@ -73,7 +76,9 @@ WX_KEYS = {
     wx.WXK_UP: KEY_UP,
     wx.WXK_RIGHT: KEY_RIGHT,
     wx.WXK_DOWN: KEY_DOWN,
+    
     wx.WXK_DELETE: KEY_DELETE,
+    
     wx.WXK_F1: KEY_F1,
     wx.WXK_F2: KEY_F2,
     wx.WXK_F3: KEY_F3,

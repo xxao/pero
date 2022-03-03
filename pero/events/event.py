@@ -24,6 +24,25 @@ class Event(object):
                 raise AttributeError("Attribute not found! --> %s" % name)
     
     
+    def __str__(self):
+        """Gets standard string representation."""
+        
+        # add type
+        text = "%s" % self.TYPE
+        
+        # mark as cancelled
+        if self._canceled:
+            text += "(canceled)"
+        
+        return text
+    
+    
+    def __repr__(self):
+        """Gets debug string representation."""
+        
+        return "%s(%s)" % (self.__class__.__name__, self.__str__())
+    
+    
     def cancel(self):
         """
         Sets current event as canceled to prevent following subscribers to be

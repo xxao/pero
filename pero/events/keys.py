@@ -50,6 +50,32 @@ class KeyEvt(ViewEvt):
         super().__init__(**kwargs)
     
     
+    def __str__(self):
+        """Gets standard string representation."""
+        
+        # init from base
+        text = super().__str__()
+        
+        # add key
+        text += " key: %s" % self.key
+        
+        # add char
+        if self.char:
+            text += " char: %s" % self.char
+        
+        # add modifiers
+        if self.alt_down:
+            text += " Alt"
+        if self.cmd_down:
+            text += " Cmd"
+        if self.ctrl_down:
+            text += " Ctrl"
+        if self.shift_down:
+            text += " Shift"
+        
+        return text
+    
+    
     @classmethod
     def from_evt(cls, evt):
         """
