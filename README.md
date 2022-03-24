@@ -16,6 +16,8 @@ library. Finally, it is now available.
 Please see the [examples](https://github.com/xxao/pero/tree/master/examples) folder or in-code documentation of classes
 and functions to learn more about the *pero* library capabilities.
 
+Consider also checking a small derived library providing some basic plotting functionalities, like profiles, bars, pie
+charts and Venn diagrams, called [perrot](https://github.com/xxao/perrot).
 
 ```python
 
