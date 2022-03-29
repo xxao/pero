@@ -38,6 +38,8 @@ class Arrow(Glyph):
             Includes pero.FillProperties to specify the arrow fill.
     """
     
+    TYPE = None
+    
     start_head = HeadProperty(UNDEF, nullable=True)
     end_head = HeadProperty(UNDEF, nullable=True)
     
@@ -165,6 +167,8 @@ class ArcArrow(Arrow):
             Includes pero.AngleProperties to specify the end angle.
     """
     
+    TYPE = ARROW_ARC
+    
     x = NumProperty(0)
     y = NumProperty(0)
     radius = NumProperty(0)
@@ -259,6 +263,8 @@ class BowArrow(Arrow):
             Specifies the drawing direction. If set to True the arc is drawn
             clockwise, otherwise anti-clockwise.
     """
+    
+    TYPE = ARROW_BOW
     
     x1 = NumProperty(0)
     y1 = NumProperty(0)
@@ -357,6 +363,8 @@ class ConnectorArrow(Arrow):
             between 0 and 1, where 0 means strait line, while 1 means
             fully curved line.
     """
+    
+    TYPE = ARROW_CONNECT_LINE
     
     x1 = NumProperty(0)
     y1 = NumProperty(0)
@@ -490,6 +498,8 @@ class CurveArrow(Arrow):
             means the arrow start.
     """
     
+    TYPE = ARROW_CURVE
+    
     x1 = NumProperty(0)
     y1 = NumProperty(0)
     x2 = NumProperty(0)
@@ -579,6 +589,8 @@ class LineArrow(Arrow):
         y2: int, float, callable
             Specifies the y-coordinate of the arrow end.
     """
+    
+    TYPE = ARROW_LINE
     
     x1 = NumProperty(0)
     y1 = NumProperty(0)
@@ -761,6 +773,8 @@ class RayArrow(Arrow):
         angle properties:
             Includes pero.AngleProperties to specify the line angle.
     """
+    
+    TYPE = ARROW_RAY
     
     x = NumProperty(0)
     y = NumProperty(0)

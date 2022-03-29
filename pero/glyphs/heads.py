@@ -34,6 +34,8 @@ class Head(Glyph):
             Includes pero.FillProperties to specify the head fill.
     """
     
+    TYPE = None
+    
     x = NumProperty(0)
     y = NumProperty(0)
     size = NumProperty(10)
@@ -79,6 +81,8 @@ class Head(Glyph):
 class CircleHead(Head):
     """Defines a circular head."""
     
+    TYPE = HEAD_CIRCLE
+    
     line_color = ColorProperty(None, nullable=True)
     fill_color = ColorProperty(UNDEF, nullable=True)
     
@@ -105,6 +109,8 @@ class CircleHead(Head):
 
 class LineHead(Head):
     """Defines a strait line head."""
+    
+    TYPE = HEAD_LINE
     
     line_color = ColorProperty(UNDEF, nullable=True)
     fill_color = ColorProperty(None, nullable=True)
@@ -137,6 +143,8 @@ class LineHead(Head):
 
 class NormalHead(Head):
     """Defines a closed triangle head."""
+    
+    TYPE = HEAD_NORMAL
     
     line_color = ColorProperty(None, nullable=True)
     fill_color = ColorProperty(UNDEF, nullable=True)
@@ -173,6 +181,8 @@ class NormalHead(Head):
 
 class OpenHead(Head):
     """Defines an opened triangle head."""
+    
+    TYPE = HEAD_OPEN
     
     line_color = ColorProperty(UNDEF, nullable=True)
     fill_color = ColorProperty(None, nullable=True)
@@ -257,6 +267,8 @@ class SymbolHead(Head):
 
 class VeeHead(Head):
     """Defines a closed V-shape head."""
+    
+    TYPE = HEAD_VEE
     
     line_color = ColorProperty(None, nullable=True)
     fill_color = ColorProperty(UNDEF, nullable=True)

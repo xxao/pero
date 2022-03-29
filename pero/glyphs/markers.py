@@ -32,6 +32,8 @@ class Marker(Glyph):
             Includes pero.FillProperties to specify the marker fill.
     """
     
+    TYPE = None
+    
     x = NumProperty(0)
     y = NumProperty(0)
     size = NumProperty(8)
@@ -88,6 +90,8 @@ class Marker(Glyph):
 class Asterisk(Marker):
     """Defines an asterisk marker."""
     
+    TYPE = MARKER_ASTERISK
+    
     
     def draw(self, canvas, source=UNDEF, **overrides):
         """Uses given canvas to draw marker."""
@@ -118,6 +122,8 @@ class Asterisk(Marker):
 class Circle(Marker):
     """Defines a circular marker."""
     
+    TYPE = MARKER_CIRCLE
+    
     
     def draw(self, canvas, source=UNDEF, **overrides):
         """Uses given canvas to draw marker."""
@@ -141,6 +147,8 @@ class Circle(Marker):
 
 class Cross(Marker):
     """Defines a cross marker."""
+    
+    TYPE = MARKER_CROSS
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
@@ -168,6 +176,8 @@ class Cross(Marker):
 
 class Diamond(Marker):
     """Defines a diamond marker."""
+    
+    TYPE = MARKER_DIAMOND
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
@@ -200,6 +210,8 @@ class Diamond(Marker):
 class Plus(Marker):
     """Defines a plus marker."""
     
+    TYPE = MARKER_PLUS
+    
     
     def draw(self, canvas, source=UNDEF, **overrides):
         """Uses given canvas to draw marker."""
@@ -226,6 +238,8 @@ class Plus(Marker):
 
 class Triangle(Marker):
     """Defines a triangle marker."""
+    
+    TYPE = MARKER_TRIANGLE
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
@@ -256,6 +270,8 @@ class Triangle(Marker):
 
 class Square(Marker):
     """Defines a square marker."""
+    
+    TYPE = MARKER_SQUARE
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
