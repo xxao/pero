@@ -233,13 +233,13 @@ class Profile(Glyph):
         # draw points
         for i in range(len(x_coords)):
             
-            # get source
-            source = data[i] if has_data else None
+            # get point data
+            point_data = data[i] if has_data else None
             
             # get coords
             x = x_coords[i]
             y = y_coords[i]
-            size = marker.get_property('size', source)
+            size = marker.get_property('size', point_data, marker_overrides)
             radius = 0.5*size
             
             # apply clipping
@@ -247,7 +247,7 @@ class Profile(Glyph):
                 continue
             
             # draw point
-            marker.draw(canvas, source, x=x, y=y, size=size, **marker_overrides)
+            marker.draw(canvas, point_data, x=x, y=y, **marker_overrides)
     
     
     def _make_steps(self, x_coords, y_coords, steps):
@@ -502,7 +502,7 @@ class Band(Glyph):
             x = x_coords[i]
             y1 = y1_coords[i]
             y2 = y2_coords[i]
-            size = marker.get_property('size', point_data)
+            size = marker.get_property('size', point_data, marker_overrides)
             radius = 0.5*size
             
             # apply x-clipping
@@ -511,8 +511,8 @@ class Band(Glyph):
             
             # draw y1
             if not clip or (clip.y1 < y1+radius and clip.y2 > y1-radius):
-                marker.draw(canvas, point_data, x=x, y=y1, size=size, **marker_overrides)
+                marker.draw(canvas, point_data, x=x, y=y1, **marker_overrides)
             
             # draw y2
             if not clip or (clip.y1 < y2+radius and clip.y2 > y2-radius):
-                marker.draw(canvas, point_data, x=x, y=y2, size=size, **marker_overrides)
+                marker.draw(canvas, point_data, x=x, y=y2, **marker_overrides)
