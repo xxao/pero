@@ -35,7 +35,11 @@ class DrawTest(pero.Graphics):
             text = "Third legend",
             marker = "s",
             marker_line_color = pero.colors.Red,
-            marker_fill_color = pero.colors.Red.lighter(.2))
+            marker_fill_color = pero.colors.Red.lighter(.2),
+            show_line = True,
+            line_color = pero.colors.DarkRed,
+            line_width = 2,
+            line_cap = pero.LINE_CAP_BUTT)
         
         # init legend
         legend = pero.LegendBox(

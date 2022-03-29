@@ -3,9 +3,9 @@
 
 from .. enums import *
 from .. properties import *
-from .. drawing import Frame
+from .. drawing import Frame, Path
 from . glyph import Glyph
-from . markers import MarkerProperty
+from . markers import Marker
 
 
 class Legend(Glyph):
@@ -19,10 +19,10 @@ class Legend(Glyph):
     Properties:
         
         bull_x: int, float or callable
-            Specifies the x-coordinate of the bullet top-left corner.
+            Specifies the x-coordinate of the bullet center.
         
         bull_y: int, float or callable
-            Specifies the y-coordinate of the bullet top-left corner.
+            Specifies the y-coordinate of the bullet center.
         
         text_x: int, float or callable
             Specifies the x-coordinate of the text anchor.
@@ -71,27 +71,78 @@ class Legend(Glyph):
 
 class MarkerLegend(Legend):
     """
-    Defines a simple legend item with marker bullet.
+    Defines a simple legend item with marker bullet and line.
     
     Properties:
         
-        marker: pero.Marker, pero.MARKER, callable, None or UNDEF
-            Specifies the marker glyph to be used as bullet. The value can be
-            specified by any item from the pero.MARKER enum or as a
-            pero.MARKER instance.
+        show_marker: bool or callable
+            Specifies whether the bullet marker should be displayed.
+        
+        show_line: bool or callable
+            Specifies whether the bullet line should be displayed.
+        
+        marker: pero.MARKER, pero.Path, callable, None or UNDEF
+            Specifies the marker to be used as bullet. The value can be
+            specified by any item from the pero.MARKER enum or as pero.Path.
+        
+        marker_size: int, float or callable
+            Specifies the bullet marker size.
+        
+        marker_line properties:
+            Includes pero.LineProperties to specify the bullet marker line.
+        
+        marker_fill properties:
+            Includes pero.FillProperties to specify the bullet marker fill.
+        
+        line_size: int, float or callable
+            Specifies the bullet line length.
+        
+        line properties:
+            Includes pero.LineProperties to specify the bullet line.
     """
     
-    marker = MarkerProperty(MARKER_CIRCLE, dynamic=False, nullable=True)
+    show_marker = BoolProperty(True)
+    show_line = BoolProperty(False)
+    
+    marker = Property(UNDEF, types=(str, Path), nullable=True)
+    marker_size = NumProperty(8)
+    marker_line = Include(LineProperties, prefix='marker_', line_color=UNDEF)
+    marker_fill = Include(FillProperties, prefix='marker_', fill_color=UNDEF)
+    
+    line_size = NumProperty(25)
+    line = Include(LineProperties, line_color=UNDEF, line_width=UNDEF, line_style=UNDEF, line_dash=UNDEF)
     
     
     def get_bull_size(self, canvas, source=UNDEF, **overrides):
         """Gets bullet glyph size."""
         
-        marker = self.get_property('marker', source, overrides)
-        if not marker:
-            return 0, 0
+        # check if visible
+        if not self.is_visible(source, overrides):
+            return None
         
-        return marker.size, marker.size
+        # get properties
+        marker = self.get_property('marker', source, overrides)
+        marker_size = self.get_property('marker_size', source, overrides)
+        show_marker = self.get_property('show_marker', source, overrides)
+        show_line = self.get_property('show_line', source, overrides)
+        line_size = self.get_property('line_size', source, overrides)
+        line_width = self.get_property('line_width', source, overrides)
+        
+        # init size
+        width = 0
+        height = 0
+        
+        # add marker
+        if show_marker and marker_size and marker:
+            width = max(width, marker_size)
+            height = max(height, marker_size)
+        
+        # add line
+        if show_line and line_size:
+            width = max(width, line_size)
+            height = max(height, line_width or 0)
+        
+        return width, height
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
@@ -103,20 +154,32 @@ class MarkerLegend(Legend):
         
         # get properties
         tag = self.get_property('tag', source, overrides)
-        marker = self.get_property('marker', source, overrides)
         text = self.get_property('text', source, overrides)
         text_x = self.get_property('text_x', source, overrides)
         text_y = self.get_property('text_y', source, overrides)
         bull_x = self.get_property('bull_x', source, overrides)
         bull_y = self.get_property('bull_y', source, overrides)
+        show_marker = self.get_property('show_marker', source, overrides)
+        show_line = self.get_property('show_line', source, overrides)
+        marker = self.get_property('marker', source, overrides)
+        marker_size = self.get_property('marker_size', source, overrides)
+        line_size = self.get_property('line_size', source, overrides)
         
         # start drawing group
         canvas.group(tag, "legend")
         
+        # draw line
+        if show_line and line_size:
+            canvas.set_pen_by(self, source=source, overrides=overrides)
+            x1 = bull_x - 0.5*line_size
+            x2 = bull_x + 0.5*line_size
+            canvas.draw_line(x1=x1, y1=bull_y, x2=x2, y2=bull_y)
+        
         # draw marker
-        if marker:
-            offset = 0.5*marker.size
-            marker.draw(canvas, x=bull_x+offset, y=bull_y+offset)
+        if show_marker and marker_size and marker:
+            marker_glyph = Marker.create(marker)
+            marker_glyph.set_properties_from(self, src_prefix='marker_', source=source, overrides=overrides)
+            marker_glyph.draw(canvas, x=bull_x, y=bull_y)
         
         # draw text
         canvas.set_text_by(self, source=source, overrides=overrides)
@@ -251,8 +314,8 @@ class LegendBox(Glyph):
         # draw items
         for item, bull_bbox, text_bbox in items:
             item.draw(canvas,
-                bull_x = x + bull_bbox[0],
-                bull_y = y + bull_bbox[1],
+                bull_x = x + bull_bbox[0] + 0.5*bull_bbox[2],
+                bull_y = y + bull_bbox[1] + 0.5*bull_bbox[3],
                 text_x = x + text_bbox[0],
                 text_y = y + text_bbox[1])
         
