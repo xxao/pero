@@ -85,7 +85,7 @@ class Marker(Glyph):
             return Symbol(path=Path.make_ngon(6), **overrides)
         
         elif isinstance(symbol, Path):
-            return Symbol(path=symbol.symbol(), **overrides)
+            return Symbol(path=symbol, **overrides)
         
         raise ValueError("Unknown marker symbol! -> '%s'" % symbol)
 
@@ -345,8 +345,10 @@ class MarkerProperty(Property):
     """
     Defines a marker property, which simplifies a marker definition by
     converting specific symbols or path into an instance of corresponding marker
-    glyph. Available symbols are defined by the pero.MARKER enum. If a path is
-    provided, it is automatically converted into 1x1 symbol.
+    glyph. Available symbols are defined by the pero.MARKER enum.
+    
+    The path must be a 'symbol-path' i.e. centered at 0,0 and scaled to fit into
+    1x1 square. This can be created from any path by calling the 'symbol' method.
     """
     
     

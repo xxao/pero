@@ -1949,8 +1949,8 @@ class Path(object):
         
         # apply angle
         if angle:
-            mat = Matrix().rotate(angle, x=x, y=y)
-            path.transform(mat)
+            matrix = Matrix().rotate(angle, x=x, y=y)
+            path.transform(matrix)
         
         return path
     
@@ -1997,7 +1997,7 @@ class Path(object):
         
         # apply angle
         if angle:
-            mat = Matrix().rotate(angle, x=x, y=y)
-            path.transform(mat)
+            matrix = Matrix().rotate(angle, x=x, y=y)
+            path.transform(matrix)
         
         return path
