@@ -48,7 +48,7 @@ class Marker(Glyph):
         Initializes a new instance of specified marker.
         
         Args:
-            symbol: str
+            symbol: str or pero.Path
                 Marker symbol.
         
         Returns:
@@ -83,6 +83,9 @@ class Marker(Glyph):
         
         elif symbol == MARKER_HEXAGON:
             return Symbol(path=Path.make_ngon(6), **overrides)
+        
+        elif isinstance(symbol, Path):
+            return Symbol(path=symbol.symbol(), **overrides)
         
         raise ValueError("Unknown marker symbol! -> '%s'" % symbol)
 
@@ -341,8 +344,9 @@ class Symbol(Marker):
 class MarkerProperty(Property):
     """
     Defines a marker property, which simplifies a marker definition by
-    converting specific symbols into an instance of corresponding marker glyph.
-    Available symbols are defined by the pero.MARKER enum.
+    converting specific symbols or path into an instance of corresponding marker
+    glyph. Available symbols are defined by the pero.MARKER enum. If a path is
+    provided, it is automatically converted into 1x1 symbol.
     """
     
     
@@ -350,7 +354,7 @@ class MarkerProperty(Property):
         """Initializes a new instance of MarkerProperty."""
         
         kwargs['default'] = default
-        kwargs['types'] = (Marker, str,)
+        kwargs['types'] = (Marker, str, Path)
         
         super().__init__(**kwargs)
     
