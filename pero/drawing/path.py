@@ -1902,7 +1902,7 @@ class Path(object):
     
     
     @staticmethod
-    def make_star(rays, x=0, y=0, outer_radius=.5, inner_radius=.25, fill_rule=EVENODD):
+    def make_star(rays, x=0, y=0, outer_radius=.5, inner_radius=.25, angle=0, fill_rule=EVENODD):
         """
         Creates a closed star-like path.
         
@@ -1921,6 +1921,9 @@ class Path(object):
             
             inner_radius: int or float
                 Inner radius of the rays.
+            
+            angle: float
+                Angle in radians.
             
             fill_rule: pero.FILL_RULE
                 Specifies the fill rule to be used for drawing as a value from
@@ -1942,11 +1945,18 @@ class Path(object):
         vertices += numpy.array((x, y))
         
         # make path
-        return Path(fill_rule).polygon(vertices[:-1])
+        path = Path(fill_rule).polygon(vertices[:-1])
+        
+        # apply angle
+        if angle:
+            mat = Matrix().rotate(angle, x=x, y=y)
+            path.transform(mat)
+        
+        return path
     
     
     @staticmethod
-    def make_ngon(sides, x=0, y=0, radius=.5, fill_rule=EVENODD):
+    def make_ngon(sides, x=0, y=0, radius=.5, angle=0, fill_rule=EVENODD):
         """
         Creates a closed regular polygon path.
         
@@ -1962,6 +1972,9 @@ class Path(object):
             
             radius: int or float
                 Radius of the polygon.
+            
+            angle: float
+                Angle in radians.
             
             fill_rule: pero.FILL_RULE
                 Specifies the fill rule to be used for drawing as a value from
@@ -1980,4 +1993,11 @@ class Path(object):
         vertices += numpy.array((x, y))
         
         # make path
-        return Path(fill_rule).polygon(vertices[:-1])
+        path = Path(fill_rule).polygon(vertices[:-1])
+        
+        # apply angle
+        if angle:
+            mat = Matrix().rotate(angle, x=x, y=y)
+            path.transform(mat)
+        
+        return path
