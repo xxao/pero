@@ -134,8 +134,13 @@ class MarkerLegend(Legend):
         
         # add marker
         if show_marker and marker_size and marker:
-            width = max(width, marker_size)
-            height = max(height, marker_size)
+            if isinstance(marker, Path):
+                bbox = marker.bbox()
+                width = max(width, marker_size*bbox.width)
+                height = max(height, marker_size*bbox.height)
+            else:
+                width = max(width, marker_size)
+                height = max(height, marker_size)
         
         # add line
         if show_line and line_size:
