@@ -40,6 +40,7 @@ class DrawTest(pero.Graphics):
             data = data,
             line_color = pero.colors.Blue,
             fill_color = pero.colors.Blue.lighter(0.7),
+            marker = lambda d: "o" if d[0] >= 0 else "s",
             marker_size = 8,
             marker_line_color = pero.colors.White,
             marker_fill_color = lambda d: "b" if d[0] >= 0 else "o")
@@ -58,7 +59,8 @@ class DrawTest(pero.Graphics):
         glyph.draw(canvas,
             x = x_scale.scale(x_data),
             y = y_scale.scale(y_data),
-            show_line = False)
+            show_line = False,
+            show_points = True)
         
         y += size
         y_scale.out_range = (y+size-padding, y)

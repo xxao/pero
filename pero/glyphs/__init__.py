@@ -14,7 +14,8 @@ from . gauge import Gauge, StraitGauge, RadialGauge
 from . colorbar import ColorBar
 from . pather import Pather
 from . framer import Framer
-from . profile import Profile, Band
+from . profile import Profile
+from . band import Band
 from . labels import LabelBox, Label, TextLabel
 from . legend import LegendBox, Legend, MarkerLegend
 from . tooltip import Tooltip, TextTooltip
