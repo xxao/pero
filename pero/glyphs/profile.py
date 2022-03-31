@@ -220,14 +220,14 @@ class Profile(Glyph):
             point_data = data[i] if has_data else None
             
             # get marker
-            marker = self.get_property('marker', point_data, marker_overrides)
+            marker = self.get_property('marker', point_data, overrides)
             if not marker:
                 continue
             
             # init glyph
             if not isinstance(marker, Marker):
                 marker = Marker.create(marker)
-                marker.set_properties_from(self, src_prefix='marker_', overrides=marker_overrides, native=True)
+                marker.set_properties_from(self, src_prefix='marker_', overrides=overrides, native=True)
             
             # get coords
             x = x_coords[i]
