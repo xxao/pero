@@ -79,10 +79,14 @@ class Marker(Glyph):
             return Diamond(**overrides)
         
         elif symbol == MARKER_PENTAGON:
-            return Symbol(path=Path.make_ngon(5), **overrides)
+            marker = Symbol(path=Path.make_ngon(5), **overrides)
+            marker.TYPE = MARKER_PENTAGON
+            return marker
         
         elif symbol == MARKER_HEXAGON:
-            return Symbol(path=Path.make_ngon(6), **overrides)
+            marker = Symbol(path=Path.make_ngon(6), **overrides)
+            marker.TYPE = MARKER_HEXAGON
+            return marker
         
         elif isinstance(symbol, Path):
             return Symbol(path=symbol, **overrides)
