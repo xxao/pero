@@ -106,7 +106,7 @@ class ColorProperties(PropertySet):
     """
     
     color = ColorProperty(UNDEF, nullable=True)
-    alpha = RangeProperty(UNDEF, minimum=0, maximum=255, nullable=True)
+    alpha = RangeProperty(None, minimum=0, maximum=255, nullable=True)
     
     
     @staticmethod

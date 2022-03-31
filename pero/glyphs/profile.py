@@ -174,7 +174,7 @@ class Profile(Glyph):
         color = self.get_property('color', source, overrides)
         
         # set pen and brush
-        canvas.fill_color = color
+        canvas.fill_color = color.trans(0.4) if color else color
         canvas.line_color = None
         canvas.set_brush_by(self, source=source, overrides=overrides)
         
@@ -221,7 +221,7 @@ class Profile(Glyph):
         marker_overrides = self.get_child_overrides('marker', overrides)
         
         # set pen and brush
-        canvas.line_color = color
+        canvas.line_color = color.darker(0.2) if color else color
         canvas.fill_color = color
         canvas.set_pen_by(self, source=source, overrides=overrides)
         canvas.set_brush_by(self, source=source, overrides=overrides)

@@ -183,7 +183,7 @@ class Band(Glyph):
         color = self.get_property('color', source, overrides)
         
         # set pen and brush
-        canvas.line_color = color
+        canvas.line_color = color.darker(0.2) if color else color
         canvas.fill_color = None
         canvas.set_pen_by(self, source=source, overrides=overrides)
         
@@ -207,7 +207,7 @@ class Band(Glyph):
         marker_overrides = self.get_child_overrides('marker', overrides)
         
         # set pen and brush
-        canvas.line_color = color
+        canvas.line_color = color.darker(0.2) if color else color
         canvas.fill_color = color
         canvas.set_pen_by(self, source=source, overrides=overrides)
         canvas.set_brush_by(self, source=source, overrides=overrides)
