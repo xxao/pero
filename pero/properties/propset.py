@@ -370,7 +370,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         return own_overrides
     
     
-    def get_child_overrides(self, child_name, overrides):
+    def get_child_overrides(self, child_name, overrides, skip=None, loose=True):
         """
         Extracts the overrides for child property set. A property is considered
         as child-related if it starts with specified 'child_name' followed by
@@ -383,6 +383,13 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             
             overrides: dict or None
                 Overrides to extract the properties from.
+            
+            skip: (str,)
+                Collection of properties to skip.
+            
+            loose: bool
+                If set to True, matching properties existing also in current set
+                will be included as well.
         
         Returns:
             dict
@@ -394,7 +401,11 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             return {}
         
         # get prefix
-        prefix = child_name + PROP_SPLITTER
+        prefix = child_name
+
+        # add splitter
+        if prefix and prefix[-1] != PROP_SPLITTER:
+            prefix += PROP_SPLITTER
         
         # init child overrides
         child_overrides = {}
@@ -402,8 +413,12 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         # get child overrides
         for name in overrides:
             
+            # skip property
+            if skip and name in skip:
+                continue
+            
             # skip current
-            if name in self._properties:
+            if not loose and name in self._properties:
                 continue
             
             # skip without prefix
@@ -476,7 +491,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             self.set_property(name, value, raise_error)
     
     
-    def set_properties_from(self, prop_set, src_prefix="", dst_prefix="", source=UNDEF, overrides=None, ignore=None, native=False):
+    def set_properties_from(self, prop_set, src_prefix="", dst_prefix="", source=UNDEF, overrides=None, skip=None, native=False):
         """
         Sets values of all shared properties from given property set to current
         property set.
@@ -510,14 +525,21 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 Highest priority properties to be used instead of current values.
                 The names should include the 'src_prefix'.
             
-            ignore: (str,)
-                Collection of properties to be ignored. The names should include
+            skip: (str,)
+                Collection of properties to skip. The names should include
                 the 'src_prefix'.
             
             native: bool
                 If set to True callable properties from the source are used
                 directly without calling.
         """
+        
+        # add splitter
+        if src_prefix and src_prefix[-1] != PROP_SPLITTER:
+            src_prefix += PROP_SPLITTER
+        
+        if dst_prefix and dst_prefix[-1] != PROP_SPLITTER:
+            dst_prefix += PROP_SPLITTER
         
         # process source properties
         for prop in prop_set.properties():
@@ -533,8 +555,8 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             src_name = prop.name
             dst_name = dst_prefix + name
             
-            # skip properties
-            if ignore and src_name in ignore:
+            # skip property
+            if skip and src_name in skip:
                 continue
             
             # set shared properties
@@ -543,7 +565,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 setattr(self, dst_name, value)
     
     
-    def set_properties_to(self, prop_set, src_prefix="", dst_prefix="", source=UNDEF, overrides=None, ignore=None, native=False):
+    def set_properties_to(self, prop_set, src_prefix="", dst_prefix="", source=UNDEF, overrides=None, skip=None, native=False):
         """
         Sets values of all shared properties from current property set to given
         property set.
@@ -577,14 +599,21 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
                 Highest priority properties to be used instead of current values.
                 The names should include the 'src_prefix'.
             
-            ignore: (str,)
-                Collection of properties to be ignored. The names should include
+            skip: (str,)
+                Collection of properties to skip. The names should include
                 the 'src_prefix'.
             
             native: bool
                 If set to True callable properties from the source are used
                 directly without calling.
         """
+        
+        # add splitter
+        if src_prefix and src_prefix[-1] != PROP_SPLITTER:
+            src_prefix += PROP_SPLITTER
+        
+        if dst_prefix and dst_prefix[-1] != PROP_SPLITTER:
+            dst_prefix += PROP_SPLITTER
         
         # process current properties
         for prop in self.properties():
@@ -600,8 +629,8 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             src_name = prop.name
             dst_name = dst_prefix + name
             
-            # skip properties
-            if ignore and src_name in ignore:
+            # skip property
+            if skip and src_name in skip:
                 continue
             
             # set shared properties
@@ -816,7 +845,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             
             # clone value
             if deep and isinstance(value, PropertySet):
-                child_overrides = self.get_child_overrides(name, overrides)
+                child_overrides = self.get_child_overrides(name, overrides, loose=False)
                 value = value.clone(source, child_overrides, native, deep)
             
             # set value
