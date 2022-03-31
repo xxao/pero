@@ -86,12 +86,6 @@ class Profile(Glyph):
         marker_fill properties:
             Includes pero.FillProperties to specify the marker fill.
         
-        color: pero.Color, (int,), str, callable, None or UNDEF
-            Specifies the global color as an RGB or RGBA tuple, hex code, name
-            or pero.Color. If the color is set to None, transparent color is
-            set instead. This value will not overwrite specific line or fill
-            color if defined.
-        
         line properties:
             Includes pero.LineProperties to specify the profile line.
         
@@ -117,7 +111,6 @@ class Profile(Glyph):
     marker_line = Include(LineProperties, prefix='marker_', line_color=UNDEF)
     marker_fill = Include(FillProperties, prefix='marker_', fill_color=UNDEF)
     
-    color = ColorProperty(UNDEF, nullable=True)
     line = Include(LineProperties, line_color=UNDEF)
     fill = Include(FillProperties, fill_color=UNDEF)
     
@@ -171,10 +164,8 @@ class Profile(Glyph):
         
         # get properties
         base = self.get_property('base', source, overrides)
-        color = self.get_property('color', source, overrides)
         
         # set pen and brush
-        canvas.fill_color = color.trans(0.4) if color else color
         canvas.line_color = None
         canvas.set_brush_by(self, source=source, overrides=overrides)
         
@@ -194,11 +185,7 @@ class Profile(Glyph):
     def _draw_line(self, canvas, source, overrides, x_coords, y_coords):
         """Draws main line."""
         
-        # get properties
-        color = self.get_property('color', source, overrides)
-        
         # set pen and brush
-        canvas.line_color = color
         canvas.fill_color = None
         canvas.set_pen_by(self, source=source, overrides=overrides)
         
@@ -215,14 +202,11 @@ class Profile(Glyph):
         # get properties
         clip = self.get_property('clip', source, overrides)
         data = self.get_property('data', source, overrides)
-        color = self.get_property('color', source, overrides)
         
         # get marker overrides
         marker_overrides = self.get_child_overrides('marker', overrides)
         
         # set pen and brush
-        canvas.line_color = color.darker(0.2) if color else color
-        canvas.fill_color = color
         canvas.set_pen_by(self, source=source, overrides=overrides)
         canvas.set_brush_by(self, source=source, overrides=overrides)
         

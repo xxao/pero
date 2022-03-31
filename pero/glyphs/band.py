@@ -64,12 +64,6 @@ class Band(Glyph):
             Specifies the clipping frame to skip drawing of points outside the
             frame.
         
-        color: pero.Color, (int,), str, callable, None or UNDEF
-            Specifies the global color as an RGB or RGBA tuple, hex code, name
-            or pero.Color. If the color is set to None, transparent color is
-            set instead. This value will not overwrite specific line or fill
-            color if defined.
-        
         marker: pero.MARKER, pero.Path, pero.Marker, callable, None or UNDEF
             Specifies the marker to draw actual data points with. The value
             can be specified by any item from the pero.MARKER enum, as symbol
@@ -108,7 +102,6 @@ class Band(Glyph):
     marker_line = Include(LineProperties, prefix='marker_', line_color=UNDEF)
     marker_fill = Include(FillProperties, prefix='marker_', fill_color=UNDEF)
     
-    color = ColorProperty(UNDEF, nullable=True)
     line = Include(LineProperties, line_color=UNDEF)
     fill = Include(FillProperties, fill_color=UNDEF)
     
@@ -157,11 +150,7 @@ class Band(Glyph):
     def _draw_area(self, canvas, source, overrides, x_coords, y1_coords, y2_coords):
         """Draws band area."""
         
-        # get properties
-        color = self.get_property('color', source, overrides)
-        
         # set pen and brush
-        canvas.fill_color = color
         canvas.line_color = None
         canvas.set_brush_by(self, source=source, overrides=overrides)
         
@@ -179,11 +168,7 @@ class Band(Glyph):
     def _draw_lines(self, canvas, source, overrides, x_coords, y1_coords, y2_coords):
         """Draws band lines."""
         
-        # get properties
-        color = self.get_property('color', source, overrides)
-        
         # set pen and brush
-        canvas.line_color = color.darker(0.2) if color else color
         canvas.fill_color = None
         canvas.set_pen_by(self, source=source, overrides=overrides)
         
@@ -201,14 +186,11 @@ class Band(Glyph):
         # get properties
         clip = self.get_property('clip', source, overrides)
         data = self.get_property('data', source, overrides)
-        color = self.get_property('color', source, overrides)
         
         # get marker overrides
         marker_overrides = self.get_child_overrides('marker', overrides)
         
         # set pen and brush
-        canvas.line_color = color.darker(0.2) if color else color
-        canvas.fill_color = color
         canvas.set_pen_by(self, source=source, overrides=overrides)
         canvas.set_brush_by(self, source=source, overrides=overrides)
         
