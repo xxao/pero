@@ -41,7 +41,7 @@ def export(graphics, path, width=None, height=None, **options):
     
     # init document
     doc = fitz.open()
-    page = doc.newPage(width=width, height=height)
+    page = doc.new_page(width=width, height=height)
     
     # init canvas
     canvas = MuPDFCanvas(page)

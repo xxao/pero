@@ -89,10 +89,10 @@ class MuPDFCanvas(Canvas):
         radius = self._scale * radius
         
         # init shape
-        shape = self._page.newShape()
+        shape = self._page.new_shape()
         
         # draw
-        shape.drawCircle((x, y), radius)
+        shape.draw_circle((x, y), radius)
         
         # fill and stroke
         self._fill_and_stroke(shape, close=True)
@@ -127,10 +127,10 @@ class MuPDFCanvas(Canvas):
             return
         
         # init shape
-        shape = self._page.newShape()
+        shape = self._page.new_shape()
         
         # draw
-        shape.drawOval((x-0.5*width, y-0.5*height, x+0.5*width, y+0.5*height))
+        shape.draw_oval((x-0.5*width, y-0.5*height, x+0.5*width, y+0.5*height))
         
         # fill and stroke
         self._fill_and_stroke(shape, close=True)
@@ -161,10 +161,10 @@ class MuPDFCanvas(Canvas):
         y2 = self._scale * (y2 + self._offset[1])
         
         # init shape
-        shape = self._page.newShape()
+        shape = self._page.new_shape()
         
         # draw
-        shape.drawLine((x1, y1), (x2, y2))
+        shape.draw_line((x1, y1), (x2, y2))
         
         # fill and stroke
         self._fill_and_stroke(shape, close=False, fill=False)
@@ -187,10 +187,10 @@ class MuPDFCanvas(Canvas):
         points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # init shape
-        shape = self._page.newShape()
+        shape = self._page.new_shape()
         
         # draw
-        shape.drawPolyline(points)
+        shape.draw_polyline(points)
         
         # fill and stroke
         self._fill_and_stroke(shape, close=False)
@@ -212,7 +212,7 @@ class MuPDFCanvas(Canvas):
         path = path.transformed(matrix)
         
         # init shape
-        shape = self._page.newShape()
+        shape = self._page.new_shape()
         cursor = (0, 0)
         origin = (0, 0)
         
@@ -225,7 +225,7 @@ class MuPDFCanvas(Canvas):
             
             # close
             if key == PATH_CLOSE:
-                shape.drawLine(cursor, origin)
+                shape.draw_line(cursor, origin)
                 cursor = origin
             
             # move to
@@ -235,12 +235,12 @@ class MuPDFCanvas(Canvas):
             
             # line to
             elif key == PATH_LINE:
-                shape.drawLine(cursor, values[0:2])
+                shape.draw_line(cursor, values[0:2])
                 cursor = values[0:2]
             
             # curve to
             elif key == PATH_CURVE:
-                shape.drawBezier(cursor, values[0:2], values[2:4], values[4:6])
+                shape.draw_bezier(cursor, values[0:2], values[2:4], values[4:6])
                 cursor = values[4:6]
         
         # fill and stroke
@@ -264,10 +264,10 @@ class MuPDFCanvas(Canvas):
         points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # init shape
-        shape = self._page.newShape()
+        shape = self._page.new_shape()
         
         # draw
-        shape.drawPolyline(points)
+        shape.draw_polyline(points)
         
         # fill and stroke
         self._fill_and_stroke(shape, close=True)
@@ -277,7 +277,7 @@ class MuPDFCanvas(Canvas):
         """
         Draws a rectangle specified by given top left corner and size and
         optional round corners specified as a single value or individual value
-        for each corners starting from top-left.
+        for each corner starting from top-left.
         
         Args:
             x: int or float
@@ -314,10 +314,10 @@ class MuPDFCanvas(Canvas):
         height = self._scale * height
         
         # init shape
-        shape = self._page.newShape()
+        shape = self._page.new_shape()
         
         # draw
-        shape.drawRect((x, y, x+width, y+height))
+        shape.draw_rect((x, y, x+width, y+height))
         
         # fill and stroke
         self._fill_and_stroke(shape, close=True)
@@ -343,7 +343,7 @@ class MuPDFCanvas(Canvas):
         """
         
         # init shape
-        shape = self._page.newShape()
+        shape = self._page.new_shape()
         
         # get full size
         full_width, full_height = self.get_text_size(text)
@@ -433,8 +433,8 @@ class MuPDFCanvas(Canvas):
             # draw background
             if self._font['bgr_color']:
                 
-                shape = self._page.newShape()
-                shape.drawRect((bgr_x1, bgr_y1, bgr_x2, bgr_y2))
+                shape = self._page.new_shape()
+                shape.draw_rect((bgr_x1, bgr_y1, bgr_x2, bgr_y2))
                 
                 shape.finish(
                     width = 0,
@@ -444,7 +444,7 @@ class MuPDFCanvas(Canvas):
                     closePath = True)
             
             # draw text
-            shape.insertText(
+            shape.insert_text(
                 (text_x, text_y),
                 line,
                 fontsize = self._font['size'],
