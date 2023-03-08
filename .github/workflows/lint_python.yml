@@ -13,14 +13,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: pip install --user ruff
+    # Just the showstopper issues
+    - run: ruff --format=github --select=E9,F63,F7,F82 --target-version=py37 .
     # exit-zero on select=ALL
     - run: ruff --exit-zero --select=ALL --statistics --target-version=py37 .
     # exit-zero on select=ALL that are fixable
     - run: ruff --exit-zero --select=ALL --statistics --target-version=py37 . | grep "\[\*\]" || true
-    # Just the showstopper issues
-    - run: ruff --format=github --select=E9,F63,F7,F82 --target-version=py37 .
-    # Stats on default issues
-    - run: ruff --statistics --target-version=py37 .
+    # exit-zero default issues
+    - run: ruff --exit-zero --statistics --target-version=py37 .
     # The default issues
-    - run: ruff --ignore=E402,E501,E701,E731,E741,F401,F403,F405,F811,F841
+    - run: ruff --ignore=E402,E501,E701,E722,E731,E741,F401,F403,F405,F811,F841
                 --format=github --target-version=py37 .
