@@ -20,4 +20,4 @@ jobs:
     # Just the showstopper issues
     - run: ruff --format=github --select=E9,F63,F7,F82 --target-version=py37 .
     # The default issues
-    - run: ruff --format=github --ignore=E701,F401--target-version=py37 .
+    - run: ruff --format=github --ignore=E701,F401 --target-version=py37 .
