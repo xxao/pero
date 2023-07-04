@@ -34,6 +34,11 @@ class QtCanvas(Canvas):
         self._for_color = None
         self._bgr_color = None
         
+        # set font factor
+        self._font_factor = 1.
+        if sys.platform == 'win32':
+            self._font_factor = 0.75
+        
         # init size
         rect = self._dc.viewport()
         
@@ -124,7 +129,7 @@ class QtCanvas(Canvas):
         height = self._scale * height
         
         # draw
-        self._dc.drawEllipse(x-0.5*width, y-0.5*height, width, height)
+        self._dc.drawEllipse(int(x-0.5*width), int(y-0.5*height), int(width), int(height))
     
     
     def draw_line(self, x1, y1, x2, y2):
@@ -152,7 +157,7 @@ class QtCanvas(Canvas):
         y2 = self._scale * (y2 + self._offset[1])
         
         # draw
-        self._dc.drawLine(x1, y1, x2, y2)
+        self._dc.drawLine(int(x1), int(y1), int(x2), int(y2))
     
     
     def draw_lines(self, points):
@@ -219,14 +224,14 @@ class QtCanvas(Canvas):
         points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # draw
-        self._dc.drawPolygon(*(QPoint(*p) for p in points))
+        self._dc.drawPolygon(*(QPoint(int(p[0]), int(p[1])) for p in points))
     
     
     def draw_rect(self, x, y, width, height, radius=None):
         """
         Draws a rectangle specified by given top left corner and size and
         optional round corners specified as a single value or individual value
-        for each corners starting from top-left.
+        for each corner starting from top-left.
         
         Args:
             x: int or float
@@ -264,12 +269,12 @@ class QtCanvas(Canvas):
         
         # no round corners
         if not radius:
-            self._dc.drawRect(x, y, width, height)
+            self._dc.drawRect(int(x), int(y), int(width), int(height))
         
         # same radius for all corners
         else:
-            radius = self._scale * radius[0]
-            self._dc.drawRoundedRect(x, y, width, height, radius, radius)
+            radius = int(self._scale * radius[0])
+            self._dc.drawRoundedRect(int(x), int(y), int(width), int(height), int(radius), int(radius))
     
     
     def draw_text(self, text, x, y, angle=0):
@@ -369,13 +374,13 @@ class QtCanvas(Canvas):
                 bgr_height = line_height * self._scale
                 
                 self._dc.setPen(Qt.PenStyle.NoPen)
-                self._dc.drawRect(bgr_x, bgr_y, bgr_width, bgr_height)
+                self._dc.drawRect(int(bgr_x), int(bgr_y), int(bgr_width), int(bgr_height))
                 
                 if self._for_color is not None:
                     self._dc.setPen(self._for_color)
             
             # draw text
-            self._dc.drawText(line_x, line_y, line)
+            self._dc.drawText(int(line_x), int(line_y), line)
         
         # revert angle transformation
         if angle:
@@ -479,7 +484,7 @@ class QtCanvas(Canvas):
         if prop_name is None or prop_name in ('line_width', 'line_scale'):
             line_width = self.line_width
             if line_width is not UNDEF:
-                self._pen.setWidth(line_width * self.line_scale)
+                self._pen.setWidth(int(line_width * self.line_scale))
         
         # update cap
         if prop_name is None or prop_name == 'line_cap':
@@ -567,9 +572,9 @@ class QtCanvas(Canvas):
         if prop_name is None or prop_name in ('font_size', 'font_scale'):
             font_size = self.font_size
             if font_size is None:
-                font.setPointSize(self._default_font.pointSize() * self.font_scale)
+                font.setPointSize(self._default_font.pointSize() * self.font_scale * self._font_factor)
             elif font_size is not UNDEF:
-                font.setPointSize(font_size * self.font_scale)
+                font.setPointSize(int(font_size * self.font_scale * self._font_factor))
         
         # update font style
         if prop_name is None or prop_name == 'font_style':
