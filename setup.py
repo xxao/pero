@@ -3,11 +3,10 @@
 from setuptools import setup, find_packages
 
 # get version
-from pero import version
-version = '.'.join(str(x) for x in version)
+version = "0.19.0"
 
 # get description
-with open("README.md", "r") as fh:
+with open("README.md", "r", encoding="utf8") as fh:
     long_description = fh.read()
 
 # include additional files
