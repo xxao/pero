@@ -1,6 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
+import math
 from . library import Library
 
 # init library
@@ -290,6 +291,61 @@ class Color(object, metaclass=ColorMeta):
         """
         
         return "#%02x%02x%02x%02x" % (self._red, self._green, self._blue, self._alpha)
+    
+    
+    def luminance(self):
+        """
+        Gets relative luminance as a value in range 0 to 1.
+        
+        Returns:
+            float
+                Relative luminance.
+        """
+        
+        lin_r = self._red / 255.
+        lin_r = lin_r / 12.92 if lin_r <= 0.04045 else math.pow(((lin_r + 0.055) / 1.055), 2.4)
+        
+        lin_g = self._red / 255.
+        lin_g = lin_g / 12.92 if lin_g <= 0.04045 else math.pow(((lin_g + 0.055) / 1.055), 2.4)
+        
+        lin_b = self._red / 255.
+        lin_b = lin_b / 12.92 if lin_b <= 0.04045 else math.pow(((lin_b + 0.055) / 1.055), 2.4)
+        
+        return 0.2126 * lin_r + 0.7152 * lin_g + 0.0722 * lin_b
+    
+    
+    def lightness(self):
+        """
+        Gets perceptual lightness as a value in range 0 to 100.
+        
+        Returns:
+            float
+                Perceptual lightness.
+        """
+        
+        lum = self.luminance()
+        
+        if lum <= 0.008856:
+            return lum * 903.3
+        
+        return math.pow(lum, (1/3)) * 116 - 16
+    
+    
+    def brightness(self):
+        """
+        Gets brightness as a value in range 0 to 1.
+        
+        Returns:
+            float
+                Brightness value.
+        """
+        
+        lum = self.luminance()
+        
+        if lum <= 0.0031308:
+            return lum * 12.92
+        
+        return 1.055 * math.pow(lum, 1.0/2.4) - 0.055
     
     
     def lighter(self, factor=0.2, name=None):
