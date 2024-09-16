@@ -6,7 +6,7 @@ from . glyph import Glyph
 from . text import Text, Textbox
 from . shapes import Annulus, Arc, Bar, Bow, Ellipse, Line, Polygon, Ray, Rect, Shape, Wedge
 from . markers import Marker, Asterisk, Circle, Cross, Diamond, Plus, Triangle, Square, Symbol, MarkerProperty
-from . arrows import Arrow, ArcArrow, BowArrow, ConnectorArrow, CurveArrow, LineArrow, PathArrow, RayArrow
+from . arrows import Arrow, ArcArrow, BowArrow, ConnectorArrow, CurveArrow, LineArrow, PathArrow, RayArrow, ArrowProperty
 from . heads import Head, CircleHead, LineHead, NormalHead, OpenHead, SymbolHead, VeeHead, HeadProperty
 from . grid import Grid, ParallelGrid, RayGrid, RadialGrid
 from . axes import Axis, StraitAxis, RadialAxis
@@ -23,4 +23,5 @@ from . tooltip import Tooltip, TextTooltip
 # register properties
 from .. import properties
 properties.MarkerProperty = MarkerProperty
+properties.ArrowProperty = ArrowProperty
 properties.HeadProperty = HeadProperty

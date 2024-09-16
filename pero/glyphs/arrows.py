@@ -825,3 +825,47 @@ class RayArrow(Arrow):
         
         # end drawing group
         canvas.ungroup()
+
+
+class ArrowProperty(Property):
+    """
+    Defines an arrow property, which simplifies an arrow definition by
+    converting specific expression into an instance of corresponding arrow
+    glyph.
+    
+    The expression consists of the arrow type symbol surrounded by optional
+    heads at both ends (e.g.'<->'). The arrow symbol must be an item from the
+    pero.ARROW enum and it is required. The optional symbols for individual
+    heads can be specified as an item from the pero.HEAD enum.
+    """
+    
+    
+    def __init__(self, default=UNDEF, **kwargs):
+        """Initializes a new instance of ArrowProperty."""
+        
+        kwargs['default'] = default
+        kwargs['types'] = (Arrow, str)
+        
+        super().__init__(**kwargs)
+    
+    
+    def parse(self, value):
+        """Validates and converts given value."""
+        
+        # check type
+        if isinstance(value, Arrow):
+            return value
+        
+        # parse main
+        value = super().parse(value)
+        
+        # allow UNDEF and None
+        if value is UNDEF or value is None:
+            return value
+        
+        # check func
+        if callable(value):
+            return value
+        
+        # convert to arrow
+        return Arrow.create(value)
