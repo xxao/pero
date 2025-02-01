@@ -134,8 +134,7 @@ class AngleTool(pero.Tool):
             return
         
         # get position
-        touch = evt.touches[0]
-        x, y = touch.x_pos, touch.y_pos
+        x, y = evt.x_pos, evt.y_pos
         length = pero.distance(self._center, (x, y))
         
         # start measure
@@ -170,8 +169,7 @@ class AngleTool(pero.Tool):
             return
         
         # get position
-        touch = evt.touches[0]
-        x, y = touch.x_pos, touch.y_pos
+        x, y = evt.x_pos, evt.y_pos
         
         # measure angle
         if self._is_measure:

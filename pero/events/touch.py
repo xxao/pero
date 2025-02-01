@@ -63,6 +63,12 @@ class TouchEvt(ViewEvt):
     
     Attributes:
         
+        x_pos: int or float
+            Last touch logical x-coordinate in device units.
+        
+        y_pos: int or float
+            Last touch logical y-coordinate in device units.
+        
         touches: (pero.Touch,)
             Collection of individual touches.
         
@@ -93,6 +99,30 @@ class TouchEvt(ViewEvt):
         self.shift_down = None
         
         super().__init__(**kwargs)
+    
+    
+    @property
+    def x_pos(self):
+        """Gets x-coordinate of the last touch in device units."""
+        
+        # check touches
+        if not self.touches:
+            return None
+        
+        # return last
+        return self.touches[-1].x_pos
+    
+    
+    @property
+    def y_pos(self):
+        """Gets y-coordinate of the last touch in device units."""
+        
+        # check touches
+        if not self.touches:
+            return None
+        
+        # return last
+        return self.touches[-1].y_pos
     
     
     @classmethod
