@@ -3,7 +3,7 @@
 
 # import main objects
 from . formatter import Formatter
-from . eng import EngFormatter
+from . eng import EngFormatter, BytesFormatter
 from . funced import FuncFormatter
 from . indexed import IndexFormatter
 from . scalar import ScalarFormatter

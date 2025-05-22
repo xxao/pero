@@ -45,6 +45,7 @@ class ScalarFormatter(Formatter):
     
     sci_notation = BoolProperty(True, dynamic=False)
     sci_threshold = IntProperty(5, dynamic=False)
+    
     hide_suffix = BoolProperty(False, dynamic=False)
     suffix_template = StringProperty(" (e{:.0f})", dynamic=False)
     

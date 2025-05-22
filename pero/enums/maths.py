@@ -42,6 +42,18 @@ ENG_PREFIXES = {
     "Z": 21,
     "Y": 24}
 
+# define bytes prefixes
+BYTES_PREFIXES = {
+    "": 0,
+    "k": 10,
+    "M": 20,
+    "G": 30,
+    "T": 40,
+    "P": 50,
+    "E": 60,
+    "Z": 70,
+    "Y": 80}
+
 # define rounding
 ROUND_CEIL = CEIL
 ROUND_FLOOR = FLOOR

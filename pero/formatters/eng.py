@@ -9,9 +9,9 @@ from . formatter import Formatter
 
 class EngFormatter(Formatter):
     """
-    This formatter tool uses engineering prefixes to represent powers of 1000
-    with optional 'units' attached. E.g. 1000 with 'Hz' units will be formatted
-    into 1 kHz label.
+    This formatter tool uses defined prefixes to denote multiples or fractions
+    of units with optional 'units' attached. E.g. 1000 with 'Hz' units will be
+    formatted into 1 kHz label.
     
     The number of visible decimal places is determined automatically by current
     'precision' and 'domain' but it can also be specified directly using the
@@ -23,6 +23,12 @@ class EngFormatter(Formatter):
     suffix can be retrieved using the 'suffix' method.
     
     Properties:
+        
+        base: int
+            Specifies the logarithm base.
+        
+        prefixes: {str: int}
+            Prefixes definition.
         
         units: str, None or UNDEF
             Specifies the optional units to be added right after a formatted
@@ -37,11 +43,19 @@ class EngFormatter(Formatter):
             Specifies whether the whole suffix (the multiplier symbol and units)
             should be removed from the formatted values (True). The actual
             suffix can then be retrieved using the 'suffix' method.
+        
+        suffix_template: str, None or UNDEF
+            Specifies the format()-style template to be used for suffix
+            formatting.
     """
     
+    base = IntProperty(10, dynamic=False)
+    prefixes = DictProperty(ENG_PREFIXES, dynamic=False)
     units = StringProperty(UNDEF, dynamic=False, nullable=True)
     places = IntProperty(UNDEF, dynamic=False)
+    
     hide_suffix = BoolProperty(False, dynamic=False)
+    suffix_template = StringProperty(" ({0})", dynamic=False)
     
     
     def __init__(self, **overrides):
@@ -85,7 +99,7 @@ class EngFormatter(Formatter):
         
         # apply power
         if self._power:
-            value = value / (10.**self._power)
+            value /= self.base**self._power
         
         # apply template
         return template.format(value)
@@ -105,7 +119,11 @@ class EngFormatter(Formatter):
             self._init_formatting()
         
         # return suffix
-        return self._suffix
+        if self.hide_suffix and self._suffix and self.suffix_template:
+            return self.suffix_template.format(self._suffix)
+        
+        # return suffix
+        return ""
     
     
     def _init_formatting(self):
@@ -118,7 +136,7 @@ class EngFormatter(Formatter):
         self._is_dirty = False
         
         # init prefixes
-        self._prefixes = {v: k for k, v in ENG_PREFIXES.items()}
+        self._prefixes = {v: k for k, v in self.prefixes.items()}
         
         # check domain
         if not self.domain:
@@ -132,35 +150,36 @@ class EngFormatter(Formatter):
         """Creates template to cover expected range."""
         
         # get power
-        self._power = int(math.floor(math.log10(abs(domain)) / 3) * 3) if domain else 0
+        self._power = int(math.floor(math.log(abs(domain), self.base))) if domain else 0
+        
         self._power = min(self._power, max(self._prefixes.keys()))
         self._power = max(self._power, min(self._prefixes.keys()))
         
+        if self._power not in self._prefixes:
+            prefixes = [p for p in self._prefixes if p <= self._power]
+            self._power = min(prefixes, key=lambda p: abs(p-self._power))
+        
         # get suffix
-        suffix = self._prefixes[self._power]
+        self._suffix = self._prefixes.get(self._power, "")
         
         # add units
         if self.units:
-            suffix += self.units
+            self._suffix += self.units
         
-        # hide suffix
-        if self.hide_suffix:
-            self._suffix = suffix
-            suffix = ""
-        
-        # add spacer
+        # init direct suffix
+        suffix = "" if self.hide_suffix else self._suffix
         if suffix:
             suffix = " " + suffix
         
         # get places
         places = 0
-        
         if self.places is not UNDEF:
             places = int(self.places)
         
         elif self.precision and self.precision < domain:
             last_digit = int(math.floor(math.log10(abs(self.precision))))
-            places = self._power - last_digit
+            power = int(math.floor(math.log10(math.pow(self.base, self._power))))
+            places = power - last_digit
         
         # make template
         return "{:.%df}%s" % (max(0, places), suffix)
@@ -170,3 +189,11 @@ class EngFormatter(Formatter):
         """Called after a property has changed."""
         
         self._is_dirty = True
+
+
+class BytesFormatter(EngFormatter):
+    """Special type of pero.EngFormatter predefined for bytes scale."""
+    
+    base = IntProperty(2, dynamic=False)
+    prefixes = DictProperty(BYTES_PREFIXES, dynamic=False)
+    units = StringProperty("B", dynamic=False, nullable=True)

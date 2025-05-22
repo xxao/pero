@@ -131,26 +131,26 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.suffix(), "")
         
         self.assertEqual(formatter.format(234.5678e6), "235")
-        self.assertEqual(formatter.suffix(), "M")
+        self.assertEqual(formatter.suffix(), " (M)")
         
         self.assertEqual(formatter.format(234.5678e3), "235")
-        self.assertEqual(formatter.suffix(), "k")
+        self.assertEqual(formatter.suffix(), " (k)")
         
         self.assertEqual(formatter.format(234.5678), "235")
         self.assertEqual(formatter.suffix(), "")
         
         # formatter with domain
         formatter = pero.EngFormatter(hide_suffix=True, domain=1e4)
-        self.assertEqual(formatter.suffix(), "k")
+        self.assertEqual(formatter.suffix(), " (k)")
         
         self.assertEqual(formatter.format(234.5678e6), "234568")
-        self.assertEqual(formatter.suffix(), "k")
+        self.assertEqual(formatter.suffix(), " (k)")
         
         self.assertEqual(formatter.format(234.5678e3), "235")
-        self.assertEqual(formatter.suffix(), "k")
+        self.assertEqual(formatter.suffix(), " (k)")
         
         self.assertEqual(formatter.format(234.5678), "0")
-        self.assertEqual(formatter.suffix(), "k")
+        self.assertEqual(formatter.suffix(), " (k)")
 
 
 # run test case
