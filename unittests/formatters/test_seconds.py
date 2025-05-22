@@ -104,6 +104,13 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(17.567), "0.00 h")
         self.assertEqual(formatter.format(.1), "0.00 h")
         
+        formatter = pero.SecondsFormatter(domain=60*4, precision=30)
+        
+        self.assertEqual(formatter.format(60*60 + 30*60 - 1), "90.0 m")
+        self.assertEqual(formatter.format(70.5), "1.2 m")
+        self.assertEqual(formatter.format(17.567), "0.3 m")
+        self.assertEqual(formatter.format(.1), "0.0 m")
+        
         # check domain, precision and places
         formatter = pero.SecondsFormatter(domain=60*60, precision=60, places=1)
         
