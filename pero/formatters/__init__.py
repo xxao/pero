@@ -6,7 +6,7 @@ from . formatter import Formatter
 from . funced import FuncFormatter
 from . indexed import IndexFormatter
 from . scalar import ScalarFormatter
-from . split import SplitFormatter, EngFormatter, BytesFormatter, SecondsFormatter
+from . eng import EngFormatter, BytesFormatter
 from . stringed import EmptyFormatter, StrFormatter, PrintfFormatter
 from . timed import TimeFormatter
 

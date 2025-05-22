@@ -4,7 +4,7 @@
 # import enums
 from . values import *
 from . maths import *
-from . splits import *
+from . prefs import *
 from . drawing import *
 from . positions import *
 from . text import *
