@@ -2,30 +2,27 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import math
-from .. enums import *
-from .. properties import *
-from . formatter import Formatter
+from ..enums import *
+from ..properties import *
+from .formatter import Formatter
 
 
-class EngFormatter(Formatter):
+class SplitFormatter(Formatter):
     """
-    This formatter tool uses defined prefixes to denote multiples or fractions
-    of units with optional 'units' attached. E.g. 1000 with 'Hz' units will be
-    formatted into 1 kHz label.
+    This formatter tool uses defined splits to denote scale and attach
+    optional 'units'. E.g. 1000 with 'Hz' units will be formatted into '1 kHz'
+    label.
     
     The number of visible decimal places is determined automatically by current
     'precision' and 'domain' but it can also be specified directly using the
     'places' property.
     
     Sometimes it might be handy to just format the number and remove the whole
-    suffix (the multiplier symbol and units) from all the labels. This can be
+    suffix (the split symbol and units) from all the labels. This can be
     achieved by setting the 'hide_suffix' property to True and then the actual
     suffix can be retrieved using the 'suffix' method.
     
     Properties:
-        
-        base: int
-            Specifies the logarithm base.
         
         prefixes: {str: int}
             Prefixes definition.
@@ -40,7 +37,7 @@ class EngFormatter(Formatter):
             'precision' and 'domain'.
         
         hide_suffix: bool
-            Specifies whether the whole suffix (the multiplier symbol and units)
+            Specifies whether the whole suffix (the split symbol and units)
             should be removed from the formatted values (True). The actual
             suffix can then be retrieved using the 'suffix' method.
         
@@ -49,8 +46,7 @@ class EngFormatter(Formatter):
             formatting.
     """
     
-    base = IntProperty(10, dynamic=False)
-    prefixes = DictProperty(ENG_PREFIXES, dynamic=False)
+    splits = DictProperty(SPLITS_ENG, dynamic=False)
     units = StringProperty(UNDEF, dynamic=False, nullable=True)
     places = IntProperty(UNDEF, dynamic=False)
     
@@ -59,7 +55,7 @@ class EngFormatter(Formatter):
     
     
     def __init__(self, **overrides):
-        """Initializes a new instance of EngFormatter."""
+        """Initializes a new instance of SplitFormatter."""
         
         super().__init__(**overrides)
         
@@ -68,21 +64,21 @@ class EngFormatter(Formatter):
         self._suffix = ""
         self._template = None
         
-        self._prefixes = None
+        self._splits = None
         self._is_dirty = True
         
         # bind events
-        self.bind(EVT_PROPERTY_CHANGED, self._on_eng_formatter_property_changed)
+        self.bind(EVT_PROPERTY_CHANGED, self._on_split_formatter_property_changed)
     
     
     def format(self, value, *args, **kwargs):
         """
-        Formats a given value using engineering formatting.
-        
+        Formats given value using current formatting.
+
         Args:
             value: float
                 Value to be formatted.
-        
+
         Returns:
             str
                 Formatted label.
@@ -99,7 +95,7 @@ class EngFormatter(Formatter):
         
         # apply power
         if self._power:
-            value /= self.base**self._power
+            value /= self._power
         
         # apply template
         return template.format(value)
@@ -108,7 +104,7 @@ class EngFormatter(Formatter):
     def suffix(self, *args, **kwargs):
         """
         Gets current (or the latest) suffix (e.g. kHz).
-        
+
         Returns:
             str
                 Labels suffix.
@@ -135,8 +131,8 @@ class EngFormatter(Formatter):
         self._template = None
         self._is_dirty = False
         
-        # init prefixes
-        self._prefixes = {v: k for k, v in self.prefixes.items()}
+        # init splits
+        self._splits = {v: k for k, v in self.splits.items()}
         
         # check domain
         if not self.domain:
@@ -150,17 +146,17 @@ class EngFormatter(Formatter):
         """Creates template to cover expected range."""
         
         # get power
-        self._power = int(math.floor(math.log(abs(domain), self.base))) if domain else 0
+        splits = tuple(sorted(self._splits.keys(), reverse=True))
+        for split in splits:
+            if domain / split >= 1.:
+                self._power = split
+                break
         
-        self._power = min(self._power, max(self._prefixes.keys()))
-        self._power = max(self._power, min(self._prefixes.keys()))
-        
-        if self._power not in self._prefixes:
-            prefixes = [p for p in self._prefixes if p <= self._power]
-            self._power = min(prefixes, key=lambda p: abs(p-self._power))
+        self._power = min(self._power, max(splits))
+        self._power = max(self._power, min(splits))
         
         # get suffix
-        self._suffix = self._prefixes.get(self._power, "")
+        self._suffix = self._splits.get(self._power, "")
         
         # add units
         if self.units:
@@ -178,22 +174,33 @@ class EngFormatter(Formatter):
         
         elif self.precision and self.precision < domain:
             last_digit = int(math.floor(math.log10(abs(self.precision))))
-            power = int(math.floor(math.log10(math.pow(self.base, self._power))))
+            power = int(math.floor(math.log10(self._power)))
             places = power - last_digit
         
         # make template
         return "{:.%df}%s" % (max(0, places), suffix)
     
     
-    def _on_eng_formatter_property_changed(self, evt=None):
+    def _on_split_formatter_property_changed(self, evt=None):
         """Called after a property has changed."""
         
         self._is_dirty = True
 
 
-class BytesFormatter(EngFormatter):
-    """Special type of pero.EngFormatter predefined for bytes scale."""
+class EngFormatter(SplitFormatter):
+    """Special type of pero.SplitFormatter predefined for engineering notation."""
     
-    base = IntProperty(2, dynamic=False)
-    prefixes = DictProperty(BYTES_PREFIXES, dynamic=False)
+    splits = DictProperty(SPLITS_ENG, dynamic=False)
+
+
+class BytesFormatter(SplitFormatter):
+    """Special type of pero.SplitFormatter predefined for bytes scale."""
+    
+    splits = DictProperty(SPLITS_BYTES, dynamic=False)
     units = StringProperty("B", dynamic=False, nullable=True)
+
+
+class SecondsFormatter(SplitFormatter):
+    """Special type of pero.SplitFormatter predefined for time scale."""
+    
+    splits = DictProperty(SPLITS_TIME, dynamic=False)

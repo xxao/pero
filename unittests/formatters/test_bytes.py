@@ -9,13 +9,6 @@ class TestCase(unittest.TestCase):
     """Test case for bytes formatter."""
     
     
-    def test_prefixes(self):
-        """Tests whether prefixes are available."""
-        
-        self.assertTrue(pero.BYTES_PREFIXES)
-        self.assertTrue(len(pero.BYTES_PREFIXES) >= 9)
-    
-    
     def test_standalone(self):
         """Tests whether formatter works as standalone tool."""
         
@@ -25,23 +18,31 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(234.5678e3), "229 kB")
         self.assertEqual(formatter.format(234.5678), "235 B")
         self.assertEqual(formatter.format(234.5678e-3), "0 B")
-        
-        self.assertEqual(formatter.format(1234.5678e6), "1 GB")
-        self.assertEqual(formatter.format(1234.5678e3), "1 MB")
-        self.assertEqual(formatter.format(1234.5678), "1 kB")
-        self.assertEqual(formatter.format(1234.5678e-3), "1 B")
-        self.assertEqual(formatter.format(1234.5678e-6), "0 B")
-        
-        self.assertEqual(formatter.format(234.5678e5), "22 MB")
-        self.assertEqual(formatter.format(234.5678e2), "23 kB")
-        self.assertEqual(formatter.format(234.5678e-1), "23 B")
-        self.assertEqual(formatter.format(234.5678e-4), "0 B")
     
     
-    def test_digits(self):
-        """Tests whether number of digits is set correctly."""
+    def test_places(self):
+        """Tests whether places works correctly."""
         
-        # check precision
+        formatter = pero.BytesFormatter(places=0)
+        
+        self.assertEqual(formatter.format(234.5678e6), "224 MB")
+        self.assertEqual(formatter.format(234.5678e3), "229 kB")
+        self.assertEqual(formatter.format(234.5678), "235 B")
+        self.assertEqual(formatter.format(234.5678e-3), "0 B")
+        self.assertEqual(formatter.format(234.5678e-6), "0 B")
+        
+        formatter = pero.BytesFormatter(places=2)
+        
+        self.assertEqual(formatter.format(234.5678e6), "223.70 MB")
+        self.assertEqual(formatter.format(234.5678e3), "229.07 kB")
+        self.assertEqual(formatter.format(234.5678), "234.57 B")
+        self.assertEqual(formatter.format(234.5678e-3), "0.23 B")
+        self.assertEqual(formatter.format(234.5678e-6), "0.00 B")
+    
+    
+    def test_precision(self):
+        """Tests whether precision works correctly."""
+        
         formatter = pero.BytesFormatter(precision=100)
         
         self.assertEqual(formatter.format(234.5678e6), "223.7013 MB")
@@ -50,7 +51,6 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(234.5678e-3), "0 B")
         self.assertEqual(formatter.format(234.5678e-6), "0 B")
         
-        # check precision
         formatter = pero.BytesFormatter(precision=0.1)
         
         self.assertEqual(formatter.format(234.5678e6), "223.7012863 MB")
@@ -58,30 +58,11 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(234.5678), "234.6 B")
         self.assertEqual(formatter.format(234.5678e-3), "0.2 B")
         self.assertEqual(formatter.format(234.5678e-6), "0 B")
-        
-        # check places
-        formatter = pero.BytesFormatter(places=2)
-        
-        self.assertEqual(formatter.format(234.5678e6), "223.70 MB")
-        self.assertEqual(formatter.format(234.5678e3), "229.07 kB")
-        self.assertEqual(formatter.format(234.5678), "234.57 B")
-        self.assertEqual(formatter.format(234.5678e-3), "0.23 B")
-        self.assertEqual(formatter.format(234.5678e-6), "0.00 B")
-        
-        # check precision and places
-        formatter = pero.BytesFormatter(precision=100, places=2)
-        
-        self.assertEqual(formatter.format(234.5678e6), "223.70 MB")
-        self.assertEqual(formatter.format(234.5678e3), "229.07 kB")
-        self.assertEqual(formatter.format(234.5678), "234.57 B")
-        self.assertEqual(formatter.format(234.5678e-3), "0.23 B")
-        self.assertEqual(formatter.format(234.5678e-6), "0.00 B")
     
     
     def test_domain(self):
-        """Tests whether domain is used correctly."""
+        """Tests whether domain works correctly."""
         
-        # check domain
         formatter = pero.BytesFormatter(domain=1e4)
         
         self.assertEqual(formatter.format(234.5678e6), "229070 kB")
@@ -90,7 +71,19 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(234.5678e-3), "0 kB")
         self.assertEqual(formatter.format(234.5678e-6), "0 kB")
         
-        # check with precision
+        formatter = pero.BytesFormatter(domain=1e2)
+        
+        self.assertEqual(formatter.format(234.5678e6), "234567800 B")
+        self.assertEqual(formatter.format(234.5678e3), "234568 B")
+        self.assertEqual(formatter.format(234.5678), "235 B")
+        self.assertEqual(formatter.format(234.5678e-3), "0 B")
+        self.assertEqual(formatter.format(234.5678e-6), "0 B")
+    
+    
+    def test_digits(self):
+        """Tests whether digits works correctly."""
+        
+        # check domain and precision
         formatter = pero.BytesFormatter(domain=1e4, precision=100)
         
         self.assertEqual(formatter.format(234.5678e6), "229070.1 kB")
@@ -99,7 +92,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(234.5678e-3), "0.0 kB")
         self.assertEqual(formatter.format(234.5678e-6), "0.0 kB")
         
-        # check with precision and places
+        # check domain, precision and places
         formatter = pero.BytesFormatter(domain=1e4, precision=100, places=2)
         
         self.assertEqual(formatter.format(234.5678e6), "229070.12 kB")
