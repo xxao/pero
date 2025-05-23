@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # define engineering prefixes
-PREF_ENG = {
+PREFS_ENG = {
     "y": -24,
     "z": -21,
     "a": -18,
@@ -22,7 +22,7 @@ PREF_ENG = {
     "Y": 24}
 
 # define bytes prefixes
-PREF_BYTES = {
+PREFS_BYTES = {
     "": 0,
     "k": 10,
     "M": 20,

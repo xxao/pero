@@ -4,7 +4,7 @@
 import math
 
 
-def step_size(domain, count=7, splits=(5, 3, 2, 1), base=10):
+def calc_step_size(domain, count=7, splits=(5, 3, 2, 1), base=10):
     """
     Calculates visually nice step size for given range.
     
@@ -44,7 +44,7 @@ def step_size(domain, count=7, splits=(5, 3, 2, 1), base=10):
     return step
 
 
-def make_ticks(start, end, step):
+def make_lin_ticks(start, end, step):
     """
     Makes equidistant ticks for given range and step size.
     
@@ -84,7 +84,23 @@ def make_ticks(start, end, step):
 
 
 def make_log_ticks(start, end, base):
-    """pass"""
+    """
+    Makes logarithmic ticks for given range and base.
+    
+    Args:
+        start: int or float
+            Minimum value of the range.
+        
+        end: int or float
+            Maximum value of the range.
+        
+        base: float
+            Logarithm base.
+    
+    Returns:
+        (float,)
+            Ticks values.
+    """
     
     ticks = []
     

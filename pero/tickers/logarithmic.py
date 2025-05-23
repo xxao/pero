@@ -136,16 +136,16 @@ class LogTicker(Ticker):
             
             count = min(domain, count)
             splits = (base, 1) if domain <= count else (1, 2, 5)
-            step = step_size(domain, count, splits, base)
+            step = calc_step_size(domain, count, splits, base)
             
-            ticks = make_ticks(lo, hi, step)
+            ticks = make_lin_ticks(lo, hi, step)
             ticks = tuple(map(lambda t: math.pow(base, t), ticks))
             
             return ticks, math.pow(base, step), 1
         
         domain = abs(end - start)
         splits = (base, 1) if base != 10 else (1, 2, 5)
-        step = step_size(domain, count, splits, base)
+        step = calc_step_size(domain, count, splits, base)
         stage3 = (count - domain/step)
         
         if stage2 < stage3:
@@ -153,7 +153,7 @@ class LogTicker(Ticker):
             return ticks, step, 2
         
         else:
-            ticks = make_ticks(start, end, step)
+            ticks = make_lin_ticks(start, end, step)
             return ticks, step, 3
     
     
@@ -161,8 +161,8 @@ class LogTicker(Ticker):
         """Makes minor ticks."""
         
         if stage != 1:
-            step = step_size(step, count, (base, 1), base)
-            return make_ticks(start, end, step)
+            step = calc_step_size(step, count, (base, 1), base)
+            return make_lin_ticks(start, end, step)
         
         if step <= base:
             return make_log_ticks(start, end, base)
@@ -171,10 +171,10 @@ class LogTicker(Ticker):
         end = math.log(end, base)
         
         step = math.log(step, base)
-        step = step_size(step, count, (1, 2, 5), base)
+        step = calc_step_size(step, count, (1, 2, 5), base)
         step = max(step, 1.)
         
-        ticks = make_ticks(start, end, step)
+        ticks = make_lin_ticks(start, end, step)
         ticks = tuple(map(lambda t: math.pow(base, t), ticks))
         
         return ticks

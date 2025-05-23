@@ -94,7 +94,7 @@ class TimeFormatter(Formatter):
         self._is_dirty = True
         
         # get available parts (units, factor)
-        self._parts = sorted(TIME_FACTORS.items(), key=lambda d: d[1], reverse=True)
+        self._parts = sorted(SPLITS_TIME.items(), key=lambda d: d[1], reverse=True)
         
         # bind events
         self.bind(EVT_PROPERTY_CHANGED, self._on_time_formatter_property_changed)
@@ -123,7 +123,7 @@ class TimeFormatter(Formatter):
             template = self._make_template(value)
         
         # init parts
-        parts = {x[0]:0 for x in self._parts}
+        parts = {x[0]: 0 for x in self._parts}
         
         # split time
         last = None

@@ -9,15 +9,36 @@ class TestCase(unittest.TestCase):
     """Test case for ticker helpers."""
     
     
+    def test_split_eng(self):
+        """Tests whether engineering splits are calculated correctly."""
+        
+        splits = pero.SPLITS_ENG
+        
+        parts = pero.formatters.split_value(12345, splits)
+        model = {k: 0 for k in splits}
+        model.update({"k": 12, "": 345})
+        self.assertEqual(parts, model)
+    
+    
     def test_split_time(self):
         """Tests whether time splits are calculated correctly."""
         
-        parts = pero.formatters.split_time(5555.1234567890123)
-        model = {"d": 0, "h": 1, "m": 32, "s": 35, "ms": 123, "us": 456, "ns": 789}
-        self.assertEqual(parts, model)
+        splits = pero.SPLITS_TIME
         
-        parts = pero.formatters.split_time(55)
-        model = {"d": 0, "h": 0, "m": 0, "s": 55, "ms": 0, "us": 0, "ns": 0}
+        parts = pero.formatters.split_value(12345.6789, splits)
+        model = {k: 0 for k in splits}
+        model.update({"h": 3, "m": 25, "s": 45, "ms": 678, "us": 900})
+        self.assertEqual(parts, model)
+    
+    
+    def test_split_bytes(self):
+        """Tests whether bytes splits are calculated correctly."""
+        
+        splits = pero.SPLITS_BYTES
+        
+        parts = pero.formatters.split_value(1234567.89, splits)
+        model = {k: 0 for k in splits}
+        model.update({"M": 1, "k": 181, "": 647})
         self.assertEqual(parts, model)
 
 

@@ -1,56 +1,33 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from .. enums import TIME_FACTORS
 
-
-def split_time(seconds):
+def split_value(value, splits):
     """
     Splits given time in seconds into available units.
     
     Args:
-        seconds: float or int
-            Time in seconds.
+        value: float or int
+            Value to split.
+        
+        splits: {str: float}
+            Split names and thresholds values.
     
     Returns:
-        dict
-            Value for each available time unit.
+        {str: float}
+            Value for each available split.
     """
     
     # get available units
-    units = sorted(TIME_FACTORS.items(), key=lambda d: d[1], reverse=True)
+    units = sorted(splits.items(), key=lambda d: d[1], reverse=True)
     
     # init parts
     parts = {u[0]: 0.0 for u in units}
     
     # split time
-    value = seconds
+    rest = value
     for unit, f in units:
-        count, rest = divmod(value, f)
+        count, rest = divmod(rest, f)
         parts[unit] = count
-        value = rest
     
     return parts
-
-
-def round_time(seconds, units, rounding):
-    """
-    Rounds given time into specific units.
-    
-    Args:
-        seconds: float or int
-            Time in seconds.
-        
-        units: pero.TIME
-            Specifies the rounding units as eny item from the pero.TIME enum.
-        
-        rounding: pero.ROUNDING
-            Specifies the rounding style as any item from the pero.ROUNDING
-            enum.
-    
-    Returns:
-        float
-            Rounded time in seconds.
-    """
-    
-    pass

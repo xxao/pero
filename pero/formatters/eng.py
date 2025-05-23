@@ -50,7 +50,7 @@ class EngFormatter(Formatter):
     """
     
     base = IntProperty(10, dynamic=False)
-    prefixes = DictProperty(PREF_ENG, dynamic=False)
+    prefixes = DictProperty(PREFS_ENG, dynamic=False)
     units = StringProperty(UNDEF, dynamic=False, nullable=True)
     places = IntProperty(UNDEF, dynamic=False)
     
@@ -195,5 +195,5 @@ class BytesFormatter(EngFormatter):
     """Special type of pero.EngFormatter predefined for bytes scale."""
     
     base = IntProperty(2, dynamic=False)
-    prefixes = DictProperty(PREF_BYTES, dynamic=False)
+    prefixes = DictProperty(PREFS_BYTES, dynamic=False)
     units = StringProperty("B", dynamic=False, nullable=True)

@@ -82,8 +82,8 @@ class TimeTicker(Ticker):
             minor_step = self._calc_step(major_step, self.minor_count)
         
         # make ticks
-        major_ticks = make_ticks(start, end, major_step)
-        minor_ticks = make_ticks(start, end, minor_step)
+        major_ticks = make_lin_ticks(start, end, major_step)
+        minor_ticks = make_lin_ticks(start, end, minor_step)
         
         # update formatter
         self.formatter.precision = abs(major_step)
@@ -129,7 +129,7 @@ class TimeTicker(Ticker):
         """Calculates minor step size."""
         
         # split time
-        parts = split_time(domain)
+        parts = split_value(domain, SPLITS_TIME)
         
         # get split
         if parts["h"] or parts["m"] or parts["s"]:
@@ -141,6 +141,6 @@ class TimeTicker(Ticker):
             base = 10
         
         # calc step size
-        step = step_size(domain, count, splits, base)
+        step = calc_step_size(domain, count, splits, base)
         
         return step

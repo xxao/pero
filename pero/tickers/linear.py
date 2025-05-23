@@ -81,16 +81,16 @@ class LinTicker(Ticker):
         # calc major step size
         major_step = self.major_step
         if major_step is UNDEF:
-            major_step = step_size(domain, self.major_count, self.major_splits)
+            major_step = calc_step_size(domain, self.major_count, self.major_splits)
         
         # calc minor step size
         minor_step = self.minor_step
         if minor_step is UNDEF:
-            minor_step = step_size(major_step, self.minor_count, self.minor_splits)
+            minor_step = calc_step_size(major_step, self.minor_count, self.minor_splits)
         
         # make ticks
-        major_ticks = make_ticks(start, end, major_step)
-        minor_ticks = make_ticks(start, end, minor_step)
+        major_ticks = make_lin_ticks(start, end, major_step)
+        minor_ticks = make_lin_ticks(start, end, minor_step)
         
         # update formatter
         self.formatter.precision = abs(major_step)
@@ -123,7 +123,7 @@ class LinTicker(Ticker):
         # calc major step size
         step = self.major_step
         if step is UNDEF:
-            step = step_size(abs(end - start), self.major_count, self.major_splits)
+            step = calc_step_size(abs(end - start), self.major_count, self.major_splits)
         
         # extend range
         start = math.floor(start / step) * step
