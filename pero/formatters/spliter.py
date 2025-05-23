@@ -60,11 +60,9 @@ class SplitFormatter(Formatter):
         super().__init__(**overrides)
         
         # init buffers
-        self._power = 0
+        self._power = 1
         self._suffix = ""
         self._template = None
-        
-        self._splits = None
         self._is_dirty = True
         
         # bind events
@@ -101,6 +99,56 @@ class SplitFormatter(Formatter):
         return template.format(value)
     
     
+    def scale(self, value, *args, **kwargs):
+        """
+        Scales given value using current formatting.
+        
+        Args:
+            value: any
+                Value to be scaled.
+        
+        Returns:
+            str
+                Scaled value.
+        """
+        
+        # init formatting
+        if self._is_dirty:
+            self._init_formatting()
+        
+        # init template
+        if not self._template:
+            self._make_template(value)
+        
+        # apply power
+        return value / self._power
+    
+    
+    def invert(self, value, *args, **kwargs):
+        """
+        Inverts given value using current formatting.
+        
+        Args:
+            value: any
+                Value to be inverted.
+        
+        Returns:
+            str
+                Inverted value.
+        """
+        
+        # init formatting
+        if self._is_dirty:
+            self._init_formatting()
+        
+        # init template
+        if not self._template:
+            self._make_template(value)
+        
+        # apply power
+        return value * self._power
+    
+    
     def suffix(self, *args, **kwargs):
         """
         Gets current (or the latest) suffix (e.g. kHz).
@@ -115,8 +163,11 @@ class SplitFormatter(Formatter):
             self._init_formatting()
         
         # return suffix
-        if self.hide_suffix and self._suffix and self.suffix_template:
-            return self.suffix_template.format(self._suffix)
+        if self.hide_suffix and self._suffix:
+            if self.suffix_template:
+                return self.suffix_template.format(self._suffix)
+            else:
+                return self._suffix
         
         # return suffix
         return ""
@@ -131,9 +182,6 @@ class SplitFormatter(Formatter):
         self._template = None
         self._is_dirty = False
         
-        # init splits
-        self._splits = {v: k for k, v in self.splits.items()}
-        
         # check domain
         if not self.domain:
             return
@@ -146,21 +194,22 @@ class SplitFormatter(Formatter):
         """Creates template to cover expected range."""
         
         # get splits
-        splits = tuple(sorted(self._splits.keys(), reverse=True))
+        splits = {v: k for k, v in self.splits.items()}
+        splits_val = tuple(sorted(self.splits.values(), reverse=True))
         
         # get power
         self._power = 1
-        for split in splits:
+        for split in splits_val:
             if domain / split >= 1.:
                 self._power = split
                 break
         
         # crop power
-        self._power = min(self._power, max(splits))
-        self._power = max(self._power, min(splits))
+        self._power = min(self._power, max(splits_val))
+        self._power = max(self._power, min(splits_val))
         
         # get suffix
-        self._suffix = self._splits.get(self._power, "")
+        self._suffix = splits.get(self._power, "")
         
         # add units
         if self.units:
@@ -171,21 +220,21 @@ class SplitFormatter(Formatter):
         if suffix:
             suffix = " " + suffix
         
-        # get places
-        places = 0
+        # get digits
+        digits = 0
         
         # use specified digits
         if self.places is not UNDEF:
-            places = int(self.places)
+            digits = int(self.places)
         
         # get digits from precision
         elif self.precision:
             prec = self.precision / self._power
             prec_dig = int(math.floor(math.log10(prec)))
-            places = abs(prec_dig) if prec_dig < 0 else 0
+            digits = abs(prec_dig) if prec_dig < 0 else 0
         
         # make template
-        return "{:.%df}%s" % (max(0, places), suffix)
+        return "{:.%df}%s" % (max(0, digits), suffix)
     
     
     def _on_split_formatter_property_changed(self, evt=None):

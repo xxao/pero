@@ -52,6 +52,46 @@ class Formatter(PropertySet):
         return str(value)
     
     
+    def scale(self, value, *args, **kwargs):
+        """
+        Scales given value using current formatting. This is needed for certain
+        types of formatters, which modify the value range (e.g. BytesFormater).
+        
+        This method should be overridden in derived classes to provide specific
+        formatting mechanism.
+        
+        Args:
+            value: any
+                Value to be scaled.
+        
+        Returns:
+            str
+                Scaled value.
+        """
+        
+        return value
+    
+    
+    def invert(self, value, *args, **kwargs):
+        """
+        Inverts given value using current formatting. This is needed for certain
+        types of formatters, which modify the value range (e.g. BytesFormater).
+        
+        This method should be overridden in derived classes to provide specific
+        formatting mechanism.
+        
+        Args:
+            value: any
+                Value to be inverted.
+        
+        Returns:
+            str
+                Inverted value.
+        """
+        
+        return value
+    
+    
     def suffix(self, *args, **kwargs):
         """
         Gets current suffix (e.g. "10^5" or "kHz").
