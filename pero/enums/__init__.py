@@ -4,7 +4,6 @@
 # import enums
 from . values import *
 from . maths import *
-from . prefs import *
 from . splits import *
 from . drawing import *
 from . positions import *
