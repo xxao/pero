@@ -75,7 +75,10 @@ class LinTicker(Ticker):
         """
         
         # get range
-        start, end = self.start, self.end
+        start = self.formatter.scale(self.start)
+        end = self.formatter.scale(self.end)
+        
+        # get domain
         domain = abs(end - start)
         
         # calc major step size
@@ -91,6 +94,11 @@ class LinTicker(Ticker):
         # make ticks
         major_ticks = make_lin_ticks(start, end, major_step)
         minor_ticks = make_lin_ticks(start, end, minor_step)
+        
+        # invert ticks
+        major_step = self.formatter.invert(major_step)
+        major_ticks = [self.formatter.invert(t) for t in major_ticks]
+        minor_ticks = [self.formatter.invert(t) for t in minor_ticks]
         
         # update formatter
         self.formatter.precision = abs(major_step)
@@ -114,6 +122,10 @@ class LinTicker(Ticker):
                 New extended range.
         """
         
+        # get range
+        start = self.formatter.scale(start)
+        end = self.formatter.scale(end)
+        
         # check order
         flip = False
         if start > end:
@@ -128,5 +140,9 @@ class LinTicker(Ticker):
         # extend range
         start = math.floor(start / step) * step
         end = math.ceil(end / step) * step
+        
+        # invert range
+        start = self.formatter.invert(start)
+        end = self.formatter.invert(end)
         
         return (start, end) if not flip else (end, start)
