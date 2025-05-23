@@ -43,7 +43,7 @@ class TestCase(unittest.TestCase):
     def test_precision(self):
         """Tests whether precision works correctly."""
         
-        formatter = pero.BytesFormatter(precision=100)
+        formatter = pero.BytesFormatter(precision=200)
         
         self.assertEqual(formatter.format(234.5678e6), "223.7013 MB")
         self.assertEqual(formatter.format(234.5678e3), "229.1 kB")
@@ -51,13 +51,13 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(234.5678e-3), "0 B")
         self.assertEqual(formatter.format(234.5678e-6), "0 B")
         
-        formatter = pero.BytesFormatter(precision=0.1)
+        formatter = pero.BytesFormatter(precision=0.2)
         
         self.assertEqual(formatter.format(234.5678e6), "223.7012863 MB")
         self.assertEqual(formatter.format(234.5678e3), "229.0701 kB")
         self.assertEqual(formatter.format(234.5678), "234.6 B")
         self.assertEqual(formatter.format(234.5678e-3), "0.2 B")
-        self.assertEqual(formatter.format(234.5678e-6), "0 B")
+        self.assertEqual(formatter.format(234.5678e-6), "0.0 B")
     
     
     def test_domain(self):
@@ -84,7 +84,7 @@ class TestCase(unittest.TestCase):
         """Tests whether digits works correctly."""
         
         # check domain and precision
-        formatter = pero.BytesFormatter(domain=1e4, precision=100)
+        formatter = pero.BytesFormatter(domain=1e4, precision=200)
         
         self.assertEqual(formatter.format(234.5678e6), "229070.1 kB")
         self.assertEqual(formatter.format(234.5678e3), "229.1 kB")
@@ -93,7 +93,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(234.5678e-6), "0.0 kB")
         
         # check domain, precision and places
-        formatter = pero.BytesFormatter(domain=1e4, precision=100, places=2)
+        formatter = pero.BytesFormatter(domain=1e4, precision=200, places=2)
         
         self.assertEqual(formatter.format(234.5678e6), "229070.12 kB")
         self.assertEqual(formatter.format(234.5678e3), "229.07 kB")
