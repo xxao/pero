@@ -3,10 +3,14 @@
 
 import ui
 from objc_util import ObjCInstance
+from time import time
 from ... events import *
 from .. view import View
 from . enums import *
 from . canvas import UICanvas
+
+# define constants
+_DTAP_DELAY = 0.25
 
 
 class UIView(ui.View, View):
@@ -23,6 +27,10 @@ class UIView(ui.View, View):
         # init buffers
         self._dc_buffer = None
         self._dc_overlay = None
+        
+        # double-tap
+        self._dtap_began = 0
+        self._dtap_possible = False
     
     
     def draw_control(self):
@@ -121,18 +129,33 @@ class UIView(ui.View, View):
     def touch_began(self, touch):
         """Called when a touch event begins."""
         
+        # await double-tap
+        if self._dtap_began:
+            self._dtap_possible = True
+        else:
+            self._dtap_began = time()
+            self._dtap_possible = False
+        
+        # create event
         self._on_touch(touch)
     
     
     def touch_ended(self, touch):
         """Called when a touch event ends."""
-    
+        
+        # check double-tap
+        if time() - self._dtap_began > _DTAP_DELAY:
+            self._dtap_began = 0
+            self._dtap_possible = False
+        
+        # create event
         self._on_touch(touch)
     
     
     def touch_moved(self, touch):
         """Called when a touch event moves."""
         
+        # create event
         self._on_touch(touch)
     
     
@@ -168,7 +191,10 @@ class UIView(ui.View, View):
             touch_evt = TouchStartEvt.from_evt(touch_evt)
         
         elif touch.phase == 'ended':
-            touch_evt = TouchEndEvt.from_evt(touch_evt)
+            if self._dtap_possible:
+                touch_evt = TouchDTapEvt.from_evt(touch_evt)
+            else:
+                touch_evt = TouchEndEvt.from_evt(touch_evt)
         
         elif touch.phase == 'moved':
             touch_evt = TouchMoveEvt.from_evt(touch_evt)

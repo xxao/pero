@@ -314,6 +314,7 @@ class Control(PropertySet):
             self.unbind(EVT_TOUCH_END, old_tool.on_touch_end)
             self.unbind(EVT_TOUCH_MOVE, old_tool.on_touch_move)
             self.unbind(EVT_TOUCH_CANCEL, old_tool.on_touch_cancel)
+            self.unbind(EVT_TOUCH_DTAP, old_tool.on_touch_dtap)
         
         # check tool
         if not new_tool:
@@ -350,6 +351,7 @@ class Control(PropertySet):
             self.bind(EVT_TOUCH_END, new_tool.on_touch_end)
             self.bind(EVT_TOUCH_MOVE, new_tool.on_touch_move)
             self.bind(EVT_TOUCH_CANCEL, new_tool.on_touch_cancel)
+            self.bind(EVT_TOUCH_DTAP, new_tool.on_touch_dtap)
     
     
     def _on_control_size(self, evt):

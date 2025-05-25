@@ -202,6 +202,19 @@ class Tool(PropertySet):
         pass
     
     
+    def on_touch_dtap(self, evt):
+        """
+        This method should be overridden to provide specific handling
+        of touch-double-tap event.
+        
+        Args:
+            evt: pero.TouchDTapEvt
+                Event to process.
+        """
+        
+        pass
+    
+    
     def add_key(self, key):
         """
         Remembers given key.

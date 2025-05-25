@@ -33,6 +33,7 @@ EVT_TOUCH_START = 'evt_touch_start'
 EVT_TOUCH_END = 'evt_touch_end'
 EVT_TOUCH_MOVE = 'evt_touch_move'
 EVT_TOUCH_CANCEL = 'evt_touch_cancel'
+EVT_TOUCH_DTAP = 'evt_touch_dtap'
 
 EVENT = Enum(
     PROPERTY_CHANGED = EVT_PROPERTY_CHANGED,
@@ -63,7 +64,8 @@ EVENT = Enum(
     TOUCH_START = EVT_TOUCH_START,
     TOUCH_END = EVT_TOUCH_END,
     TOUCH_MOVE = EVT_TOUCH_MOVE,
-    TOUCH_CANCEL = EVT_TOUCH_CANCEL)
+    TOUCH_CANCEL = EVT_TOUCH_CANCEL,
+    TOUCH_DTAP = EVT_TOUCH_DTAP)
 
 # define touch states
 TOUCH_PRESSED = 'pressed'

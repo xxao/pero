@@ -175,3 +175,9 @@ class TouchCancelEvt(TouchEvt):
     """Defines an event which is fired if touch cancels."""
     
     TYPE = EVT_TOUCH_CANCEL
+
+
+class TouchDTapEvt(TouchEvt):
+    """Defines an event which is fired on double touch."""
+    
+    TYPE = EVT_TOUCH_DTAP

@@ -126,6 +126,13 @@ class AngleTool(pero.Tool):
         self._cancel_evt(evt)
     
     
+    def on_mouse_dclick(self, evt):
+        """Handles mouse-double-click event."""
+        
+        # reset axis
+        self._reset_axis(evt)
+    
+    
     def on_touch_start(self, evt):
         """Handles touch-start event."""
         
@@ -189,6 +196,13 @@ class AngleTool(pero.Tool):
         
         # cancel actions
         self._cancel_evt(evt)
+    
+    
+    def on_touch_dtap(self, evt):
+        """Handles touch-double-tap event."""
+        
+        # reset axis
+        self._reset_axis(evt)
     
     
     def _set_cursor(self, evt, x, y):
@@ -260,6 +274,19 @@ class AngleTool(pero.Tool):
             # draw tooltip
             tooltip = "Degs: %.0f\nRads: %.2f" % (pero.degs(rads), rads)
             evt.control.draw_tooltip(x=x, y=y, text=tooltip)
+    
+    
+    def _reset_axis(self, evt):
+        """Resets main axis."""
+        
+        # reset offset
+        self._offset = 0
+        
+        # shift axis
+        evt.control.graphics.set_offset(0)
+        
+        # redraw graphics
+        evt.control.refresh()
     
     
     def _draw_position(self, canvas, evt, x, y):
