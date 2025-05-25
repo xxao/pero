@@ -130,6 +130,30 @@ class TestCase(unittest.TestCase):
         
         self.assertEqual(formatter.format(234.5678), "0")
         self.assertEqual(formatter.suffix(), " (kB)")
+    
+    
+    def test_convert(self):
+        """Tests whether convert works correctly."""
+        
+        formatter = pero.BytesFormatter(domain=1e4)
+        
+        self.assertEqual(formatter.convert(234.5678e6), 229070.1171875)
+        self.assertEqual(formatter.convert(234.5678e4), 2290.701171875)
+        self.assertEqual(formatter.convert(234.5678), 0.2290701171875)
+        self.assertEqual(formatter.convert(234.5678e-4), 2.290701171875e-05)
+        self.assertEqual(formatter.convert(234.5678e-6), 2.290701171875e-07)
+    
+    
+    def test_invert(self):
+        """Tests whether invert works correctly."""
+        
+        formatter = pero.BytesFormatter(domain=1e4)
+        
+        self.assertEqual(formatter.invert(229070.1171875), 234.5678e6)
+        self.assertEqual(formatter.invert(2290.701171875), 234.5678e4)
+        self.assertEqual(formatter.invert(0.2290701171875), 234.5678)
+        self.assertEqual(formatter.invert(2.290701171875e-05), 234.5678e-4)
+        self.assertEqual(formatter.invert(2.290701171875e-07), 234.5678e-6)
 
 
 # run test case

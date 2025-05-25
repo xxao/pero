@@ -151,6 +151,30 @@ class TestCase(unittest.TestCase):
         
         self.assertEqual(formatter.format(25), "0")
         self.assertEqual(formatter.suffix(), " (m)")
+    
+    
+    def test_convert(self):
+        """Tests whether convert works correctly."""
+        
+        formatter = pero.SecondsFormatter(domain=60)
+        
+        self.assertEqual(formatter.convert(60*60), 60)
+        self.assertEqual(formatter.convert(60), 1)
+        self.assertEqual(formatter.convert(30), 0.5)
+        self.assertEqual(formatter.convert(15), 0.25)
+        self.assertEqual(formatter.convert(0.6), 0.01)
+    
+    
+    def test_invert(self):
+        """Tests whether invert works correctly."""
+        
+        formatter = pero.SecondsFormatter(domain=60)
+        
+        self.assertEqual(formatter.invert(60), 60*60)
+        self.assertEqual(formatter.invert(1), 60)
+        self.assertEqual(formatter.invert(0.5), 30)
+        self.assertEqual(formatter.invert(0.25), 15)
+        self.assertEqual(formatter.invert(0.01), 0.6)
 
 
 # run test case
