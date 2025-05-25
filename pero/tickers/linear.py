@@ -75,8 +75,8 @@ class LinTicker(Ticker):
         """
         
         # get range
-        start = self.formatter.scale(self.start)
-        end = self.formatter.scale(self.end)
+        start = self.formatter.convert(self.start)
+        end = self.formatter.convert(self.end)
         
         # get domain
         domain = abs(end - start)
@@ -123,8 +123,8 @@ class LinTicker(Ticker):
         """
         
         # get range
-        start = self.formatter.scale(start)
-        end = self.formatter.scale(end)
+        start = self.formatter.convert(start)
+        end = self.formatter.convert(end)
         
         # check order
         flip = False

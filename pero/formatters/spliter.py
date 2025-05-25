@@ -99,9 +99,9 @@ class SplitFormatter(Formatter):
         return template.format(value)
     
     
-    def scale(self, value, *args, **kwargs):
+    def convert(self, value, *args, **kwargs):
         """
-        Scales given value using current formatting.
+        Converts given value using current formatting.
         
         Args:
             value: any
