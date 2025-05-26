@@ -65,8 +65,8 @@ class Formatter(PropertySet):
                 Value to be scaled.
         
         Returns:
-            str
-                Scaled value.
+            any
+                Converted value.
         """
         
         return value
@@ -85,7 +85,7 @@ class Formatter(PropertySet):
                 Value to be inverted.
         
         Returns:
-            str
+            any
                 Inverted value.
         """
         

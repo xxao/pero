@@ -104,12 +104,12 @@ class SplitFormatter(Formatter):
         Converts given value using current formatting.
         
         Args:
-            value: any
+            value: float
                 Value to be scaled.
         
         Returns:
-            str
-                Scaled value.
+            float
+                Converted value.
         """
         
         # init formatting
@@ -129,11 +129,11 @@ class SplitFormatter(Formatter):
         Inverts given value using current formatting.
         
         Args:
-            value: any
+            value: float
                 Value to be inverted.
         
         Returns:
-            str
+            float
                 Inverted value.
         """
         
