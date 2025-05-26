@@ -10,7 +10,7 @@ from . enums import *
 from . canvas import UICanvas
 
 # define constants
-_DTAP_DELAY = 0.25
+_DTAP_DELAY = 0.3
 
 
 class UIView(ui.View, View):
@@ -192,6 +192,8 @@ class UIView(ui.View, View):
         
         elif touch.phase == 'ended':
             if self._dtap_possible:
+                self._dtap_began = 0
+                self._dtap_possible = False
                 touch_evt = TouchDTapEvt.from_evt(touch_evt)
             else:
                 touch_evt = TouchEndEvt.from_evt(touch_evt)
