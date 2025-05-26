@@ -383,6 +383,10 @@ class DrawTest(pero.Graphics):
         self._bgr = pero.Circle(
             line_width = 0,
             fill_color = pero.colors.White)
+        
+        self._ray = pero.Ray(
+            line_color = pero.colors.Black,
+            line_style = pero.DASHED)
     
     
     def draw(self, canvas, *args, **kwargs):
@@ -419,6 +423,13 @@ class DrawTest(pero.Graphics):
             y = cy,
             ticks = rad_ticks)
         
+        self._ray.draw(canvas,
+            x = cx,
+            y = cy,
+            angle = self._offset,
+            length = 2*radius,
+            offset = -radius)
+        
         self._axis.draw(canvas,
             x = cx,
             y = cy,
@@ -427,7 +438,7 @@ class DrawTest(pero.Graphics):
             minor_ticks = self._minor_ticks)
     
     
-    def get_offset(self, angle=0):
+    def get_offset(self):
         """Gets current angle offset in radians."""
         
         return self._offset
@@ -452,4 +463,4 @@ if __name__ == '__main__':
         graphics = DrawTest(),
         main_tool = AngleTool())
     
-    pero.debug(control, 'show', "Overlay Tool", 300, 300)
+    pero.debug(control, 'show', "Interaction Tool", 300, 300)
