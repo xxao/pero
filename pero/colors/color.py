@@ -100,7 +100,7 @@ class Color(object, metaclass=ColorMeta):
         self._blue = int(0.5 + blue)
         self._alpha = int(0.5 + alpha)
         self._name = name
-
+        
         # register color by name
         if name is not None:
             COLORS.add(self)
@@ -550,48 +550,6 @@ class Color(object, metaclass=ColorMeta):
         # name not found
         message = "Unknown color name specified! -> '%s'" % name
         raise ValueError(message)
-    
-    
-    @staticmethod
-    def from_int(value, alpha_first=False, alpha_relative=False, name=None):
-        """
-        Creates a color from integer value. Additional arguments can be used
-        to specify position and range of the alpha channel. The new color is
-        automatically registered for later use if the name is specified.
-        
-        Args:
-            value: int
-                Integer representation.
-            
-            alpha_first: bool
-                If set to True the alpha channel is expected to be the at the first channel.
-            
-            alpha_relative: bool
-                If set to True the alpha channel is expected to be specified in range from 0 to 1.
-            
-            name: str or None
-                Unique name to register.
-        
-        Returns:
-            pero.Color
-                RGBA color.
-        """
-        
-        if alpha_first:
-            a = ((value >> 24) & 0xFF)
-            r = (value >> 16) & 0xFF
-            g = (value >> 8) & 0xFF
-            b = value & 0xFF
-        else:
-            r = ((value >> 24) & 0xFF)
-            g = (value >> 16) & 0xFF
-            b = (value >> 8) & 0xFF
-            a = value & 0xFF
-        
-        if alpha_relative:
-            a = int(a / 255.)
-        
-        return Color(r, g, b, a, name=name)
     
     
     @staticmethod
