@@ -169,14 +169,13 @@ class Profile(Glyph):
         canvas.line_color = None
         canvas.set_brush_by(self, source=source, overrides=overrides)
         
-        # init points
-        points = numpy.stack((x_coords, y_coords), axis=1)
-        
         # add base
         if base is not None and base is not UNDEF:
-            points = numpy.append(points,
-                values = [(points[-1][0], base), (points[0][0], base)],
-                axis = 0)
+            x_coords = numpy.concatenate((x_coords, (x_coords[-1], x_coords[0])), 0)
+            y_coords = numpy.concatenate((y_coords, (base, base)), 0)
+        
+        # init points
+        points = numpy.stack((x_coords, y_coords), axis=1)
         
         # draw polygon
         canvas.draw_polygon(points)
