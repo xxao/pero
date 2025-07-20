@@ -17,14 +17,10 @@ class Control(Graphics):
     
     Properties:
         
-        parent: pero.Control or pero.View
-            Parent control or view.
-        
         graphics: pero.Graphics, None or UNDEF
             Main graphics to display within the control.
     """
     
-    parent = Property(None, dynamic=False, nullable=True)
     graphics = Property(None, types=Graphics, dynamic=False, nullable=True)
     
     
@@ -35,10 +31,24 @@ class Control(Graphics):
         super().__init__(**overrides)
         
         # init buffers
+        self._parent = None
         self._size = (0, 0)
         
         # bind events
         self.bind(EVT_SIZE, self._on_control_size)
+    
+    
+    def set_parent(self, parent):
+        """Sets link to parent view."""
+        
+        # check type
+        from . view import View
+        if not isinstance(parent, (Control, View)):
+            message = "Parent must be of type 'pero.Control' or 'pero.View'! -> %s" % type(parent)
+            raise TypeError(message)
+        
+        # set parent
+        self._parent = parent
     
     
     def set_cursor(self, cursor):
@@ -52,11 +62,11 @@ class Control(Graphics):
         """
         
         # check parent
-        if not self.parent:
+        if self._parent is None:
             return
         
         # set cursor to parent
-        self.parent.set_cursor(cursor)
+        self._parent.set_cursor(cursor)
     
     
     def refresh(self):
@@ -67,11 +77,11 @@ class Control(Graphics):
         """
         
         # check parent
-        if not self.parent:
+        if self._parent is None:
             return
         
         # refresh by parent
-        self.parent.draw_control()
+        self._parent.draw_control()
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
@@ -98,22 +108,22 @@ class Control(Graphics):
         """Relay control drawing to parent."""
         
         # check parent
-        if not self.parent:
+        if self._parent is None:
             return
         
         # draw control by parent
-        self.parent.draw_control()
+        self._parent.draw_control()
     
     
     def draw_tooltip(self, text):
         """Relay tooltip drawing to parent."""
         
         # check parent
-        if not self.parent:
+        if self._parent is None:
             return
         
         # draw tooltip by parent
-        self.parent.draw_tooltip(text)
+        self._parent.draw_tooltip(text)
     
     
     def draw_overlay(self, func=None, view=None, **kwargs):
@@ -140,11 +150,11 @@ class Control(Graphics):
         """
         
         # check parent
-        if not self.parent:
+        if self._parent is None:
             return
         
         # draw overlay by parent
-        self.parent.draw_overlay(func, view, **kwargs)
+        self._parent.draw_overlay(func, view, **kwargs)
     
     
     def clear_overlay(self):
@@ -263,14 +273,17 @@ class ToolControl(Control):
                 Specific properties of the tooltip to be overwritten.
         """
         
+        # check parent
+        if self._parent is None:
+            return
+        
         # skip tooltip
         if self.tooltip is None:
             return
         
         # use system tooltip
         if self.tooltip is UNDEF:
-            if self.parent:
-                self.parent.draw_tooltip(text=overrides.get('text', ""))
+            self._parent.draw_tooltip(text=overrides.get('text', ""))
             return
         
         # initialize canvas
