@@ -786,7 +786,7 @@ class Cell(Graphics):
                 X and y coordinates within cell content coordinate system.
         """
         
-        return x + self.content.x, y + self.content.y
+        return x - self.content.x, y - self.content.y
     
     
     def to_layout(self, x, y):
@@ -806,4 +806,4 @@ class Cell(Graphics):
                 X and y coordinates within layout coordinate system.
         """
         
-        return x - self.content.x, y - self.content.y
+        return x + self.content.x, y + self.content.y
