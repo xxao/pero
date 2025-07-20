@@ -54,7 +54,7 @@ class UIView(ui.View, View):
         self.set_needs_display()
     
     
-    def draw_overlay(self, func=None, **kwargs):
+    def draw_overlay(self, func=None, view=None, **kwargs):
         """
         Draws cursor rubber band overlay.
         
@@ -66,6 +66,10 @@ class UIView(ui.View, View):
             func: callable or None
                 Drawing function to be called to draw the overlay. If set to
                 None, current overlay will be cleared.
+            
+            view: (int, int, int, int) or None
+                Rectangle defined as (x, y, width, height) used to shift origin
+                of drawing canvas submitted to given drawing function.
                 
             kwargs: str:any pairs
                 Keyword arguments, which should be provided to the given drawing
@@ -85,9 +89,15 @@ class UIView(ui.View, View):
         # draw on overlay
         with ui.ImageContext(self.width, self.height) as ctx:
             
-            # draw overlay
+            # init canvas
             canvas = UICanvas(width=self.width, height=self.height)
-            func(canvas, **kwargs)
+            
+            # draw overlay
+            if view is not None:
+                with canvas.view(*view, relative=True):
+                    func(canvas, **kwargs)
+            else:
+                func(canvas, **kwargs)
             
             # get image
             self._dc_overlay = ctx.get_image()

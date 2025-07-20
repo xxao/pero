@@ -117,7 +117,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         self.Update()
     
     
-    def draw_overlay(self, func=None, **kwargs):
+    def draw_overlay(self, func=None, view=None, **kwargs):
         """
         Draws cursor rubber band overlay.
         
@@ -129,6 +129,10 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             func: callable or None
                 Drawing function to be called to draw the overlay. If set to
                 None, current overlay will be cleared.
+            
+            view: (int, int, int, int) or None
+                Rectangle defined as (x, y, width, height) used to shift origin
+                of drawing canvas submitted to given drawing function.
                 
             kwargs: str:any pairs
                 Keyword arguments, which should be provided to the given drawing
@@ -153,8 +157,18 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         
         # draw overlay
         if func is not None:
+            
+            # init canvas
             canvas = self._make_canvas(dc)
-            func(canvas, **kwargs)
+            
+            # draw overlay
+            if view is not None:
+                with canvas.view(*view, relative=True):
+                    func(canvas, **kwargs)
+            else:
+                func(canvas, **kwargs)
+            
+            # set non-empty
             self._dc_overlay_empty = False
         
         # delete DC

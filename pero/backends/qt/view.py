@@ -102,7 +102,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         self.update()
     
     
-    def draw_overlay(self, func=None, **kwargs):
+    def draw_overlay(self, func=None, view=None, **kwargs):
         """
         Draws cursor rubber band overlay.
         
@@ -114,7 +114,11 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             func: callable or None
                 Drawing function to be called to draw the overlay. If set to
                 None, current overlay will be cleared.
-                
+            
+            view: (int, int, int, int) or None
+                Rectangle defined as (x, y, width, height) used to shift origin
+                of drawing canvas submitted to given drawing function.
+            
             kwargs: str:any pairs
                 Keyword arguments, which should be provided to the given drawing
                 function.
@@ -143,9 +147,15 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         qp.setRenderHint(QPainter.RenderHint.Antialiasing)
         qp.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
         
-        # draw overlay
+        # init canvas
         canvas = QtCanvas(qp, width=self.width(), height=self.height())
-        func(canvas, **kwargs)
+        
+        # draw overlay
+        if view is not None:
+            with canvas.view(*view, relative=True):
+                func(canvas, **kwargs)
+        else:
+            func(canvas, **kwargs)
         
         # end drawing
         qp.end()

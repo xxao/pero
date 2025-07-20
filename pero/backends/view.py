@@ -100,7 +100,7 @@ class View(object):
         raise NotImplementedError("The 'draw_control' method is not implemented for '%s'." % self.__class__.__name__)
     
     
-    def draw_overlay(self, func=None, **kwargs):
+    def draw_overlay(self, func=None, view=None, **kwargs):
         """
         This method should be overridden to provide specific drawing mechanism
         and canvas creation to finally call given function to draw cursor rubber
@@ -115,6 +115,10 @@ class View(object):
             func: callable or None
                 Drawing function to be called to draw the overlay. If set to
                 None, current overlay will be cleared.
+            
+            view: (int, int, int, int) or None
+                Rectangle defined as (x, y, width, height) used to shift origin
+                of drawing canvas submitted to given drawing function.
                 
             kwargs: str:any pairs
                 Keyword arguments, which should be provided to the given drawing
