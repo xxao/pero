@@ -40,7 +40,7 @@ class View(object):
             
             # remove parent link
             if self._control is not None:
-                self._control._set_parent(None)
+                self._control.parent = None
             
             # reset control
             self._control = None
@@ -55,7 +55,7 @@ class View(object):
         self._control = control
         
         # set parent
-        self._control._set_parent(self)
+        self._control.parent = self
     
     
     def set_cursor(self, cursor):

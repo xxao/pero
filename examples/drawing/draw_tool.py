@@ -459,7 +459,7 @@ class DrawTest(pero.Graphics):
 # run test
 if __name__ == '__main__':
     
-    control = pero.Control(
+    control = pero.ToolControl(
         graphics = DrawTest(),
         main_tool = AngleTool())
     

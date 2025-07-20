@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 # import main objects
-from . control import Control
+from . control import Control, ToolControl
 from . tool import Tool
 from . view import View
 from . export import show, export, debug

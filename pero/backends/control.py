@@ -8,7 +8,7 @@ from .. glyphs import Tooltip, TextTooltip
 from . tool import Tool
 
 
-class Control(PropertySet):
+class Control(Graphics):
     """
     Base class for all interactive controls. The main idea is to provide
     a backend-independent interface for drawing the control graphics, overlays
@@ -17,8 +17,158 @@ class Control(PropertySet):
     
     Properties:
         
+        parent: pero.Control or pero.View
+            Parent control or view.
+        
         graphics: pero.Graphics, None or UNDEF
             Main graphics to display within the control.
+    """
+    
+    parent = Property(None, dynamic=False, nullable=True)
+    graphics = Property(None, types=Graphics, dynamic=False, nullable=True)
+    
+    
+    def __init__(self, **overrides):
+        """Initializes a new instance of Control."""
+        
+        # init base
+        super().__init__(**overrides)
+        
+        # init buffers
+        self._size = (0, 0)
+        
+        # bind events
+        self.bind(EVT_SIZE, self._on_control_size)
+    
+    
+    def set_cursor(self, cursor):
+        """
+        Sets given mouse cursor.
+        
+        Args:
+            cursor: pero.CURSOR
+                Cursor type to be set. The value must be an item from the
+                pero.CURSOR enum.
+        """
+        
+        # check parent
+        if not self.parent:
+            return
+        
+        # set cursor to parent
+        self.parent.set_cursor(cursor)
+    
+    
+    def refresh(self):
+        """
+        Redraws current control using parent view. This makes the parent view
+        responsible for initialization of a canvas and calling the 'draw' method
+        to finally draw the control graphics.
+        """
+        
+        # check parent
+        if not self.parent:
+            return
+        
+        # refresh by parent
+        self.parent.draw_control()
+    
+    
+    def draw(self, canvas, source=UNDEF, **overrides):
+        """
+        Uses given canvas to draw the graphics.
+        
+        Args:
+            canvas: pero.Canvas or None
+                Specific canvas to draw the graphics on.
+            
+            source: any
+                Data source to be used for calculating callable properties of
+                current graphics.
+            
+            overrides: str:any pairs
+                Specific properties of current graphics to be overwritten.
+        """
+        
+        if self.graphics is not None and self.graphics is not UNDEF:
+            self.graphics.draw(canvas, source=source, **overrides)
+    
+    
+    def draw_control(self):
+        """Relay control drawing to parent."""
+        
+        # check parent
+        if not self.parent:
+            return
+        
+        # draw control by parent
+        self.parent.draw_control()
+    
+    
+    def draw_tooltip(self, text):
+        """Relay tooltip drawing to parent."""
+        
+        # check parent
+        if not self.parent:
+            return
+        
+        # draw tooltip by parent
+        self.parent.draw_tooltip(text)
+    
+    
+    def draw_overlay(self, func=None, view=None, **kwargs):
+        """
+        Uses parent view to initialize overlay canvas and calls given drawing
+        function on it.
+        
+        Specified function is expected to be called with a canvas as the first
+        argument followed by given arguments (i.e. func(canvas, **kwargs)).
+        
+        Calling this method without any parameter clears current overlay.
+        
+        Args:
+            func: callable or None
+                Drawing function to be called to draw the overlay.
+            
+            view: (int, int, int, int) or None
+                Rectangle defined as (x, y, width, height) used to shift origin
+                of drawing canvas submitted to given drawing function.
+            
+            kwargs: str:any pairs
+                Keyword arguments, which should be provided to the given drawing
+                function.
+        """
+        
+        # check parent
+        if not self.parent:
+            return
+        
+        # draw overlay by parent
+        self.parent.draw_overlay(func, view, **kwargs)
+    
+    
+    def clear_overlay(self):
+        """Clears current overlay."""
+        
+        self.draw_overlay()
+    
+    
+    def _on_control_size(self, evt):
+        """Redraws current graphics when size has changed."""
+        
+        # get size
+        self._size = (evt.width, evt.height)
+        
+        # draw control
+        self.refresh()
+
+
+class ToolControl(Control):
+    """
+    Main type of interactive control allowing to set specific interactivity
+    tools for mouse, keyboard and touches.
+    
+    Properties:
         
         tooltip: pero.Tooltip, None or UNDEF
             Specifies the glyph to be used for mouse tooltip drawing. If not
@@ -28,7 +178,7 @@ class Control(PropertySet):
             Specifies the main keyboard and mouse interactivity tool. This tool
             is bound to all keyboard, mouse and touch events. Note that each
             newly assigned tool has higher priority than those currently
-            assigned. Therefore this tool should be assigned first.
+            assigned. Therefore, this tool should be assigned first.
         
         cursor_tool: pero.Tool, None or UNDEF
             Specifies the interactivity tool used to provide specific
@@ -58,9 +208,7 @@ class Control(PropertySet):
             those currently assigned.
     """
     
-    graphics = Property(None, types=Graphics, dynamic=False, nullable=True)
     tooltip = Property(UNDEF, types=Tooltip, dynamic=False, nullable=True)
-    
     main_tool = Property(UNDEF, types=Tool, dynamic=False, nullable=True)
     cursor_tool = Property(UNDEF, types=Tool, dynamic=False, nullable=True)
     left_tool = Property(UNDEF, types=Tool, dynamic=False, nullable=True)
@@ -74,18 +222,12 @@ class Control(PropertySet):
         # init base
         super().__init__(**overrides)
         
-        # init buffers
-        self._parent = None
-        self._cursor = CURSOR_ARROW
-        self._size = (0, 0)
-        
         # init tooltip
         if self.tooltip is UNDEF:
             self.tooltip = TextTooltip()
         
         # bind events
-        self.bind(EVT_SIZE, self._on_control_size)
-        self.bind(EVT_PROPERTY_CHANGED, self._on_control_property_changed)
+        self.bind(EVT_PROPERTY_CHANGED, self._on_tool_control_property_changed)
         
         # bind tools
         self._set_tool(self.main_tool, left=True, right=True, touch=True)
@@ -93,120 +235,6 @@ class Control(PropertySet):
         self._set_tool(self.left_tool, left=True)
         self._set_tool(self.right_tool, right=True)
         self._set_tool(self.touch_tool, touch=True)
-    
-    
-    def set_cursor(self, cursor):
-        """
-        Sets given mouse cursor.
-        
-        Args:
-            cursor: pero.CURSOR
-                Cursor type to be set. The value must be an item from the
-                pero.CURSOR enum.
-        """
-        
-        # check cursor
-        if self._cursor == cursor:
-            return
-        
-        # remember cursor
-        self._cursor = cursor
-        
-        # set to view
-        if self._parent is not None:
-            self._parent.set_cursor(cursor)
-    
-    
-    def show(self, title=None, width=None, height=None, backend=None, **options):
-        """
-        Shows the control in available viewer app. This method makes sure
-        appropriate backend canvas is created and provided to the 'draw' method.
-        
-        Note that this is just a convenient scripting shortcut and this method
-        cannot be used if the control is already part of any UI app.
-        
-        Args:
-            title: str or None
-                Viewer frame title.
-            
-            width: float or None
-                Viewer width in device units.
-            
-            height: float or None
-                Viewer height in device units.
-            
-            backend: pero.BACKEND
-                Specific backend to be used. The value must be an item from the
-                pero.BACKEND enum.
-            
-            options: str:any pairs
-                Additional parameters for specific backend.
-        """
-        
-        from .export import show
-        show(self, title, width, height, backend, **options)
-    
-    
-    def export(self, path, width=None, height=None, backend=None, **options):
-        """
-        Draws current graphics into specified image file using the format
-        determined automatically from the file extension. This method makes sure
-        appropriate backend canvas is created and provided to the 'draw' method.
-        
-        Note that this is just a convenient scripting shortcut and this method
-        cannot be used if the control is already part of any UI app.
-        
-        Args:
-            path: str
-                Full path of a file to save the image into.
-            
-            width: float or None
-                Image width in device units.
-            
-            height: float or None
-                Image height in device units.
-            
-            backend: pero.BACKEND
-                Specific backend to be used. The value must be an item from the
-                pero.BACKEND enum.
-            
-            options: str:any pairs
-                Additional parameters for specific backend.
-        """
-        
-        from .export import export
-        export(self, path, width, height, backend, **options)
-    
-    
-    def refresh(self):
-        """
-        Redraws current control using parent view. This makes the parent view
-        responsible for initialization of a canvas and calling the 'draw' method
-        to finally draw the control graphics.
-        """
-        
-        if self._parent is not None:
-            self._parent.draw_control()
-    
-    
-    def draw(self, canvas, source=UNDEF, **overrides):
-        """
-        Uses given canvas to draw the graphics.
-        
-        Args:
-            canvas: pero.Canvas or None
-                Specific canvas to draw the graphics on.
-            
-            source: any
-                Data source to be used for calculating callable properties of
-                current graphics.
-            
-            overrides: str:any pairs
-                Specific properties of current graphics to be overwritten.
-        """
-        
-        if self.graphics is not None and self.graphics is not UNDEF:
-            self.graphics.draw(canvas, source=source, **overrides)
     
     
     def draw_tooltip(self, canvas=None, source=UNDEF, **overrides):
@@ -220,7 +248,7 @@ class Control(PropertySet):
         overrides assuming the 'text' key is used.
         
         If the canvas is not provided, parent view takes care to initialize it
-        if necessary and the tooltip will be drawn as overlay. Therefore this
+        if necessary and the tooltip will be drawn as overlay. Therefore, this
         method can be easily used inside overlay call as well as alone.
         
         Args:
@@ -241,8 +269,8 @@ class Control(PropertySet):
         
         # use system tooltip
         if self.tooltip is UNDEF:
-            if self._parent is not None:
-                self._parent.draw_tooltip(overrides.get('text', ""))
+            if self.parent:
+                self.parent.draw_tooltip(text=overrides.get('text', ""))
             return
         
         # initialize canvas
@@ -256,41 +284,6 @@ class Control(PropertySet):
         
         # draw tooltip
         self.tooltip.draw(canvas, source=source, **overrides)
-    
-    
-    def draw_overlay(self, func=None, **kwargs):
-        """
-        Uses parent view to initialize overlay canvas and calls given drawing
-        function on it.
-        
-        Specified function is expected to be called with a canvas as the first
-        argument followed by given arguments (i.e. func(canvas, **kwargs)).
-        
-        Calling this method without any parameter clears current overlay.
-        
-        Args:
-            func: callable or None
-                Drawing function to be called to draw the overlay.
-            
-            kwargs: str:any pairs
-                Keyword arguments, which should be provided to the given drawing
-                function.
-        """
-        
-        if self._parent:
-            self._parent.draw_overlay(func, **kwargs)
-    
-    
-    def clear_overlay(self):
-        """Clears current overlay."""
-        
-        self.draw_overlay()
-    
-    
-    def _set_parent(self, parent):
-        """Sets link to parent view."""
-        
-        self._parent = parent
     
     
     def _set_tool(self, new_tool, old_tool=None, left=False, right=False, touch=False):
@@ -354,18 +347,7 @@ class Control(PropertySet):
             self.bind(EVT_TOUCH_DTAP, new_tool.on_touch_dtap)
     
     
-    def _on_control_size(self, evt):
-        """Redraws current graphics when size has changed."""
-        
-        # get size
-        self._size = (evt.width, evt.height)
-        
-        # draw control
-        if self._parent is not None:
-            self._parent.draw_control()
-    
-    
-    def _on_control_property_changed(self, evt):
+    def _on_tool_control_property_changed(self, evt):
         """Called after any property has changed."""
         
         # main tool changed
