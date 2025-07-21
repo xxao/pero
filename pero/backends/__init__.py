@@ -3,6 +3,7 @@
 
 # import main objects
 from . control import Control, ToolControl
+from . sizer import Sizer
 from . tool import Tool
 from . view import View
 from . export import show, export, debug

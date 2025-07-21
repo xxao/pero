@@ -288,18 +288,18 @@ class Layout(Graphics):
             
             h_align: str
                 Horizontal alignment of the cell content as any item from the
-                pero.POSITION_LRC enum. Note the for this to have any effect
+                pero.POSITION_LRC enum. Note that for this to have any effect
                 the 'width' property must be specified.
             
             v_align: str
                 Vertical alignment of the cell content as any item from the
-                pero.POSITION_TBC enum. Note the for this to have any effect
+                pero.POSITION_TBC enum. Note that for this to have any effect
                 the 'height' property must be specified.
             
             line properties:
                 All the pero.LineProperties to specify the cell background
                 outline.
-        
+            
             fill properties:
                 All the pero.FillProperties to specify the cell background
                 fill.
