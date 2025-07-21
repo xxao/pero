@@ -332,7 +332,9 @@ class Font(object):
                 Text size as width and height.
         """
         
-        return self.get_font(size).getsize(text)
+        font = self.get_font(size)
+        
+        return font.getbbox(text)[2:]
     
     
     def get_descent(self, size):
@@ -350,8 +352,8 @@ class Font(object):
         
         font = self.get_font(size)
         
-        m = font.getsize("M")[1]
-        mj = font.getsize("Mj")[1]
+        m = font.getbbox("M")[3]
+        mj = font.getbbox("Mj")[3]
         
         return mj - m
     
