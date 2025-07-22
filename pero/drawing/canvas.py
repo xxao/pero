@@ -325,8 +325,8 @@ class Canvas(PropertySet):
         if self.font_name:
             names.append(self.font_name)
         
-        elif self.font_family in FONT_FAMILY_NAMES:
-            names = FONT_FAMILY_NAMES[self.font_family]
+        if self.font_family in FONT_FAMILY_NAMES:
+            names += FONT_FAMILY_NAMES[self.font_family]
         
         # get specific font
         for name in names:
@@ -334,29 +334,8 @@ class Canvas(PropertySet):
             self._cfont = FONTS.get_font(
                 family = name,
                 style = self.font_style,
-                weight = self.font_weight)
-            
-            if self._cfont is not None:
-                return self._cfont
-        
-        # get regular font
-        for name in names:
-            
-            self._cfont = FONTS.get_font(
-                family = name,
-                style = FONT_STYLE_NORMAL,
-                weight = FONT_WEIGHT_NORMAL)
-            
-            if self._cfont is not None:
-                return self._cfont
-        
-        # get font just by name
-        for name in names:
-            
-            self._cfont = FONTS.get_font(
-                family = name,
-                style = None,
-                weight = None)
+                weight = self.font_weight,
+                loose = True)
             
             if self._cfont is not None:
                 return self._cfont
