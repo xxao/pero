@@ -152,26 +152,29 @@ class FontManager(object):
         dir_name, file_name = os.path.split(path)
         base_name, extension = os.path.splitext(file_name)
         
-        # load TrueType or OpenType font
-        if extension.lower() in ('.ttf', '.otf', '.ttc'):
+        # check font type
+        if extension.lower() not in ('.ttf', '.otf', '.ttc'):
+            return
+        
+        # init index
+        index = 0
+        
+        # load all variants from file
+        while True:
             
-            # load all from file
-            idx = 0
-            while True:
-                
-                # get font
-                font = Font.from_ttf(path, name, idx)
-                if font is None:
-                    return
-                
-                # add to library
-                if font.family not in self._fonts:
-                    self._fonts[font.family] = [font]
-                else:
-                    self._fonts[font.family].append(font)
-                
-                # increase index
-                idx += 1
+            # get font
+            font = Font.from_ttf(path, name, index)
+            if font is None:
+                return
+            
+            # add to library
+            if font.family not in self._fonts:
+                self._fonts[font.family] = [font]
+            else:
+                self._fonts[font.family].append(font)
+            
+            # increase index
+            index += 1
     
     
     def load(self):
@@ -223,12 +226,13 @@ class Font(object):
     """This class holds some basic information about available font."""
     
     
-    def __init__(self, path, name, family, style, weight):
+    def __init__(self, path, index, family, name, style, weight):
         """Initializes a new instance of Font."""
         
         self._path = path
-        self._name = name
+        self._index = index
         self._family = family
+        self._name = name
         self._style = style
         self._weight = weight
         
@@ -238,7 +242,7 @@ class Font(object):
     def __str__(self):
         """Gets standard string representation."""
         
-        return "%s (%s | %s | %s) [%s]" % (self._family, self._name, self._style, self._weight, self._path)
+        return "%s (%s | %s | %s) [%s] - [%d]" % (self._family, self._name, self._style, self._weight, self._path, self._index)
     
     
     def __repr__(self):
@@ -261,17 +265,17 @@ class Font(object):
     
     
     @property
-    def name(self):
+    def index(self):
         """
-        Gets the font name.
-        
-        Returns:
-            str
-                Font name.
-        """
-        
-        return self._name
+        Gets the font index within the file.
     
+        Returns:
+            int
+                Font index.
+        """
+        
+        return self._index
+     
     
     @property
     def family(self):
@@ -284,6 +288,19 @@ class Font(object):
         """
         
         return self._family
+    
+    
+    @property
+    def name(self):
+        """
+        Gets the font name.
+        
+        Returns:
+            str
+                Font name.
+        """
+        
+        return self._name
     
     
     @property
@@ -326,7 +343,7 @@ class Font(object):
         """
         
         if size not in self._cache:
-            self._cache[size] = ImageFont.truetype(self._path, size)
+            self._cache[size] = ImageFont.truetype(self._path, size, index=self._index)
         
         return self._cache[size]
     
@@ -437,7 +454,7 @@ class Font(object):
                 font_weight = FONT_WEIGHT_THIN
             
             # make font
-            return Font(path, font_name, font_family, font_style, font_weight)
+            return Font(path, index, font_name, font_family, font_style, font_weight)
         
         except:
             return None
