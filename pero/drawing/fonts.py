@@ -153,19 +153,25 @@ class FontManager(object):
         base_name, extension = os.path.splitext(file_name)
         
         # load TrueType or OpenType font
-        font = None
         if extension.lower() in ('.ttf', '.otf', '.ttc'):
-            font = Font.from_ttf(path, name)
-        
-        # check font
-        if font is None:
-            return
-        
-        # add to library
-        if font.family not in self._fonts:
-            self._fonts[font.family] = [font]
-        else:
-            self._fonts[font.family].append(font)
+            
+            # load all from file
+            idx = 0
+            while True:
+                
+                # get font
+                font = Font.from_ttf(path, name, idx)
+                if font is None:
+                    return
+                
+                # add to library
+                if font.family not in self._fonts:
+                    self._fonts[font.family] = [font]
+                else:
+                    self._fonts[font.family].append(font)
+                
+                # increase index
+                idx += 1
     
     
     def load(self):
@@ -187,7 +193,8 @@ class FontManager(object):
             paths = [
                 r"/Library/Fonts/",
                 r"/Network/Library/Fonts/",
-                r"/System/Library/Fonts/"]
+                r"/System/Library/Fonts/",
+                r"/System/Library/Fonts/Supplemental"]
             
             home = os.environ.get('HOME')
             if home is not None:
@@ -367,7 +374,7 @@ class Font(object):
     
     
     @staticmethod
-    def from_ttf(path, name=None):
+    def from_ttf(path, name=None, index=0):
         """
         Creates a new instance of Font.
         
@@ -377,6 +384,9 @@ class Font(object):
             
             name: str
                 Specific (system) name of the font variant.
+            
+            index: int
+                Index of the font to load.
         
         Returns:
             pero.Font or None
@@ -384,7 +394,7 @@ class Font(object):
         """
         
         try:
-            font = ImageFont.truetype(path, 10)
+            font = ImageFont.truetype(path, 10, index=index)
             
             font_family, font_type = font.getname()
             font_name = name or font_family
