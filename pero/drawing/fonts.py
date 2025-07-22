@@ -65,7 +65,7 @@ class FontManager(object):
         return tuple(v for f in fonts for v in f)
     
     
-    def get_font(self, family, style=None, weight=None):
+    def get_font(self, family, style=None, weight=None, loose=True):
         """
         Gets specified font from library.
         
@@ -80,6 +80,10 @@ class FontManager(object):
             weight: pero.FONT_WEIGHT or None
                 Specifies requested weight of the font as any item from the
                 pero.FONT_WEIGHT enum or None if not important.
+            
+            loose: bool
+                If set to True, style and weight might be ignored if not
+                available.
         
         Returns:
             pero.Font or None
@@ -92,7 +96,10 @@ class FontManager(object):
             return None
         
         # check style
-        fonts = [f for f in fonts if (not style or f.style == style)]
+        if style:
+            matching = [f for f in fonts if f.style == style]
+            if matching or not loose:
+                fonts = matching
         
         # check specific weight
         for font in fonts:
@@ -111,7 +118,8 @@ class FontManager(object):
                 if font.weight in FONT_WEIGHTS_BOLD:
                     return font
         
-        return None
+        # ignore weight
+        return fonts[0] if loose else None
     
     
     def load_fonts(self, path):

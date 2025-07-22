@@ -21,7 +21,10 @@ class DrawTest(pero.Graphics):
         
         label = pero.Text(
             font_size = 12,
-            font_name = "Arial")
+            font_name = pero.FONT_FACE_SANS,
+            font_family = pero.FONT_FAMILY_SANS,
+            font_style = pero.FONT_STYLE_NORMAL,
+            font_weight = pero.FONT_WEIGHT_NORMAL)
         
         # init coords
         x = 20
@@ -38,11 +41,11 @@ class DrawTest(pero.Graphics):
         y += 30
         
         # test name
-        label.draw(canvas, x=x, y=y, text="arial", font_name='Arial', font_size=12)
+        label.draw(canvas, x=x, y=y, text="arial", font_name=pero.FONT_FACE_SANS)
         x += 60
-        label.draw(canvas, x=x, y=y, text="times", font_name="Times New Roman", font_size=12)
+        label.draw(canvas, x=x, y=y, text="times", font_name=pero.FONT_FACE_SERIF)
         x += 60
-        label.draw(canvas, x=x, y=y, text="courier", font_name="Courier New", font_size=12)
+        label.draw(canvas, x=x, y=y, text="courier", font_name=pero.FONT_FACE_MONO)
         
         x = 20
         y += 30
@@ -111,4 +114,4 @@ class DrawTest(pero.Graphics):
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'show', "Text", 350, 280)
+    pero.debug(DrawTest(), 'svg', "Text", 350, 280)
