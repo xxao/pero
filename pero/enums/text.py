@@ -13,11 +13,6 @@ FONT_FACE_SERIF = "Times New Roman"
 FONT_FACE_SANS = "Arial"
 FONT_FACE_MONO = "Courier New"
 
-if sys.platform == 'darwin':
-    FONT_FACE_SERIF = "Times"
-    FONT_FACE_SANS = "Helvetica"
-    FONT_FACE_MONO = "Courier"
-
 # define font families
 FONT_FAMILY_SERIF = SERIF
 FONT_FAMILY_SANS = SANS
