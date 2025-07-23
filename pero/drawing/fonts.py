@@ -190,7 +190,7 @@ class FontManager(object):
                 if os.path.exists(path):
                     self.load_fonts(path)
         
-        # load macOS fonts
+        # load MacOS fonts
         elif sys.platform == 'darwin':
             
             paths = [
@@ -203,6 +203,21 @@ class FontManager(object):
             if home is not None:
                 path = os.path.join(home, 'Library', 'Fonts')
                 paths.append(path)
+            
+            for path in paths:
+                if os.path.exists(path):
+                    self.load_fonts(path)
+        
+        # load linux fonts
+        elif sys.platform == 'linux':
+            
+            paths = [
+                r"/usr/share/fonts",
+                r"/usr/share/fonts/truetype",
+                r"/usr/share/fonts/opentype",
+                r"/usr/local/share/fonts",
+                r"~/.local/share/fonts",
+                r"/usr/share/fonts"]
             
             for path in paths:
                 if os.path.exists(path):
