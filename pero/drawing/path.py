@@ -1525,7 +1525,7 @@ class Path(object):
         
         # just one path
         if len(self._paths) == 1:
-            return self.clone()
+            (self.clone(),)
         
         # split paths
         return tuple(Path.from_commands(x) for x in self._paths if x)
