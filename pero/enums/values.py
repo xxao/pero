@@ -80,6 +80,7 @@ WX = 'wx'
 CAIRO = 'cairo'
 MUPDF = 'mupdf'
 PYTHONISTA = 'pythonista'
+PY5 = 'py5'
 
 DAYS = 'd'
 HOURS = 'h'
