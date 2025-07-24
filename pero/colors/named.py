@@ -7,7 +7,7 @@ from . gradient import Gradient
 
 
 # define colors
-Transparent = Color('#0000', name='Transparent')
+Transparent = Color('#FFF0', name='Transparent')
 AliceBlue = Color('#F0F8FF', name='AliceBlue')
 AntiqueWhite = Color('#FAEBD7', name='AntiqueWhite')
 Aqua = Color('#00FFFF', name='Aqua')
