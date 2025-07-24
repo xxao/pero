@@ -131,8 +131,9 @@ class FontManager(object):
                 Absolute path to the fonts folder.
         """
         
-        for file_name in os.listdir(path):
-            self.load_font(os.path.join(path, file_name))
+        for root, dirs, files in os.walk(path):
+            for file_name in files:
+                self.load_font(os.path.join(root, file_name))
     
     
     def load_font(self, path, name=None):
@@ -196,8 +197,7 @@ class FontManager(object):
             paths = [
                 r"/Library/Fonts/",
                 r"/Network/Library/Fonts/",
-                r"/System/Library/Fonts/",
-                r"/System/Library/Fonts/Supplemental"]
+                r"/System/Library/Fonts/"]
             
             home = os.environ.get('HOME')
             if home is not None:
@@ -213,8 +213,6 @@ class FontManager(object):
             
             paths = [
                 r"/usr/share/fonts",
-                r"/usr/share/fonts/truetype",
-                r"/usr/share/fonts/opentype",
                 r"/usr/local/share/fonts",
                 r"~/.local/share/fonts",
                 r"/usr/share/fonts"]
