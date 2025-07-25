@@ -438,6 +438,13 @@ class Py5Canvas(Canvas):
         # get property name
         prop_name = evt.name if evt is not None else None
         
+        # update font
+        if prop_name is None or prop_name in ('font_name', 'font_family', 'font_style', 'font_weight'):
+            font_size = self.font_size or 10
+            font = self.get_font()
+            font = py5.create_font(font.path, font_size * self.font_scale)
+            self._pg.text_font(font)
+        
         # update font size
         if prop_name is None or prop_name in ('font_size', 'font_scale'):
             font_size = self.font_size
