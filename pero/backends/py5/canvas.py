@@ -4,6 +4,7 @@
 import py5
 import numpy
 from ... properties import *
+from ... colors import Transparent, Black
 from ... drawing import Canvas, Path, Matrix
 from . enums import *
 
@@ -27,6 +28,11 @@ class Py5Canvas(Canvas):
         # init buffers
         self._pg = pg
         
+        self._line_color = None
+        self._fill_color = None
+        self._for_color = Black
+        self._bgr_color = None
+        
         # init size
         if 'width' not in overrides:
             overrides['width'] = pg.width
@@ -41,6 +47,30 @@ class Py5Canvas(Canvas):
         self.bind(EVT_PEN_CHANGED, self._update_pen)
         self.bind(EVT_BRUSH_CHANGED, self._update_brush)
         self.bind(EVT_TEXT_CHANGED, self._update_text)
+    
+    
+    def get_line_size(self, text):
+        """
+        Gets width and height of a single text line using current text settings.
+        
+        Args:
+            text: str
+                Text for which the size should be calculated.
+        
+        Returns:
+            (float, float)
+                Line width and height.
+        """
+        
+        # check text
+        if not text:
+            return 0, 0
+        
+        # get size
+        width = self._pg.text_width(text)
+        height = self._pg.text_ascent() + self._pg.text_descent()
+        
+        return width, height
     
     
     def draw_circle(self, x, y, radius):
@@ -263,7 +293,97 @@ class Py5Canvas(Canvas):
                 Text angle in radians.
         """
         
-        pass
+        # set colors
+        self._pg.no_stroke()
+        if self._for_color:
+            self._pg.fill(self._for_color.hex)
+        
+        # get full size
+        full_width, full_height = self.get_text_size(text)
+        
+        # apply angle transformation
+        if angle:
+            
+            shift_x = self._scale * (x + self._offset[0])
+            shift_y = self._scale * (y + self._offset[1])
+            
+            self._pg.translate(shift_x, shift_y)
+            self._pg.rotate(angle)
+            
+            x = 0
+            y = 0
+        
+        # split lines
+        lines = [text]
+        if self.text_split and self.text_splitter:
+            lines = text.split(self.text_splitter)
+        
+        # draw lines
+        for i, line in enumerate(lines):
+            
+            # get line size
+            line_width, line_height = self.get_line_size(line)
+            line_width /= self._scale
+            line_height /= self._scale
+            
+            # init offset
+            x_offset = 0
+            y_offset = 0
+            
+            # adjust alignment
+            if self.text_align == TEXT_ALIGN_CENTER:
+                x_offset -= 0.5 * line_width
+            
+            elif self.text_align == TEXT_ALIGN_RIGHT:
+                x_offset -= line_width
+            
+            # adjust baseline
+            if self.text_base == TEXT_BASE_MIDDLE:
+                y_offset -= 0.5 * full_height
+            
+            elif self.text_base == TEXT_BASE_BOTTOM:
+                y_offset -= full_height
+            
+            # add line offset
+            y_offset += i * line_height * (1 + self.text_spacing)
+            
+            # apply scaling and offset
+            if angle:
+                line_x = self._scale * x_offset
+                line_y = self._scale * y_offset
+            else:
+                line_x = self._scale * (x + x_offset + self._offset[0])
+                line_y = self._scale * (y + y_offset + self._offset[1])
+            
+            # draw background
+            if self._bgr_color:
+                
+                bgr_x = line_x
+                bgr_y = line_y
+                bgr_width = line_width * self._scale
+                bgr_height = line_height * self._scale
+                
+                self._pg.fill(self._bgr_color.hex)
+                self._pg.rect(bgr_x, bgr_y, bgr_width, bgr_height)
+                
+                if self._for_color:
+                    self._pg.fill(self._for_color.hex)
+            
+            # draw text
+            self._pg.text_align(py5.LEFT, py5.TOP)
+            self._pg.text(line, line_x, line_y)
+        
+        # revert colors
+        if self._line_color:
+            self._pg.stroke(self._line_color.hex)
+        
+        if self._fill_color:
+            self._pg.fill(self._fill_color.hex)
+        
+        # revert angle transformation
+        if angle:
+            self._pg.rotate(-angle)
+            self._pg.translate(-shift_x, -shift_y)
     
     
     def _update_pen(self, evt=None):
@@ -276,6 +396,7 @@ class Py5Canvas(Canvas):
         if prop_name is None or prop_name in ('line_color', 'line_alpha'):
             color = ColorProperties.get_color(self, "line_")
             if color is not UNDEF:
+                self._line_color = color
                 self._pg.stroke(color.hex)
         
         # update width
@@ -303,13 +424,34 @@ class Py5Canvas(Canvas):
         color = ColorProperties.get_color(self, "fill_")
         
         if self.fill_style == FILL_STYLE_TRANS:
-            self._pg.no_fill()
+            self._fill_color = Transparent
+            self._pg.fill(color.hex)
         
         elif color is not UNDEF:
+            self._fill_color = color
             self._pg.fill(color.hex)
     
     
     def _update_text(self, evt=None):
         """Updates text with current properties."""
         
-        pass
+        # get property name
+        prop_name = evt.name if evt is not None else None
+        
+        # update font size
+        if prop_name is None or prop_name in ('font_size', 'font_scale'):
+            font_size = self.font_size
+            if font_size is not UNDEF:
+                self._pg.text_size(font_size * self.font_scale)
+        
+        # update foreground color
+        if prop_name is None or prop_name in ('text_color', 'text_alpha'):
+            color = ColorProperties.get_color(self, "text_")
+            if color is not UNDEF:
+                self._for_color = color
+        
+        # update background color
+        if prop_name is None or prop_name in ('text_bgr_color', 'text_bgr_alpha'):
+            color = ColorProperties.get_color(self, "text_bgr_")
+            if color is not UNDEF:
+                self._bgr_color = color
