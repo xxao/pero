@@ -65,6 +65,22 @@ class FontManager(object):
         return tuple(v for f in fonts for v in f)
     
     
+    def get_fonts(self, family):
+        """
+        Gets all fonts from library corresponding to family name.
+        
+        Args:
+            family: str
+                Family name of the font.
+        
+        Returns:
+            (pero.Font,)
+                Family fonts.
+        """
+        
+        return tuple(self._fonts.get(family, []))
+    
+    
     def get_font(self, family, style=None, weight=None, loose=True):
         """
         Gets specified font from library.
