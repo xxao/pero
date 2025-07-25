@@ -5,7 +5,7 @@ import py5
 import numpy
 from ... properties import *
 from ... colors import Transparent, Black
-from ... drawing import Canvas, Path, Matrix
+from ... drawing import Canvas, Path, Matrix, ClipState
 from . enums import *
 
 
@@ -27,6 +27,7 @@ class Py5Canvas(Canvas):
         
         # init buffers
         self._pg = pg
+        self._clipping = []
         
         self._line_color = None
         self._fill_color = None
@@ -384,6 +385,54 @@ class Py5Canvas(Canvas):
         if angle:
             self._pg.rotate(-angle)
             self._pg.translate(-shift_x, -shift_y)
+    
+    
+    def clip(self, path):
+        """
+        Sets clipping path as intersection with current one.
+        
+        Current implementation does not truly support paths so it uses just the
+        rectangular bounding box of the given path.
+        
+        Args:
+            path: pero.Path
+                Path to be used for clipping.
+        
+        Returns:
+            pero.ClipState
+                Clipping state context manager.
+        """
+        
+        # apply scaling and offset
+        matrix = Matrix()
+        matrix.translate(self._offset[0], self._offset[1])
+        matrix.scale(self._scale, self._scale)
+        path = path.transformed(matrix)
+        
+        # set clipping
+        rect = path.bbox().rect
+        self._pg.clip(*rect)
+        
+        # remember clipping
+        self._clipping.append(rect)
+        
+        # return state
+        return ClipState(self)
+    
+    
+    def unclip(self):
+        """Removes last clipping path while keeping previous if any."""
+        
+        # remove clip
+        self._dc.no_clip()
+        
+        # remove from stack
+        if self._clipping:
+            del self._clipping[-1]
+        
+        # re-apply previous
+        if self._clipping:
+            self._dc.clip(*self._clipping[-1])
     
     
     def _update_pen(self, evt=None):
