@@ -411,6 +411,7 @@ class Py5Canvas(Canvas):
         
         # set clipping
         rect = path.bbox().rect
+        self._pg.image_mode(py5.CORNER)
         self._pg.clip(*rect)
         
         # remember clipping
@@ -432,6 +433,7 @@ class Py5Canvas(Canvas):
         
         # re-apply previous
         if self._clipping:
+            self._pg.image_mode(py5.CORNER)
             self._pg.clip(*self._clipping[-1])
     
     
@@ -470,12 +472,15 @@ class Py5Canvas(Canvas):
     def _update_brush(self, evt=None):
         """Updates brush with current properties."""
         
+        # get color
         color = ColorProperties.get_color(self, "fill_")
         
+        # set transparent fill
         if self.fill_style == FILL_STYLE_TRANS:
             self._fill_color = Transparent
             self._pg.fill(color.hex)
         
+        # set color fill
         elif color is not UNDEF:
             self._fill_color = color
             self._pg.fill(color.hex)
