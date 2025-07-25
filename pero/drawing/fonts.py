@@ -239,17 +239,54 @@ class Font(object):
     """This class holds some basic information about available font."""
     
     
-    def __init__(self, path, index, family, name, style, weight):
+    def __init__(self, path, index, font_name, font_family, font_type):
         """Initializes a new instance of Font."""
+        
+        self._cache = {}
         
         self._path = path
         self._index = index
-        self._family = family
-        self._name = name
-        self._style = style
-        self._weight = weight
+        self._name = font_name
+        self._family = font_family
+        self._type = font_type
         
-        self._cache = {}
+        self._style = FONT_STYLE_NORMAL
+        self._weight = FONT_WEIGHT_NORMAL
+        
+        # set style
+        if 'Italic' in font_type:
+            self._style = FONT_STYLE_ITALIC
+        
+        elif 'Oblique' in font_type:
+            self._style = FONT_STYLE_ITALIC
+        
+        # set weight
+        if 'Regular' in font_type:
+            self._weight = FONT_WEIGHT_NORMAL
+        
+        elif 'Bold' in font_type:
+            self._weight = FONT_WEIGHT_BOLD
+        
+        elif 'Light' in font_type:
+            self._weight = FONT_WEIGHT_LIGHT
+        
+        elif 'Black' in font_type:
+            self._weight = FONT_WEIGHT_BLACK
+        
+        elif 'Heavy' in font_type:
+            self._weight = FONT_WEIGHT_HEAVY
+        
+        elif 'Semibold' in font_type:
+            self._weight = FONT_WEIGHT_SEMIBOLD
+        
+        elif 'Medium' in font_type:
+            self._weight = FONT_WEIGHT_MEDIUM
+        
+        elif 'Ultralight' in font_type:
+            self._weight = FONT_WEIGHT_ULTRALIGHT
+        
+        elif 'Thin' in font_type:
+            self._weight = FONT_WEIGHT_THIN
     
     
     def __str__(self):
@@ -316,6 +353,19 @@ class Font(object):
         return self._name
     
     
+    @property
+    def type(self):
+        """
+        Gets the font type.
+        
+        Returns:
+            str
+                Font type.
+        """
+        
+        return self._type
+    
+
     @property
     def style(self):
         """
@@ -425,49 +475,10 @@ class Font(object):
         
         try:
             font = ImageFont.truetype(path, 10, index=index)
-            
             font_family, font_type = font.getname()
             font_name = name or font_family
-            font_style = FONT_STYLE_NORMAL
-            font_weight = FONT_WEIGHT_NORMAL
             
-            # get style
-            if 'Italic' in font_type:
-                font_style = FONT_STYLE_ITALIC
-            
-            elif 'Oblique' in font_type:
-                font_style = FONT_STYLE_ITALIC
-            
-            # get weight
-            if 'Regular' in font_type:
-                font_weight = FONT_WEIGHT_NORMAL
-            
-            elif 'Bold' in font_type:
-                font_weight = FONT_WEIGHT_BOLD
-            
-            elif 'Light' in font_type:
-                font_weight = FONT_WEIGHT_LIGHT
-            
-            elif 'Black' in font_type:
-                font_weight = FONT_WEIGHT_BLACK
-            
-            elif 'Heavy' in font_type:
-                font_weight = FONT_WEIGHT_HEAVY
-            
-            elif 'Semibold' in font_type:
-                font_weight = FONT_WEIGHT_SEMIBOLD
-            
-            elif 'Medium' in font_type:
-                font_weight = FONT_WEIGHT_MEDIUM
-            
-            elif 'Ultralight' in font_type:
-                font_weight = FONT_WEIGHT_ULTRALIGHT
-            
-            elif 'Thin' in font_type:
-                font_weight = FONT_WEIGHT_THIN
-            
-            # make font
-            return Font(path, index, font_name, font_family, font_style, font_weight)
+            return Font(path, index, font_name, font_family, font_type)
         
         except:
             return None
