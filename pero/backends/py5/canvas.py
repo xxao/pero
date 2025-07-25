@@ -424,7 +424,7 @@ class Py5Canvas(Canvas):
         """Removes last clipping path while keeping previous if any."""
         
         # remove clip
-        self._dc.no_clip()
+        self._pg.no_clip()
         
         # remove from stack
         if self._clipping:
@@ -432,7 +432,7 @@ class Py5Canvas(Canvas):
         
         # re-apply previous
         if self._clipping:
-            self._dc.clip(*self._clipping[-1])
+            self._pg.clip(*self._clipping[-1])
     
     
     def _update_pen(self, evt=None):
