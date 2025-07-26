@@ -11,8 +11,8 @@ BACKEND_QT = QT
 BACKEND_WX = WX
 BACKEND_CAIRO = CAIRO
 BACKEND_MUPDF = MUPDF
-BACKEND_PYTHONISTA = PYTHONISTA
 BACKEND_PY5 = PY5
+BACKEND_PYTHONISTA = PYTHONISTA
 
 BACKEND = Enum(
     JSON = BACKEND_JSON,
@@ -21,8 +21,8 @@ BACKEND = Enum(
     WX = BACKEND_WX,
     CAIRO = BACKEND_CAIRO,
     MUPDF = BACKEND_MUPDF,
-    PYTHONISTA = BACKEND_PYTHONISTA,
-    PY5 = BACKEND_PY5)
+    PY5 = BACKEND_PY5,
+    PYTHONISTA = BACKEND_PYTHONISTA)
 
 # define image formats supported by JSON backend
 EXPORT_JSON = {
@@ -72,10 +72,6 @@ EXPORT_CAIRO = {
 EXPORT_MUPDF = {
     '.pdf'}
 
-# define image formats supported by Pythonista backend
-EXPORT_PYTHONISTA = {
-    '.png'}
-
 # define image formats supported by PY5 backend
 EXPORT_PY5 = {
     '.gif',
@@ -86,6 +82,10 @@ EXPORT_PY5 = {
     '.svg',
     '.tga'}
 
+# define image formats supported by Pythonista backend
+EXPORT_PYTHONISTA = {
+    '.png'}
+
 # define available formats
 EXPORT_FORMATS = {
     BACKEND_JSON: EXPORT_JSON,
@@ -94,8 +94,8 @@ EXPORT_FORMATS = {
     BACKEND_WX: EXPORT_WX,
     BACKEND_CAIRO: EXPORT_CAIRO,
     BACKEND_MUPDF: EXPORT_MUPDF,
-    BACKEND_PYTHONISTA: EXPORT_PYTHONISTA,
-    BACKEND_PY5: EXPORT_PY5}
+    BACKEND_PY5: EXPORT_PY5,
+    BACKEND_PYTHONISTA: EXPORT_PYTHONISTA}
 
 # define export backend priorities
 EXPORT_PRIORITY = [
@@ -105,13 +105,14 @@ EXPORT_PRIORITY = [
     BACKEND_WX,
     BACKEND_CAIRO,
     BACKEND_MUPDF,
-    BACKEND_PYTHONISTA,
-    EXPORT_PY5]
+    EXPORT_PY5,
+    BACKEND_PYTHONISTA]
 
 # define viewer backend priorities
 VIEWER_PRIORITY = [
     BACKEND_QT,
     BACKEND_WX,
+    BACKEND_PY5,
     BACKEND_PYTHONISTA]
 
 # define default export size

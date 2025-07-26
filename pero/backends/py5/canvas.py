@@ -13,7 +13,7 @@ class Py5Canvas(Canvas):
     """Wrapper for Py5 drawing graphics."""
     
     
-    def __init__(self, pg, parent=py5, **overrides):
+    def __init__(self, pg, context=py5, **overrides):
         """
         Initializes a new instance of Py5Canvas.
         
@@ -21,13 +21,16 @@ class Py5Canvas(Canvas):
             pg: py5.Py5Graphics
                 Sketch object to draw into.
             
+            context: py5 module or py5.Sketch
+                Context in which the drawing is done.
+            
             overrides: str:any pairs
                 Value overwrites for specific properties.
         """
         
         # init buffers
         self._pg = pg
-        self._parent = parent
+        self._context = context
         self._clipping = []
         
         self._line_color = None
@@ -500,7 +503,7 @@ class Py5Canvas(Canvas):
         if prop_name is None or prop_name in ('font_name', 'font_family', 'font_style', 'font_weight'):
             font_size = self.font_size or 10
             font = self.get_font()
-            font = self._parent.create_font(font.path, font_size * self.font_scale)
+            font = self._context.create_font(font.path, font_size * self.font_scale)
             self._pg.text_font(font)
         
         # update font size
