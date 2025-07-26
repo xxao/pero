@@ -61,9 +61,10 @@ class ShowSketch(py5.Sketch):
         canvas = Py5Canvas(pg, self, **self._options)
         
         # draw graphics
-        pg.begin_draw()
-        self._graphics.draw(canvas)
-        pg.end_draw()
+        with pg.begin_draw():
+            self._graphics.draw(canvas)
+        
+        # finalize image
         self.image(pg, 0, 0)
 
 
@@ -107,6 +108,7 @@ class ExportSketch(py5.Sketch):
         """Applies main sketch settings."""
         
         self.size(self._width, self._height, py5.HIDDEN)
+        self.pixel_density(1)
     
     
     def setup(self):
@@ -169,6 +171,8 @@ class ExportSketch(py5.Sketch):
         with pg.begin_draw():
             self._graphics.draw(canvas)
         
-        # save image
+        # finalize image
         self.image(pg, 0, 0)
+        
+        # save image
         pg.save(self._path)
