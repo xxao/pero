@@ -176,6 +176,9 @@ class Py5Canvas(Canvas):
         # apply scaling and offset
         points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
+        # create coords
+        points = numpy.concatenate((points[:-1], points[1:]), axis=1)
+        
         # draw lines
         self._pg.lines(points)
     
