@@ -51,6 +51,9 @@ def show(graphics, title=None, width=None, height=None, backend=None, **options)
             elif module == BACKEND_WX:
                 from . import wx as backend
             
+            elif module == BACKEND_PY5:
+                from . import py5 as backend
+            
             break
         
         # ignore missing library
@@ -133,6 +136,9 @@ def export(graphics, path, width=None, height=None, backend=None, **options):
             elif module == BACKEND_WX:
                 from . import wx as backend
             
+            elif module == BACKEND_PY5:
+                from . import py5 as backend
+            
             break
         
         # ignore missing library
@@ -188,19 +194,24 @@ def debug(graphics, canvas='show', title="", width=None, height=None, backend=No
         show(graphics, title, width, height, backend, **options)
     
     # render graphics into qt viewer
-    elif canvas == 'qt':
+    elif canvas == BACKEND_QT:
         from . import qt
         qt.show(graphics, title, width, height, **options)
     
     # render graphics into wx viewer
-    elif canvas == 'wx':
+    elif canvas == BACKEND_WX:
         from . import wx
         wx.show(graphics, title, width, height, **options)
     
     # render graphics into Pythonista console
-    elif canvas == 'pythonista':
+    elif canvas == BACKEND_PYTHONISTA:
         from . import pythonista
         pythonista.show(graphics, width, height, **options)
+    
+    # render graphics into Py5 sketch
+    elif canvas == BACKEND_PY5:
+        from . import py5
+        py5.show(graphics, width, height, **options)
     
     # render graphics as image file
     else:

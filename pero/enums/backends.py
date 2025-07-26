@@ -77,7 +77,14 @@ EXPORT_PYTHONISTA = {
     '.png'}
 
 # define image formats supported by PY5 backend
-EXPORT_PY5 = {}
+EXPORT_PY5 = {
+    '.gif',
+    '.jpeg',
+    '.jpg',
+    '.pdf',
+    '.png',
+    '.svg',
+    '.tga'}
 
 # define available formats
 EXPORT_FORMATS = {
