@@ -58,7 +58,7 @@ class ShowSketch(py5.Sketch):
         pg = self.create_graphics(self._width, self._height)
         
         # init canvas
-        canvas = Py5Canvas(pg, **self._options)
+        canvas = Py5Canvas(pg, self, **self._options)
         
         # draw graphics
         pg.begin_draw()
@@ -121,7 +121,7 @@ class ExportSketch(py5.Sketch):
             pg = self.create_graphics(self._width, self._height)
         
         # init canvas
-        canvas = Py5Canvas(pg, **self._options)
+        canvas = Py5Canvas(pg, self, **self._options)
         
         # draw graphics
         pg.begin_draw()
