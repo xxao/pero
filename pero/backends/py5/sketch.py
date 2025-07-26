@@ -112,24 +112,63 @@ class ExportSketch(py5.Sketch):
     def setup(self):
         """Initializes canvas and exports current graphics."""
         
-        # init py5 graphics
-        save = True
-        if self._path.endswith('.svg'):
-            pg = self.create_graphics(self._width, self._height, py5.SVG, self._path)
-            save = False
+        # export PDF
+        if self._path.lower().endswith('.pdf'):
+            self._export_pdf()
+        
+        # export SVG
+        elif self._path.lower().endswith('.svg'):
+            self._export_svg()
+        
+        # export raster
         else:
-            pg = self.create_graphics(self._width, self._height)
+            self._export_raster()
+        
+        # close window
+        self.exit_sketch()
+    
+    
+    def _export_pdf(self):
+        """Initializes canvas and exports current graphics as PDF."""
+        
+        # init py5 graphics
+        pg = self.create_graphics(self._width, self._height, py5.PDF, self._path)
         
         # init canvas
         canvas = Py5Canvas(pg, self, **self._options)
         
         # draw graphics
-        pg.begin_draw()
-        self._graphics.draw(canvas)
-        pg.end_draw()
+        with self.begin_record(pg):
+            self._graphics.draw(canvas)
+    
+    
+    def _export_svg(self):
+        """Initializes canvas and exports current graphics as SVG."""
         
-        if save:
-            self.image(pg, 0, 0)
-            pg.save(self._path)
+        # init py5 graphics
+        pg = self.create_graphics(self._width, self._height, py5.SVG, self._path)
         
-        self.exit_sketch()
+        # init canvas
+        canvas = Py5Canvas(pg, self, **self._options)
+        
+        # draw graphics
+        with self.begin_record(pg):
+            self._graphics.draw(canvas)
+    
+    
+    def _export_raster(self):
+        """Initializes canvas and exports current graphics as raster."""
+        
+        # init py5 graphics
+        pg = self.create_graphics(self._width, self._height)
+        
+        # init canvas
+        canvas = Py5Canvas(pg, self, **self._options)
+        
+        # draw graphics
+        with pg.begin_draw():
+            self._graphics.draw(canvas)
+        
+        # save image
+        self.image(pg, 0, 0)
+        pg.save(self._path)
