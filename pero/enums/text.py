@@ -25,9 +25,9 @@ FONT_FAMILY = Enum(
 
 # define font families default names
 FONT_FAMILY_NAMES = {
-    FONT_FAMILY_SERIF: (FONT_FACE_SERIF, 'times', 'Times', 'Times New Roman', 'Georgia'),
+    FONT_FAMILY_SERIF: (FONT_FACE_SERIF, 'times', 'Times', 'Times New Roman', 'Georgia', 'Liberation Serif'),
     FONT_FAMILY_SANS: (FONT_FACE_SANS, 'arial', 'Arial', 'Helvetica', 'Verdana', 'Liberation Sans', 'Nimbus Sans'),
-    FONT_FAMILY_MONO: (FONT_FACE_MONO, 'courier', 'Courier', 'Courier New', 'Ubuntu Mono', 'Andale Mono')}
+    FONT_FAMILY_MONO: (FONT_FACE_MONO, 'courier', 'Courier', 'Courier New', 'Ubuntu Mono', 'Andale Mono', 'Liberation Mono')}
 
 # define font styles
 FONT_STYLE_NORMAL = NORMAL
