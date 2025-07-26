@@ -206,12 +206,12 @@ def debug(graphics, canvas='show', title="", width=None, height=None, backend=No
     # render graphics into Pythonista console
     elif canvas == BACKEND_PYTHONISTA:
         from . import pythonista
-        pythonista.show(graphics, width, height, **options)
+        pythonista.show(graphics, title, width, height, **options)
     
     # render graphics into Py5 sketch
     elif canvas == BACKEND_PY5:
         from . import py5
-        py5.show(graphics, width, height, **options)
+        py5.show(graphics, title, width, height, **options)
     
     # render graphics as image file
     else:
