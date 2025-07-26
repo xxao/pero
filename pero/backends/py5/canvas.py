@@ -485,12 +485,12 @@ class Py5Canvas(Canvas):
         # set transparent fill
         if self.fill_style == FILL_STYLE_TRANS:
             self._fill_color = Transparent
-            self._pg.fill(color.hex)
+            self._pg.fill(self._fill_color.hex)
         
         # set color fill
         elif color is not UNDEF:
             self._fill_color = color
-            self._pg.fill(color.hex)
+            self._pg.fill(self._fill_color.hex)
     
     
     def _update_text(self, evt=None):
