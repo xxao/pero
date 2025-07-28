@@ -207,7 +207,7 @@ class Py5Canvas(Canvas):
             
             # begin shape
             self._pg.begin_shape()
-            origin = (0, 0)
+            end = py5.OPEN
             
             # draw path
             for command in sub.commands():
@@ -218,12 +218,11 @@ class Py5Canvas(Canvas):
                 
                 # close
                 if key == PATH_CLOSE:
-                    self._pg.vertex(*origin)
+                    end = py5.CLOSE
                 
                 # move to
                 elif key == PATH_MOVE:
                     self._pg.vertex(*values[0:2])
-                    origin = values[0:2]
                 
                 # line to
                 elif key == PATH_LINE:
@@ -234,7 +233,7 @@ class Py5Canvas(Canvas):
                     self._pg.bezier_vertex(*values)
             
             # end shape
-            self._pg.end_shape()
+            self._pg.end_shape(end)
     
     
     def draw_rect(self, x, y, width, height, radius=None):

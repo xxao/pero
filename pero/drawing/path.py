@@ -92,6 +92,25 @@ class Path(object):
         return self._cursor
     
     
+    @property
+    def is_multi(self):
+        """Returns True if the path has multiple disconnected paths."""
+        
+        return len(self._paths) > 1
+    
+    
+    @property
+    def is_closed(self):
+        """Returns True if the path is closed."""
+        
+        for path in self._paths:
+            for cmd in path:
+                if cmd[0] == PATH_CLOSE:
+                    return True
+        
+        return False
+    
+    
     def commands(self):
         """
         Gets a sequence of all commands from all sub-paths.
