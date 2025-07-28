@@ -4,7 +4,7 @@ The main motivation behind the *pero* library is to provide unified API for mult
 [PyQt5](https://pypi.org/project/PyQt5/), [PyQt6](https://pypi.org/project/PyQt6/),
 [PySide2](https://pypi.org/project/PySide2/), [PySide6](https://pypi.org/project/PySide6/),
 [wxPython](https://pypi.org/project/wxPython/), [PyCairo](https://pypi.org/project/pycairo/),
-[PyMuPDF](https://pypi.org/project/PyMuPDF/), [Pythonista](http://omz-software.com/pythonista/) (and possibly more),
+[PyMuPDF](https://pypi.org/project/PyMuPDF/), [Py5](https://py5coding.org/), [Pythonista](http://omz-software.com/pythonista/) (and possibly more),
 which is easy to understand and use. Beside the common drawing capabilities, numerous pre-build glyphs are available,
 as well as an easy-to-use path, matrix transformations etc. Depending on available backend libraries, drawings can be
 viewed directly or exported into various image formats.
@@ -98,6 +98,7 @@ img.show()
 - [wxPython](https://pypi.org/project/wxPython/)
 - [PyCairo](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pycairo)
 - [PyMuPDF](https://pypi.org/project/PyMuPDF/)
+- [Py5](https://py5coding.org/)
 - [Pythonista iOS App](http://omz-software.com/pythonista/)
 
 
@@ -280,6 +281,39 @@ canvas.draw_circle(100, 100, 75)
 # save to file
 doc.save('image.pdf')
 doc.close()
+```
+
+### Using Py5
+
+Create a Py5Graphics and encapsulate it into the *pero* canvas:
+
+```python
+import py5
+import pero
+from pero.backends.py5 import Py5Canvas
+
+
+def setup():
+    
+    # init py5 graphics
+    py5.size(200, 200)
+    pg = py5.create_graphics(200, 200)
+    
+    # init canvas
+    canvas = Py5Canvas(pg)
+    
+    # draw graphics
+    with pg.begin_draw():
+        canvas.line_color = "b"
+        canvas.fill_color = "w"
+        canvas.fill()
+        canvas.draw_circle(100, 100, 75)
+        
+    # finalize image
+    py5.image(pg, 0, 0)
+
+# show sketch
+py5.run_sketch()
 ```
 
 ### Using SVG
