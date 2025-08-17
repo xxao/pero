@@ -197,15 +197,13 @@ class FontManager(object):
     def load(self):
         """Loads all supported fonts from known system locations."""
         
+        # init paths
+        paths = []
+        
         # load MSWin fonts
         if sys.platform == 'win32':
-            
             paths = [
                 r"c:\Windows\Fonts"]
-            
-            for path in paths:
-                if os.path.exists(path):
-                    self.load_fonts(path)
         
         # load MacOS fonts
         elif sys.platform == 'darwin':
@@ -219,36 +217,23 @@ class FontManager(object):
             if home is not None:
                 path = os.path.join(home, 'Library', 'Fonts')
                 paths.append(path)
-            
-            for path in paths:
-                if os.path.exists(path):
-                    self.load_fonts(path)
         
         # load linux fonts
         elif sys.platform == 'linux':
-            
             paths = [
                 r"/usr/share/fonts",
                 r"/usr/local/share/fonts",
                 r"~/.local/share/fonts",
                 r"/usr/share/fonts"]
-            
-            for path in paths:
-                if os.path.exists(path):
-                    self.load_fonts(path)
         
         # load iOS fonts
         elif sys.platform == 'ios':
+            paths = [
+                r"/System/Library/Fonts/"]
             
-            from objc_util import ObjCClass
-            ui_font = ObjCClass('UIFont')
-            
-            for family in ui_font.familyNames():
-                names = ui_font.fontNamesForFamilyName_(family)
-                for name in names:
-                    font = ImageFont.truetype(str(name), 10)
-                    if font is not None:
-                        self.load_font(font.path, str(name))
+        for path in paths:
+            if os.path.exists(path):
+                self.load_fonts(path)
 
 
 class Font(object):
