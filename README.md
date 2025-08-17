@@ -420,11 +420,15 @@ image = pero.Image(width=width, height=height)
 image.fill("w")
 
 # draw points
-marker.draw_many(image, zip(x_data, y_data))
+for point in zip(x_data, y_data):
+    marker.draw(image, point)
 
 # show image
 image.show()
 ```
+<p>
+    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/dynamic.png" height="150"/>
+</p>
 
 ## Examples
 
