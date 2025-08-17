@@ -22,7 +22,8 @@ class DrawTest(pero.Graphics):
         label = pero.Text(
             text_align = pero.TEXT_ALIGN_LEFT,
             text_base = pero.TEXT_BASE_TOP,
-            font_size = 12)
+            font_size = 12,
+            text_bgr_color = "#ddd")
         
         # init coords
         x = padding
