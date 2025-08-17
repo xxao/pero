@@ -29,6 +29,9 @@ def show(graphics, title=None, width=None, height=None, **options):
             Presentation style of the ui.View. Recognized values are:
             fullscreen, sheet, popover and panel. If any touch events are
             expected to work, the fullscreen should be used.
+        
+        title_bar: bool
+            If set to True, title bar is shown.
     """
     
     # show as image in console
@@ -40,6 +43,10 @@ def show(graphics, title=None, width=None, height=None, **options):
     style = "fullscreen"
     if 'style' in options:
         style = options['style']
+    
+    title_bar = False
+    if 'title_bar' in options:
+        title_bar = options['title_bar']
     
     # init main window
     window = UIViewer()
@@ -64,7 +71,8 @@ def show(graphics, title=None, width=None, height=None, **options):
     window.refresh()
     
     # start app
-    window.present(style)
+    window.present(style,
+        hide_title_bar = not title_bar)
 
 
 def export(graphics, path=None, width=None, height=None, **options):
