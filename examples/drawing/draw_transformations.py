@@ -136,7 +136,7 @@ class DrawTest(pero.Graphics):
         origin.draw(canvas)
         zero.draw(canvas)
         
-        matrix = pero.Matrix().skew(pero.rads(20), 10)
+        matrix = pero.Matrix().skew(pero.rads(20), pero.rads(20))
         shape.draw(canvas, path=path.transformed(matrix))
         label.draw(canvas, text="Skew")
         
@@ -148,7 +148,7 @@ class DrawTest(pero.Graphics):
         origin.draw(canvas)
         zero.draw(canvas)
         
-        matrix = pero.Matrix().skew(pero.rads(20), 10, x=20, y=20)
+        matrix = pero.Matrix().skew(pero.rads(20), pero.rads(20), x=20, y=20)
         shape.draw(canvas, path=path.transformed(matrix))
         origin.draw(canvas, x=20, y=20, line_color=pero.colors.White)
         label.draw(canvas, text="Skew (ori)")
