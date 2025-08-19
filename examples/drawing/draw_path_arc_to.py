@@ -8,7 +8,7 @@ class DrawTest(pero.Graphics):
     """Test case for path arc drawing."""
     
     
-    def draw_test(self, canvas, c, p1, p2, radius, angle=0, finalize=False, limit=False):
+    def draw_test(self, canvas, c, p1, p2, radius, angle=0, before=True, after=False, limit=False):
         """Draws the test."""
         
         # get coords
@@ -25,7 +25,10 @@ class DrawTest(pero.Graphics):
         # make path
         path = pero.Path()
         path.move_to(p1x, p1y)
-        path.arc_to(cx, cy, p2x, p2y, radius, finalize=finalize, limit=limit)
+        path.arc_to(cx, cy, p2x, p2y, radius,
+            before = before,
+            after = after,
+            limit = limit)
         
         # make pather glyph
         pather = pero.Pather(
@@ -76,117 +79,121 @@ class DrawTest(pero.Graphics):
         # set coords
         angle = -10
         radius = 15
-        finalize = False
-        limit = False
+        before = False
+        after = False
+        limit = True
         
         # left
         canvas.view(100, 100)
-        self.draw_test(canvas, (0, 0), (-50, 0), (-50, 50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, 0), (-50, 50), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (-50, 0), (0, 50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, 0), (0, 50), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (-50, 0), (50, 50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, 0), (50, 50), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (-50, 0), (50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, 0), (50, 0), radius, angle, before, after, limit)
         
         canvas.view(150, relative=True)
-        self.draw_test(canvas, (0, 0), (-50, 0), (50, -50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, 0), (50, -50), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (-50, 0), (0, -50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, 0), (0, -50), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (-50, 0), (-50, -50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, 0), (-50, -50), radius, angle, before, after, limit)
         
         # left reversed
         canvas.view(100, 200)
-        self.draw_test(canvas, (0, 0), (-50, 50), (-50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, 50), (-50, 0), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (0, 50), (-50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (0, 50), (-50, 0), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (50, 50), (-50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 50), (-50, 0), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (50, 0), (-50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 0), (-50, 0), radius, angle, before, after, limit)
         
         canvas.view(150, relative=True)
-        self.draw_test(canvas, (0, 0), (50, -50), (-50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, -50), (-50, 0), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (0, -50), (-50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (0, -50), (-50, 0), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (-50, -50), (-50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, -50), (-50, 0), radius, angle, before, after, limit)
         
         # right
         canvas.view(50, 350)
-        self.draw_test(canvas, (0, 0), (50, 0), (50, 50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 0), (50, 50), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (50, 0), (0, 50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 0), (0, 50), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (50, 0), (-50, 50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 0), (-50, 50), radius, angle, before, after, limit)
         
         canvas.view(150, relative=True)
-        self.draw_test(canvas, (0, 0), (50, 0), (-50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 0), (-50, 0), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (50, 0), (-50, -50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 0), (-50, -50), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (50, 0), (0, -50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 0), (0, -50), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (50, 0), (50, -50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 0), (50, -50), radius, angle, before, after, limit)
         
         # right reversed
         canvas.view(50, 450)
-        self.draw_test(canvas, (0, 0), (50, 50), (50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 50), (50, 0), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (0, 50), (50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (0, 50), (50, 0), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (-50, 50), (50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, 50), (50, 0), radius, angle, before, after, limit)
         
         canvas.view(150, relative=True)
-        self.draw_test(canvas, (0, 0), (-50, 0), (50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, 0), (50, 0), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (-50, -50), (50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, -50), (50, 0), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (0, -50), (50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (0, -50), (50, 0), radius, angle, before, after, limit)
         
         canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (50, -50), (50, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, -50), (50, 0), radius, angle, before, after, limit)
         
         # overlaps
         canvas.view(50, 600)
-        self.draw_test(canvas, (0, 0), (50, 50), (50, 50), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 50), (50, 50), radius, angle, before, after, limit)
+        
+        canvas.view(50, relative=True)
+        self.draw_test(canvas, (0, 0), (0, 0), (50, 0), radius, angle, before, after, limit)
         
         canvas.view(70, relative=True)
-        self.draw_test(canvas, (0, 0), (0, 0), (50, 0), radius, angle, finalize, limit)
-        
-        canvas.view(100, relative=True)
-        self.draw_test(canvas, (0, 0), (50, 50), (0, 0), radius, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 50), (0, 0), radius, angle, before, after, limit)
         
         # no radius
         canvas.view(150, relative=True)
-        self.draw_test(canvas, (0, 0), (-50, 0), (-50, 50), None, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, 0), (-50, 50), None, angle, before, after, limit)
+        
+        canvas.view(100, relative=True)
+        self.draw_test(canvas, (0, 0), (-50, 0), (-50, 50), 0, angle, before, after, limit)
         
         # over limit
         canvas.view(150, relative=True)
-        self.draw_test(canvas, (0, 0), (-50, 0), (-50, 50), 50, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (-50, 0), (-50, 50), 50, angle, before, after, limit)
         
         canvas.view(50, relative=True)
-        self.draw_test(canvas, (0, 0), (50, 0), (50, 50), 50, angle, finalize, limit)
+        self.draw_test(canvas, (0, 0), (50, 0), (50, 50), 50, angle, before, after, limit)
 
 
 # run test

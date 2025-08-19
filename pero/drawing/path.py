@@ -967,17 +967,16 @@ class Path(object):
         return self
     
     
-    def arc_to(self, cx, cy, x, y, radius=None, relative=False, finalize=False, limit=True):
+    def arc_to(self, cx, cy, x, y, radius=None, relative=False, before=True, after=False, limit=True):
         """
         Adds a circular arc from the current point, using given radius and
         control and end point coordinates. This is achieved by adding additional
         points (as needed) between the endpoints to reach smoothly the desired
         arc radius.
         
-        The initial strait segment between start point and the first new point
-        is added automatically. By default the final strait segment is omitted
-        and the path ends at the last newly added point. This behavior can be
-        changed by setting the 'finalize' to True.
+        The strait segments before and after the arc are drawn automatically if
+        required. By correct use of these flags it is easy to draw otherwise sharp
+        shape by using corner points only.
         
         If the radius is too big for given points the final curve creates
         characteristic flipping effect with sharp corners. This behavior can be
@@ -1005,9 +1004,13 @@ class Path(object):
                 If set to True given coordinates are considered as relative to
                 current point.
             
-            finalize: bool
-                If set to True the final strait segment to the end point is
-                added automatically.
+            before: bool
+                If set to True the strait segment before the arc is drawn.
+                Otherwise, the cursor is moved to initial point of the arc.
+            
+            after: bool
+                If set to True the strait segment after the arc is drawn.
+                Otherwise, the cursor stays in final point of the arc.
             
             limit: bool
                 If set to True the maximum allowed radius is used to avoid the
@@ -1030,19 +1033,20 @@ class Path(object):
         
         # check control point
         if (x1 == cx and y1 == cy) or (x == cx and y == cy) or radius == 0:
-            if finalize: self.line_to(x, y)
-            else: self.line_to(cx, cy)
+            if before: self.line_to(cx, cy)
+            else: self.move_to(cx, cy)
+            if after: self.line_to(x, y)
             return self
         
         # check same point
         if x1 == x and y1 == y:
-            if finalize: self.line_to(x, y)
             return self
         
         # check points in line
         if abs((cy - y1) * (x - x1) - (cx - x1) * (y - y1)) < 1e-5:
-            if finalize: self.line_to(x, y)
-            else: self.line_to(cx, cy)
+            if before: self.line_to(cx, cy)
+            else: self.move_to(cx, cy)
+            if after: self.line_to(x, y)
             return self
         
         # get total angle
@@ -1093,13 +1097,14 @@ class Path(object):
         
         # add initial line
         if x1 != ax1 or y1 != ay1:
-            self.line_to(ax1, ay1)
+            if before: self.line_to(ax1, ay1)
+            else: self.move_to(ax1, ay1)
         
         # add arc
         self.arc_around(ox, oy, end_angle, clockwise=clockwise)
         
         # add final line
-        if finalize and (x != ax2 or y != ay2):
+        if after and (x != ax2 or y != ay2):
             self.line_to(x, y)
         
         return self
