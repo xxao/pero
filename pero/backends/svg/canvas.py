@@ -9,6 +9,7 @@ from . enums import *
 
 # define constants
 _INDENT = "  "
+_DIGITS = 2
 
 
 class SVGCanvas(Canvas):
@@ -135,6 +136,11 @@ class SVGCanvas(Canvas):
         y = self._scale * (y + self._offset[1])
         radius = self._scale * radius
         
+        # apply rounding
+        x = round(x, _DIGITS)
+        y = round(y, _DIGITS)
+        radius = round(radius, _DIGITS)
+        
         # get pen and brush
         pen = self._get_pen_attrs()
         brush = self._get_brush_attrs()
@@ -171,12 +177,22 @@ class SVGCanvas(Canvas):
         width = self._scale * width
         height = self._scale * height
         
+        # get radius
+        rx = 0.5 * width
+        ry = 0.5 * height
+        
+        # apply rounding
+        x = round(x, _DIGITS)
+        y = round(y, _DIGITS)
+        rx = round(rx, _DIGITS)
+        ry = round(ry, _DIGITS)
+        
         # get pen and brush
         pen = self._get_pen_attrs()
         brush = self._get_brush_attrs()
         
         # make command
-        command = self._indent + '<ellipse cx="%s" cy="%s" rx="%s" ry="%s" %s %s />' % (x, y, 0.5*width, 0.5*height, pen, brush)
+        command = self._indent + '<ellipse cx="%s" cy="%s" rx="%s" ry="%s" %s %s />' % (x, y, rx, ry, pen, brush)
         
         # add command
         self._commands.append(command)
@@ -209,6 +225,12 @@ class SVGCanvas(Canvas):
         # get pen
         pen = self._get_pen_attrs()
         
+        # apply rounding
+        x1 = round(x1, _DIGITS)
+        y1 = round(y1, _DIGITS)
+        x2 = round(x2, _DIGITS)
+        y2 = round(y2, _DIGITS)
+        
         # make command
         command = self._indent + '<line x1="%s" y1="%s" x2="%s" y2="%s" %s />' % (x1, y1, x2, y2, pen)
         
@@ -232,8 +254,11 @@ class SVGCanvas(Canvas):
         # apply scaling and offset
         points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
+        # apply rounding
+        points = [(round(x, _DIGITS), round(y, _DIGITS)) for x, y in points]
+        
         # format
-        points = ("%s,%s" % (x,y) for x,y in points)
+        points = ("%s,%s" % (x, y) for x, y in points)
         
         # get pen and brush
         pen = self._get_pen_attrs()
@@ -262,7 +287,7 @@ class SVGCanvas(Canvas):
         path = path.transformed(matrix)
         
         # get svg
-        svg = path.svg(self._indent+_INDENT)
+        svg = path.svg(self._indent+_INDENT, _DIGITS)
         
         # get pen and brush
         pen = self._get_pen_attrs()
@@ -292,8 +317,11 @@ class SVGCanvas(Canvas):
         # apply scaling and offset
         points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
+        # apply rounding
+        points = [(round(x, _DIGITS), round(y, _DIGITS)) for x, y in points]
+        
         # format
-        points = ("%s,%s" % (x,y) for x,y in points)
+        points = ("%s,%s" % (x, y) for x, y in points)
         
         # get pen and brush
         pen = self._get_pen_attrs()
@@ -342,11 +370,22 @@ class SVGCanvas(Canvas):
             
             return
         
+        # get single radius
+        radius = radius[0] if radius else 0
+        
         # apply scaling and offset
         x = self._scale * (x + self._offset[0])
         y = self._scale * (y + self._offset[1])
         width = self._scale * width
         height = self._scale * height
+        radius = self._scale * radius
+        
+        # apply rounding
+        x = round(x, _DIGITS)
+        y = round(y, _DIGITS)
+        width = round(width, _DIGITS)
+        height = round(height, _DIGITS)
+        radius = round(radius, _DIGITS)
         
         # get pen and brush
         pen = self._get_pen_attrs()
@@ -358,7 +397,6 @@ class SVGCanvas(Canvas):
         
         # same radius for all corners
         else:
-            radius = self._scale * radius[0]
             command = self._indent + '<rect x="%s" y="%s" width="%s" height="%s" rx="%s" ry="%s" %s %s />' % (x, y, width, height, radius, radius, pen, brush)
         
         # add command
@@ -395,6 +433,10 @@ class SVGCanvas(Canvas):
         trans_x = self._scale * (x + self._offset[0])
         trans_y = self._scale * (y + self._offset[1])
         angle = numpy.rad2deg(angle)
+        
+        # apply rounding
+        trans_x = round(trans_x, _DIGITS)
+        trans_y = round(trans_y, _DIGITS)
         
         # split lines
         lines = [text]
@@ -437,6 +479,10 @@ class SVGCanvas(Canvas):
             # escape line
             line = html.escape(line)
             
+            # apply rounding
+            text_x = round(text_x, _DIGITS)
+            text_y = round(text_y, _DIGITS)
+            
             # make command
             transform = 'transform="rotate(%s, %s, %s)"' % (angle, trans_x, trans_y) if angle else ""
             command = self._indent + '<text x="%s" y="%s" %s %s>%s</text>' % (text_x, text_y, font, transform, line)
@@ -464,9 +510,12 @@ class SVGCanvas(Canvas):
         matrix.scale(self._scale, self._scale)
         path = path.transformed(matrix)
         
+        # get svg
+        svg = path.svg("", _DIGITS)
+        
         # make clip path
         name = "clip_%03d" % len(self._clips)
-        self._clips[name] = '<clipPath id="%s"><path d="%s" /></clipPath>' % (name, path.svg())
+        self._clips[name] = '<clipPath id="%s"><path d="%s" /></clipPath>' % (name, svg)
         
         # make command
         command = self._indent + '<g clip-path="url(#%s)">' % name

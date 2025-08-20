@@ -74,11 +74,11 @@ class DrawTest(pero.Graphics):
         return symbol
     
     
-    def draw_icon(self, canvas, x, size, bgr_path, symbol_path, color, outline):
+    def draw_icon(self, canvas, x, y, size, bgr_path, symbol_path, color, outline):
         """Draws icon."""
         
         # scale and shift paths
-        mat = pero.Matrix().scale(size, size).translate(x, canvas.height*0.5)
+        mat = pero.Matrix().scale(size, size).translate(x, y)
         bgr_path = bgr_path.transformed(mat)
         symbol_path = symbol_path.transformed(mat)
         
@@ -106,13 +106,14 @@ class DrawTest(pero.Graphics):
         # clear canvas
         canvas.fill(pero.colors.White)
         
-        # shift x
+        # init coords
         x = space + 0.5*size
+        y = 0.5*canvas.height
         
         # draw INFO icon
         bgr_path = self.make_circle()
         symbol_path = self.make_exclamation_mark()
-        self.draw_icon(canvas, x, size, bgr_path, symbol_path, "#8af", outline)
+        self.draw_icon(canvas, x, y, size, bgr_path, symbol_path, "#8af", outline)
         
         # shift x
         x += size + space
@@ -120,7 +121,7 @@ class DrawTest(pero.Graphics):
         # draw WARNING icon
         bgr_path = self.make_triangle()
         symbol_path = self.make_exclamation_mark(offset=0.1)
-        self.draw_icon(canvas, x, size, bgr_path, symbol_path, "#fb0", outline)
+        self.draw_icon(canvas, x, y, size, bgr_path, symbol_path, "#fb0", outline)
         
         # shift x
         x += size + space
@@ -128,7 +129,7 @@ class DrawTest(pero.Graphics):
         # draw ERROR icon
         bgr_path = self.make_triangle()
         symbol_path = self.make_exclamation_mark(offset=0.1)
-        self.draw_icon(canvas, x, size, bgr_path, symbol_path, "#f55", outline)
+        self.draw_icon(canvas, x, y, size, bgr_path, symbol_path, "#f55", outline)
         
         # shift x
         x += size + space
@@ -136,7 +137,7 @@ class DrawTest(pero.Graphics):
         # draw STOP icon
         bgr_path = self.make_hexagon()
         symbol_path = self.make_exclamation_mark()
-        self.draw_icon(canvas, x, size, bgr_path, symbol_path, "#f55", outline)
+        self.draw_icon(canvas, x, y, size, bgr_path, symbol_path, "#f55", outline)
 
 
 # run test
