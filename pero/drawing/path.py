@@ -1,6 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
+import math
 import numpy
 import re
 import json
@@ -1172,6 +1173,7 @@ class Path(object):
         
         # create segments
         while total_angle > _ANGLE_LIMIT:
+            
             # calc segment angle
             a2 = a1 + direction * min(total_angle, pi05)
             angle = (a2 - a1)
@@ -1199,7 +1201,45 @@ class Path(object):
         return self
     
     
-    def arc(self, x, y, radius, start_angle, end_angle, clockwise=True):
+    def annulus(self, x, y, inner_radius, outer_radius, relative=False):
+        """
+        Adds a ring-like shape as a new sub-path.
+        
+        Args:
+            x: int or float
+                X-coordinate of the center.
+            
+            y: int or float
+                Y-coordinate of the center.
+            
+            inner_radius: int, float or callable
+                Inner radius.
+            
+            outer_radius: int, float or callable
+                Outer radius.
+            
+            relative: bool
+                If set to True center coordinates are considered as relative to
+                current point.
+        
+        Returns:
+            pero.Path
+                Returns self so that the commands can be chained.
+        """
+        
+        # get absolute coordinates
+        if relative:
+            x += self._cursor[0]
+            y += self._cursor[1]
+        
+        # add circles
+        self.circle(x, y, outer_radius)
+        self.circle(x, y, inner_radius)
+        
+        return self
+    
+    
+    def arc(self, x, y, radius, start_angle, end_angle, clockwise=True, relative=False):
         """
         Adds an arc as a new sub-path of given radius centered around given
         coordinates.
@@ -1223,11 +1263,20 @@ class Path(object):
             clockwise: bool
                 Specifies the direction of drawing. If set to True, the arc
                 will be drawn in the clockwise direction.
+            
+            relative: bool
+                If set to True center coordinates are considered as relative to
+                current point.
         
         Returns:
             pero.Path
                 Returns self so that the commands can be chained.
         """
+        
+        # get absolute coordinates
+        if relative:
+            x += self._cursor[0]
+            y += self._cursor[1]
         
         # move to start
         x1 = x + radius * numpy.cos(start_angle)
@@ -1268,6 +1317,11 @@ class Path(object):
         if relative:
             x += self._cursor[0]
             y += self._cursor[1]
+        
+        # check radius
+        if not radius:
+            self._cursor = (x, y)
+            return self
         
         # calc control handle length
         force = radius * _CIRCLE_FORCE
@@ -1431,6 +1485,70 @@ class Path(object):
         
         # close polygon
         self.close()
+        
+        return self
+    
+    
+    def wedge(self, x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise=True, relative=False):
+        """
+        Adds a wedge shape as a new sub-path.
+        
+        Args:
+            x: int or float
+                X-coordinate of the center.
+            
+            y: int or float
+                Y-coordinate of the center.
+            
+            inner_radius: int, float or callable
+                Inner radius.
+            
+            outer_radius: int, float or callable
+                Outer radius.
+            
+            start_angle: float
+                Start angle in radians.
+            
+            end_angle: float
+                End angle in radians.
+            
+            clockwise: bool
+                Specifies the direction of drawing. If set to True, the wedge
+                will be drawn in the clockwise direction.
+            
+            relative: bool
+                If set to True center coordinates are considered as relative to
+                current point.
+        
+        Returns:
+            pero.Path
+                Returns self so that the commands can be chained.
+        """
+        
+        # get absolute coordinates
+        if relative:
+            x += self._cursor[0]
+            y += self._cursor[1]
+            
+        # check angle
+        if start_angle == end_angle:
+            self._cursor = (x, y)
+            return self
+        
+        # full circle
+        if start_angle % (2 * math.pi) == end_angle % (2 * math.pi):
+            self.annulus(x, y, inner_radius, outer_radius)
+            return self
+        
+        # make wedge
+        self.arc(x, y, outer_radius, start_angle, end_angle, clockwise)
+        self.line_to(x + inner_radius * math.cos(end_angle), y + inner_radius * math.sin(end_angle))
+        if inner_radius:
+            self.arc_around(x, y, start_angle, not clockwise)
+        self.close()
+        
+        # move cursor to center
+        self._cursor = (x, y)
         
         return self
     

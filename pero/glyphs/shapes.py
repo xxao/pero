@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
 from .. enums import *
 from .. properties import *
 from .. drawing import Path
@@ -56,9 +55,7 @@ class Annulus(Glyph):
         outer_radius = self.get_property('outer_radius', source, overrides)
         
         # make path
-        path = Path().circle(x, y, inner_radius)
-        if outer_radius:
-            path.circle(x, y, outer_radius)
+        path = Path().annulus(x, y, inner_radius, outer_radius)
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
@@ -689,26 +686,12 @@ class Wedge(Glyph):
             x += math.cos(offset_angle) * offset
             y += math.sin(offset_angle) * offset
         
-        # init path
-        path = Path()
-        
-        # skip drawing
-        if start_angle == end_angle:
-            pass
-        
-        # draw as annulus
-        elif start_angle % (2 * math.pi) == end_angle % (2 * math.pi):
-            path.circle(x, y, outer_radius)
-            if inner_radius:
-                path.circle(x, y, inner_radius)
-        
-        # draw as wedge
-        else:
-            path.arc(x, y, outer_radius, start_angle, end_angle, clockwise)
-            path.line_to(x + inner_radius*math.cos(end_angle), y + inner_radius*math.sin(end_angle))
-            if inner_radius:
-                path.arc_around(x, y, start_angle, not clockwise)
-            path.close()
+        # make path
+        path = Path().wedge(
+            x, y,
+            inner_radius, outer_radius,
+            start_angle, end_angle,
+            clockwise)
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
