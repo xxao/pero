@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
 import numpy
 import re
 import json
@@ -1201,44 +1200,6 @@ class Path(object):
         return self
     
     
-    def annulus(self, x, y, inner_radius, outer_radius, relative=False):
-        """
-        Adds a ring-like shape as a new sub-path.
-        
-        Args:
-            x: int or float
-                X-coordinate of the center.
-            
-            y: int or float
-                Y-coordinate of the center.
-            
-            inner_radius: int, float or callable
-                Inner radius.
-            
-            outer_radius: int, float or callable
-                Outer radius.
-            
-            relative: bool
-                If set to True center coordinates are considered as relative to
-                current point.
-        
-        Returns:
-            pero.Path
-                Returns self so that the commands can be chained.
-        """
-        
-        # get absolute coordinates
-        if relative:
-            x += self._cursor[0]
-            y += self._cursor[1]
-        
-        # add circles
-        self.circle(x, y, outer_radius)
-        self.circle(x, y, inner_radius)
-        
-        return self
-    
-    
     def arc(self, x, y, radius, start_angle, end_angle, clockwise=True, relative=False):
         """
         Adds an arc as a new sub-path of given radius centered around given
@@ -1485,70 +1446,6 @@ class Path(object):
         
         # close polygon
         self.close()
-        
-        return self
-    
-    
-    def wedge(self, x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise=True, relative=False):
-        """
-        Adds a wedge shape as a new sub-path.
-        
-        Args:
-            x: int or float
-                X-coordinate of the center.
-            
-            y: int or float
-                Y-coordinate of the center.
-            
-            inner_radius: int, float or callable
-                Inner radius.
-            
-            outer_radius: int, float or callable
-                Outer radius.
-            
-            start_angle: float
-                Start angle in radians.
-            
-            end_angle: float
-                End angle in radians.
-            
-            clockwise: bool
-                Specifies the direction of drawing. If set to True, the wedge
-                will be drawn in the clockwise direction.
-            
-            relative: bool
-                If set to True center coordinates are considered as relative to
-                current point.
-        
-        Returns:
-            pero.Path
-                Returns self so that the commands can be chained.
-        """
-        
-        # get absolute coordinates
-        if relative:
-            x += self._cursor[0]
-            y += self._cursor[1]
-            
-        # check angle
-        if start_angle == end_angle:
-            self._cursor = (x, y)
-            return self
-        
-        # full circle
-        if start_angle % (2 * math.pi) == end_angle % (2 * math.pi):
-            self.annulus(x, y, inner_radius, outer_radius)
-            return self
-        
-        # make wedge
-        self.arc(x, y, outer_radius, start_angle, end_angle, clockwise)
-        self.line_to(x + inner_radius * math.cos(end_angle), y + inner_radius * math.sin(end_angle))
-        if inner_radius:
-            self.arc_around(x, y, start_angle, not clockwise)
-        self.close()
-        
-        # move cursor to center
-        self._cursor = (x, y)
         
         return self
     
@@ -2044,6 +1941,90 @@ class Path(object):
     
     
     @staticmethod
+    def make_annulus(x, y, inner_radius, outer_radius, fill_rule=EVENODD):
+        """
+        Creates a ring-like path.
+        
+        Args:
+            x: int or float
+                X-coordinate of the center.
+            
+            y: int or float
+                Y-coordinate of the center.
+            
+            inner_radius: int, float or callable
+                Inner radius.
+            
+            outer_radius: int, float or callable
+                Outer radius.
+            
+            fill_rule: pero.FILL_RULE
+                Specifies the fill rule to be used for drawing as a value from
+                pero.FILL_RULE enum.
+        
+        Returns:
+            pero.Path
+                A new ring-like path.
+        """
+        
+        # make path
+        path = Path(fill_rule)
+        path.circle(x, y, outer_radius)
+        if inner_radius:
+            path.circle(x, y, inner_radius)
+        
+        return path
+    
+    
+    @staticmethod
+    def make_ngon(sides, x=0, y=0, radius=.5, angle=0, fill_rule=EVENODD):
+        """
+        Creates a closed regular polygon path.
+        
+        Args:
+            sides: int
+                Number of sides/vertices.
+            
+            x: int or float
+                X-coordinate of the center.
+            
+            y: int or float
+                Y-coordinate of the center.
+            
+            radius: int or float
+                Radius of the polygon.
+            
+            angle: float
+                Angle in radians.
+            
+            fill_rule: pero.FILL_RULE
+                Specifies the fill rule to be used for drawing as a value from
+                pero.FILL_RULE enum.
+        
+        Returns:
+            pero.Path
+                A new regular polygon path.
+        """
+        
+        # calc vertices
+        theta = (2*numpy.pi/sides * numpy.arange(sides + 1)) - numpy.pi / 2.0
+        r = numpy.full(sides + 1, radius, dtype=float)
+        
+        vertices = numpy.stack((r*numpy.cos(theta), r*numpy.sin(theta)), axis=1)
+        vertices += numpy.array((x, y))
+        
+        # make path
+        path = Path(fill_rule).polygon(vertices[:-1])
+        
+        # apply angle
+        if angle:
+            matrix = Matrix().rotate(angle, x=x, y=y)
+            path.transform(matrix)
+        
+        return path
+    
+    
+    @staticmethod
     def make_star(rays, x=0, y=0, outer_radius=.5, inner_radius=.25, angle=0, fill_rule=EVENODD):
         """
         Creates a closed star-like path.
@@ -2098,25 +2079,32 @@ class Path(object):
     
     
     @staticmethod
-    def make_ngon(sides, x=0, y=0, radius=.5, angle=0, fill_rule=EVENODD):
+    def make_wedge(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise=True, fill_rule=EVENODD):
         """
-        Creates a closed regular polygon path.
+        Creates a closed wedge path.
         
         Args:
-            sides: int
-                Number of sides/vertices.
-            
             x: int or float
                 X-coordinate of the center.
             
             y: int or float
                 Y-coordinate of the center.
             
-            radius: int or float
-                Radius of the polygon.
+            inner_radius: int, float or callable
+                Inner radius.
             
-            angle: float
-                Angle in radians.
+            outer_radius: int, float or callable
+                Outer radius.
+            
+            start_angle: float
+                Start angle in radians.
+            
+            end_angle: float
+                End angle in radians.
+            
+            clockwise: bool
+                Specifies the direction of drawing. If set to True, the wedge
+                will be drawn in the clockwise direction.
             
             fill_rule: pero.FILL_RULE
                 Specifies the fill rule to be used for drawing as a value from
@@ -2124,22 +2112,35 @@ class Path(object):
         
         Returns:
             pero.Path
-                A new regular polygon path.
+                A new wedge path.
         """
         
-        # calc vertices
-        theta = (2*numpy.pi/sides * numpy.arange(sides + 1)) - numpy.pi / 2.0
-        r = numpy.full(sides + 1, radius, dtype=float)
+        # no angle
+        if start_angle == end_angle:
+            path = Path(fill_rule)
+            path.move_to(x, y)
+            return path
         
-        vertices = numpy.stack((r*numpy.cos(theta), r*numpy.sin(theta)), axis=1)
-        vertices += numpy.array((x, y))
+        # full circle
+        if start_angle % (2 * numpy.pi) == end_angle % (2 * numpy.pi):
+            return Path.make_annulus(x, y, inner_radius, outer_radius, fill_rule)
         
-        # make path
-        path = Path(fill_rule).polygon(vertices[:-1])
+        # init path
+        path = Path(fill_rule)
         
-        # apply angle
-        if angle:
-            matrix = Matrix().rotate(angle, x=x, y=y)
-            path.transform(matrix)
+        # outer arc
+        path.arc(x, y, outer_radius, start_angle, end_angle, clockwise)
+        path.line_to(x + inner_radius * numpy.cos(end_angle), y + inner_radius * numpy.sin(end_angle))
+        
+        # inner arc
+        if inner_radius:
+            path.arc_around(x, y, start_angle, not clockwise)
+        
+        # close
+        path.close()
+        
+        # move cursor to center
+        path.move_to(x, y)
         
         return path
+    

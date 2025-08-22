@@ -55,7 +55,7 @@ class Annulus(Glyph):
         outer_radius = self.get_property('outer_radius', source, overrides)
         
         # make path
-        path = Path().annulus(x, y, inner_radius, outer_radius)
+        path = Path.make_annulus(x, y, inner_radius, outer_radius)
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
@@ -687,7 +687,7 @@ class Wedge(Glyph):
             y += math.sin(offset_angle) * offset
         
         # make path
-        path = Path().wedge(
+        path = Path.make_wedge(
             x, y,
             inner_radius, outer_radius,
             start_angle, end_angle,
