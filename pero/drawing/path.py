@@ -2079,7 +2079,7 @@ class Path(object):
     
     
     @staticmethod
-    def make_wedge(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise=True, fill_rule=EVENODD):
+    def make_wedge(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise=True, rounded=False, fill_rule=EVENODD):
         """
         Creates a closed wedge path.
         
@@ -2106,6 +2106,10 @@ class Path(object):
                 Specifies the direction of drawing. If set to True, the wedge
                 will be drawn in the clockwise direction.
             
+            rounded: bool or callable
+                Specifies the wedge ends style. If set to True the ends will be
+                rounded.
+            
             fill_rule: pero.FILL_RULE
                 Specifies the fill rule to be used for drawing as a value from
                 pero.FILL_RULE enum.
@@ -2118,29 +2122,69 @@ class Path(object):
         # no angle
         if start_angle == end_angle:
             path = Path(fill_rule)
-            path.move_to(x, y)
             return path
         
+        # normalize angles
+        start_angle = start_angle % PI2X
+        end_angle = end_angle % PI2X
+        
         # full circle
-        if start_angle % (2 * numpy.pi) == end_angle % (2 * numpy.pi):
+        if start_angle == end_angle:
             return Path.make_annulus(x, y, inner_radius, outer_radius, fill_rule)
         
-        # init path
-        path = Path(fill_rule)
+        # no inner radius
+        if not inner_radius:
+            path = Path(fill_rule)
+            path.arc(x, y, outer_radius, start_angle, end_angle, clockwise)
+            path.line_to(x, y)
+            path.close()
+            return path
         
-        # outer arc
-        path.arc(x, y, outer_radius, start_angle, end_angle, clockwise)
-        path.line_to(x + inner_radius * numpy.cos(end_angle), y + inner_radius * numpy.sin(end_angle))
-        
-        # inner arc
-        if inner_radius:
+        # no rounded caps
+        if not rounded:
+            path = Path(fill_rule)
+            path.arc(x, y, outer_radius, start_angle, end_angle, clockwise)
+            path.line_to(x + inner_radius * numpy.cos(end_angle), y + inner_radius * numpy.sin(end_angle))
             path.arc_around(x, y, start_angle, not clockwise)
+            path.close()
+            return path
         
-        # close
+        # calc shrink
+        r = 0.5 * (outer_radius - inner_radius)
+        cr = inner_radius + 0.5 * (outer_radius - inner_radius)
+        shrink = numpy.atan(r / cr)
+        
+        # shrink angles
+        d = 1 if clockwise else -1
+        start_angle_s = (start_angle + d * shrink) % PI2X
+        end_angle_s = (end_angle - d * shrink) % PI2X
+        
+        # calc sin and cos
+        start_angle_s_sin = numpy.sin(start_angle_s)
+        start_angle_s_cos = numpy.cos(start_angle_s)
+        end_angle_s_sin = numpy.sin(end_angle_s)
+        end_angle_s_cos = numpy.cos(end_angle_s)
+        
+        # get control points
+        start = (x + outer_radius * start_angle_s_cos, y + outer_radius * start_angle_s_sin)
+        start_center = (x + cr * start_angle_s_cos, y + cr * start_angle_s_sin)
+        end_center = (x + cr * end_angle_s_cos, y + cr * end_angle_s_sin)
+        
+        # make circle if too small
+        angle = end_angle - start_angle if clockwise else start_angle - end_angle
+        angle = abs(PI2X - abs(angle)) if angle < 0 else angle
+        if angle <= abs(2 * shrink):
+            path = Path(fill_rule)
+            path.circle(*start_center, r)
+            return path
+        
+        # create rounded wedge
+        path = Path(fill_rule)
+        path.move_to(*start)
+        path.arc_around(x, y, end_angle_s, clockwise)
+        path.arc_around(*end_center, end_angle_s - numpy.pi, clockwise)
+        path.arc_around(x, y, start_angle_s, not clockwise)
+        path.arc_around(*start_center, start_angle_s, clockwise)
         path.close()
         
-        # move cursor to center
-        path.move_to(x, y)
-        
         return path
-    

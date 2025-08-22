@@ -641,6 +641,10 @@ class Wedge(Glyph):
             Specifies the drawing direction. If set to True the arc is drawn
             clockwise, otherwise anti-clockwise.
         
+        rounded: bool or callable
+            Specifies the wedge ends style. If set to True the ends will be
+            rounded.
+        
         line properties:
             Includes pero.LineProperties to specify the glyph outline.
         
@@ -658,6 +662,7 @@ class Wedge(Glyph):
     start_angle = Include(AngleProperties, prefix="start_")
     end_angle = Include(AngleProperties, prefix="end_")
     clockwise = BoolProperty(True)
+    rounded = BoolProperty(False)
     
     line = Include(LineProperties)
     fill = Include(FillProperties)
@@ -678,6 +683,7 @@ class Wedge(Glyph):
         inner_radius = self.get_property('inner_radius', source, overrides)
         outer_radius = self.get_property('outer_radius', source, overrides)
         clockwise = self.get_property('clockwise', source, overrides)
+        rounded = self.get_property('rounded', source, overrides)
         offset = self.get_property('offset', source, overrides)
         
         # apply offset
@@ -688,10 +694,14 @@ class Wedge(Glyph):
         
         # make path
         path = Path.make_wedge(
-            x, y,
-            inner_radius, outer_radius,
-            start_angle, end_angle,
-            clockwise)
+            x = x,
+            y = y,
+            inner_radius = inner_radius,
+            outer_radius = outer_radius,
+            start_angle = start_angle,
+            end_angle = end_angle,
+            clockwise = clockwise,
+            rounded = rounded)
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
