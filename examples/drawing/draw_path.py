@@ -18,7 +18,7 @@ class DrawTest(pero.Graphics):
         path = pero.Path()
         
         # init glyph
-        glyph = pero.Pather(path=path)
+        glyph = pero.Pather()
         
         # init label
         label = pero.Text()
@@ -127,19 +127,9 @@ class DrawTest(pero.Graphics):
         points = pero.Path.make_star(6, x=265, y=35, outer_radius=40, inner_radius=20).anchors()
         path.polygon(points)
         glyph.draw(canvas, path=path.transformed(matrix))
-        label.draw(canvas, x=x, y=y+80, text="Star Polygon")
+        label.draw(canvas, x=x, y=y+80, text="Polygon")
         
         x += 350
-        matrix.clear().translate(x, y)
-        
-        # add polygon
-        points = pero.Path.make_ngon(6, x=265, y=35, radius=10).anchors()
-        path.polygon(points)
-        glyph.draw(canvas, path=path.transformed(matrix))
-        label.draw(canvas, x=x, y=y+80, text="Regular Polygon")
-        
-        x = 25
-        y += 150
         matrix.clear().translate(x, y)
         
         # split path
@@ -157,4 +147,4 @@ class DrawTest(pero.Graphics):
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'show', "Path Drawing", 950, 600)
+    pero.debug(DrawTest(), 'show', "Path Drawing", 950, 450)
