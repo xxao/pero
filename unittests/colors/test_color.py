@@ -56,6 +56,14 @@ class TestCase(unittest.TestCase):
         self.assertEqual(color.green, 150)
         self.assertEqual(color.blue, 200)
         self.assertEqual(color.alpha, 255)
+        
+        # test name
+        color = pero.Color("b")
+        
+        self.assertEqual(color.red, 0)
+        self.assertEqual(color.green, 0)
+        self.assertEqual(color.blue, 255)
+        self.assertEqual(color.alpha, 255)
     
     
     def test_invalid_constructor(self):

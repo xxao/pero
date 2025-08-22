@@ -59,9 +59,17 @@ class Color(object, metaclass=ColorMeta):
             # get value
             value = args[0]
             
+            # get color
+            if isinstance(value, Color):
+                channels = value.rgba
+            
             # get channels
-            if isinstance(value, (list, tuple)):
+            elif isinstance(value, (list, tuple)):
                 channels = value
+            
+            # convert from name
+            elif value in COLORS:
+                channels = COLORS[value].rgba
             
             # convert from hex
             elif isinstance(value, str):
