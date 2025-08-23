@@ -25,6 +25,12 @@ class DrawTest(pero.Graphics):
             font_size = 12,
             text_bgr_color = "#ddd")
         
+        filters = [
+            ".",
+            "Noto ",
+            "STIX",
+        ]
+        
         # init coords
         x = padding
         y = padding
@@ -39,12 +45,8 @@ class DrawTest(pero.Graphics):
                 continue
             last_name = font.name
             
-            # skip some fonts
-            if font.name.startswith('.'):
-                continue
-            if "Noto Sans " in font.name:
-                continue
-            if font.name.startswith("STIX"):
+            # filter fonts
+            if any(font.name.startswith(f) for f in filters):
                 continue
             
             # get regular font variant
