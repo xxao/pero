@@ -24,36 +24,68 @@ class DrawTest(pero.Graphics):
             text_align = pero.CENTER)
         
         # init coords
-        x = 40
-        y = 40
+        padding = 40
+        spacing = 100
+        x = padding
+        y = padding
         
         # draw star
-        path = pero.Path.make_star(7, x=x+15, y=y+15, inner_radius=15, outer_radius=30)
+        path = pero.make_star(7, x=x+15, y=y+15, inner_radius=15, outer_radius=30)
         glyph.draw(canvas, path=path)
         label.draw(canvas, x=x+15, y=y+60, text="Star")
         
-        x += 80
+        x += spacing
         
         # draw hexagon
-        path = pero.Path.make_ngon(6, x=x+15, y=y+15, radius=30)
+        path = pero.make_ngon(6, x=x+15, y=y+15, radius=30)
         glyph.draw(canvas, path=path)
         label.draw(canvas, x=x+15, y=y+60, text="Hexagon")
         
-        x += 80
+        x += spacing
         
-        # draw annulus
-        path = pero.Path.make_annulus(x=x+15, y=y+15, inner_radius=15, outer_radius=30)
+        # draw donut
+        path = pero.make_donut(x=x+15, y=y+15, inner_radius=15, outer_radius=30)
         glyph.draw(canvas, path=path)
-        label.draw(canvas, x=x+15, y=y+60, text="Annulus")
+        label.draw(canvas, x=x+15, y=y+60, text="Donut")
         
-        x += 80
+        x = padding
+        y += spacing
         
-        # add annulus
-        path = pero.Path.make_wedge(x=x+15, y=y+15, inner_radius=15, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120))
+        # add wedge
+        path = pero.make_wedge(x=x+15, y=y+15, inner_radius=15, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120))
         glyph.draw(canvas, path=path)
         label.draw(canvas, x=x+15, y=y+60, text="Wedge")
+        
+        x += spacing
+        
+        # add wedge rounded
+        path = pero.make_wedge(x=x+15, y=y+15, inner_radius=15, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120), corners=5)
+        glyph.draw(canvas, path=path)
+        label.draw(canvas, x=x+15, y=y+60, text="Wedge Round")
+        
+        x += spacing
+        
+        # add wedge caped
+        path = pero.make_wedge(x=x+15, y=y+15, inner_radius=15, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120), caped=True)
+        glyph.draw(canvas, path=path)
+        label.draw(canvas, x=x+15, y=y+60, text="Wedge Caped")
+        
+        x = padding
+        y += spacing
+        
+        # add pizza
+        path = pero.make_wedge(x=x+15, y=y+15, inner_radius=0, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120))
+        glyph.draw(canvas, path=path)
+        label.draw(canvas, x=x+15, y=y+60, text="Pizza")
+        
+        x += spacing
+        
+        # add pizza
+        path = pero.make_wedge(x=x+15, y=y+15, inner_radius=0, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120), corners=10)
+        glyph.draw(canvas, path=path)
+        label.draw(canvas, x=x+15, y=y+60, text="Pizza Round")
 
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'show', "Path Shapes", 350, 130)
+    pero.debug(DrawTest(), 'show', "Path Shapes", 320, 340)
