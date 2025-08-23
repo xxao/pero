@@ -112,7 +112,9 @@ def make_star(rays, x=0, y=0, outer_radius=.5, inner_radius=.25, angle=0, fill_r
 
 def make_wedge(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise=True, corners=None, caped=False):
     """
-    Creates a donut-like wedge path with rounded corners.
+    Creates a wedge path. Unlike the others, this function automatically
+    decides what kind of wedge should be created based on given parameters.
+    It is recommended to always use this method instead of specific ones.
     
     Args:
         x: int or float
@@ -141,8 +143,8 @@ def make_wedge(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwi
             Radii for individual corners as (outer-start, outer-end, inner-end, inner-start).
         
         caped: bool
-            Specifies the donut wedge ends style. If set to True and no specific corners
-            provided, the ends will be circular.
+            Specifies the wedge ends style. If set to True and no specific corners
+            provided, the ends will be circular. This only applies to donut-like wedges.
     
     Returns:
         pero.Path

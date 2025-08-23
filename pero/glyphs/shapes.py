@@ -3,7 +3,7 @@
 
 from .. enums import *
 from .. properties import *
-from .. drawing import Path
+from .. drawing import Path, make_donut, make_wedge
 from . glyph import Glyph
 
 
@@ -55,7 +55,7 @@ class Annulus(Glyph):
         outer_radius = self.get_property('outer_radius', source, overrides)
         
         # make path
-        path = Path.make_annulus(x, y, inner_radius, outer_radius)
+        path = make_donut(x, y, inner_radius, outer_radius)
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
@@ -642,8 +642,8 @@ class Wedge(Glyph):
             clockwise, otherwise anti-clockwise.
         
         rounded: bool or callable
-            Specifies the wedge ends style. If set to True the ends will be
-            rounded.
+            Specifies the donut wedge ends style. If set to True and no specific corners
+            provided, the ends will be circular.
         
         line properties:
             Includes pero.LineProperties to specify the glyph outline.
@@ -693,7 +693,7 @@ class Wedge(Glyph):
             y += math.sin(offset_angle) * offset
         
         # make path
-        path = Path.make_wedge(
+        path = make_wedge(
             x = x,
             y = y,
             inner_radius = inner_radius,
@@ -701,7 +701,8 @@ class Wedge(Glyph):
             start_angle = start_angle,
             end_angle = end_angle,
             clockwise = clockwise,
-            rounded = rounded)
+            caped = rounded,
+            corners = None)
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
