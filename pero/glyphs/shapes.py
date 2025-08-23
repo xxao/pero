@@ -3,7 +3,7 @@
 
 from .. enums import *
 from .. properties import *
-from .. drawing import Path, make_donut, make_wedge
+from .. drawing import Path, make_annulus, make_wedge
 from . glyph import Glyph
 
 
@@ -55,7 +55,7 @@ class Annulus(Glyph):
         outer_radius = self.get_property('outer_radius', source, overrides)
         
         # make path
-        path = make_donut(x, y, inner_radius, outer_radius)
+        path = make_annulus(x, y, inner_radius, outer_radius)
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)

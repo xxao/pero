@@ -19,7 +19,7 @@ _ANGLE_LIMIT = 0.0001
 class Path(object):
     """
     Represents a complex graphical path as a sequence of standard commands. All
-    of the drawing methods returns self so that they can be chained.
+    the drawing methods returns self so that they can be chained.
     """
     
     
@@ -1322,6 +1322,10 @@ class Path(object):
             relative: bool
                 If set to True center coordinates are considered as relative to
                 current point.
+        
+        Returns:
+            pero.Path
+                Returns self so that the commands can be chained.
         """
         
         # get absolute coordinates

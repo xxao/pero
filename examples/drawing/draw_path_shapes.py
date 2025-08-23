@@ -29,6 +29,43 @@ class DrawTest(pero.Graphics):
         x = padding
         y = padding
         
+        # draw arc
+        path = pero.make_arc(x=x+15, y=y+15, radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120))
+        glyph.draw(canvas, path=path)
+        label.draw(canvas, x=x+15, y=y+60, text="Arc")
+        
+        x += spacing
+        
+        # draw circle
+        path = pero.make_circle(x=x+15, y=y+15, radius=30)
+        glyph.draw(canvas, path=path)
+        label.draw(canvas, x=x+15, y=y+60, text="Circle")
+        
+        x += spacing
+        
+        # draw ellipse
+        path = pero.make_ellipse(x=x+15, y=y+15, width=30, height=60)
+        glyph.draw(canvas, path=path)
+        label.draw(canvas, x=x+15, y=y+60, text="Ellipse")
+        
+        x = padding
+        y += spacing
+        
+        # draw rectangle
+        path = pero.make_rect(x=x-5, y=y-10, width=40, height=60)
+        glyph.draw(canvas, path=path)
+        label.draw(canvas, x=x+15, y=y+60, text="Rect")
+        
+        x += spacing
+        
+        # draw rectangle rounded
+        path = pero.make_rect(x=x-5, y=y-10, width=40, height=60, radius=(10, 15, 7, 5))
+        glyph.draw(canvas, path=path)
+        label.draw(canvas, x=x+15, y=y+60, text="Rect Round")
+        
+        x = padding
+        y += spacing
+        
         # draw star
         path = pero.make_star(7, x=x+15, y=y+15, inner_radius=15, outer_radius=30)
         glyph.draw(canvas, path=path)
@@ -43,10 +80,10 @@ class DrawTest(pero.Graphics):
         
         x += spacing
         
-        # draw donut
-        path = pero.make_donut(x=x+15, y=y+15, inner_radius=15, outer_radius=30)
+        # draw annulus
+        path = pero.make_annulus(x=x + 15, y=y + 15, inner_radius=15, outer_radius=30)
         glyph.draw(canvas, path=path)
-        label.draw(canvas, x=x+15, y=y+60, text="Donut")
+        label.draw(canvas, x=x+15, y=y+60, text="Annulus")
         
         x = padding
         y += spacing
@@ -54,21 +91,21 @@ class DrawTest(pero.Graphics):
         # add wedge
         path = pero.make_wedge(x=x+15, y=y+15, inner_radius=15, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120))
         glyph.draw(canvas, path=path)
-        label.draw(canvas, x=x+15, y=y+60, text="Wedge")
+        label.draw(canvas, x=x+15, y=y+60, text="Donut")
         
         x += spacing
         
         # add wedge rounded
         path = pero.make_wedge(x=x+15, y=y+15, inner_radius=15, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120), corners=5)
         glyph.draw(canvas, path=path)
-        label.draw(canvas, x=x+15, y=y+60, text="Wedge Round")
+        label.draw(canvas, x=x+15, y=y+60, text="Donut Round")
         
         x += spacing
         
         # add wedge caped
         path = pero.make_wedge(x=x+15, y=y+15, inner_radius=15, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120), caped=True)
         glyph.draw(canvas, path=path)
-        label.draw(canvas, x=x+15, y=y+60, text="Wedge Caped")
+        label.draw(canvas, x=x+15, y=y+60, text="Donut Caped")
         
         x = padding
         y += spacing
@@ -76,16 +113,16 @@ class DrawTest(pero.Graphics):
         # add pizza
         path = pero.make_wedge(x=x+15, y=y+15, inner_radius=0, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120))
         glyph.draw(canvas, path=path)
-        label.draw(canvas, x=x+15, y=y+60, text="Pizza")
+        label.draw(canvas, x=x+15, y=y+60, text="Pie")
         
         x += spacing
         
         # add pizza
         path = pero.make_wedge(x=x+15, y=y+15, inner_radius=0, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120), corners=10)
         glyph.draw(canvas, path=path)
-        label.draw(canvas, x=x+15, y=y+60, text="Pizza Round")
+        label.draw(canvas, x=x+15, y=y+60, text="Pie Round")
 
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'show', "Path Shapes", 320, 340)
+    pero.debug(DrawTest(), 'show', "Path Shapes", 320, 540)

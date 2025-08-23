@@ -19,9 +19,10 @@ from . layout import Layout, Row, Column, Cell
 from . utils import *
 
 # import shapes
-from .shapes import make_ngon, make_star, make_donut, make_wedge
-from .shapes import make_donut_wedge, make_donut_wedge_rounded, make_donut_wedge_caped
-from .shapes import make_pizza_wedge, make_pizza_wedge_rounded
+from .shapes import make_arc, make_circle, make_ellipse, make_rect, make_polygon
+from .shapes import make_ngon, make_star, make_annulus, make_wedge
+from .shapes import make_donut, make_donut_rounded, make_donut_caped
+from .shapes import make_pie, make_pie_rounded
 
 # register new properties
 from .. import properties

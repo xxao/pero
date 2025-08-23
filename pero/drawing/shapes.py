@@ -8,6 +8,170 @@ from .path import Path
 from .matrix import Matrix
 
 
+def make_arc(x, y, radius, start_angle, end_angle, clockwise=True, fill_rule=EVENODD):
+    """
+    Creates an arc path.
+    
+    Args:
+        x: int or float
+            X-coordinate of the center.
+        
+        y: int or float
+            Y-coordinate of the center.
+        
+        radius: int or float
+            Radius of the arc.
+        
+        start_angle: float
+            Start angle in radians.
+        
+        end_angle: float
+            End angle in radians.
+        
+        clockwise: bool
+            Specifies the direction of drawing. If set to True, the arc
+            will be drawn in the clockwise direction.
+        
+        fill_rule: pero.FILL_RULE
+            Specifies the fill rule to be used for drawing as a value from
+            pero.FILL_RULE enum.
+    
+    Returns:
+        pero.Path
+            Arc path.
+    """
+    
+    # make path
+    path = Path(fill_rule)
+    path.arc(x, y, radius, start_angle, end_angle, clockwise)
+    
+    return path
+
+
+def make_circle(x, y, radius, fill_rule=EVENODD):
+    """
+    Creates a circle path.
+    
+    Args:
+        x: int or float
+            X-coordinate of the center.
+        
+        y: int or float
+            Y-coordinate of the center.
+        
+        radius: int or float
+            Radius of the circle.
+        
+        fill_rule: pero.FILL_RULE
+            Specifies the fill rule to be used for drawing as a value from
+            pero.FILL_RULE enum.
+    
+    Returns:
+        pero.Path
+            Circle path.
+    """
+    
+    # make path
+    path = Path(fill_rule)
+    path.circle(x, y, radius)
+    
+    return path
+
+
+def make_ellipse(x, y, width, height, fill_rule=EVENODD):
+    """
+    Creates an ellipse path.
+    
+    Args:
+        x: int or float
+            X-coordinate of the center.
+        
+        y: int or float
+            Y-coordinate of the center.
+        
+        width: int or float
+            Full width of the ellipse.
+        
+        height: int or float
+            Full height of the ellipse.
+        
+        fill_rule: pero.FILL_RULE
+            Specifies the fill rule to be used for drawing as a value from
+            pero.FILL_RULE enum.
+    
+    Returns:
+        pero.Path
+            Ellipse path.
+    """
+    
+    # make path
+    path = Path(fill_rule)
+    path.ellipse(x, y, width, height)
+    
+    return path
+
+
+def make_rect(x, y, width, height, radius=0, fill_rule=EVENODD):
+    """
+    Creates a rectangle path.
+    
+    Args:
+        x: int or float
+            X-coordinate of the top left corner.
+        
+        y: int or float
+            Y-coordinate of the top left corner.
+        
+        width: int or float
+            Full rectangle width.
+        
+        height: int or float
+            Full rectangle height.
+        
+        radius: int or float or collection of four int/float
+            Radius of the corners as a single value or separate value for
+            each corner individually, starting top-left.
+        
+        fill_rule: pero.FILL_RULE
+            Specifies the fill rule to be used for drawing as a value from
+            pero.FILL_RULE enum.
+    
+    Returns:
+        pero.Path
+            Rectangle path.
+    """
+    
+    # make path
+    path = Path(fill_rule)
+    path.rect(x, y, width, height, radius)
+    
+    return path
+
+
+def make_polygon(points, fill_rule=EVENODD):
+    """
+    Creates a closed polygon path.
+    
+    Args:
+        points: list of (float, float)
+            Collection of x,y coordinates of the points.
+        
+        fill_rule: pero.FILL_RULE
+            Specifies the fill rule to be used for drawing as a value from
+            pero.FILL_RULE enum.
+    
+    Returns:
+        pero.Path
+            Polygon path.
+    """
+    
+    # make path
+    path = Path(fill_rule)
+    path.polygon(points)
+    
+    return path
+
+
 def make_ngon(sides, x=0, y=0, radius=.5, angle=0, fill_rule=EVENODD):
     """
     Creates a closed symmetrical polygon path.
@@ -160,37 +324,37 @@ def make_wedge(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwi
     start_angle = start_angle % PI2X
     end_angle = end_angle % PI2X
     
-    # circle or donut
+    # circle or annulus
     if start_angle == end_angle:
-        return make_donut(x, y, inner_radius, outer_radius)
+        return make_annulus(x, y, inner_radius, outer_radius)
     
     # prepare corners
     if isinstance(corners, (int, float)):
         corners = 4 * [corners]
     
-    # pizza wedge rounded
+    # pie wedge rounded
     if not inner_radius and corners:
-        return make_pizza_wedge_rounded(x, y, outer_radius, start_angle, end_angle, clockwise, corners[:3])
+        return make_pie_rounded(x, y, outer_radius, start_angle, end_angle, clockwise, corners[:3])
     
-    # pizza wedge sharp
+    # pie wedge sharp
     if not inner_radius:
-        return make_pizza_wedge(x, y, outer_radius, start_angle, end_angle, clockwise)
+        return make_pie(x, y, outer_radius, start_angle, end_angle, clockwise)
     
     # donut wedge rounded
     if corners:
-        return make_donut_wedge_rounded(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise, corners)
+        return make_donut_rounded(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise, corners)
     
     # donut wedge caped
     if caped:
-        return make_donut_wedge_caped(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise)
+        return make_donut_caped(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise)
     
     # donut wedge sharp
-    return make_donut_wedge(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise)
+    return make_donut(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise)
 
 
-def make_donut(x, y, inner_radius, outer_radius):
+def make_annulus(x, y, inner_radius, outer_radius):
     """
-    Creates a donut-like path.
+    Creates an annulus path.
     
     Args:
         x: int or float
@@ -207,7 +371,7 @@ def make_donut(x, y, inner_radius, outer_radius):
     
     Returns:
         pero.Path
-            Donut path.
+            Annulus path.
     """
     
     # create path
@@ -219,9 +383,9 @@ def make_donut(x, y, inner_radius, outer_radius):
     return path
 
 
-def make_donut_wedge(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise, fill_rule=EVENODD):
+def make_donut(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise, fill_rule=EVENODD):
     """
-    Creates a donut-like wedge path.
+    Creates a donut wedge path.
     
     Args:
         x: int or float
@@ -252,7 +416,7 @@ def make_donut_wedge(x, y, inner_radius, outer_radius, start_angle, end_angle, c
     
     Returns:
         pero.Path
-            Wedge path.
+            Donut wedge path.
     """
     
     # get inner end point
@@ -268,9 +432,9 @@ def make_donut_wedge(x, y, inner_radius, outer_radius, start_angle, end_angle, c
     return path
 
 
-def make_donut_wedge_rounded(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise, corners, fill_rule=WINDING):
+def make_donut_rounded(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise, corners, fill_rule=WINDING):
     """
-    Creates a donut-like wedge path with rounded corners.
+    Creates a donut wedge path with rounded corners.
     
     Args:
         x: int or float
@@ -304,7 +468,7 @@ def make_donut_wedge_rounded(x, y, inner_radius, outer_radius, start_angle, end_
     
     Returns:
         pero.Path
-            Wedge path.
+            Donut wedge path.
     """
     
     # get corners
@@ -356,9 +520,9 @@ def make_donut_wedge_rounded(x, y, inner_radius, outer_radius, start_angle, end_
     return path
 
 
-def make_donut_wedge_caped(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise, fill_rule=WINDING):
+def make_donut_caped(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwise, fill_rule=WINDING):
     """
-    Creates a donut-like wedge path with circular ends.
+    Creates a donut wedge path with circular ends.
     
     Args:
         x: int or float
@@ -389,7 +553,7 @@ def make_donut_wedge_caped(x, y, inner_radius, outer_radius, start_angle, end_an
     
     Returns:
         pero.Path
-            Wedge path.
+            Donut wedge path.
     """
     
     # get direction
@@ -428,9 +592,9 @@ def make_donut_wedge_caped(x, y, inner_radius, outer_radius, start_angle, end_an
     return path
 
 
-def make_pizza_wedge(x, y, radius, start_angle, end_angle, clockwise, fill_rule=EVENODD):
+def make_pie(x, y, radius, start_angle, end_angle, clockwise, fill_rule=EVENODD):
     """
-    Makes pizza-like wedge path.
+    Makes pie wedge path.
     
     Args:
         x: int or float
@@ -458,7 +622,7 @@ def make_pizza_wedge(x, y, radius, start_angle, end_angle, clockwise, fill_rule=
     
     Returns:
         pero.Path
-            Wedge path.
+            Pie wedge path.
     """
     
     # create path
@@ -470,9 +634,9 @@ def make_pizza_wedge(x, y, radius, start_angle, end_angle, clockwise, fill_rule=
     return path
 
 
-def make_pizza_wedge_rounded(x, y, radius, start_angle, end_angle, clockwise, corners, fill_rule=EVENODD):
+def make_pie_rounded(x, y, radius, start_angle, end_angle, clockwise, corners, fill_rule=EVENODD):
     """
-    Makes pizza-like wedge path with rounded corners.
+    Makes pie wedge path with rounded corners.
     
     Args:
         x: int or float
@@ -503,7 +667,7 @@ def make_pizza_wedge_rounded(x, y, radius, start_angle, end_angle, clockwise, co
     
     Returns:
         pero.Path
-            Wedge path.
+            Pie wedge path.
     """
     
     # get corners
