@@ -130,7 +130,7 @@ class DrawTest(pero.Graphics):
         y -= 5
         
         # test shape
-        path = pero.Path.make_star(9, x=x, y=y, outer_radius=20, inner_radius=10)
+        path = pero.make_star(9, x=x, y=y, outer_radius=20, inner_radius=10)
         glyph = pero.Shape(line_width=line_width, line_color=line_color, fill_color=fill_color)
         glyph.draw(canvas, path=path)
         origin.draw(canvas, x=x, y=y)

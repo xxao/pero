@@ -4,7 +4,7 @@
 import numpy
 from .. enums import *
 from .. properties import *
-from .. drawing import Matrix, Path
+from .. drawing import Matrix, Path, make_ngon
 from . glyph import Glyph
 
 
@@ -79,12 +79,12 @@ class Marker(Glyph):
             return Diamond(**overrides)
         
         elif symbol == MARKER_PENTAGON:
-            marker = Symbol(path=Path.make_ngon(5), **overrides)
+            marker = Symbol(path=make_ngon(5), **overrides)
             marker.TYPE = MARKER_PENTAGON
             return marker
         
         elif symbol == MARKER_HEXAGON:
-            marker = Symbol(path=Path.make_ngon(6), **overrides)
+            marker = Symbol(path=make_ngon(6), **overrides)
             marker.TYPE = MARKER_HEXAGON
             return marker
         

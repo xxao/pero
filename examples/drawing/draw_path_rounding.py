@@ -16,7 +16,7 @@ class DrawTest(pero.Graphics):
         
         # init path to round
         radius = 0.5 * min(canvas.width, canvas.height)
-        star = pero.Path.make_star(
+        star = pero.make_star(
             rays = 10,
             x = 0.5 * canvas.width,
             y = 0.5 * canvas.height,

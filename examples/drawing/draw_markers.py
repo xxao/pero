@@ -92,7 +92,7 @@ class DrawTest(pero.Graphics):
         x += 60
         
         # test symbol
-        path = pero.Path.make_ngon(6)
+        path = pero.make_ngon(6)
         marker = pero.Symbol(path=path, line_width=line_width, line_color=line_color, fill_color=fill_color, size=size)
         marker.draw(canvas, x=x, y=y)
         label.draw(canvas, x=x, y=y+30, text="Symbol")
