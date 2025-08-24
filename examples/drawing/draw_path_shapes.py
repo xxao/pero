@@ -48,8 +48,7 @@ class DrawTest(pero.Graphics):
         glyph.draw(canvas, path=path)
         label.draw(canvas, x=x+15, y=y+60, text="Ellipse")
         
-        x = padding
-        y += spacing
+        x += spacing
         
         # draw rectangle
         path = pero.make_rect(x=x-5, y=y-10, width=40, height=60)
@@ -107,8 +106,7 @@ class DrawTest(pero.Graphics):
         glyph.draw(canvas, path=path)
         label.draw(canvas, x=x+15, y=y+60, text="Donut Caped")
         
-        x = padding
-        y += spacing
+        x += spacing
         
         # add pizza
         path = pero.make_wedge(x=x+15, y=y+15, inner_radius=0, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120))
@@ -125,4 +123,4 @@ class DrawTest(pero.Graphics):
 
 # run test
 if __name__ == '__main__':
-    pero.debug(DrawTest(), 'show', "Path Shapes", 320, 540)
+    pero.debug(DrawTest(), 'show', "Path Shapes", 530, 340)
