@@ -97,7 +97,7 @@ class DrawTest(pero.Graphics):
         # add wedge rounded
         path = pero.make_wedge(x=x+15, y=y+15, inner_radius=15, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120), corners=5)
         glyph.draw(canvas, path=path)
-        label.draw(canvas, x=x+15, y=y+60, text="Donut Round")
+        label.draw(canvas, x=x+15, y=y+60, text="Donut Rounded")
         
         x += spacing
         
@@ -108,17 +108,17 @@ class DrawTest(pero.Graphics):
         
         x += spacing
         
-        # add pizza
+        # add pie
         path = pero.make_wedge(x=x+15, y=y+15, inner_radius=0, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120))
         glyph.draw(canvas, path=path)
         label.draw(canvas, x=x+15, y=y+60, text="Pie")
         
         x += spacing
         
-        # add pizza
+        # add pie rounded
         path = pero.make_wedge(x=x+15, y=y+15, inner_radius=0, outer_radius=30, start_angle=pero.rads(-120), end_angle=pero.rads(120), corners=10)
         glyph.draw(canvas, path=path)
-        label.draw(canvas, x=x+15, y=y+60, text="Pie Round")
+        label.draw(canvas, x=x+15, y=y+60, text="Pie Rounded")
 
 
 # run test
