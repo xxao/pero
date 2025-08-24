@@ -32,7 +32,7 @@ class DrawTest(pero.Graphics):
             start_angle_units = pero.ANGLE_DEG,
             end_angle = 0,
             end_angle_units = pero.ANGLE_DEG,
-            rounded = True)
+            caped = True)
         
         gauge.x = padding+0.5*size
         gauge.y = padding+0.5*size

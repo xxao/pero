@@ -218,9 +218,12 @@ class RadialGauge(Gauge):
             Specifies the drawing direction. If set to True the arc is drawn
             clockwise, otherwise anti-clockwise.
         
-        rounded: bool or callable
-            Specifies the wedge ends style. If set to True the ends will be
-            rounded.
+        corners: int, float, (int,), (float, ) callable or UNDEF
+            Radii for individual corners as (outer-start, outer-end, inner-end, inner-start).
+        
+        caped: bool or callable
+            Specifies the donut wedge ends style. If set to True and no specific corners
+            provided, the ends will be circular.
     """
     
     inner_radius = NumProperty(UNDEF)
@@ -228,7 +231,8 @@ class RadialGauge(Gauge):
     start_angle = Include(AngleProperties, prefix="start_")
     end_angle = Include(AngleProperties, prefix="end_")
     clockwise = BoolProperty(True)
-    rounded = BoolProperty(False)
+    corners = QuadProperty(None, nullable=True)
+    caped = BoolProperty(False)
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
@@ -247,7 +251,8 @@ class RadialGauge(Gauge):
         inner_radius = self.get_property('inner_radius', source, overrides)
         outer_radius = self.get_property('outer_radius', source, overrides)
         clockwise = self.get_property('clockwise', source, overrides)
-        rounded = self.get_property('rounded', source, overrides)
+        corners = self.get_property('corners', source, overrides)
+        caped = self.get_property('caped', source, overrides)
         limit = self.get_property('limit', source, overrides)
         reverse = self.get_property('reverse', source, overrides)
         start = self.get_property('start', source, overrides)
@@ -291,7 +296,8 @@ class RadialGauge(Gauge):
             start_angle_units = ANGLE_RAD,
             end_angle_units = ANGLE_RAD,
             clockwise = clockwise,
-            rounded = rounded)
+            corners = corners,
+            caped = caped)
         
         # start drawing group
         canvas.group(tag, "gauge")
