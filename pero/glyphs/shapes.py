@@ -491,7 +491,7 @@ class Rect(Glyph):
         height: int, float or callable
             Specifies the full height.
         
-        radius: int, float, (int,), (float,) callable or UNDEF
+        radius: int, float, (int,), (float, ) callable or UNDEF
             Specifies the corner radius as a single value or values for
             individual corners starting from top-left.
         
@@ -641,7 +641,10 @@ class Wedge(Glyph):
             Specifies the drawing direction. If set to True the arc is drawn
             clockwise, otherwise anti-clockwise.
         
-        rounded: bool or callable
+        corners: int, float, (int,), (float, ) callable or UNDEF
+            Radii for individual corners as (outer-start, outer-end, inner-end, inner-start).
+        
+        caped: bool or callable
             Specifies the donut wedge ends style. If set to True and no specific corners
             provided, the ends will be circular.
         
@@ -662,7 +665,8 @@ class Wedge(Glyph):
     start_angle = Include(AngleProperties, prefix="start_")
     end_angle = Include(AngleProperties, prefix="end_")
     clockwise = BoolProperty(True)
-    rounded = BoolProperty(False)
+    corners = QuadProperty(None, nullable=True)
+    caped = BoolProperty(False)
     
     line = Include(LineProperties)
     fill = Include(FillProperties)
@@ -683,7 +687,8 @@ class Wedge(Glyph):
         inner_radius = self.get_property('inner_radius', source, overrides)
         outer_radius = self.get_property('outer_radius', source, overrides)
         clockwise = self.get_property('clockwise', source, overrides)
-        rounded = self.get_property('rounded', source, overrides)
+        corners = self.get_property('corners', source, overrides)
+        caped = self.get_property('caped', source, overrides)
         offset = self.get_property('offset', source, overrides)
         
         # apply offset
@@ -701,8 +706,8 @@ class Wedge(Glyph):
             start_angle = start_angle,
             end_angle = end_angle,
             clockwise = clockwise,
-            caped = rounded,
-            corners = None)
+            corners = corners,
+            caped = caped)
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)

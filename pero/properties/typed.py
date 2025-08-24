@@ -381,13 +381,16 @@ class QuadProperty(Property):
             return value, value, value, value
         
         # check type
-        if isinstance(value, (list,tuple)) and all(isinstance(x, (int, float)) for x in value):
+        if isinstance(value, (list, tuple)) and all(isinstance(x, (int, float)) for x in value):
             
             if len(value) == 1:
                 return value[0], value[0], value[0], value[0]
             
             elif len(value) == 2:
                 return value[0], value[1], value[0], value[1]
+            
+            elif len(value) == 3:
+                return value[0], value[1], value[2], value[2]
             
             elif len(value) == 4:
                 return tuple(value)
