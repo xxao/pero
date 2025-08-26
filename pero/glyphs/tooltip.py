@@ -35,6 +35,12 @@ class Tooltip(Glyph):
         
         clip: pero.Frame, callable, None or UNDEF
             Specifies the available drawing frame.
+        
+        hclip: bool
+            Specifies whether clip should be used for horizontal shift.
+        
+        vclip: bool
+            Specifies whether clip should be used for vertical shift.
     """
     
     x = NumProperty(0)
@@ -45,6 +51,8 @@ class Tooltip(Glyph):
     
     anchor = EnumProperty(UNDEF, enum=POSITION_COMPASS)
     clip = FrameProperty(UNDEF)
+    hclip = BoolProperty(True)
+    vclip = BoolProperty(True)
 
 
 class TextTooltip(Tooltip):
@@ -106,6 +114,8 @@ class TextTooltip(Tooltip):
         align = self.get_property('text_align', source, overrides)
         base = self.get_property('text_base', source, overrides)
         clip = self.get_property('clip', source, overrides)
+        vclip = self.get_property('vclip', source, overrides)
+        hclip = self.get_property('hclip', source, overrides)
         
         # check text
         if not text:
@@ -150,16 +160,18 @@ class TextTooltip(Tooltip):
         if clip:
             
             # shift horizontally if outside
-            if x < clip.x1:
-                x += 2*x_offset + bgr_width
-            elif x + bgr_width > clip.x2 and x > clip.cx:
-                x -= 2*x_offset + bgr_width
+            if hclip:
+                if x < clip.x1:
+                    x += 2*x_offset + bgr_width
+                elif x + bgr_width > clip.x2 and x > clip.cx:
+                    x -= 2*x_offset + bgr_width
             
             # shift vertically if outside
-            if y < clip.y1:
-                y += 2*y_offset + bgr_height
-            elif y + bgr_height > clip.y2 and y > clip.cy:
-                y -= 2*y_offset + bgr_height
+            if vclip:
+                if y < clip.y1:
+                    y += 2*y_offset + bgr_height
+                elif y + bgr_height > clip.y2 and y > clip.cy:
+                    y -= 2*y_offset + bgr_height
         
         # get text coords
         text_x = x + padding[3]

@@ -229,12 +229,12 @@ class ToolControl(Control):
     def __init__(self, **overrides):
         """Initializes a new instance of Control."""
         
+        # init tooltip
+        if 'tooltip' not in overrides:
+            overrides['tooltip'] = TextTooltip()
+        
         # init base
         super().__init__(**overrides)
-        
-        # init tooltip
-        if self.tooltip is UNDEF:
-            self.tooltip = TextTooltip()
         
         # bind events
         self.bind(EVT_PROPERTY_CHANGED, self._on_tool_control_property_changed)
