@@ -175,6 +175,12 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         del odc
     
     
+    def should_repaint(self):
+        """Tries to force immediate repaint of the control."""
+        
+        wx.Yield()
+    
+    
     def _on_paint(self, evt):
         """Repaints current graphics."""
         

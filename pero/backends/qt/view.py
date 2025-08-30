@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from . loader import QWidget, QEvent, QPainter, QPicture, QPixmap
+from . loader import QWidget, QEvent, QPainter, QPicture, QPixmap, QApplication
 from ... events import *
 from .. view import View
 from . enums import *
@@ -162,6 +162,13 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         
         # update screen
         self.update()
+    
+    
+    def should_repaint(self):
+        """Tries to force immediate repaint of the control."""
+        
+        self.repaint()
+        QApplication.processEvents()
     
     
     def _init_view_event(self, evt):

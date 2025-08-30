@@ -163,6 +163,12 @@ class Control(Graphics):
         self.draw_overlay()
     
     
+    def should_repaint(self):
+        """Tries to force immediate repaint of the control."""
+        
+        self._parent.should_repaint()
+    
+    
     def _on_control_size(self, evt):
         """Redraws current graphics when size has changed."""
         

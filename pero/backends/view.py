@@ -132,3 +132,14 @@ class View(object):
         """Clears current overlay."""
         
         self.draw_overlay()
+    
+    
+    def should_repaint(self):
+        """
+        Tries to force immediate repaint of the control.
+        
+        This method should be overridden to provide specific implementations
+        for different backends.
+        """
+        
+        pass
