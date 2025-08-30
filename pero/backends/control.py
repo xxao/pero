@@ -166,6 +166,11 @@ class Control(Graphics):
     def should_repaint(self):
         """Tries to force immediate repaint of the control."""
         
+        # check parent
+        if self._parent is None:
+            return
+        
+        # force repaint
         self._parent.should_repaint()
     
     
