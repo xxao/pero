@@ -177,9 +177,7 @@ class QtCanvas(Canvas):
         points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # get lines
-        lines = []
-        for i in range(0, len(points)-1):
-            lines.append(QLineF(points[i][0], points[i][1], points[i+1][0], points[i+1][1]))
+        lines = (QLineF(*p) for p in numpy.hstack([points[:-1], points[1:]]))
         
         # draw
         self._dc.drawLines(*lines)
