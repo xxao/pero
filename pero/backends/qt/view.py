@@ -19,6 +19,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         super(QtView, self).__init__(parent)
         View.__init__(self)
         self.setMouseTracking(True)
+        self.setAcceptDrops(True)
         
         # init buffers
         self._dc_buffer = None
@@ -27,6 +28,9 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         # set window events
         self.paintEvent = self._on_paint
         self.resizeEvent = self._on_size
+        
+        self.dragEnterEvent = self._on_drag_enter
+        self.dropEvent = self._on_drop
         
         self.keyPressEvent = self._on_key_down
         self.keyReleaseEvent = self._on_key_up
@@ -190,6 +194,27 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         return view_evt
     
     
+    def _init_drop_event(self, evt):
+        """Initialize drop event."""
+        
+        # init base event
+        drop_evt = DropEvt(
+            
+            native = evt,
+            view = self,
+            control = self.control,
+            
+            x_pos = evt.position().x(),
+            y_pos = evt.position().y(),
+            
+            alt_down = bool(evt.modifiers() & Qt.KeyboardModifier.AltModifier),
+            cmd_down = bool(evt.modifiers() & Qt.KeyboardModifier.ControlModifier),
+            ctrl_down = bool(evt.modifiers() & Qt.KeyboardModifier.ControlModifier),
+            shift_down = bool(evt.modifiers() & Qt.KeyboardModifier.ShiftModifier))
+        
+        return drop_evt
+    
+    
     def _init_key_event(self, evt):
         """Initialize key event."""
         
@@ -322,6 +347,57 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         # fire event
         if self.control is not None:
             self.control.fire(size_evt)
+    
+    
+    def _on_drag_enter(self, evt):
+        """Handles drag enter event."""
+        
+        # accept text data
+        if evt.mimeData().hasText():
+            evt.accept()
+        
+        # ignore drag
+        else:
+            evt.ignore()
+    
+    
+    def _on_drop(self, evt):
+        """Handles drop event."""
+        
+        # skip if not data
+        if not evt.mimeData().hasText():
+            evt.ignore()
+            return
+        
+        # init base event
+        drop_evt = self._init_drop_event(evt)
+        
+        # get event text
+        text = evt.mimeData().text()
+        
+        # use simple text event
+        if QT_FILES_PREF not in text:
+            drop_evt = DropTextEvt.from_evt(drop_evt)
+            drop_evt.text = text
+        
+        # try covert to files event
+        else:
+            lines = [line.strip() for line in text.split("\n") if line.strip()]
+            all_files = all(line.startswith(QT_FILES_PREF) for line in lines)
+            
+            if all_files:
+                drop_evt = DropFilesEvt.from_evt(drop_evt)
+                drop_evt.paths = [line.replace(QT_FILES_PREF, "") for line in lines]
+            else:
+                drop_evt = DropTextEvt.from_evt(drop_evt)
+                drop_evt.text = text
+        
+        # accept drop
+        evt.accept()
+        
+        # fire event
+        if self.control is not None:
+            self.control.fire(drop_evt)
     
     
     def _on_key_down(self, evt):

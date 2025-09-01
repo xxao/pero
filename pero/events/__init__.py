@@ -7,6 +7,7 @@ from . event import Event
 from . prop import PropertyChangedEvt
 from . canvas import PenChangedEvt, BrushChangedEvt, TextChangedEvt
 from . view import ViewEvt, SizeEvt, ZoomEvt
+from . drop import DropEvt, DropTextEvt, DropFilesEvt
 from . keys import KeyEvt, KeyDownEvt, KeyUpEvt
 from . mouse import MouseEvt, MouseEnterEvt, MouseLeaveEvt
 from . mouse import MouseMotionEvt, MouseScrollEvt
