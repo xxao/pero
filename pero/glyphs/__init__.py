@@ -3,6 +3,7 @@
 
 # import glyphs
 from . glyph import Glyph
+from . box import Box
 from . text import Text, Textbox
 from . shapes import Annulus, Arc, Bar, Bow, Ellipse, Line, Polygon, Ray, Rect, Shape, Wedge
 from . markers import Marker, Asterisk, Circle, Cross, Diamond, Plus, Triangle, Square, Symbol, MarkerProperty
