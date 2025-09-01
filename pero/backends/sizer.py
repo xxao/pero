@@ -168,8 +168,7 @@ class Sizer(Control):
             return
         
         # get cell view shift
-        view = None
-        if self._focused:
+        if view is None and self._focused:
             view = self._focused.content.rect
         
         # draw overlay by parent

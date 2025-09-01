@@ -541,7 +541,7 @@ class Cell(Graphics):
     Properties:
         
         graphics: pero.Graphics
-            Specifies the graphics to drawn.
+            Specifies the graphics to draw.
         
         row: int
             Specifies the index of the row in which the cell sits. This value

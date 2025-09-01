@@ -77,8 +77,14 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         
         # init buffer
         if self._dc_buffer is None:
+            
+            # get buffer size
             dpr = self.devicePixelRatioF()
-            self._dc_buffer = QPixmap(int(self.width() * dpr), int(self.height() * dpr))
+            width = int(self.width() * dpr)
+            height = int(self.height() * dpr)
+            
+            # init buffer
+            self._dc_buffer = QPixmap(width, height)
             self._dc_buffer.setDevicePixelRatio(dpr)
         
         # init painter

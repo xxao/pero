@@ -72,11 +72,11 @@ class SplitFormatter(Formatter):
     def format(self, value, *args, **kwargs):
         """
         Formats given value using current formatting.
-
+        
         Args:
             value: float
                 Value to be formatted.
-
+        
         Returns:
             str
                 Formatted label.

@@ -44,7 +44,7 @@ class TimeTicker(Ticker):
     major_count = IntProperty(7, dynamic=False)
     
     minor_step = NumProperty(UNDEF, dynamic=False)
-    minor_count = IntProperty(5, dynamic=False)
+    minor_count = IntProperty(3, dynamic=False)
     
     
     def __init__(self, **overrides):
