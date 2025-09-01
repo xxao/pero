@@ -36,10 +36,10 @@ class Tooltip(Glyph):
         clip: pero.Frame, callable, None or UNDEF
             Specifies the available drawing frame.
         
-        hclip: bool
+        h_clip: bool
             Specifies whether clip should be used for horizontal shift.
         
-        vclip: bool
+        v_clip: bool
             Specifies whether clip should be used for vertical shift.
     """
     
@@ -51,8 +51,8 @@ class Tooltip(Glyph):
     
     anchor = EnumProperty(UNDEF, enum=POSITION_COMPASS)
     clip = FrameProperty(UNDEF)
-    hclip = BoolProperty(True)
-    vclip = BoolProperty(True)
+    h_clip = BoolProperty(True)
+    v_clip = BoolProperty(True)
 
 
 class TextTooltip(Tooltip):
@@ -114,8 +114,8 @@ class TextTooltip(Tooltip):
         align = self.get_property('text_align', source, overrides)
         base = self.get_property('text_base', source, overrides)
         clip = self.get_property('clip', source, overrides)
-        vclip = self.get_property('vclip', source, overrides)
-        hclip = self.get_property('hclip', source, overrides)
+        v_clip = self.get_property('v_clip', source, overrides)
+        h_clip = self.get_property('h_clip', source, overrides)
         
         # check text
         if not text:
@@ -160,14 +160,14 @@ class TextTooltip(Tooltip):
         if clip:
             
             # shift horizontally if outside
-            if hclip:
+            if h_clip:
                 if x < clip.x1:
                     x += 2*x_offset + bgr_width
                 elif x + bgr_width > clip.x2 and x > clip.cx:
                     x -= 2*x_offset + bgr_width
             
             # shift vertically if outside
-            if vclip:
+            if v_clip:
                 if y < clip.y1:
                     y += 2*y_offset + bgr_height
                 elif y + bgr_height > clip.y2 and y > clip.cy:
