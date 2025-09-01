@@ -76,6 +76,9 @@ class UIViewer(ui.View):
             message = "Unknown content type! -> %s" % type(content)
             raise TypeError(message)
         
+        # set parent
+        self._view.set_parent(self)
+        
         # add to sizer
         self.add_subview(self._view)
         

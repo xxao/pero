@@ -51,6 +51,19 @@ class Control(Graphics):
         self._parent = parent
     
     
+    def set_title(self, title):
+        """
+        Sets app window title.
+        
+        Args:
+            title: str
+                App window title.
+        """
+        
+        if self._parent is not None:
+            self._parent.set_title(title)
+    
+    
     def set_cursor(self, cursor):
         """
         Sets given mouse cursor.

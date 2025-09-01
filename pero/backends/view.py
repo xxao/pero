@@ -11,6 +11,7 @@ class View(object):
     def __init__(self):
         """Initializes a new instance of View."""
         
+        self._parent = None
         self._control = None
     
     
@@ -24,6 +25,12 @@ class View(object):
         """
         
         return self._control
+    
+    
+    def set_parent(self, parent):
+        """Sets link to parent view."""
+        
+        self._parent = parent
     
     
     def set_control(self, control):
@@ -56,6 +63,19 @@ class View(object):
         
         # set parent
         self._control.set_parent(self)
+    
+    
+    def set_title(self, title):
+        """
+        Sets app window title.
+        
+        Args:
+            title: str
+                App window title.
+        """
+        
+        if self._parent is not None:
+            self._parent.set_title(title)
     
     
     def set_cursor(self, cursor):

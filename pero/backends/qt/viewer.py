@@ -88,6 +88,9 @@ class QtViewer(QWidget):
             message = "Unknown content type! -> %s" % type(content)
             raise TypeError(message)
         
+        # set parent
+        self._view.set_parent(self)
+        
         # add to sizer
         self._sizer.addWidget(self._view, 1)
         

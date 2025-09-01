@@ -103,6 +103,18 @@ class WXViewFrame(wx.Frame):
         self.SetMinSize((100, 100))
     
     
+    def set_title(self, title):
+        """
+        Sets app window title.
+        
+        Args:
+            title: str
+                App window title.
+        """
+        
+        self.SetTitle(title or "")
+    
+    
     def set_content(self, content):
         """
         Sets content to draw.
@@ -126,6 +138,9 @@ class WXViewFrame(wx.Frame):
         else:
             message = "Unknown content type! -> %s" % type(content)
             raise TypeError(message)
+        
+        # set parent
+        self._view.set_parent(self)
         
         # clean sizer
         self._panel.Sizer.Clear(True)
