@@ -9,7 +9,7 @@ QT_NAME = None
 if QT_VERSION is None:
     
     try:
-        from PyQt5.QtCore import Qt, QPoint, QLineF, QSizeF, QEvent
+        from PyQt5.QtCore import Qt, QPointF, QLineF, QRectF, QSizeF, QEvent
         from PyQt5.QtGui import QFont, QColor, QPen, QBrush, QPainterPath, QPageSize
         from PyQt5.QtGui import QPainter, QImage, QPicture, QPixmap, QFontMetrics
         from PyQt5.QtGui import QMouseEvent, QWheelEvent, QTouchEvent
@@ -26,7 +26,7 @@ if QT_VERSION is None:
 if QT_VERSION is None:
     
     try:
-        from PySide2.QtCore import Qt, QPoint, QLineF, QSizeF, QEvent
+        from PySide2.QtCore import Qt, QPointF, QLineF, QRectF, QSizeF, QEvent
         from PySide2.QtGui import QFont, QColor, QPen, QBrush, QPainterPath, QPageSize
         from PySide2.QtGui import QPainter, QImage, QPicture, QPixmap, QFontMetrics
         from PySide2.QtGui import QMouseEvent, QWheelEvent, QTouchEvent
@@ -43,7 +43,7 @@ if QT_VERSION is None:
 if QT_VERSION is None:
     
     try:
-        from PyQt6.QtCore import Qt, QPoint, QLineF, QSizeF, QEvent
+        from PyQt6.QtCore import Qt, QPointF, QLineF, QRectF, QSizeF, QEvent
         from PyQt6.QtGui import QFont, QColor, QPen, QBrush, QPainterPath, QPageSize
         from PyQt6.QtGui import QPainter, QImage, QPicture, QPixmap, QFontMetrics
         from PyQt6.QtWidgets import QApplication, QWidget, QHBoxLayout
@@ -59,7 +59,7 @@ if QT_VERSION is None:
 if QT_VERSION is None:
     
     try:
-        from PySide6.QtCore import Qt, QPoint, QLineF, QSizeF, QEvent
+        from PySide6.QtCore import Qt, QPointF, QLineF, QRectF, QSizeF, QEvent
         from PySide6.QtGui import QFont, QColor, QPen, QBrush, QPainterPath, QPageSize
         from PySide6.QtGui import QPainter, QImage, QPicture, QPixmap, QFontMetrics
         from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout

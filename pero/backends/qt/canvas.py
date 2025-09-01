@@ -2,7 +2,8 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from . loader import QPoint, QLineF, QColor, QPen, QBrush, QPainterPath, QFontMetrics
+from math import floor
+from . loader import QPointF, QLineF, QRectF, QColor, QPen, QBrush, QPainterPath, QFontMetrics
 from ... properties import *
 from ... drawing import Canvas, Path, Matrix, ClipState
 from . enums import *
@@ -128,8 +129,14 @@ class QtCanvas(Canvas):
         width = self._scale * width
         height = self._scale * height
         
+        # round
+        cx = floor(x - 0.5 * width)
+        cy = floor(y - 0.5 * height)
+        width = floor(width)
+        height = floor(height)
+        
         # draw
-        self._dc.drawEllipse(int(x-0.5*width), int(y-0.5*height), int(width), int(height))
+        self._dc.drawEllipse(QRectF(cx, cy, width, height))
     
     
     def draw_line(self, x1, y1, x2, y2):
@@ -156,8 +163,14 @@ class QtCanvas(Canvas):
         x2 = self._scale * (x2 + self._offset[0])
         y2 = self._scale * (y2 + self._offset[1])
         
+        # round
+        x1 = floor(x1)
+        y1 = floor(y1)
+        x2 = floor(x2)
+        y2 = floor(y2)
+        
         # draw
-        self._dc.drawLine(int(x1), int(y1), int(x2), int(y2))
+        self._dc.drawLine(QPointF(x1, y1), QPointF(x2, y2))
     
     
     def draw_lines(self, points):
@@ -222,7 +235,7 @@ class QtCanvas(Canvas):
         points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
         
         # draw
-        self._dc.drawPolygon(*(QPoint(int(p[0]), int(p[1])) for p in points))
+        self._dc.drawPolygon(*(QPointF(p[0], p[1]) for p in points))
     
     
     def draw_rect(self, x, y, width, height, radius=None):
@@ -265,14 +278,20 @@ class QtCanvas(Canvas):
         width = self._scale * width + .5
         height = self._scale * height + .5
         
+        # round
+        x = floor(x)
+        y = floor(y)
+        width = floor(width)
+        height = floor(height)
+        
         # no round corners
         if not radius:
-            self._dc.drawRect(int(x), int(y), int(width), int(height))
+            self._dc.drawRect(QRectF(x, y, width, height))
         
         # same radius for all corners
         else:
-            radius = int(self._scale * radius[0])
-            self._dc.drawRoundedRect(int(x), int(y), int(width), int(height), int(radius), int(radius))
+            radius = self._scale * radius[0]
+            self._dc.drawRoundedRect(QRectF(x, y, width, height), radius, radius)
     
     
     def draw_text(self, text, x, y, angle=0):
@@ -372,13 +391,13 @@ class QtCanvas(Canvas):
                 bgr_height = line_height * self._scale
                 
                 self._dc.setPen(Qt.PenStyle.NoPen)
-                self._dc.drawRect(int(bgr_x), int(bgr_y), int(bgr_width), int(bgr_height))
+                self._dc.drawRect(QRectF(bgr_x, bgr_y, bgr_width, bgr_height))
                 
                 if self._for_color is not None:
                     self._dc.setPen(self._for_color)
             
             # draw text
-            self._dc.drawText(int(line_x), int(line_y), line)
+            self._dc.drawText(QPointF(line_x, line_y), line)
         
         # revert angle transformation
         if angle:
