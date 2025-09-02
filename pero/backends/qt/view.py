@@ -372,25 +372,15 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         # init base event
         drop_evt = self._init_drop_event(evt)
         
-        # get event text
-        text = evt.mimeData().text()
+        # use file dropped event
+        if evt.mimeData().hasUrls():
+            drop_evt = DropFilesEvt.from_evt(drop_evt)
+            drop_evt.paths = [url.toLocalFile() for url in evt.mimeData().urls()]
         
-        # use simple text event
-        if QT_FILES_PREF not in text:
-            drop_evt = DropTextEvt.from_evt(drop_evt)
-            drop_evt.text = text
-        
-        # try covert to files event
+        # use text dropped event
         else:
-            lines = [line.strip() for line in text.split("\n") if line.strip()]
-            all_files = all(line.startswith(QT_FILES_PREF) for line in lines)
-            
-            if all_files:
-                drop_evt = DropFilesEvt.from_evt(drop_evt)
-                drop_evt.paths = [line.replace(QT_FILES_PREF, "") for line in lines]
-            else:
-                drop_evt = DropTextEvt.from_evt(drop_evt)
-                drop_evt.text = text
+            drop_evt = DropTextEvt.from_evt(drop_evt)
+            drop_evt.text = evt.mimeData().text()
         
         # accept drop
         evt.accept()

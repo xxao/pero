@@ -146,5 +146,3 @@ QT_RASTER_TYPES = {
 
 QT_VECTOR_TYPES = {
     '.pdf'}
-
-QT_FILES_PREF = "file://"
