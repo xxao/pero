@@ -79,7 +79,7 @@ class TimeTicker(Ticker):
         # calc minor step size
         minor_step = self.minor_step
         if minor_step is UNDEF:
-            minor_step = self._calc_step(major_step, self.minor_count)
+            minor_step = self._calc_step(major_step, self.minor_count, exact=True)
         
         # make ticks
         major_ticks = make_lin_ticks(start, end, major_step)
@@ -125,7 +125,7 @@ class TimeTicker(Ticker):
         return (start, end) if not flip else (end, start)
     
     
-    def _calc_step(self, domain, count):
+    def _calc_step(self, domain, count, exact=False):
         """Calculates minor step size."""
         
         # split time
@@ -141,6 +141,6 @@ class TimeTicker(Ticker):
             base = 10
         
         # calc step size
-        step = calc_step_size(domain, count, splits, base)
+        step = calc_step_size(domain, count, splits, base, exact=exact)
         
         return step

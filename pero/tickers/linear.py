@@ -51,7 +51,7 @@ class LinTicker(Ticker):
     
     minor_step = NumProperty(UNDEF, dynamic=False)
     minor_count = IntProperty(4, dynamic=False)
-    minor_splits = TupleProperty((5, 2, 1), intypes=(int, float), dynamic=False)
+    minor_splits = TupleProperty((5, 3, 2, 1), intypes=(int, float), dynamic=False)
     
     
     def __init__(self, **overrides):
@@ -89,7 +89,7 @@ class LinTicker(Ticker):
         # calc minor step size
         minor_step = self.minor_step
         if minor_step is UNDEF:
-            minor_step = calc_step_size(major_step, self.minor_count, self.minor_splits)
+            minor_step = calc_step_size(major_step, self.minor_count, self.minor_splits, exact=True)
         
         # make ticks
         major_ticks = make_lin_ticks(start, end, major_step)

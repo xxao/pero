@@ -4,7 +4,7 @@
 import math
 
 
-def calc_step_size(domain, count=7, splits=(5, 3, 2, 1), base=10):
+def calc_step_size(domain, count=7, splits=(5, 3, 2, 1), base=10, exact=False):
     """
     Calculates visually nice step size for given range.
     
@@ -20,6 +20,9 @@ def calc_step_size(domain, count=7, splits=(5, 3, 2, 1), base=10):
         
         base: int
             Log base.
+        
+        exact: bool
+            If set to True, the final step should fit the domain exactly.
     
     Returns:
         float
@@ -29,8 +32,14 @@ def calc_step_size(domain, count=7, splits=(5, 3, 2, 1), base=10):
     ideal = math.fabs(domain) / float(max(1, count))
     log = math.log(ideal, base)
     power = math.floor(log)
+    pw = math.pow(base, power)
+    
     fraction = log - power
-    error = float('inf')  # fraction
+    error = float('inf')
+    
+    if exact:
+        err = lambda s: abs(round(domain / s / pw) - domain / s / pw)
+        splits = [s for s in splits if err(s) < 0.01] or splits
     
     factor = 1.
     for split in splits:
@@ -39,9 +48,7 @@ def calc_step_size(domain, count=7, splits=(5, 3, 2, 1), base=10):
             factor = split
             error = e
     
-    step = factor * math.pow(base, power)
-    
-    return step
+    return factor * pw
 
 
 def make_lin_ticks(start, end, step):
