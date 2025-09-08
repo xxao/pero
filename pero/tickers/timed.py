@@ -132,7 +132,7 @@ class TimeTicker(Ticker):
         parts = split_value(domain, SPLITS_TIME)
         
         # get split
-        if parts["h"] or parts["m"] or parts["s"]:
+        if parts["h"] or parts["m"]:
             splits = (30, 15, 10, 5, 2, 1)
             base = 60
         
