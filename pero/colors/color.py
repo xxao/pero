@@ -313,10 +313,10 @@ class Color(object, metaclass=ColorMeta):
         lin_r = self._red / 255.
         lin_r = lin_r / 12.92 if lin_r <= 0.04045 else math.pow(((lin_r + 0.055) / 1.055), 2.4)
         
-        lin_g = self._red / 255.
+        lin_g = self._green / 255.
         lin_g = lin_g / 12.92 if lin_g <= 0.04045 else math.pow(((lin_g + 0.055) / 1.055), 2.4)
         
-        lin_b = self._red / 255.
+        lin_b = self._blue / 255.
         lin_b = lin_b / 12.92 if lin_b <= 0.04045 else math.pow(((lin_b + 0.055) / 1.055), 2.4)
         
         return 0.2126 * lin_r + 0.7152 * lin_g + 0.0722 * lin_b
