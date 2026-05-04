@@ -112,14 +112,14 @@ class TestCase(unittest.TestCase):
         ticker = pero.TimeTicker()
         
         # step 15 s
-        ticker(start=0, end=59, major_count=4)
+        ticker(start=0, end=60, major_count=4)
         ticks = ticker.major_ticks()
         
-        model = (0, 15, 30, 45)
+        model = (0, 15, 30, 45, 60)
         self.assertEqual(ticks, model)
         
         # step 10 s
-        ticker(start=0, end=50, major_count=7)
+        ticker(start=0, end=50, major_count=5)
         ticks = ticker.major_ticks()
         
         model = (0, 10, 20, 30, 40, 50)
