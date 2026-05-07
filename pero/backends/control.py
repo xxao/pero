@@ -329,21 +329,30 @@ class ToolControl(Control):
         # unbind old tool
         if old_tool:
             self.unbind(EVT_SIZE, old_tool.on_size)
+            
             self.unbind(EVT_KEY_DOWN, old_tool.on_key_down)
             self.unbind(EVT_KEY_UP, old_tool.on_key_up)
+            
             self.unbind(EVT_MOUSE_ENTER, old_tool.on_mouse_enter)
             self.unbind(EVT_MOUSE_LEAVE, old_tool.on_mouse_leave)
             self.unbind(EVT_MOUSE_MOTION, old_tool.on_mouse_motion)
             self.unbind(EVT_MOUSE_SCROLL, old_tool.on_mouse_scroll)
+            
             self.unbind(EVT_LEFT_DOWN, old_tool.on_mouse_down)
             self.unbind(EVT_LEFT_UP, old_tool.on_mouse_up)
+            self.unbind(EVT_LEFT_CLICK, old_tool.on_mouse_click)
             self.unbind(EVT_LEFT_DCLICK, old_tool.on_mouse_dclick)
+            
             self.unbind(EVT_RIGHT_DOWN, old_tool.on_mouse_down)
             self.unbind(EVT_RIGHT_UP, old_tool.on_mouse_up)
+            self.unbind(EVT_RIGHT_CLICK, old_tool.on_mouse_click)
+            self.unbind(EVT_RIGHT_DCLICK, old_tool.on_mouse_dclick)
+            
             self.unbind(EVT_TOUCH_START, old_tool.on_touch_start)
             self.unbind(EVT_TOUCH_END, old_tool.on_touch_end)
             self.unbind(EVT_TOUCH_MOVE, old_tool.on_touch_move)
             self.unbind(EVT_TOUCH_CANCEL, old_tool.on_touch_cancel)
+            self.unbind(EVT_TOUCH_TAP, old_tool.on_touch_tap)
             self.unbind(EVT_TOUCH_DTAP, old_tool.on_touch_dtap)
         
         # check tool
@@ -367,12 +376,14 @@ class ToolControl(Control):
         if left:
             self.bind(EVT_LEFT_DOWN, new_tool.on_mouse_down)
             self.bind(EVT_LEFT_UP, new_tool.on_mouse_up)
+            self.bind(EVT_LEFT_CLICK, new_tool.on_mouse_click)
             self.bind(EVT_LEFT_DCLICK, new_tool.on_mouse_dclick)
         
         # bind right mouse events
         if right:
             self.bind(EVT_RIGHT_DOWN, new_tool.on_mouse_down)
             self.bind(EVT_RIGHT_UP, new_tool.on_mouse_up)
+            self.bind(EVT_RIGHT_CLICK, new_tool.on_mouse_click)
             self.bind(EVT_RIGHT_DCLICK, new_tool.on_mouse_dclick)
         
         # bind touch events
@@ -381,6 +392,7 @@ class ToolControl(Control):
             self.bind(EVT_TOUCH_END, new_tool.on_touch_end)
             self.bind(EVT_TOUCH_MOVE, new_tool.on_touch_move)
             self.bind(EVT_TOUCH_CANCEL, new_tool.on_touch_cancel)
+            self.bind(EVT_TOUCH_TAP, new_tool.on_touch_dtap)
             self.bind(EVT_TOUCH_DTAP, new_tool.on_touch_dtap)
     
     
