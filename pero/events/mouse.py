@@ -84,6 +84,7 @@ class MouseEvt(ViewEvt):
         """
         
         return cls(
+            time = evt.time,
             
             native = evt.native,
             view = evt.view,

@@ -50,6 +50,8 @@ class PropertyChangedEvt(Event):
         """
         
         return cls(
+            time = evt.time,
+            
             name = evt.name,
             old_value = evt.old_value,
             new_value = evt.new_value)

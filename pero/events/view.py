@@ -49,6 +49,8 @@ class ViewEvt(Event):
         """
         
         return cls(
+            time = evt.time,
+            
             native = evt.native,
             view = evt.view,
             control = evt.control)

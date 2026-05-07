@@ -1,11 +1,17 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
+import time
+
 
 class Event(object):
     """
     Abstract base class for various types of events. Each derived event class
     has to specify its unique TYPE property at least.
+    
+    Attributes:
+        time: float
+            Time when the event was fired in seconds.
     """
     
     TYPE = None
@@ -13,6 +19,8 @@ class Event(object):
     
     def __init__(self, **kwargs):
         """Initializes a new instance of Event."""
+        
+        self.time = time.perf_counter()
         
         self._canceled = False
         
