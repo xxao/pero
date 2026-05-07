@@ -1,6 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
+from collections import deque
 from . control import Control
 
 
@@ -13,6 +14,7 @@ class View(object):
         
         self._parent = None
         self._control = None
+        self._events = deque(maxlen=5)
     
     
     @property
@@ -25,6 +27,18 @@ class View(object):
         """
         
         return self._control
+    
+    
+    @property
+    def events(self):
+        """
+        Gets events history.
+        
+        Returns:
+            (pero.Event,)
+        """
+        
+        return tuple(self._events)
     
     
     def set_parent(self, parent):
@@ -103,6 +117,26 @@ class View(object):
         """
         
         pass
+    
+    
+    def fire(self, evt, **kwargs):
+        """
+        Fires given event by current control.
+        
+        Args:
+            evt: pero.Event
+                Event instance which should be processed.
+            
+            kwargs: str:any pairs
+                Additional keyword arguments.
+        """
+        
+        # keep event in history
+        self._events.append(evt)
+        
+        # fire event
+        if self.control is not None:
+            self.control.fire(evt, **kwargs)
     
     
     def refresh(self):

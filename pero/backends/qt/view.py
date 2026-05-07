@@ -345,8 +345,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             height = height)
         
         # fire event
-        if self.control is not None:
-            self.control.fire(size_evt)
+        self.fire(size_evt)
     
     
     def _on_drag_enter(self, evt):
@@ -386,8 +385,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         evt.accept()
         
         # fire event
-        if self.control is not None:
-            self.control.fire(drop_evt)
+        self.fire(drop_evt)
     
     
     def _on_key_down(self, evt):
@@ -401,8 +399,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         key_evt.pressed = True
         
         # fire event
-        if self.control is not None:
-            self.control.fire(key_evt)
+        self.fire(key_evt)
     
     
     def _on_key_up(self, evt):
@@ -416,8 +413,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         key_evt.pressed = False
         
         # fire event
-        if self.control is not None:
-            self.control.fire(key_evt)
+        self.fire(key_evt)
     
     
     def _on_mouse_move(self, evt):
@@ -430,8 +426,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         mouse_evt = MouseMotionEvt.from_evt(mouse_evt)
         
         # fire event
-        if self.control is not None:
-            self.control.fire(mouse_evt)
+        self.fire(mouse_evt)
     
     
     def _on_mouse_wheel(self, evt):
@@ -453,8 +448,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         mouse_evt.y_rot = rotation.y()
         
         # fire event
-        if self.control is not None:
-            self.control.fire(mouse_evt)
+        self.fire(mouse_evt)
     
     
     def _on_mouse_enter(self, evt):
@@ -467,8 +461,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         view_evt = MouseEnterEvt.from_evt(view_evt)
         
         # fire event
-        if self.control is not None:
-            self.control.fire(view_evt)
+        self.fire(view_evt)
     
     
     def _on_mouse_leave(self, evt):
@@ -481,8 +474,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         view_evt = MouseLeaveEvt.from_evt(view_evt)
         
         # fire event
-        if self.control is not None:
-            self.control.fire(view_evt)
+        self.fire(view_evt)
     
     
     def _on_mouse_down(self, evt):
@@ -505,8 +497,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         self.setFocus(Qt.FocusReason.MouseFocusReason)
         
         # fire event
-        if self.control is not None:
-            self.control.fire(mouse_evt)
+        self.fire(mouse_evt)
     
     
     def _on_mouse_up(self, evt):
@@ -547,8 +538,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             mouse_evt = RightDClickEvt.from_evt(mouse_evt)
         
         # fire event
-        if self.control is not None:
-            self.control.fire(mouse_evt)
+        self.fire(mouse_evt)
     
     
     def _on_touch(self, evt):
@@ -571,5 +561,4 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             touch_evt = TouchCancelEvt.from_evt(touch_evt)
         
         # fire event
-        if self.control is not None:
-            self.control.fire(touch_evt)
+        self.fire(touch_evt)

@@ -215,5 +215,4 @@ class UIView(ui.View, View):
             touch_evt = TouchCancelEvt.from_evt(touch_evt)
         
         # fire event
-        if self.control is not None:
-            self.control.fire(touch_evt)
+        self.fire(touch_evt)
