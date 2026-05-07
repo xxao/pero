@@ -402,7 +402,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         
         # get prefix
         prefix = child_name
-
+        
         # add splitter
         if prefix and prefix[-1] != PROP_SPLITTER:
             prefix += PROP_SPLITTER
@@ -541,6 +541,10 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         if dst_prefix and dst_prefix[-1] != PROP_SPLITTER:
             dst_prefix += PROP_SPLITTER
         
+        # get overrides
+        if src_prefix and overrides is not None:
+            overrides = self.get_child_overrides(src_prefix, overrides, skip)
+        
         # process source properties
         for prop in prop_set.properties():
             
@@ -619,6 +623,10 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
         
         if dst_prefix and dst_prefix[-1] != PROP_SPLITTER:
             dst_prefix += PROP_SPLITTER
+        
+        # get overrides
+        if src_prefix and overrides is not None:
+            overrides = self.get_child_overrides(src_prefix, overrides, skip)
         
         # process current properties
         for prop in self.properties():
