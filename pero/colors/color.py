@@ -27,7 +27,7 @@ class ColorMeta(type):
 class Color(object, metaclass=ColorMeta):
     """
     Represents a color defined by red, green, blue and alpha channels. All the
-    channels are defined as integers between 0 to 255.
+    channels are defined as integers between 0 and 255.
     """
     
     
