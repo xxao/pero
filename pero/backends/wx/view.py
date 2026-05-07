@@ -219,8 +219,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             height = height)
         
         # fire event
-        if self.control is not None:
-            self.control.fire(size_evt)
+        self.fire(size_evt)
     
     
     def _on_key(self, evt):
@@ -264,8 +263,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             key_evt = KeyUpEvt.from_evt(key_evt)
         
         # fire event
-        if self.control is not None:
-            self.control.fire(key_evt)
+        self.fire(key_evt)
     
     
     def _on_mouse(self, evt):
@@ -355,8 +353,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             except: pass
         
         # fire event
-        if self.control is not None:
-            self.control.fire(mouse_evt)
+        self.fire(mouse_evt)
     
     
     def _make_canvas(self, dc):

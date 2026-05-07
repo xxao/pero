@@ -516,9 +516,32 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         elif evt.button() == Qt.MouseButton.RightButton:
             mouse_evt = RightUpEvt.from_evt(mouse_evt)
         
+        # check for click
+        if is_mouse_click_evt(mouse_evt, self._events):
+            self._on_mouse_click(evt)
+        
         # fire event
-        if self.control is not None:
-            self.control.fire(mouse_evt)
+        self.fire(mouse_evt)
+    
+    
+    def _on_mouse_click(self, evt):
+        """Handles mouse button click event."""
+        
+        # init base event
+        mouse_evt = self._init_mouse_event(evt)
+        
+        # make specific event type
+        if evt.button() == Qt.MouseButton.LeftButton:
+            mouse_evt = LeftClickEvt.from_evt(mouse_evt)
+        
+        elif evt.button() == Qt.MouseButton.MiddleButton:
+            mouse_evt = MiddleClickEvt.from_evt(mouse_evt)
+        
+        elif evt.button() == Qt.MouseButton.RightButton:
+            mouse_evt = RightClickEvt.from_evt(mouse_evt)
+        
+        # fire event
+        self.fire(mouse_evt)
     
     
     def _on_mouse_dclick(self, evt):
