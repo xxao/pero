@@ -141,6 +141,12 @@ class LeftUpEvt(MouseEvt):
     TYPE = EVT_LEFT_UP
 
 
+class LeftClickEvt(MouseEvt):
+    """Defines an event which is fired if left-mouse button is clicked."""
+    
+    TYPE = EVT_LEFT_CLICK
+
+
 class LeftDClickEvt(MouseEvt):
     """Defines an event which is fired if left-mouse button is double-clicked."""
     
@@ -159,6 +165,12 @@ class MiddleUpEvt(MouseEvt):
     TYPE = EVT_MIDDLE_UP
 
 
+class MiddleClickEvt(MouseEvt):
+    """Defines an event which is fired if middle-mouse button is clicked."""
+    
+    TYPE = EVT_MIDDLE_CLICK
+
+
 class MiddleDClickEvt(MouseEvt):
     """Defines an event which is fired if middle-mouse button is double-clicked."""
     
@@ -175,6 +187,12 @@ class RightUpEvt(MouseEvt):
     """Defines an event which is fired if right-mouse button is released."""
     
     TYPE = EVT_RIGHT_UP
+
+
+class RightClickEvt(MouseEvt):
+    """Defines an event which is fired if right-mouse button is clicked."""
+    
+    TYPE = EVT_RIGHT_CLICK
 
 
 class RightDClickEvt(MouseEvt):

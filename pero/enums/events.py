@@ -30,14 +30,17 @@ EVT_MOUSE_LEAVE = 'evt_mouse_leave'
 
 EVT_LEFT_DOWN = 'evt_left_down'
 EVT_LEFT_UP = 'evt_left_up'
+EVT_LEFT_CLICK = 'evt_left_click'
 EVT_LEFT_DCLICK = 'evt_left_dclick'
 
 EVT_MIDDLE_DOWN = 'evt_middle_down'
 EVT_MIDDLE_UP = 'evt_middle_up'
+EVT_MIDDLE_CLICK = 'evt_middle_click'
 EVT_MIDDLE_DCLICK = 'evt_middle_dclick'
 
 EVT_RIGHT_DOWN = 'evt_right_down'
 EVT_RIGHT_UP = 'evt_right_up'
+EVT_RIGHT_CLICK = 'evt_right_click'
 EVT_RIGHT_DCLICK = 'evt_right_dclick'
 
 EVT_TOUCH = 'evt_touch'
@@ -45,6 +48,7 @@ EVT_TOUCH_START = 'evt_touch_start'
 EVT_TOUCH_END = 'evt_touch_end'
 EVT_TOUCH_MOVE = 'evt_touch_move'
 EVT_TOUCH_CANCEL = 'evt_touch_cancel'
+EVT_TOUCH_TAP = 'evt_touch_tap'
 EVT_TOUCH_DTAP = 'evt_touch_dtap'
 
 EVENT = Enum(
@@ -74,14 +78,17 @@ EVENT = Enum(
     
     LEFT_DOWN = EVT_LEFT_DOWN,
     LEFT_UP = EVT_LEFT_UP,
+    LEFT_CLICK = EVT_LEFT_CLICK,
     LEFT_DCLICK = EVT_LEFT_DCLICK,
     
     MIDDLE_DOWN = EVT_MIDDLE_DOWN,
     MIDDLE_UP = EVT_MIDDLE_UP,
+    MIDDLE_CLICK = EVT_MIDDLE_CLICK,
     MIDDLE_DCLICK = EVT_MIDDLE_DCLICK,
     
     RIGHT_DOWN = EVT_RIGHT_DOWN,
     RIGHT_UP = EVT_RIGHT_UP,
+    RIGHT_CLICK = EVT_RIGHT_CLICK,
     RIGHT_DCLICK = EVT_RIGHT_DCLICK,
     
     TOUCH = EVT_TOUCH,
@@ -89,6 +96,7 @@ EVENT = Enum(
     TOUCH_END = EVT_TOUCH_END,
     TOUCH_MOVE = EVT_TOUCH_MOVE,
     TOUCH_CANCEL = EVT_TOUCH_CANCEL,
+    TOUCH_TAP = EVT_TOUCH_TAP,
     TOUCH_DTAP = EVT_TOUCH_DTAP)
 
 # define touch states

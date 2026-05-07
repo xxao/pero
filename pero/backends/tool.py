@@ -137,6 +137,19 @@ class Tool(PropertySet):
         pass
     
     
+    def on_mouse_click(self, evt):
+        """
+        This method should be overridden to provide specific handling
+        of mouse-button-click event.
+        
+        Args:
+            evt: pero.LeftClickEvt, pero.RightClickEvt or pero.MiddleClickEvt
+                Event to process.
+        """
+        
+        pass
+    
+    
     def on_mouse_dclick(self, evt):
         """
         This method should be overridden to provide specific handling
@@ -196,6 +209,19 @@ class Tool(PropertySet):
         
         Args:
             evt: pero.TouchCancelEvt
+                Event to process.
+        """
+        
+        pass
+    
+    
+    def on_touch_tap(self, evt):
+        """
+        This method should be overridden to provide specific handling
+        of touch-tap event.
+        
+        Args:
+            evt: pero.TouchTapEvt
                 Event to process.
         """
         

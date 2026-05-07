@@ -40,21 +40,30 @@ class Sizer(Control):
         
         # bind events
         self.bind(EVT_SIZE, self._on_sizer_event)
+        
         self.bind(EVT_KEY_DOWN, self._on_sizer_event)
         self.bind(EVT_KEY_UP, self._on_sizer_event)
+        
         self.bind(EVT_MOUSE_ENTER, self._on_sizer_event)
         self.bind(EVT_MOUSE_LEAVE, self._on_sizer_event)
         self.bind(EVT_MOUSE_MOTION, self._on_sizer_event)
         self.bind(EVT_MOUSE_SCROLL, self._on_sizer_event)
+        
         self.bind(EVT_LEFT_DOWN, self._on_sizer_event)
         self.bind(EVT_LEFT_UP, self._on_sizer_event)
+        self.bind(EVT_LEFT_CLICK, self._on_sizer_event)
         self.bind(EVT_LEFT_DCLICK, self._on_sizer_event)
+        
         self.bind(EVT_RIGHT_DOWN, self._on_sizer_event)
         self.bind(EVT_RIGHT_UP, self._on_sizer_event)
+        self.bind(EVT_RIGHT_CLICK, self._on_sizer_event)
+        self.bind(EVT_RIGHT_DCLICK, self._on_sizer_event)
+        
         self.bind(EVT_TOUCH_START, self._on_sizer_event)
         self.bind(EVT_TOUCH_END, self._on_sizer_event)
         self.bind(EVT_TOUCH_MOVE, self._on_sizer_event)
         self.bind(EVT_TOUCH_CANCEL, self._on_sizer_event)
+        self.bind(EVT_TOUCH_TAP, self._on_sizer_event)
         self.bind(EVT_TOUCH_DTAP, self._on_sizer_event)
     
     

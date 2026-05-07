@@ -177,7 +177,13 @@ class TouchCancelEvt(TouchEvt):
     TYPE = EVT_TOUCH_CANCEL
 
 
+class TouchTapEvt(TouchEvt):
+    """Defines an event which is fired on tap."""
+    
+    TYPE = EVT_TOUCH_TAP
+
+
 class TouchDTapEvt(TouchEvt):
-    """Defines an event which is fired on double touch."""
+    """Defines an event which is fired on double tap."""
     
     TYPE = EVT_TOUCH_DTAP
