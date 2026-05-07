@@ -563,6 +563,11 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             if dst_name in self._properties:
                 value = prop_set.get_property(src_name, source, overrides, native)
                 setattr(self, dst_name, value)
+            
+            # set child properties
+            elif self.has_property(dst_name):
+                value = prop_set.get_property(src_name, source, overrides, native)
+                self.set_property(dst_name, value)
     
     
     def set_properties_to(self, prop_set, src_prefix="", dst_prefix="", source=UNDEF, overrides=None, skip=None, native=False):
@@ -637,6 +642,11 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             if dst_name in prop_set._properties:
                 value = self.get_property(src_name, source, overrides, native)
                 setattr(prop_set, dst_name, value)
+            
+            # set child properties
+            elif prop_set.has_property(dst_name):
+                value = self.get_property(src_name, source, overrides, native)
+                prop_set.set_property(dst_name, value)
     
     
     def lock_property(self, name, lock=True, raise_error=True):
