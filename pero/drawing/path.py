@@ -10,9 +10,9 @@ from . frame import Frame
 
 # define constants
 _CIRCLE_FORCE = (4./3.)*numpy.tan(numpy.pi/(2*4))
-_SVG_COMMANDS = set('MmZzLlHhVvCcSsQqTtAa')
-_SVG_COMMANDS_RE = re.compile("([MmZzLlHhVvCcSsQqTtAa])")
-_SVG_COORDS_RE = re.compile("[-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?")
+_SVG_COMMANDS = set(r'MmZzLlHhVvCcSsQqTtAa')
+_SVG_COMMANDS_RE = re.compile(r"([MmZzLlHhVvCcSsQqTtAa])")
+_SVG_COORDS_RE = re.compile(r"[-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?")
 _ANGLE_LIMIT = 0.0001
 
 
