@@ -105,7 +105,7 @@ EXPORT_PRIORITY = [
     BACKEND_WX,
     BACKEND_CAIRO,
     BACKEND_MUPDF,
-    EXPORT_PY5,
+    BACKEND_PY5,
     BACKEND_PYTHONISTA]
 
 # define viewer backend priorities
