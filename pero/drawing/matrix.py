@@ -40,6 +40,24 @@ class Matrix(object):
         return self
     
     
+    def merge(self, matrix):
+        """
+        Merges given matrix into current one.
+        
+        Args:
+            matrix: pero.Matrix
+                Matrix to merge.
+        
+        Returns:
+            pero.Matrix
+                Returns self so that the commands can be chained.
+        """
+        
+        self._matrix = numpy.dot(matrix._matrix, self._matrix)
+        
+        return self
+    
+    
     def translate(self, x_shift=None, y_shift=None):
         """
         Applies horizontal and vertical shift to current matrix.
@@ -283,3 +301,18 @@ class Matrix(object):
         """
         
         return numpy.array((x, y, 1)).dot(self._matrix.T)[0:2]
+    
+    
+    def clone(self):
+        """
+        Creates a clone of current matrix.
+        
+        Returns:
+            pero.Matrix
+                Returns cloned matrix.
+        """
+        
+        matrix = Matrix()
+        matrix.merge(self)
+        
+        return matrix
