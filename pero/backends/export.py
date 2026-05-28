@@ -5,7 +5,7 @@ import os.path
 from .. enums import *
 
 
-def show(graphics, title=None, width=None, height=None, backend=None, **options):
+def show(graphics, title=None, width=None, height=None, backend=None, icon=None, **options):
     """
     Shows given graphics in available viewer app. Currently, this is only
     available if wxPython, PyQt5, PyQt6, PySide2 or PySide2 is installed or
@@ -28,6 +28,9 @@ def show(graphics, title=None, width=None, height=None, backend=None, **options)
         backend: pero.BACKEND
             Specific backend to be used. The value must be an item from the
             pero.BACKEND enum.
+        
+        icon: str, any or None
+            Path to app icon or icon itself.
         
         options: str:any pairs
             Additional parameters for specific backend.
@@ -67,7 +70,7 @@ def show(graphics, title=None, width=None, height=None, backend=None, **options)
         raise ImportError(message)
     
     # show viewer
-    backend.show(graphics, title, width, height, **options)
+    backend.show(graphics, title, width, height, icon, **options)
 
 
 def export(graphics, path, width=None, height=None, backend=None, **options):

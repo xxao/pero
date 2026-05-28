@@ -76,6 +76,19 @@ class Control(Graphics):
             self._parent.set_title(title)
     
     
+    def set_icon(self, icon):
+        """
+        Sets app window icon.
+        
+        Args:
+            icon: str or any
+                Icon path or icon itself.
+        """
+        
+        if self._parent is not None:
+            self._parent.set_icon(icon)
+    
+    
     def set_cursor(self, cursor):
         """
         Sets given mouse cursor.

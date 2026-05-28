@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from . loader import QWidget, QHBoxLayout
+from . loader import QApplication, QWidget, QHBoxLayout, QIcon
 from ... drawing import Graphics
 from .. view import Control
 from . view import QtView
@@ -57,6 +57,23 @@ class QtViewer(QWidget):
         """
         
         self.setWindowTitle(title or "")
+    
+    
+    def set_icon(self, icon):
+        """
+        Sets app window icon.
+        
+        Args:
+            icon: str or any
+                Icon path or icon itself.
+        """
+        
+        # init icon
+        if isinstance(icon, str):
+            icon = QIcon(icon)
+        
+        # set icon
+        self.setWindowIcon(icon)
     
     
     def set_content(self, content):

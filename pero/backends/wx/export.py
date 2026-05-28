@@ -8,7 +8,7 @@ from . canvas import WXCanvas
 from . viewer import WXViewer
 
 
-def show(graphics, title=None, width=None, height=None, **options):
+def show(graphics, title=None, width=None, height=None, icon=None, **options):
     """
     Shows given graphics in the viewer app.
     
@@ -24,6 +24,9 @@ def show(graphics, title=None, width=None, height=None, **options):
         
         height: float or None
             Viewer height in device units.
+        
+        icon: str, any or None
+            Path to app icon or icon itself.
     """
     
     # init app
@@ -32,6 +35,10 @@ def show(graphics, title=None, width=None, height=None, **options):
     # set title
     if title is not None:
         app.set_title(title)
+    
+    # set icon
+    if icon is not None:
+        app.set_icon(icon)
     
     # check size
     if not width:

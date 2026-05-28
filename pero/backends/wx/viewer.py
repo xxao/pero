@@ -50,6 +50,24 @@ class WXViewer(wx.App):
         self._frame.SetTitle(title or "")
     
     
+    def set_icon(self, icon):
+        """
+        Sets app window icon.
+        
+        Args:
+            icon: str
+                Icon path or icon itself.
+        """
+        
+        # init icon
+        if isinstance(icon, str):
+            img = wx.Bitmap(icon, wx.BITMAP_TYPE_ANY)
+            icon = wx.IconFromBitmap(img)
+        
+        # set icon
+        self.SetIcon(icon)
+    
+    
     def set_content(self, content):
         """
         Sets content to draw.

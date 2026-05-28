@@ -47,6 +47,18 @@ class UIViewer(ui.View):
         self.name = title or ""
     
     
+    def set_icon(self, icon):
+        """
+        Sets app window icon.
+        
+        Args:
+            icon: str or any
+                Icon path or icon itself.
+        """
+        
+        pass
+    
+    
     def set_content(self, content):
         """
         Sets content to draw.
