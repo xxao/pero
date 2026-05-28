@@ -36,6 +36,9 @@ class DropEvt(ViewEvt):
     def __init__(self, **kwargs):
         """Initializes a new instance of DropEvt."""
         
+        self.x_raw = None
+        self.y_raw = None
+        
         self.x_pos = None
         self.y_pos = None
         
@@ -67,6 +70,9 @@ class DropEvt(ViewEvt):
             native = evt.native,
             view = evt.view,
             control = evt.control,
+            
+            x_raw = evt.x_raw,
+            y_raw = evt.y_raw,
             
             x_pos = evt.x_pos,
             y_pos = evt.y_pos,

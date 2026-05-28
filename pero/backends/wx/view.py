@@ -84,8 +84,14 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
         self.SetToolTip(text)
     
     
-    def draw_control(self):
-        """Draws current control graphics."""
+    def draw_control(self, keep_overlay=False):
+        """
+        Draws current control graphics.
+        
+        Args:
+            keep_overlay: bool
+                If set to True, current overlay is kept.
+        """
         
         # check control
         if self.control is None:
@@ -105,7 +111,7 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             self.control.draw(canvas)
             
             # reset overlay
-            if not self._dc_overlay_empty:
+            if not self._dc_overlay_empty and not keep_overlay:
                 self._dc_overlay.Reset()
             
             # delete DC
@@ -286,6 +292,9 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             native = evt,
             view = self,
             control = self.control,
+            
+            x_raw = x,
+            y_raw = y,
             
             x_pos = x,
             y_pos = y,

@@ -39,7 +39,7 @@ def is_mouse_click_evt(evt, history, latency=0.3):
         return False
     
     # check position
-    if evt.x_pos != last.x_pos or evt.y_pos != last.y_pos:
+    if evt.x_raw != last.x_raw or evt.y_raw != last.y_raw:
         return False
     
     # check same button

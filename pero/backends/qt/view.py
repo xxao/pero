@@ -204,6 +204,9 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             view = self,
             control = self.control,
             
+            x_raw = evt.position().x(),
+            y_raw = evt.position().y(),
+            
             x_pos = evt.position().x(),
             y_pos = evt.position().y(),
             
@@ -253,6 +256,9 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             native = evt,
             view = self,
             control = self.control,
+            
+            x_raw = evt.position().x(),
+            y_raw = evt.position().y(),
             
             x_pos = evt.position().x(),
             y_pos = evt.position().y(),
