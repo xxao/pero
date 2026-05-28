@@ -112,13 +112,13 @@ class MouseEvt(ViewEvt):
             shift_down = evt.shift_down)
 
 
-class MouseEnterEvt(ViewEvt):
+class MouseEnterEvt(MouseEvt):
     """Defines an event which is fired if mouse enters window."""
     
     TYPE = EVT_MOUSE_ENTER
 
 
-class MouseLeaveEvt(ViewEvt):
+class MouseLeaveEvt(MouseEvt):
     """Defines an event which is fired if mouse leaves window."""
     
     TYPE = EVT_MOUSE_LEAVE

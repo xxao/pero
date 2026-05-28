@@ -270,6 +270,14 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
     def _init_mouse_event(self, evt):
         """Initialize mouse event."""
         
+        # check if real mouse event
+        if not hasattr(evt, "position"):
+            
+            return MouseEvt(
+                native = evt,
+                view = self,
+                control = self.control)
+        
         # init base event
         mouse_evt = MouseEvt(
             
@@ -481,26 +489,26 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         """Handles mouse enter event."""
         
         # init base event
-        view_evt = self._init_view_event(evt)
+        mouse_evt = self._init_mouse_event(evt)
         
         # make specific event type
-        view_evt = MouseEnterEvt.from_evt(view_evt)
+        mouse_evt = MouseEnterEvt.from_evt(mouse_evt)
         
         # fire event
-        self.fire(view_evt)
+        self.fire(mouse_evt)
     
     
     def _on_mouse_leave(self, evt):
         """Handles mouse leave event."""
         
         # init base event
-        view_evt = self._init_view_event(evt)
+        mouse_evt = self._init_mouse_event(evt)
         
         # make specific event type
-        view_evt = MouseLeaveEvt.from_evt(view_evt)
+        mouse_evt = MouseLeaveEvt.from_evt(mouse_evt)
         
         # fire event
-        self.fire(view_evt)
+        self.fire(mouse_evt)
     
     
     def _on_mouse_down(self, evt):
