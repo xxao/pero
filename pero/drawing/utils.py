@@ -290,6 +290,33 @@ def ray(c, angle, distance):
     return x, y
 
 
+def beam(c, p, distance):
+    """
+    Calculates point coordinates with distance and direction from origin.
+    
+    Args:
+        c: (float, float)
+            Coordinates of the origin.
+        
+        p: (float, float)
+            Direction point.
+        
+        distance: float
+            Distance from origin.
+    
+    Returns:
+            (float, float)
+                Coordinates of calculated point.
+    """
+    
+    a = angle((c[0]+1, c[1]), c, p)
+    
+    x = c[0] + distance * numpy.cos(a)
+    y = c[1] + distance * numpy.sin(a)
+    
+    return x, y
+
+
 def polygon_centroid(*points):
     """
     Calculates center point of given polygon.
