@@ -188,7 +188,8 @@ class Sizer(Control):
         """Relay events to focused control."""
         
         # process cursor event
-        if hasattr(evt, 'x_pos') and hasattr(evt, 'y_pos'):
+        if (hasattr(evt, 'x_pos') and hasattr(evt, 'y_pos')
+                and evt.x_pos is not None and evt.y_pos is not None):
             
             # get item under cursor
             self._focused = self.graphics.get_cell_below(evt.x_pos, evt.y_pos)
