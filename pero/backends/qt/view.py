@@ -24,6 +24,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         # init buffers
         self._dc_buffer = None
         self._dc_overlay = None
+        self._in_draw = False
         
         # set window events
         self.paintEvent = self._on_paint
@@ -76,8 +77,18 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         self.setToolTip(text)
     
     
-    def draw_control(self):
-        """Draws current control graphics."""
+    def draw_control(self, keep_overlay=False):
+        """
+        Draws current control graphics.
+        
+        Args:
+            keep_overlay: bool
+                If set to True, current overlay is kept.
+        """
+        
+        # skip if drawing
+        if self._in_draw:
+            return
         
         # init buffer
         if self._dc_buffer is None:
@@ -92,6 +103,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             self._dc_buffer.setDevicePixelRatio(dpr)
         
         # init painter
+        self._in_draw = True
         qp = QPainter()
         qp.begin(self._dc_buffer)
         qp.setRenderHint(QPainter.RenderHint.Antialiasing)
@@ -104,9 +116,11 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         
         # end drawing
         qp.end()
+        self._in_draw = False
         
-        # reset overlay
-        self._dc_overlay = None
+        # clean overlay
+        if not keep_overlay:
+            self._dc_overlay = None
         
         # update screen
         self.update()
@@ -134,6 +148,10 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
                 function.
         """
         
+        # skip if drawing
+        if self._in_draw:
+            return
+        
         # skip cleaning if empty already
         if func is None and self._dc_overlay is None:
             return
@@ -152,6 +170,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
             self._dc_overlay = QPicture()
         
         # init painter
+        self._in_draw = True
         qp = QPainter()
         qp.begin(self._dc_overlay)
         qp.setRenderHint(QPainter.RenderHint.Antialiasing)
@@ -169,6 +188,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         
         # end drawing
         qp.end()
+        self._in_draw = False
         
         # update screen
         self.update()

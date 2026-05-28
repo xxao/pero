@@ -38,6 +38,18 @@ class Control(Graphics):
         self.bind(EVT_SIZE, self._on_control_size)
     
     
+    @property
+    def parent(self):
+        """
+        Gets current control.
+        
+        Returns:
+            pero.Control or pero.View
+        """
+        
+        return self._parent
+    
+    
     def set_parent(self, parent):
         """Sets link to parent view."""
         
@@ -82,19 +94,18 @@ class Control(Graphics):
         self._parent.set_cursor(cursor)
     
     
-    def refresh(self):
+    def refresh(self, keep_overlay=False):
         """
         Redraws current control using parent view. This makes the parent view
         responsible for initialization of a canvas and calling the 'draw' method
         to finally draw the control graphics.
+        
+        Args:
+            keep_overlay: bool
+                If set to True, current overlay is kept.
         """
         
-        # check parent
-        if self._parent is None:
-            return
-        
-        # refresh by parent
-        self._parent.draw_control()
+        self.draw_control(keep_overlay)
     
     
     def draw(self, canvas, source=UNDEF, **overrides):
@@ -117,15 +128,21 @@ class Control(Graphics):
             self.graphics.draw(canvas, source=source, **overrides)
     
     
-    def draw_control(self):
-        """Relay control drawing to parent."""
+    def draw_control(self, keep_overlay=False):
+        """
+        Relay control drawing to parent.
+        
+        Args:
+            keep_overlay: bool
+                If set to True, current overlay is kept.
+        """
         
         # check parent
         if self._parent is None:
             return
         
         # draw control by parent
-        self._parent.draw_control()
+        self._parent.draw_control(keep_overlay)
     
     
     def draw_tooltip(self, text):

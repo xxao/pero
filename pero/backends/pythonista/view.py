@@ -33,8 +33,14 @@ class UIView(ui.View, View):
         self._dtap_possible = False
     
     
-    def draw_control(self):
-        """Draws current control graphics."""
+    def draw_control(self, keep_overlay=False):
+        """
+        Draws current control graphics.
+        
+        Args:
+            keep_overlay: bool
+                If set to True, current overlay is kept.
+        """
         
         # draw on buffer
         with ui.ImageContext(self.width, self.height) as ctx:
@@ -48,7 +54,8 @@ class UIView(ui.View, View):
             self._dc_buffer = ctx.get_image()
         
         # reset overlay
-        self._dc_overlay = None
+        if not keep_overlay:
+            self._dc_overlay = None
         
         # update screen
         self.set_needs_display()

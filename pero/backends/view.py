@@ -139,16 +139,26 @@ class View(object):
             self.control.fire(evt, **kwargs)
     
     
-    def refresh(self):
-        """Redraws current control graphics."""
+    def refresh(self, keep_overlay=False):
+        """
+        Redraws current control graphics.
         
-        self.draw_control()
+        Args:
+            keep_overlay: bool
+                If set to True, current overlay is kept.
+        """
+        
+        self.draw_control(keep_overlay)
     
     
-    def draw_control(self):
+    def draw_control(self, keep_overlay=False):
         """
         This method should be overridden to provide specific drawing mechanism
         and canvas creation to draw current control graphics.
+        
+        Args:
+            keep_overlay: bool
+                If set to True, current overlay is kept.
         """
         
         raise NotImplementedError("The 'draw_control' method is not implemented for '%s'." % self.__class__.__name__)
