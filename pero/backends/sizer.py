@@ -105,6 +105,34 @@ class Sizer(Control):
         return self.graphics.get_cell_below(x, y)
     
     
+    def in_cell(self, x, y, row=None, col=None):
+        """
+        Checks if given coordinates fall into specified cell bounding box.
+        
+        Args:
+            x: int or float
+                X-coordinate in logical units.
+            
+            y: int or float
+                Y-coordinate in logical units.
+            
+            row: int or None
+                Row index of the cell to check. If not specified, all rows are
+                considered.
+            
+            col: int or None
+                Column index of the cell to check. If not specified, all columns
+                are considered.
+        
+        Returns:
+            bool
+                True if given coordinates fall into specified bounding box,
+                False otherwise.
+        """
+        
+        return self.graphics.in_cell(x, y, row, col)
+    
+    
     def add(self, graphics, row, col, **overrides):
         """
         Adds graphics to specified layout cell. Additional rows and columns are

@@ -161,6 +161,47 @@ class Layout(Graphics):
         return None
     
     
+    def in_cell(self, x, y, row=None, col=None):
+        """
+        Checks if given coordinates fall into specified cell bounding box.
+        
+        Args:
+            x: int or float
+                X-coordinate in logical units.
+            
+            y: int or float
+                Y-coordinate in logical units.
+            
+            row: int or None
+                Row index of the cell to check. If not specified, all rows are
+                considered.
+            
+            col: int or None
+                Column index of the cell to check. If not specified, all columns
+                are considered.
+        
+        Returns:
+            bool
+                True if given coordinates fall into specified bounding box,
+                False otherwise.
+        """
+        
+        # get cell
+        cell = self.get_cell_below(x, y)
+        if cell is None:
+            return False
+        
+        # check row
+        if row is not None and cell.row != row:
+            return False
+        
+        # check column
+        if col is not None and cell.col != col:
+            return False
+        
+        return True
+    
+    
     def draw(self, canvas, source=UNDEF, **overrides):
         """Uses given canvas to draw layout cells."""
         
