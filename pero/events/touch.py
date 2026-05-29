@@ -140,7 +140,9 @@ class TouchEvt(ViewEvt):
         """
         
         return cls(
+            
             time = evt.time,
+            previous = evt.previous,
             
             native = evt.native,
             view = evt.view,

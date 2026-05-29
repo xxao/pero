@@ -14,7 +14,7 @@ class View(object):
         
         self._parent = None
         self._control = None
-        self._events = deque(maxlen=5)
+        self._events = []
     
     
     @property
@@ -32,7 +32,7 @@ class View(object):
     @property
     def events(self):
         """
-        Gets events history.
+        Gets events history (oldest last).
         
         Returns:
             (pero.Event,)
@@ -144,8 +144,17 @@ class View(object):
                 Additional keyword arguments.
         """
         
+        # assign previous event
+        if self._events:
+            evt.previous = self._events[0]
+        
         # keep event in history
-        self._events.append(evt)
+        self._events.insert(0, evt)
+        
+        # remove old events
+        while len(self._events) > 5:
+            pop = self._events.pop(-1)
+            pop.previous = None
         
         # fire event
         if self.control is not None:

@@ -13,7 +13,7 @@ def is_mouse_click_evt(evt, history, latency=0.3):
             Event to be checked.
         
         history: (pero.Event, )
-            List of previous events.
+            List of previous events (oldest last).
         
         latency: float
             Maximum time in seconds between mouse down and up events.
@@ -32,7 +32,7 @@ def is_mouse_click_evt(evt, history, latency=0.3):
         return False
     
     # get previous event
-    last = history[-1]
+    last = history[0]
     
     # check last event
     if not isinstance(last, (LeftDownEvt, MiddleDownEvt, RightDownEvt)):

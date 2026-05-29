@@ -19,6 +19,9 @@ class ViewEvt(Event):
             
         control: pero.Control
             The control which fired the event.
+        
+        previous: pero.Event or None
+            Previously fired event.
     """
     
     TYPE = EVT_VIEW
@@ -30,6 +33,7 @@ class ViewEvt(Event):
         self.native = None
         self.view = None
         self.control = None
+        self.previous = None
         
         super().__init__(**kwargs)
     
@@ -49,7 +53,9 @@ class ViewEvt(Event):
         """
         
         return cls(
+            
             time = evt.time,
+            previous = evt.previous,
             
             native = evt.native,
             view = evt.view,
