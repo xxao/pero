@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-from . loader import QWidget, QEvent, QPainter, QPicture, QPixmap, QApplication
+from . loader import QWidget, QEvent, QPainter, QPicture, QPixmap, QApplication, QRectF, QColor
 from ... events import *
 from .. view import View
 from . enums import *
@@ -343,6 +343,11 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         qp.begin(self)
         qp.setRenderHint(QPainter.RenderHint.Antialiasing)
         qp.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
+        
+        # fix transparency noise
+        qp.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
+        qp.fillRect(QRectF(0, 0, self.width(), self.height()), QColor(0, 0, 0, 0))
+        qp.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
         
         # draw control
         if self._dc_buffer is not None:

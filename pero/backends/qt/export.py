@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import os.path
-from . loader import QSizeF, QPageSize, QImage, QPrinter, QPainter, QApplication
+from . loader import QSizeF, QRectF, QColor, QPageSize, QImage, QPrinter, QPainter, QApplication
 from . enums import *
 from . canvas import QtCanvas
 from . viewer import QtViewer
@@ -169,6 +169,11 @@ def export_raster(graphics, path, width=None, height=None, **options):
     qp.begin(image)
     qp.setRenderHint(QPainter.RenderHint.Antialiasing)
     qp.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
+    
+    # fix transparency noise
+    qp.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)
+    qp.fillRect(QRectF(0, 0, width, height), QColor(0, 0, 0, 0))
+    qp.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
     
     # init canvas
     canvas = QtCanvas(qp, width=width, height=height)
