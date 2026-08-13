@@ -11,9 +11,10 @@ from . frame import Frame
 
 # define constants
 PROJECTION_STEP = 0.1
-REDUCE_STEP = 0.1
+REDUCE_DEPTH = 32
 LUT_STEPS = 100
 INTERSECT_THRESHOLD = 0.1
+TOLERANCE = 1e-3
 
 
 class Bezier(object):
@@ -73,7 +74,9 @@ class Bezier(object):
         self._t2 = 1.
         self._lut = []
         
-        self._simple = None
+        self._is_simple = None
+        self._is_line = None
+        
         self._bbox = None
         self._extremes = None
         self._inflections = None
@@ -128,7 +131,83 @@ class Bezier(object):
         return self._p1, self._c1, self._c2, self._p2
     
     
-    def simple(self):
+    @property
+    def start(self):
+        """
+        Gets curve start point as x1, y1.
+        
+        Returns:
+            (float, float)
+                Curve start point.
+        """
+        
+        return self._p1
+    
+    
+    @property
+    def end(self):
+        """
+        Gets curve end point as x2, y2.
+        
+        Returns:
+            (float, float)
+                Curve end point.
+        """
+        
+        return self._p2
+    
+    
+    @property
+    def c1(self):
+        """
+        Gets curve first control point as cx1, cy1.
+        
+        Returns:
+            (float, float)
+                Curve first control point.
+        """
+        
+        return self._c1
+    
+    
+    @property
+    def c2(self):
+        """
+        Gets curve second control point as cx2, cy2.
+        
+        Returns:
+            (float, float)
+                Curve second control point.
+        """
+        
+        return self._c2
+    
+    
+    def is_line(self):
+        """
+        Gets a value indicating if current curve is a straight line, where a line
+        is defined as having all control points on the baseline and the control
+        points are between the end points.
+        
+        Returns:
+            bool
+                Returns True if straight line, False otherwise.
+        """
+        
+        if self._is_line is None:
+            
+            c1, c2, p2 = helpers.align(self._p1, self._p2, self._c1, self._c2, self._p2)
+            tolerance = p2[0]*TOLERANCE
+            
+            self._is_line = (
+                abs(c1[1]) <= tolerance and
+                abs(c2[1]) <= tolerance and
+                0 <= c1[0] <= c2[0] <= p2[0])
+        
+        return self._is_line
+    
+    
+    def is_simple(self):
         """
         Gets a value indicating if current curve is simple, where a simpleness
         is defined as having all control points on the same side of the
@@ -140,27 +219,31 @@ class Bezier(object):
                 Returns True if simple, False otherwise.
         """
         
-        if self._simple is None:
+        if self._is_simple is None:
+            
+            if self.is_line():
+                self._is_simple = True
+                return self._is_simple
             
             a1 = helpers.angle(self._p2, self._p1, self._c1)
-            a2 = helpers.angle(self._p2, self._p1, self._c1)
+            a2 = helpers.angle(self._p2, self._p1, self._c2)
             
             if (a1 > 0 > a2) or (a1 < 0 < a2):
-                self._simple = False
+                self._is_simple = False
             
             else:
                 nx1, ny1 = self.normal(0)
                 nx2, ny2 = self.normal(1)
                 
                 if None in (nx1, ny1, nx2, ny2):
-                    self._simple = True
+                    self._is_simple = True
                 
                 else:
                     s = nx1*nx2 + ny1*ny2
                     a = abs(numpy.arccos(s))
-                    self._simple = a < numpy.pi/3
+                    self._is_simple = a < numpy.pi/3
         
-        return self._simple
+        return self._is_simple
     
     
     def bbox(self):
@@ -175,6 +258,9 @@ class Bezier(object):
         if self._bbox is None:
             
             self._bbox = Frame(self._x1, self._y1, self._x2-self._x1, self._y2-self._y1)
+            
+            if self.is_line():
+                return self._bbox.clone()
             
             extremes = self.extremes()
             extremes = set(extremes[0]+extremes[1])
@@ -198,11 +284,17 @@ class Bezier(object):
         if self._length is None:
             self._length = 0
             
+            if self.is_line():
+                dx = self._x2 - self._x1
+                dy = self._y2 - self._y1
+                self._length = numpy.sqrt(dx*dx + dy*dy)
+                return self._length
+            
             for i in range(len(helpers.T_VALUES)):
                 t = 0.5 * helpers.T_VALUES[i] + 0.5
                 dx, dy = self.derivative(t)
                 self._length += helpers.C_VALUES[i] * numpy.sqrt(dx*dx + dy*dy)
-        
+            
             self._length *= .5
         
         return self._length
@@ -219,6 +311,10 @@ class Bezier(object):
         """
         
         if self._extremes is None:
+            
+            if self.is_line():
+                self._extremes = ((), ())
+                return self._extremes
             
             ex = [[], []]
             
@@ -250,6 +346,10 @@ class Bezier(object):
         
         if self._inflections is None:
             
+            if self.is_line():
+                self._inflections = []
+                return self._inflections
+            
             p = helpers.align(self._p1, self._p2, *self.points)
             
             a = float(p[2][0] * p[1][1])
@@ -261,16 +361,16 @@ class Bezier(object):
             v2 = 18 * (3*a - b - 3*c)
             v3 = 18 * (c - a)
             
-            if helpers.equals(v1, 0, 1e-3):
+            if helpers.equals(v1, 0, TOLERANCE):
                 
-                if not helpers.equals(v2, 0, 1e-3):
+                if not helpers.equals(v2, 0, TOLERANCE):
                     t = -v3 / v2
                     if 0 <= t <= 1:
                         return [t]
                 return []
             
             d = 2*v1
-            if helpers.equals(d, 0, 1e-3):
+            if helpers.equals(d, 0, TOLERANCE):
                 return []
             
             trm = v2*v2 - 4*v1*v3
@@ -543,12 +643,11 @@ class Bezier(object):
                 Collection of simple segments.
         """
         
-        if self.simple():
+        if self.is_simple():
             return tuple((self, ))
         
         pass1 = []
         pass2 = []
-        step = REDUCE_STEP
         
         extremes = self.extremes()
         extremes = list(set([0] + extremes[0] + extremes[1] + [1]))
@@ -565,50 +664,18 @@ class Bezier(object):
             pass1.append(segment)
             t1 = t2
         
-        for p1 in pass1:
+        stack = [(segment, 0) for segment in reversed(pass1)]
+        while stack:
             
-            if p1.simple():
-                pass2.append(p1)
+            segment, depth = stack.pop()
+            
+            if segment.is_simple() or depth >= REDUCE_DEPTH:
+                pass2.append(segment)
                 continue
             
-            t1 = 0
-            t2 = 0
-            while t2 <= 1:
-                
-                t2 = t1 + step
-                while t2 <= 1+step:
-                    
-                    # not sure about this :)
-                    if abs(t1 - t2) < step:
-                        t1 = t2
-                        break
-                    
-                    segment = p1.slice(t1, t2)
-                    
-                    if not segment.simple():
-                        t2 -= step
-                        
-                        if abs(t1 - t2) < step:
-                            t1 = t2
-                            break
-                        
-                        segment = p1.slice(t1, t2)
-                        segment._t1 = self._scale_t(t1, 0, 1, p1._t1, p1._t2)
-                        segment._t2 = self._scale_t(t2, 0, 1, p1._t1, p1._t2)
-                        
-                        pass2.append(segment)
-                        t1 = t2
-                        break
-                    
-                    t2 += step
-            
-            if t1 < 1:
-                
-                tmp, segment = p1.split(t1)
-                segment._t1 = self._scale_t(t1, 0, 1, p1._t1, p1._t2)
-                segment._t2 = p1._t2
-                
-                pass2.append(segment)
+            left, right = segment.split(0.5)
+            stack.append((right, depth+1))
+            stack.append((left, depth+1))
         
         return tuple(pass2)
     
@@ -664,10 +731,32 @@ class Bezier(object):
         
         p = self.point(ft)
         
-        return p[0], p[1], t, dist
+        return p[0], p[1], ft, dist
     
     
-    def overlaps(self, curve):
+    def equals(self, curve, threshold=0):
+        """
+        Checks if there is a complete overlap between current curve
+        and given curve.
+        
+        Args:
+            curve: pero.Bezier
+                Curve to check.
+            
+            threshold: int or float
+                Coordinate comparison tolerance.
+        
+        Returns:
+            bool
+                Returns True if the curves are completely overlapping, False
+                otherwise.
+        """
+        
+        pairs = zip(self.points, curve.points)
+        return all(helpers.distance(a, b) <= threshold for a, b in pairs)
+    
+    
+    def overlaps(self, curve, threshold=0):
         """
         Checks if there is any overlap between bounding boxes of current curve
         and given curve.
@@ -675,6 +764,9 @@ class Bezier(object):
         Args:
             curve: pero.Bezier
                 Curve to check.
+            
+            threshold: int or float
+                Coordinate comparison tolerance.
         
         Returns:
             bool
@@ -682,7 +774,7 @@ class Bezier(object):
                 otherwise.
         """
         
-        return self.bbox().overlaps(curve.bbox())
+        return self.bbox().overlaps(curve.bbox(), threshold=threshold)
     
     
     def cuts(self, x1, y1, x2, y2):
@@ -769,9 +861,9 @@ class Bezier(object):
         """
         
         if curve is None:
-            inters = self._intersects_self(threshold)
+            inters = self._intersect_self(threshold)
         else:
-            inters = self._intersects_curve(curve, threshold)
+            inters = self._intersect_curve(curve, threshold)
         
         if not inters:
             return tuple()
@@ -782,11 +874,11 @@ class Bezier(object):
         
         for t2 in inters[1:]:
             
-            if not helpers.equals(t1[0], t2[0], 1e-3):
+            if not helpers.equals(t1[0], t2[0], TOLERANCE):
                 buff.append(t2)
                 t1 = t2
             
-            elif not helpers.equals(t1[1], t2[1], 1e-3):
+            elif not helpers.equals(t1[1], t2[1], TOLERANCE):
                 buff.append(t2)
                 t1 = t2
         
@@ -814,6 +906,39 @@ class Bezier(object):
         return curve
     
     
+    @staticmethod
+    def from_line(x1, y1, x2, y2):
+        """
+        Creates a Bezier curve from a straight line.
+        
+        Args:
+            x1: int, float
+                X-coordinate of the start point.
+            
+            y1: int, float
+                Y-coordinate of the start point.
+            
+            x2: int, float
+                X-coordinate of the end point.
+            
+            y2: int, float
+                Y-coordinate of the end point.
+        
+        Returns:
+            pero.Bezier
+                Bezier curve representing the line.
+        """
+        
+        dx = (x2 - x1) / 3.
+        dy = (y2 - y1) / 3.
+        
+        return Bezier(
+            x1, y1,
+            x1 + dx, y1 + dy,
+            x2 - dx, y2 - dy,
+            x2, y2)
+    
+    
     def _scale_t(self, t, ds, de, ts, te):
         """Scales given t-value into new range."""
     
@@ -839,8 +964,11 @@ class Bezier(object):
         return idx, dist
     
     
-    def _intersects_self(self, threshold):
+    def _intersect_self(self, threshold):
         """Calculates all intersection points with self."""
+        
+        if self.is_line():
+            return []
         
         reduced = self.reduce()
         
@@ -862,7 +990,7 @@ class Bezier(object):
         return buff
     
     
-    def _intersects_curve(self, curve, threshold):
+    def _intersect_curve(self, curve, threshold):
         """Calculates all intersection points with given curve."""
         
         seg1 = self.reduce()

@@ -465,29 +465,32 @@ class Frame(object):
         return self._left <= x <= self._right and self._top <= y <= self._bottom
     
     
-    def overlaps(self, other):
+    def overlaps(self, other, threshold=0):
         """
         Checks if there is any overlap between current frame and given frame.
         
         Args:
             other: pero.Frame
                 Frame to check.
+            
+            threshold: int or float
+                Coordinate comparison tolerance.
         
         Returns:
             bool
                 Returns True if any overlap exists, False otherwise.
         """
         
-        if not ((self._left <= other._left <= self._right)
-            or (self._left <= other._right <= self._right)
-            or (other._left <= self._left and other._right >= self._right)):
+        if not (((self._left - threshold) <= other._left <= (self._right + threshold))
+            or ((self._left - threshold) <= other._right <= (self._right + threshold))
+            or ((other._left - threshold) <= self._left and (other._right + threshold) >= self._right)):
             return False
         
-        if not ((self._top <= other._top <= self._bottom)
-            or (self._top <= other._bottom <= self._bottom)
-            or (other._top <= self._top and other._bottom >= self._bottom)):
+        if not (((self._top - threshold) <= other._top <= (self._bottom + threshold))
+            or ((self._top - threshold) <= other._bottom <= (self._bottom + threshold))
+            or ((other._top - threshold) <= self._top and (other._bottom + threshold) >= self._bottom)):
             return False
-        
+
         return True
     
     
