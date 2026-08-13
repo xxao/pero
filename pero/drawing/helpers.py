@@ -2,6 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
+import math
 from . utils import *
 
 # Legendre-Gauss abscissas
@@ -57,6 +58,23 @@ C_VALUES = (
   0.0285313886289336631813078159518782864491,
   0.0123412297999871995468056670700372915759,
   0.0123412297999871995468056670700372915759)
+
+
+def tolerances(points):
+    """Calculates extent and tolerance for given points."""
+    
+    if not points:
+        return 1., 1e-9
+    
+    xs = [float(x[0]) for x in points]
+    ys = [float(x[1]) for x in points]
+    
+    extent = max(max(xs) - min(xs), max(ys) - min(ys), numpy.finfo(float).eps)
+    magnitude = max([abs(x) for x in xs + ys] + [1.])
+    precision = abs(numpy.spacing(magnitude)) * 32.
+    tolerance = max(extent * 1e-10, precision, numpy.finfo(float).eps * 32.)
+    
+    return extent, tolerance
 
 
 def relative(p1, p2, r):
@@ -121,69 +139,41 @@ def crt(v):
 
 
 def roots(p1, p2, *points):
-    """pass"""
-    
+    """Finds cubic Bezier intersections with an infinite line as t-values."""
+
+    aligned = align(p1, p2, *points)
+    pa, pb, pc, pd = (x[1] for x in aligned)
+    coefficients = [
+        -pa + 3*pb - 3*pc + pd,
+        3*pa - 6*pb + 3*pc,
+        -3*pa + 3*pb,
+        pa]
+
+    scale = max(abs(x) for x in coefficients)
+    if scale == 0:
+        return []
+
+    cutoff = scale*1e-14
+    while coefficients and abs(coefficients[0]) <= cutoff:
+        coefficients.pop(0)
+    if len(coefficients) <= 1:
+        return []
+
+    values = []
+    for root in numpy.roots(coefficients):
+        if abs(root.imag) > 1e-8:
+            continue
+        value = float(root.real)
+        if -1e-9 <= value <= 1.+1e-9:
+            values.append(min(1., max(0., value)))
+
+    values.sort()
     roots = []
-    
-    p = align(p1, p2, *points)
-    f = lambda x: 0 <= x <= 1
-    
-    pa = p[0][1]
-    pb = p[1][1]
-    pc = p[2][1]
-    pd = p[3][1]
-    
-    d = float(-pa + 3*pb - 3*pc + pd)
-    a = (3*pa - 6*pb + 3*pc) / d
-    b = (-3*pa + 3*pb) / d
-    c = pa / d
-    p = (3*b - a*a)/3.
-    p3 = p/3.
-    q = (2*a*a*a - 9*a*b + 27*c)/27.
-    q2 = q/2.
-    
-    discr = q2*q2 + p3*p3*p3
-    tau = 2*numpy.pi
-    
-    if discr < 0:
-        
-        mp3 = -p/3.
-        mp33 = mp3*mp3*mp3
-        r = numpy.sqrt(mp33)
-        t = -q/(2*r)
-        
-        cosphi = t
-        if t < -1:
-            cosphi = -1
-        elif t > 1:
-            cosphi = 1
-        
-        phi = numpy.arccos(cosphi)
-        crtr = crt(r)
-        t1 = 2*crtr
-        
-        x1 = t1 * numpy.cos(phi/3) - a/3
-        x2 = t1 * numpy.cos((phi+tau)/3) - a/3
-        x3 = t1 * numpy.cos((phi+2*tau)/3) - a/3
-        
-        roots = [x1, x2, x3]
-    
-    elif discr == 0:
-        
-        u1 = crt(-q2) if q2 < 0 else -crt(q2)
-        x1 = 2*u1 - a/3.
-        x2 = -u1 - a/3.
-        
-        roots = [x1, x2]
-    
-    else:
-        sd = numpy.sqrt(discr)
-        u1 = crt(-q2+sd)
-        v1 = crt(q2+sd)
-        
-        roots = [u1-v1-a/3.]
-    
-    return list(filter(f, roots))
+    for value in values:
+        if not roots or abs(value-roots[-1]) > 1e-8:
+            roots.append(value)
+
+    return roots
 
 
 def droots(p):
@@ -214,3 +204,82 @@ def droots(p):
             return [float(2*b - c) / (2*(b - c))]
     
     return []
+
+
+def unique(values, tolerance):
+    """Returns a list of unique values within a given tolerance."""
+    
+    values = sorted(values)
+    result = []
+    for value in values:
+        if not result or abs(value - result[-1]) > tolerance:
+            result.append(value)
+            
+    return result
+
+
+def unique_pairs(values, tolerance):
+    """Returns a list of unique pairs within a given tolerance."""
+    
+    values = sorted(values)
+    result = []
+    for value in values:
+        if not any(abs(value[0] - x[0]) <= tolerance and
+                   abs(value[1] - x[1]) <= tolerance for x in result):
+            result.append(value)
+    
+    return result
+
+
+def subtract(p1, p2):
+    """pass"""
+    
+    return p1[0]-p2[0], p1[1]-p2[1]
+
+
+def dot(p1, p2):
+    """pass"""
+    
+    return p1[0]*p2[0]+p1[1]*p2[1]
+
+
+def cross(p1, p2):
+    """pass"""
+    
+    return p1[0]*p2[1]-p1[1]*p2[0]
+
+
+def length(value):
+    """pass"""
+    
+    return math.hypot(value[0], value[1])
+
+
+def in_unit(value, epsilon):
+    """pass"""
+    
+    return -epsilon <= value <= 1.+epsilon
+
+
+def snap(value, epsilon):
+    """pass"""
+    
+    if abs(value) <= epsilon:
+        return 0.
+    
+    if abs(value - 1.) <= epsilon:
+        return 1.
+    
+    return value
+
+
+def line_distance(p1, p2, p):
+    """Gets distance from line to give point."""
+    
+    direction = subtract(p2, p1)
+    length_value = length(direction)
+    
+    if length_value == 0:
+        return distance(p, p1)
+    
+    return abs(cross(subtract(p, p1), direction)) / length_value

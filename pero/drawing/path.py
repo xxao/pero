@@ -1609,6 +1609,91 @@ class Path(object):
         return self.clone(fill_rule).transform(matrix)
     
     
+    def boolean(self, path, operation):
+        """
+        Combines current path with the given path using specified boolean operation.
+        
+        Args:
+            path: pero.Path
+                Path to combine with current path.
+            
+            operation: pero.BOOL_OP
+                Specifies the bolean operation to be applied as a value from
+                pero.BOOL_OP enum.
+        
+        Returns:
+            pero.Path
+                Returns self so that the commands can be chained.
+        """
+        
+        # apply operation
+        commands = boolean.operate(self, path, operation)
+        
+        # create new path
+        result = Path.from_commands(commands, self._fill_rule)
+        
+        # update current path
+        self._paths = result._paths
+        self._subpath = result._subpath
+        self._cursor = tuple(result._cursor) if commands else (0, 0)
+        
+        # make dirty
+        self.dirty()
+        
+        return self
+    
+    
+    def union(self, path):
+        """
+        Combines the filled area of current path with the filled area of the
+        given path. Both paths must contain closed sub-paths only.
+        
+        Args:
+            path: pero.Path
+                Path to combine with current path.
+        
+        Returns:
+            pero.Path
+                Returns self so that the commands can be chained.
+        """
+        
+        return self.boolean(path, BOOL_UNION)
+    
+    
+    def subtract(self, path):
+        """
+        Subtracts the filled area of the given path from the filled area of
+        current path. Both paths must contain closed sub-paths only.
+        
+        Args:
+            path: pero.Path
+                Path to subtract from current path.
+        
+        Returns:
+            pero.Path
+                Returns self so that the commands can be chained.
+        """
+        
+        return self.boolean(path, BOOL_SUBTRACT)
+    
+    
+    def intersect(self, path):
+        """
+        Retains only the filled area shared by current path and the given
+        path. Both paths must contain closed sub-paths only.
+        
+        Args:
+            path: pero.Path
+                Path to intersect with current path.
+        
+        Returns:
+            pero.Path
+                Returns self so that the commands can be chained.
+        """
+        
+        return self.boolean(path, BOOL_INTERSECT)
+    
+    
     def split(self):
         """
         Splits current path into individual sub-paths.

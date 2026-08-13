@@ -88,6 +88,16 @@ PATH = Enum(
     LINE = PATH_LINE,
     CURVE = PATH_CURVE)
 
+# define path boolean operations
+BOOL_UNION = 'union'
+BOOL_SUBTRACT = 'subtract'
+BOOL_INTERSECT = 'intersect'
+
+BOOL_OP = Enum(
+    UNION = BOOL_UNION,
+    SUBTRACT = BOOL_SUBTRACT,
+    INTERSECT = BOOL_INTERSECT)
+
 # define available markers
 MARKER_ASTERISK = '*'
 MARKER_CIRCLE = 'o'
