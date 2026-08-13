@@ -4,9 +4,12 @@
 import numpy
 import re
 import json
+
 from .. enums import *
 from . matrix import Matrix
 from . frame import Frame
+from . bezier import Bezier
+from . import boolean
 
 # define constants
 _CIRCLE_FORCE = (4./3.)*numpy.tan(numpy.pi/(2*4))
@@ -92,14 +95,12 @@ class Path(object):
         return self._cursor
     
     
-    @property
     def is_multi(self):
         """Returns True if the path has multiple disconnected paths."""
         
         return len(self._paths) > 1
     
     
-    @property
     def is_closed(self):
         """Returns True if the path is closed."""
         
@@ -109,6 +110,17 @@ class Path(object):
                     return True
         
         return False
+    
+    
+    def is_empty(self):
+        """Returns True if the path is empty."""
+        
+        for path in self._paths:
+            for cmd in path:
+                if cmd[0] in (PATH_LINE, PATH_CURVE):
+                    return False
+        
+        return True
     
     
     def commands(self):
@@ -462,7 +474,7 @@ class Path(object):
                     self._bbox.extend(*bbox.rect)
                     x1, y1 = x2, y2
         
-        return self._bbox.clone()
+        return self._bbox.clone() if self._bbox is not None else None
     
     
     def json(self):
@@ -514,6 +526,46 @@ class Path(object):
         indent = "\n" + indent
         
         return indent + indent.join(full_svg)
+    
+    
+    def beziers(self):
+        """
+        Gets all segments as Bezier curves.
+        
+        Returns:
+            ((pero.Bezier,)
+                Sequence of Bezier curves.
+        """
+        
+        beziers = []
+        
+        for path in self._paths:
+            
+            start = (0., 0.)
+            cursor = (0., 0.)
+            
+            for command in path:
+                
+                key = command[0]
+                values = command[1:]
+                
+                if key == PATH_MOVE:
+                    start = values
+                    cursor = values
+                
+                elif key == PATH_LINE:
+                    beziers.append(Bezier.from_line(*cursor, *values))
+                    cursor = values
+                
+                elif key == PATH_CURVE:
+                    beziers.append(Bezier(*cursor, *values[:6]))
+                    cursor = values[4:6]
+                
+                elif key == PATH_CLOSE and cursor != start:
+                    beziers.append(Bezier.from_line(*cursor, *start))
+                    cursor = start
+        
+        return beziers
     
     
     def dirty(self):
@@ -1568,7 +1620,7 @@ class Path(object):
         
         # just one path
         if len(self._paths) == 1:
-            (self.clone(),)
+            return (self.clone(),)
         
         # split paths
         return tuple(Path.from_commands(x) for x in self._paths if x)
