@@ -180,7 +180,7 @@ class DrawTest(pero.Graphics):
         for t in curve.cuts(*lcut):
             x, y = curve.point(t)
             point.draw(canvas, x=x, y=y)
-        
+    
     
     def draw_intersects_line(self, canvas, curve):
         """Draws line intersection test."""
