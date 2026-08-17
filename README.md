@@ -454,6 +454,7 @@ understand all the following images. Check the image name and find corresponding
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/gauge_strait.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/path.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/bezier.png" height="150"/>
+    <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/boolean.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/text_polar.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/axis_radial.png" height="150"/>
     <img src="https://raw.githubusercontent.com/xxao/pero/master/examples/images/axis_strait.png" height="150"/>

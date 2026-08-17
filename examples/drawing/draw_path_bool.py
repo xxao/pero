@@ -20,6 +20,7 @@ class DrawTest(pero.Graphics):
         width, height = canvas.viewport.wh
         size = min((width-4*padding) / 3, (height-2*padding)) * 2/3
         shift = offset * size
+        anchor = (padding + shift, height - padding)
         
         # init matrix
         mat = pero.Matrix().translate(x_shift=size+shift+padding)
@@ -65,17 +66,22 @@ class DrawTest(pero.Graphics):
             line_color = pero.colors.Black,
             fill_color = pero.colors.Gray.trans(0.5))
         
+        label = pero.Text(
+            text_align = pero.TEXT_ALIGN_LEFT)
+        
         # draw union
         result = path_1.clone().union(path_2).union(path_3)
         shape_1.draw(canvas, path=path_1)
         shape_2.draw(canvas, path=path_2)
         shape_3.draw(canvas, path=path_3)
         pather.draw(canvas, path=result)
+        label.draw(canvas, text="Union", x=anchor[0], y=anchor[1])
         
         # offset paths
         path_1.transform(mat)
         path_2.transform(mat)
         path_3.transform(mat)
+        anchor = mat.transform(*anchor)
         
         # draw subtract
         result = path_1.clone().subtract(path_2).subtract(path_3)
@@ -83,11 +89,13 @@ class DrawTest(pero.Graphics):
         shape_2.draw(canvas, path=path_2)
         shape_3.draw(canvas, path=path_3)
         pather.draw(canvas, path=result)
+        label.draw(canvas, text="Subtract", x=anchor[0], y=anchor[1])
         
         # offset paths
         path_1.transform(mat)
         path_2.transform(mat)
         path_3.transform(mat)
+        anchor = mat.transform(*anchor)
         
         # draw intersect
         result = path_1.clone().intersect(path_2).intersect(path_3)
@@ -95,6 +103,7 @@ class DrawTest(pero.Graphics):
         shape_2.draw(canvas, path=path_2)
         shape_3.draw(canvas, path=path_3)
         pather.draw(canvas, path=result)
+        label.draw(canvas, text="Intersect", x=anchor[0], y=anchor[1])
 
 
 # run test
