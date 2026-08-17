@@ -1,6 +1,9 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
+# prepare modules
+from . import np
+
 # import main objects
 from . fonts import Font, FontManager, FONTS
 from . graphics import Graphics

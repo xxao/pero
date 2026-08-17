@@ -1,9 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# prepare modules
-from . import np
-
 # import main objects
 from . frame import Frame
 from . matrix import Matrix
