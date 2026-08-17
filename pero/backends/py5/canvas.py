@@ -5,7 +5,8 @@ import py5
 import numpy
 from ... properties import *
 from ... colors import Transparent, Black
-from ... drawing import Canvas, Path, Matrix, ClipState
+from ... geometry import Path, Matrix
+from ... drawing import Canvas, ClipState
 from . enums import *
 
 

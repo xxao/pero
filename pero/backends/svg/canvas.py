@@ -4,7 +4,8 @@
 import numpy
 import html
 from ... properties import *
-from ... drawing import Canvas, Path, Matrix, ClipState, GroupState
+from ... geometry import Path, Matrix
+from ... drawing import Canvas, ClipState, GroupState
 from . enums import *
 
 # define constants

@@ -3,7 +3,8 @@
 
 from .. enums import *
 from .. properties import *
-from .. drawing import Graphics, Frame
+from .. geometry import Frame
+from .. drawing import Graphics
 from .. glyphs import Tooltip, TextTooltip
 from . tool import Tool
 

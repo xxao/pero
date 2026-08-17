@@ -2,7 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 from .. properties import *
-from .. drawing import Path
+from .. geometry import Path
 from . glyph import Glyph
 from . shapes import Line
 from . markers import MarkerProperty, Circle

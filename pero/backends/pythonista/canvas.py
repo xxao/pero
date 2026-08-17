@@ -4,7 +4,8 @@
 import ui
 from ... properties import *
 from ... colors import Transparent, Black
-from ... drawing import Canvas, Matrix, ClipState
+from ... geometry import Matrix
+from ... drawing import Canvas, ClipState
 from . enums import *
 
 

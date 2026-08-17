@@ -4,7 +4,7 @@
 import numpy
 from .. enums import *
 from .. properties import *
-from .. drawing import Path, FrameProperty
+from .. geometry import Path, FrameProperty
 from . glyph import Glyph
 from . markers import Marker
 

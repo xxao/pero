@@ -5,7 +5,8 @@ import numpy
 from math import floor
 from . loader import QPointF, QLineF, QRectF, QColor, QPen, QBrush, QPainterPath, QFontMetrics
 from ... properties import *
-from ... drawing import Canvas, Path, Matrix, ClipState
+from ... geometry import Path, Matrix
+from ... drawing import Canvas, ClipState
 from . enums import *
 
 

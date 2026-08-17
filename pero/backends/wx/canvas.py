@@ -5,7 +5,8 @@ import numpy
 import wx
 from ... properties import *
 from ... colors import Transparent
-from ... drawing import Canvas, Path, Matrix, ClipState
+from ... geometry import Path, Matrix
+from ... drawing import Canvas, ClipState
 from . enums import *
 
 

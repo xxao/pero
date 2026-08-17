@@ -3,7 +3,8 @@
 
 from .. enums import *
 from .. properties import *
-from .. drawing import Graphics, Path
+from .. geometry import Path
+from .. drawing import Graphics
 from . glyph import Glyph
 
 

@@ -13,6 +13,7 @@ from . properties import *
 from . scales import *
 from . formatters import *
 from . tickers import *
+from . geometry import *
 from . drawing import *
 from . glyphs import *
 from . backends import *

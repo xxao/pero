@@ -3,9 +3,8 @@
 
 from .. enums import *
 from .. properties import *
+from .. geometry import Path, Frame, FrameProperty
 from . graphics import Graphics
-from . frame import Frame, FrameProperty
-from . path import Path
 
 
 class Layout(Graphics):

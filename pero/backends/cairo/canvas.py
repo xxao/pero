@@ -4,7 +4,8 @@
 import cairo
 import numpy
 from ... properties import *
-from ... drawing import Canvas, Path, Matrix, ClipState
+from ... geometry import Path, Matrix
+from ... drawing import Canvas, ClipState
 from . enums import *
 
 

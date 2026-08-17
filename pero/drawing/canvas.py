@@ -6,9 +6,8 @@ import numpy
 from .. enums import *
 from .. events import *
 from .. properties import *
+from .. geometry import Frame, Path
 from . fonts import FONTS
-from . frame import Frame
-from . path import Path
 
 
 class Canvas(PropertySet):

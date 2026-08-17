@@ -4,7 +4,8 @@
 import numpy
 from .. enums import *
 from .. properties import *
-from .. drawing import Matrix, Path, make_ngon
+from .. geometry import Matrix, Path
+from .. drawing import make_ngon
 from . glyph import Glyph
 
 

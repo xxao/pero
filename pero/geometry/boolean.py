@@ -9,7 +9,7 @@ from . import helpers
 from .bezier import Bezier
 
 # define constants
-_PARAM_EPSILON = 1e-9
+PARAM_EPSILON = 1e-9
 
 
 class _Segment(object):
@@ -61,7 +61,7 @@ class _Segment(object):
                 
                 u1 = helpers.dot(helpers.subtract(c1, start), baseline) / (length * length)
                 u2 = helpers.dot(helpers.subtract(c2, start), baseline) / (length * length)
-                if -_PARAM_EPSILON <= u1 <= u2 <= 1. + _PARAM_EPSILON:
+                if -PARAM_EPSILON <= u1 <= u2 <= 1. + PARAM_EPSILON:
                     
                     return _Segment(PATH_LINE, start, end,
                         operand = operand,
@@ -171,7 +171,7 @@ class _Segment(object):
         
         for t in self.curve.ycuts(y):
             
-            if t < -_PARAM_EPSILON or t >= 1.-_PARAM_EPSILON:
+            if t < -PARAM_EPSILON or t >= 1.-PARAM_EPSILON:
                 continue
             
             t = max(0., t)
@@ -205,7 +205,7 @@ class _Segment(object):
         """Adds a split parameter."""
         
         value = min(1., max(0., float(t)))
-        if not any(abs(value - x) <= _PARAM_EPSILON for x in self.params):
+        if not any(abs(value - x) <= PARAM_EPSILON for x in self.params):
             self.params.append(value)
     
     
@@ -235,7 +235,7 @@ class _Segment(object):
         params = sorted(self.params)
         for t1, t2 in zip(params[:-1], params[1:]):
             
-            if t2-t1 <= _PARAM_EPSILON:
+            if t2-t1 <= PARAM_EPSILON:
                 continue
             
             piece = self.slice(t1, t2)
@@ -308,7 +308,7 @@ class _Segment(object):
         if helpers.distance(self.end, other.start) > tolerance*8.:
             return None
         
-        if self.source is other.source and abs(self.t2-other.t1) <= _PARAM_EPSILON:
+        if self.source is other.source and abs(self.t2-other.t1) <= PARAM_EPSILON:
             return self.source.slice(self.t1, other.t2)
         
         if self.kind != PATH_LINE or other.kind != PATH_LINE:
@@ -642,8 +642,8 @@ def _find_intersections(segments, tolerance):
                 
                 if first.operand == second.operand \
                     and first.contour == second.contour \
-                    and (t1 <= _PARAM_EPSILON and t2 >= 1.-_PARAM_EPSILON) \
-                        or (t2 <= _PARAM_EPSILON and t1 >= 1.-_PARAM_EPSILON):
+                    and (t1 <= PARAM_EPSILON and t2 >= 1. - PARAM_EPSILON) \
+                        or (t2 <= PARAM_EPSILON and t1 >= 1. - PARAM_EPSILON):
                     continue
                 
                 first.split(t1)

@@ -2,10 +2,9 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from . import utils
+from .. import geometry
 from ..enums import *
-from .path import Path
-from .matrix import Matrix
+from ..geometry import Matrix, Path
 
 
 def make_arc(x, y, radius, start_angle, end_angle, clockwise=True, fill_rule=EVENODD):
@@ -420,7 +419,7 @@ def make_donut(x, y, inner_radius, outer_radius, start_angle, end_angle, clockwi
     """
     
     # get inner end point
-    iep = utils.ray((x, y), end_angle, inner_radius)
+    iep = geometry.ray((x, y), end_angle, inner_radius)
     
     # create path
     path = Path(fill_rule)
@@ -479,32 +478,32 @@ def make_donut_rounded(x, y, inner_radius, outer_radius, start_angle, end_angle,
     
     # get central points
     cr = inner_radius + 0.5 * (outer_radius - inner_radius)
-    rsp = utils.ray((x, y), start_angle, cr)
-    rep = utils.ray((x, y), end_angle, cr)
+    rsp = geometry.ray((x, y), start_angle, cr)
+    rep = geometry.ray((x, y), end_angle, cr)
     
     # get outer start points
     angle = numpy.atan(r1 / cr)
     start_angle_os = start_angle + direction * angle
-    osp = utils.ray((x, y), start_angle_os, outer_radius)
-    osc = utils.ray(osp, start_angle_os - direction * PI2, r1)
+    osp = geometry.ray((x, y), start_angle_os, outer_radius)
+    osc = geometry.ray(osp, start_angle_os - direction * PI2, r1)
     
     # get outer end points
     angle = numpy.atan(r2 / cr)
     end_angle_os = end_angle - direction * angle
-    oep = utils.ray((x, y), end_angle_os, outer_radius)
-    oec = utils.ray(oep, end_angle_os + direction * PI2, r2)
+    oep = geometry.ray((x, y), end_angle_os, outer_radius)
+    oec = geometry.ray(oep, end_angle_os + direction * PI2, r2)
     
     # get inner end points
     angle = numpy.atan(r3 / cr)
     end_angle_is = end_angle - direction * angle
-    iep = utils.ray((x, y), end_angle_is, inner_radius)
-    iec = utils.ray(iep, end_angle_is + direction * PI2, r3)
+    iep = geometry.ray((x, y), end_angle_is, inner_radius)
+    iec = geometry.ray(iep, end_angle_is + direction * PI2, r3)
     
     # get inner start points
     angle = numpy.atan(r4 / cr)
     start_angle_is = start_angle + direction * angle
-    isp = utils.ray((x, y), start_angle_is, inner_radius)
-    isc = utils.ray(isp, start_angle_is - direction * PI2, r4)
+    isp = geometry.ray((x, y), start_angle_is, inner_radius)
+    isc = geometry.ray(isp, start_angle_is - direction * PI2, r4)
     
     # create rounded wedge
     path = Path(fill_rule)
@@ -569,12 +568,12 @@ def make_donut_caped(x, y, inner_radius, outer_radius, start_angle, end_angle, c
     end_angle_s = (end_angle - direction * shrink) % PI2X
     
     # get control points
-    start = utils.ray((x, y), start_angle_s, outer_radius)
-    start_center = utils.ray((x, y), start_angle_s, cr)
-    end_center = utils.ray((x, y), end_angle_s, cr)
+    start = geometry.ray((x, y), start_angle_s, outer_radius)
+    start_center = geometry.ray((x, y), start_angle_s, cr)
+    end_center = geometry.ray((x, y), end_angle_s, cr)
     
     # make circle if too small
-    diff = utils.angle_difference(start_angle, end_angle, clockwise)
+    diff = geometry.angle_difference(start_angle, end_angle, clockwise)
     if abs(diff) <= abs(2 * shrink):
         path = Path(fill_rule)
         path.circle(*start_center, r)
@@ -679,14 +678,14 @@ def make_pie_rounded(x, y, radius, start_angle, end_angle, clockwise, corners, f
     # create start points
     angle = numpy.atan(r1 / radius)
     start_angle_s = start_angle + direction * angle
-    osp = utils.ray((x, y), start_angle_s, radius)
-    osc = utils.ray(osp, start_angle_s - direction * PI2, r1)
+    osp = geometry.ray((x, y), start_angle_s, radius)
+    osc = geometry.ray(osp, start_angle_s - direction * PI2, r1)
     
     # create end points
     angle = numpy.atan(r2 / radius)
     end_angle_s = end_angle - direction * angle
-    oep = utils.ray((x, y), end_angle_s, radius)
-    oec = utils.ray(oep, end_angle_s + direction * PI2, r2)
+    oep = geometry.ray((x, y), end_angle_s, radius)
+    oec = geometry.ray(oep, end_angle_s + direction * PI2, r2)
     
     # create path
     path = Path(fill_rule)

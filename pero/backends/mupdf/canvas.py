@@ -4,7 +4,8 @@
 import fitz
 import numpy
 from ... properties import *
-from ... drawing import Canvas, Path, Matrix
+from ... geometry import Path, Matrix
+from ... drawing import Canvas
 from . enums import *
 
 

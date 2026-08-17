@@ -3,7 +3,8 @@
 
 from .. enums import *
 from .. properties import *
-from .. drawing import Path, make_annulus, make_wedge
+from .. geometry import Path
+from .. drawing import make_annulus, make_wedge
 from . glyph import Glyph
 
 
