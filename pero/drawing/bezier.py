@@ -1,20 +1,16 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-# Adapted from the original code by Pomax
-# https://pomax.github.io/bezierinfo/
-
 # import modules
+import math
 import numpy
 from . import helpers
+from . import intersects
 from . frame import Frame
 
 # define constants
-PROJECTION_STEP = 0.1
 REDUCE_DEPTH = 32
-LUT_STEPS = 100
-INTERSECT_THRESHOLD = 0.1
-TOLERANCE = 1e-3
+REDUCE_LIMIT = 4096
 
 
 class Bezier(object):
@@ -72,15 +68,15 @@ class Bezier(object):
         
         self._t1 = 0.
         self._t2 = 1.
-        self._lut = []
         
         self._is_simple = None
         self._is_line = None
+        self._is_linear = None
         
         self._bbox = None
         self._extremes = None
         self._inflections = None
-        self._length = None
+        self._reduced = None
         
         self._derivs = helpers.derivatives(*self.points)
     
@@ -197,14 +193,41 @@ class Bezier(object):
         if self._is_line is None:
             
             c1, c2, p2 = helpers.align(self._p1, self._p2, self._c1, self._c2, self._p2)
-            tolerance = p2[0]*TOLERANCE
+            _, tolerance = helpers.tolerances(self.points)
             
             self._is_line = (
                 abs(c1[1]) <= tolerance and
                 abs(c2[1]) <= tolerance and
-                0 <= c1[0] <= c2[0] <= p2[0])
+                -tolerance <= c1[0] <= c2[0] <= p2[0]+tolerance)
         
         return self._is_line
+    
+    
+    def is_linear(self):
+        """
+        Gets a value indicating if current curve is a straight line with linear
+        parameterization.
+        
+        Returns:
+            bool
+                Returns True if linearly parameterized, False otherwise.
+        """
+        
+        if self._is_linear is None:
+            
+            if not self.is_line():
+                self._is_linear = False
+                return self._is_linear
+            
+            c1 = helpers.relative(self._p1, self._p2, 1./3.)
+            c2 = helpers.relative(self._p1, self._p2, 2./3.)
+            _, tolerance = helpers.tolerances(self.points)
+            
+            self._is_linear = (
+                helpers.distance(self._c1, c1) <= tolerance and
+                helpers.distance(self._c2, c2) <= tolerance)
+        
+        return self._is_linear
     
     
     def is_simple(self):
@@ -240,8 +263,7 @@ class Bezier(object):
                 
                 else:
                     s = nx1*nx2 + ny1*ny2
-                    a = abs(numpy.arccos(s))
-                    self._is_simple = a < numpy.pi/3
+                    self._is_simple = s >= .5
         
         return self._is_simple
     
@@ -272,34 +294,6 @@ class Bezier(object):
         return self._bbox.clone()
     
     
-    def length(self):
-        """
-        Calculates the length of current curve using numerical approximation.
-        
-        Returns:
-            float
-                Current curve length.
-        """
-        
-        if self._length is None:
-            self._length = 0
-            
-            if self.is_line():
-                dx = self._x2 - self._x1
-                dy = self._y2 - self._y1
-                self._length = numpy.sqrt(dx*dx + dy*dy)
-                return self._length
-            
-            for i in range(len(helpers.T_VALUES)):
-                t = 0.5 * helpers.T_VALUES[i] + 0.5
-                dx, dy = self.derivative(t)
-                self._length += helpers.C_VALUES[i] * numpy.sqrt(dx*dx + dy*dy)
-            
-            self._length *= .5
-        
-        return self._length
-    
-    
     def extremes(self):
         """
         Calculates all extremes of current curve. For each dimension it provides
@@ -316,19 +310,20 @@ class Bezier(object):
                 self._extremes = ((), ())
                 return self._extremes
             
-            ex = [[], []]
+            ex = []
             
             for dim in (0, 1):
                 s = lambda v: v[dim]
                 
                 p = list(map(s, self._derivs[0]))
-                ex[dim] = helpers.droots(p)
+                roots = []
                 
-                p = list(map(s, self._derivs[1]))
-                ex[dim] += helpers.droots(p)
+                for root in helpers.droots(p):
+                    root = helpers.snap_t(root, helpers.ROOT_EPSILON)
+                    if helpers.in_unit(root, helpers.ROOT_EPSILON):
+                        roots.append(min(1., max(0., root)))
                 
-                f = lambda v: (0 <= v <= 1)
-                ex[dim] = list(filter(f, ex[dim]))
+                ex.append(tuple(helpers.unique(roots, helpers.ROOT_EPSILON)))
             
             self._extremes = tuple(ex)
         
@@ -347,7 +342,7 @@ class Bezier(object):
         if self._inflections is None:
             
             if self.is_line():
-                self._inflections = []
+                self._inflections = ()
                 return self._inflections
             
             p = helpers.align(self._p1, self._p2, *self.points)
@@ -357,66 +352,99 @@ class Bezier(object):
             c = float(p[1][0] * p[2][1])
             d = float(p[3][0] * p[2][1])
             
-            v1 = 18 * (-3*a + 2*b + 3*c - d)
-            v2 = 18 * (3*a - b - 3*c)
-            v3 = 18 * (c - a)
+            coeffs = numpy.array((
+                18 * (-3*a + 2*b + 3*c - d),
+                18 * (3*a - b - 3*c),
+                18 * (c - a)), dtype=float)
             
-            if helpers.equals(v1, 0, TOLERANCE):
-                
-                if not helpers.equals(v2, 0, TOLERANCE):
-                    t = -v3 / v2
-                    if 0 <= t <= 1:
-                        return [t]
-                return []
+            scale = max(abs(x) for x in coeffs)
+            if scale == 0:
+                self._inflections = ()
+                return self._inflections
             
-            d = 2*v1
-            if helpers.equals(d, 0, TOLERANCE):
-                return []
+            coeffs /= scale
+            while len(coeffs) > 1 and abs(coeffs[0]) <= helpers.COEFF_EPSILON:
+                coeffs = coeffs[1:]
             
-            trm = v2*v2 - 4*v1*v3
-            if trm < 0:
-                return []
+            result = []
+            if len(coeffs) > 1:
+                for root in numpy.roots(coeffs):
+                    
+                    if abs(root.imag) > helpers.ROOT_EPSILON:
+                        continue
+                    
+                    t = helpers.snap_t(float(root.real), helpers.ROOT_EPSILON)
+                    if helpers.in_unit(t, helpers.ROOT_EPSILON):
+                        result.append(t)
             
-            sq = numpy.sqrt(v2*v2 - 4*v1*v3)
-            buff = []
-            
-            t1 = (sq-v2)/d
-            if 0 <= t1 <= 1:
-                buff.append(t1)
-            
-            t2 = -(v2+sq)/d
-            if 0 <= t2 <= 1:
-                buff.append(t2)
-            
-            self._inflections = tuple(buff)
+            self._inflections = tuple(helpers.unique(result, helpers.ROOT_EPSILON))
         
         return self._inflections
     
     
-    def lut(self, steps=LUT_STEPS):
+    def reduced(self):
         """
-        Generates a look-up table of coordinates on current curve, spaced at
-        parametrically equidistant intervals of 1/steps.
-        
-        Args:
-            steps: int
-                Number of steps to generate.
+        Splits current curve into multiple simple segments, where the simpleness
+        is defined as having all control points on the same side of the
+        baseline, the control-to-end-point lines may not cross and the angle
+        between the end point normals is no greater than 60 degrees.
         
         Returns:
-            ((float, float),)
-                Positions look-up table.
+            (pero.Bezier,)
+                Collection of simple segments.
         """
         
-        if len(self._lut) == steps+1:
-            return self._lut
+        if self._reduced is None:
+            
+            curve = self
+            if self._t1 != 0. or self._t2 != 1.:
+                curve = self.clone()
+                curve._t1 = 0.
+                curve._t2 = 1.
+            
+            if curve.is_simple():
+                self._reduced = tuple((curve,))
+                return self._reduced
+            
+            pass1 = []
+            pass2 = []
+            
+            extremes = curve.extremes()
+            extremes = helpers.unique(
+                (0., 1.) + extremes[0] + extremes[1],
+                helpers.ROOT_EPSILON)
+            
+            t1 = extremes[0]
+            for i in range(1, len(extremes)):
+                t2 = extremes[i]
+                segment = curve.slice(t1, t2)
+                pass1.append(segment)
+                t1 = t2
+            
+            stack = [(segment, 0.) for segment in reversed(pass1)]
+            count = 0
+            while stack:
+                
+                segment, depth = stack.pop()
+                count += 1
+                
+                if count > REDUCE_LIMIT:
+                    raise RuntimeError("Bezier reduction limit exceeded.")
+                
+                if segment.is_simple():
+                    pass2.append(segment)
+                    continue
+                
+                if depth >= REDUCE_DEPTH:
+                    raise RuntimeError("Bezier reduction depth exceeded.")
+                
+                left, right = segment.split(0.5)
+                stack.append((right, depth + 1))
+                stack.append((left, depth + 1))
+            
+            self._reduced = tuple(pass2)
         
-        self._lut = []
-        for t in range(steps+1):
-            self._lut.append(self.point(float(t)/steps))
-        
-        self._lut = tuple(self._lut)
-        
-        return self._lut
+        return self._reduced
     
     
     def point(self, t):
@@ -453,8 +481,8 @@ class Bezier(object):
     
     def derivative(self, t):
         """
-        Calculates the curve tangent at the specified t-value as a not-
-        normalized vector.
+        Calculates the curve tangent at the specified t-value as a
+        not-normalized vector.
         
         Args:
             t: float
@@ -493,10 +521,14 @@ class Bezier(object):
         """
         
         dx, dy = self.derivative(t)
-        q = numpy.sqrt(dx*dx + dy*dy)
+        scale = max(abs(dx), abs(dy))
         
-        if dx == 0 and dy == 0:
+        if scale == 0:
             return None, None
+        
+        dx /= scale
+        dy /= scale
+        q = math.hypot(dx, dy)
         
         return dx/q, dy/q
     
@@ -516,12 +548,14 @@ class Bezier(object):
         """
         
         dx, dy = self.derivative(t)
+        scale = max(abs(dx), abs(dy))
         
-        if dx == 0 and dy == 0:
-            print("Bad curve:", self)
+        if scale == 0:
             return None, None
         
-        q = numpy.sqrt(dx*dx + dy*dy)
+        dx /= scale
+        dy /= scale
+        q = math.hypot(dx, dy)
         
         return -dy/q, dx/q
     
@@ -592,10 +626,10 @@ class Bezier(object):
         x2, y2 = h[0][3]
         right = Bezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2)
         
-        left._t1 = self._scale_t(0, 0, 1, self._t1, self._t2)
-        left._t2 = self._scale_t(t, 0, 1, self._t1, self._t2)
-        right._t1 = self._scale_t(t, 0, 1, self._t1, self._t2)
-        right._t2 = self._scale_t(1, 0, 1, self._t1, self._t2)
+        left._t1 = helpers.scale_t(0, 0, 1, self._t1, self._t2)
+        left._t2 = helpers.scale_t(t, 0, 1, self._t1, self._t2)
+        right._t1 = helpers.scale_t(t, 0, 1, self._t1, self._t2)
+        right._t2 = helpers.scale_t(1, 0, 1, self._t1, self._t2)
         
         return left, right
     
@@ -629,109 +663,6 @@ class Bezier(object):
         left, right = right.split(t2)
         
         return left
-    
-    
-    def reduce(self):
-        """
-        Splits current curve into multiple simple segments, where the simpleness
-        is defined as having all control points on the same side of the
-        baseline, the control-to-end-point lines may not cross and the angle
-        between the end point normals is no greater than 60 degrees.
-        
-        Returns:
-            (pero.Bezier,)
-                Collection of simple segments.
-        """
-        
-        if self.is_simple():
-            return tuple((self, ))
-        
-        pass1 = []
-        pass2 = []
-        
-        extremes = self.extremes()
-        extremes = list(set([0] + extremes[0] + extremes[1] + [1]))
-        extremes.sort()
-        
-        t1 = extremes[0]
-        for i in range(1, len(extremes)):
-            t2 = extremes[i]
-            
-            segment = self.slice(t1, t2)
-            segment._t1 = t1
-            segment._t2 = t2
-            
-            pass1.append(segment)
-            t1 = t2
-        
-        stack = [(segment, 0) for segment in reversed(pass1)]
-        while stack:
-            
-            segment, depth = stack.pop()
-            
-            if segment.is_simple() or depth >= REDUCE_DEPTH:
-                pass2.append(segment)
-                continue
-            
-            left, right = segment.split(0.5)
-            stack.append((right, depth+1))
-            stack.append((left, depth+1))
-        
-        return tuple(pass2)
-    
-    
-    def project(self, x, y):
-        """
-        Finds the point on current curve, nearest to specified coordinates. This
-        gives back the on-curve coordinates, t-value and distance.
-        
-        Args:
-            x: int or float
-                X-coordinate of the point.
-            
-            y: int or float
-                Y-coordinate of the point.
-        
-        Returns:
-            (float, float, float, float)
-                Results as x,y coordinates, t-value and distance.
-        """
-        
-        lut = self.lut()
-        nearest = self._get_nearest_lut(lut, x, y)
-        idx = nearest[0]
-        dist = nearest[1]
-        ln = len(lut)-1.
-        
-        if idx == 0 or idx == ln:
-            t = idx / ln
-            p = self.point(t)
-            
-            return p[0], p[1], t, dist
-        
-        t1 = (idx - 1.) / ln
-        t2 = (idx + 1.) / ln
-        t = t1
-        ft = t
-        step = PROJECTION_STEP/ln
-        dist += 1
-        
-        while t < t2+step:
-            
-            p = self.point(t)
-            dx = x - p[0]
-            dy = y - p[1]
-            d = numpy.sqrt(dx*dx + dy*dy)
-            
-            if d < dist:
-                dist = d
-                ft = t
-            
-            t += step
-        
-        p = self.point(ft)
-        
-        return p[0], p[1], ft, dist
     
     
     def equals(self, curve, threshold=0):
@@ -800,6 +731,9 @@ class Bezier(object):
                 Intersections as t-values for current curve.
         """
         
+        if x1 == x2 and y1 == y2:
+            return tuple()
+        
         return tuple(helpers.roots((x1, y1), (x2, y2), *self.points))
     
     
@@ -839,7 +773,7 @@ class Bezier(object):
         return self.cuts(-1, y, 1, y)
     
     
-    def intersects(self, curve=None, threshold=INTERSECT_THRESHOLD):
+    def intersects(self, curve=None, tolerance=None):
         """
         Finds the intersections between current curve and another. Intersections
         are returned as pairs of t-values, where the first corresponds to this
@@ -852,37 +786,32 @@ class Bezier(object):
             curve: pero.Bezier or None
                 Curve to intersect with current curve.
             
-            threshold: float
-                Resolution threshold as a maximum size of a segment.
+            tolerance: float or None
+                Coordinate tolerance used for intersection matching. A
+                scale-aware tolerance is calculated if omitted.
         
         Returns:
             ((float,float),)
                 Intersections as t-values for current and given curves.
         """
         
-        if curve is None:
-            inters = self._intersect_self(threshold)
-        else:
-            inters = self._intersect_curve(curve, threshold)
+        return intersects.intersects(self, curve, tolerance)
+    
+    
+    def reversed(self):
+        """
+        Creates a copy with reversed parameter direction.
         
-        if not inters:
-            return tuple()
+        Returns:
+            pero.Bezier
+                Cloned curve.
+        """
         
-        inters.sort()
-        buff = [inters[0]]
-        t1 = buff[-1]
-        
-        for t2 in inters[1:]:
-            
-            if not helpers.equals(t1[0], t2[0], TOLERANCE):
-                buff.append(t2)
-                t1 = t2
-            
-            elif not helpers.equals(t1[1], t2[1], TOLERANCE):
-                buff.append(t2)
-                t1 = t2
-        
-        return tuple(buff)
+        return Bezier(
+            self._x2, self._y2,
+            self._cx2, self._cy2,
+            self._cx1, self._cy1,
+            self._x1, self._y1)
     
     
     def clone(self):
@@ -937,105 +866,3 @@ class Bezier(object):
             x1 + dx, y1 + dy,
             x2 - dx, y2 - dy,
             x2, y2)
-    
-    
-    def _scale_t(self, t, ds, de, ts, te):
-        """Scales given t-value into new range."""
-    
-        return ts + (te-ts)*(t-ds)/(de-ds)
-    
-    
-    def _get_nearest_lut(self, lut, x, y):
-        """Gets closest item and distance from look-up table."""
-        
-        dist = numpy.power(2., 63)
-        idx = 0
-        
-        for i, p in enumerate(lut):
-            
-            dx = x - p[0]
-            dy = y - p[1]
-            d = numpy.sqrt(dx*dx + dy*dy)
-            
-            if d < dist:
-                dist = d
-                idx = i
-        
-        return idx, dist
-    
-    
-    def _intersect_self(self, threshold):
-        """Calculates all intersection points with self."""
-        
-        if self.is_line():
-            return []
-        
-        reduced = self.reduce()
-        
-        buff = []
-        for i in range(len(reduced)-2):
-            
-            seg1 = reduced[i:i+1]
-            seg2 = reduced[i+2:]
-            
-            pairs = []
-            for s1 in seg1:
-                for s2 in seg2:
-                    if s1.overlaps(s2):
-                        pairs.append((s1, s2))
-            
-            for pair in pairs:
-                buff += self._intersect_simple(pair[0], pair[1], threshold)
-        
-        return buff
-    
-    
-    def _intersect_curve(self, curve, threshold):
-        """Calculates all intersection points with given curve."""
-        
-        seg1 = self.reduce()
-        seg2 = curve.reduce()
-        
-        pairs = []
-        for s1 in seg1:
-            for s2 in seg2:
-                if s1.overlaps(s2):
-                    pairs.append((s1, s2))
-        
-        buff = []
-        for pair in pairs:
-            buff += self._intersect_simple(pair[0], pair[1], threshold)
-        
-        return buff
-    
-    
-    def _intersect_simple(self, c1, c2, threshold):
-        """Calculates all intersection points between two simple segments."""
-        
-        c1b = c1.bbox()
-        c2b = c2.bbox()
-        
-        if c1b.w + c1b.h < threshold and c2b.w + c2b.h < threshold:
-            t1 = 0.5 * (c1._t1 + c1._t2)
-            t2 = 0.5 * (c2._t1 + c2._t2)
-            return tuple(((t1, t2),))
-        
-        seg1 = (c1,)
-        if c1b.w + c1b.h >= threshold:
-            seg1 = c1.split(0.5)
-        
-        seg2 = (c2,)
-        if c2b.w + c2b.h >= threshold:
-            seg2 = c2.split(0.5)
-        
-        pairs = []
-        for s1 in seg1:
-            for s2 in seg2:
-                if s1.overlaps(s2):
-                    pairs.append((s1,s2))
-        
-        buff = []
-        for pair in pairs:
-            buff += self._intersect_simple(pair[0], pair[1], threshold)
-        
-        return buff

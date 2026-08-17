@@ -265,6 +265,63 @@ def rotate(p, angle, center=(0, 0)):
     return x, y
 
 
+def subtract(p1, p2):
+    """
+    Calculates a vector from two given points.
+    
+    Args:
+        p1: (float, float)
+            Point 1 as (x, y) coordinates.
+        
+        p2: (float, float)
+            Point 2 as (x, y) coordinates.
+    
+    Returns:
+        (float, float)
+            Vector as (x, y) coordinates.
+    """
+    
+    return p1[0]-p2[0], p1[1]-p2[1]
+
+
+def dot(p1, p2):
+    """
+    Calculates the dot product of two vectors.
+    
+    Args:
+        p1: (float, float)
+            Vector 1 as (x, y) coordinates.
+        
+        p2: (float, float)
+            Vector 2 as (x, y) coordinates.
+        
+    Returns:
+        float
+            Dot product of the vectors.
+    """
+    
+    return p1[0]*p2[0]+p1[1]*p2[1]
+
+
+def cross(p1, p2):
+    """
+    Calculates the cross product of two vectors.
+    
+    Args:
+        p1: (float, float)
+            Vector 1 as (x, y) coordinates.
+        
+        p2: (float, float)
+            Vector 2 as (x, y) coordinates.
+    
+    Returns:
+        float
+            Cross product of the vectors.
+    """
+    
+    return p1[0]*p2[1]-p1[1]*p2[0]
+
+
 def ray(c, angle, distance):
     """
     Calculates point coordinates with distance and angle from origin.

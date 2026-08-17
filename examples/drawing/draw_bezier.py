@@ -62,7 +62,6 @@ class DrawTest(pero.Graphics):
         pather = pero.Pather(fill_color=None, show_cursor=False)
         point = pero.Circle(fill_color="r", line_color="w", size=8)
         frame = pero.Rect(line_color="r", fill_color=None)
-        label = pero.Text(font_size=8, text_base=pero.TEXT_BASE_BOTTOM)
         
         # draw curve
         path = pero.Path.from_bezier(curve)
@@ -77,10 +76,6 @@ class DrawTest(pero.Graphics):
         for t in extremes[0]+extremes[1]:
             x, y = curve.point(t)
             point.draw(canvas, x=x, y=y)
-        
-        # draw length
-        length = "len: %.2f" % curve.length()
-        label.draw(canvas, text=length, x=bbox.x1+5, y=bbox.y2-5)
     
     
     def draw_normals(self, canvas, curve):
@@ -142,34 +137,10 @@ class DrawTest(pero.Graphics):
         pather.draw(canvas, path=path)
         
         # draw segments
-        for segment in curve.reduce():
+        for segment in curve.reduced():
             coords = segment.coords
             point.draw(canvas, x=coords[0], y=coords[1])
             point.draw(canvas, x=coords[-2], y=coords[-1])
-    
-    
-    def draw_projections(self, canvas, curve):
-        """Draws projections tests."""
-        
-        # init glyphs
-        pather = pero.Pather(fill_color=None, show_cursor=False)
-        point = pero.Circle(fill_color="r", line_color="w", size=8)
-        line = pero.Line(line_color="r")
-        
-        # draw curve
-        path = pero.Path.from_bezier(curve)
-        pather.draw(canvas, path=path)
-        
-        # init points
-        points = (
-            (50, 10), (50, 50), (50, 100), (50, 150),
-            (90, 10), (90, 50), (90, 100), (90, 150), (140, 200))
-        
-        # draw projections
-        for px, py in points:
-            x, y, t, dist = curve.project(px, py)
-            point.draw(canvas, x=px, y=py)
-            line.draw(canvas, x1=px, y1=py, x2=x, y2=y)
     
     
     def draw_cuts(self, canvas, curve):
@@ -329,10 +300,6 @@ class DrawTest(pero.Graphics):
         label.draw(canvas, text="Reduced")
         
         canvas.view(20, 270, relative=False)
-        self.draw_projections(canvas, curve)
-        label.draw(canvas, text="Projections")
-        
-        canvas.view(170, 0, relative=True)
         self.draw_cuts(canvas, curve)
         label.draw(canvas, text="XY Cuts")
         

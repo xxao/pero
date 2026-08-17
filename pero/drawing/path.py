@@ -44,6 +44,7 @@ class Path(object):
         self._commands = None
         self._anchors = None
         self._handles = None
+        self._points = None
         self._start_angle = None
         self._end_angle = None
         
@@ -233,6 +234,65 @@ class Path(object):
             self._handles = tuple(handles)
         
         return self._handles
+    
+    
+    def points(self):
+        """
+        Gets all coordinates as p1, c1, c2, p2.
+        
+        Returns:
+            ((float, float), )
+                Curve coordinates.
+        """
+        
+        # get points
+        if self._points is None:
+            points = []
+            
+            # parse paths
+            for path in self._paths:
+                
+                start = (0., 0.)
+                cursor = (0., 0.)
+                
+                # parse path
+                for command in path:
+                    
+                    # get data
+                    key = command[0]
+                    values = command[1:]
+                    
+                    # move to
+                    if key == PATH_MOVE:
+                        start = values
+                        cursor = start
+                    
+                    # line to
+                    elif key == PATH_LINE:
+                        dx = (values[0] - cursor[0]) / 3.
+                        dy = (values[1] - cursor[1]) / 3.
+                        c1 = (cursor[0] + dx, cursor[1] + dy)
+                        c2 = (values[0] - dx, values[1] - dy)
+                        points.extend((cursor, c1, c2, values))
+                        cursor = values
+                    
+                    # curve to
+                    elif key == PATH_CURVE:
+                        points.extend((cursor, values[:2], values[2:4], values[4:6]))
+                        cursor = values[4:6]
+                    
+                    # close
+                    elif key == PATH_CLOSE and cursor != start:
+                        dx = (start[0] - cursor[0]) / 3.
+                        dy = (start[1] - cursor[1]) / 3.
+                        c1 = (cursor[0] + dx, cursor[1] + dy)
+                        c2 = (start[0] - dx, start[1] - dy)
+                        points.extend((cursor, c1, c2, start))
+                        cursor = start
+            
+            self._points = tuple(points)
+        
+        return self._points
     
     
     def start(self):
@@ -538,29 +598,36 @@ class Path(object):
         """
         
         beziers = []
-        
+
+        # parse paths
         for path in self._paths:
             
             start = (0., 0.)
             cursor = (0., 0.)
-            
+
+            # parse path
             for command in path:
-                
+
+                # get data
                 key = command[0]
                 values = command[1:]
-                
+
+                 # move to
                 if key == PATH_MOVE:
                     start = values
                     cursor = values
-                
+
+                # line to
                 elif key == PATH_LINE:
                     beziers.append(Bezier.from_line(*cursor, *values))
                     cursor = values
-                
+
+                # curve to
                 elif key == PATH_CURVE:
                     beziers.append(Bezier(*cursor, *values[:6]))
                     cursor = values[4:6]
-                
+
+                # close
                 elif key == PATH_CLOSE and cursor != start:
                     beziers.append(Bezier.from_line(*cursor, *start))
                     cursor = start
@@ -575,6 +642,7 @@ class Path(object):
         self._commands = None
         self._anchors = None
         self._handles = None
+        self._points = None
         self._start_angle = None
         self._end_angle = None
     

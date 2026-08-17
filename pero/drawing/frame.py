@@ -219,6 +219,13 @@ class Frame(object):
     
     
     @property
+    def box(self):
+        """Gets rectangle as left, top, right, bottom."""
+        
+        return self._left, self._top, self._right, self._bottom
+    
+    
+    @property
     def points(self):
         """Gets rectangle as p1, p2, p3, p3 points starting from top left."""
         

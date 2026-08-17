@@ -8,7 +8,7 @@ from ..enums import *
 from . import helpers
 from .bezier import Bezier
 
-
+# define constants
 _PARAM_EPSILON = 1e-9
 
 
@@ -52,7 +52,7 @@ class _Segment(object):
             return None
         
         baseline = helpers.subtract(end, start)
-        length = helpers.length(baseline)
+        length = math.hypot(baseline[0], baseline[1])
         if length > tolerance:
             
             d1 = abs(helpers.cross(helpers.subtract(c1, start), baseline)) / length
@@ -133,8 +133,7 @@ class _Segment(object):
     def bbox(self):
         """Gets bounding box of the segment as (min_x, min_y, max_x, max_y)."""
         
-        bbox = self.curve.bbox()
-        return bbox.left, bbox.top, bbox.right, bbox.bottom
+        return self.curve.bbox().box
     
     
     def point(self, t):
@@ -258,14 +257,14 @@ class _Segment(object):
         point = self.point(.5)
         tangent = self.derivative(.5)
         
-        if helpers.length(tangent) <= tolerance:
+        if math.hypot(tangent[0], tangent[1]) <= tolerance:
             for t in (.37, .63, .2, .8):
                 point = self.point(t)
                 tangent = self.derivative(t)
-                if helpers.length(tangent) > tolerance:
+                if math.hypot(tangent[0], tangent[1]) > tolerance:
                     break
         
-        length = helpers.length(tangent)
+        length = math.hypot(tangent[0], tangent[1])
         if length <= tolerance:
             return None
         
@@ -317,7 +316,10 @@ class _Segment(object):
         
         a = helpers.subtract(self.end, self.start)
         b = helpers.subtract(other.end, other.start)
-        limit = tolerance*max(helpers.length(a), helpers.length(b), 1.)
+        limit = tolerance*max(
+            math.hypot(a[0], a[1]),
+            math.hypot(b[0], b[1]),
+            1.)
         
         if abs(helpers.cross(a, b)) > limit or helpers.dot(a, b) < 0:
             return None
@@ -327,46 +329,12 @@ class _Segment(object):
             contour = self.contour)
     
     
-    def intersects(self, other, tolerance, scale):
+    def intersects(self, other, tolerance):
         """Gets intersection parameter pairs with self or given segment."""
         
-        if other is None:
-            return self._intersect_self(tolerance, scale)
+        curve = None if other is None else other.curve
         
-        if self.kind == PATH_LINE and other.kind == PATH_LINE:
-            return self._intersect_line_line(other, tolerance)
-        
-        if self.kind == PATH_LINE:
-            return self._intersect_line_curve(other, tolerance)
-        
-        if other.kind == PATH_LINE:
-            return self._intersect_curve_line(other, tolerance)
-        
-        if self.curve.equals(other.curve, tolerance * 8.):
-            return [(0., 0.), (1., 1.)]
-        
-        if self.curve.equals(other.reversed().curve, tolerance * 8.):
-            return [(0., 1.), (1., 0.)]
-        
-        overlaps = self._intersect_overlaps(other, tolerance)
-        if overlaps:
-            return overlaps
-        
-        box1 = self.bbox()
-        box2 = other.bbox()
-        overlap_w = min(box1[2], box2[2]) - max(box1[0], box2[0])
-        overlap_h = min(box1[3], box2[3]) - max(box1[1], box2[1])
-        
-        endpoints = self._intersect_endpoints(other, tolerance)
-        if endpoints and (overlap_w <= tolerance * 2. or overlap_h <= tolerance * 2.):
-            return endpoints
-        
-        threshold = max(tolerance * 4., scale * 1e-9)
-        result = list(endpoints)
-        result.extend(self.curve.intersects(other.curve, threshold))
-        result = [(helpers.snap(x[0], 1e-7), helpers.snap(x[1], 1e-7)) for x in result]
-        
-        return helpers.unique_pairs(result, 1e-7)
+        return self.curve.intersects(curve, tolerance)
     
     
     def _init_curve(self, start, c1, c2, end):
@@ -407,153 +375,6 @@ class _Segment(object):
         return a and not b
     
     
-    def _intersect_self(self, tolerance, scale):
-        """Gets self-intersection parameter pairs."""
-        
-        if self.kind == PATH_LINE:
-            return []
-        
-        threshold = max(tolerance*4., scale*1e-9)
-        result = [x for x in self.curve.intersects(None, threshold) if abs(x[0]-x[1]) > 1e-5]
-        
-        return helpers.unique_pairs(result, 1e-6)
-    
-    
-    def _intersect_line_line(self, other, tolerance):
-        """Gets line intersection parameter pairs with another line segment."""
-        
-        p = self.start
-        r = helpers.subtract(self.end, self.start)
-        q = other.start
-        s = helpers.subtract(other.end, other.start)
-        rxs = helpers.cross(r, s)
-        qmp = helpers.subtract(q, p)
-        limit = tolerance * max(helpers.length(r), helpers.length(s), 1.)
-        
-        if abs(rxs) > limit:
-            t1 = helpers.cross(qmp, s) / rxs
-            t2 = helpers.cross(qmp, r) / rxs
-            if helpers.in_unit(t1, _PARAM_EPSILON) and helpers.in_unit(t2, _PARAM_EPSILON):
-                return [(t1, t2)]
-            return []
-        
-        if abs(helpers.cross(qmp, r)) > limit:
-            return []
-        
-        rr = helpers.dot(r, r)
-        ss = helpers.dot(s, s)
-        if rr == 0 or ss == 0:
-            return []
-        
-        t0 = helpers.dot(qmp, r) / rr
-        t1 = t0 + helpers.dot(s, r) / rr
-        low = max(0., min(t0, t1))
-        high = min(1., max(t0, t1))
-        if high < low - _PARAM_EPSILON:
-            return []
-        
-        result = []
-        for t1 in (low, high):
-            point = self.point(t1)
-            t2 = helpers.dot(helpers.subtract(point, q), s) / ss
-            if helpers.in_unit(t2, _PARAM_EPSILON):
-                result.append((t1, t2))
-        
-        return helpers.unique_pairs(result, _PARAM_EPSILON)
-    
-    
-    def _intersect_line_curve(self, other, tolerance):
-        """Gets line intersection parameter pairs with another curve segment."""
-        
-        return [(b, a) for a, b in other._intersect_curve_line(self, tolerance)]
-    
-    
-    def _intersect_curve_line(self, other, tolerance):
-        """Gets curve intersection parameter pairs with another line segment."""
-        
-        direction = helpers.subtract(other.end, other.start)
-        length = helpers.dot(direction, direction)
-        if length == 0:
-            return []
-        
-        result = []
-        
-        for t1 in self.curve.cuts(*other.start, *other.end):
-            
-            if not helpers.in_unit(t1, _PARAM_EPSILON):
-                continue
-            
-            p = self.point(t1)
-            t2 = helpers.dot(helpers.subtract(p, other.start), direction) / length
-            distance = helpers.line_distance(other.start, other.end, p)
-            
-            if helpers.in_unit(t2, _PARAM_EPSILON) and distance <= tolerance * 4.:
-                result.append((t1, t2))
-        
-        return helpers.unique_pairs(result, _PARAM_EPSILON)
-    
-    
-    def _intersect_candidates(self, point, tolerance):
-        
-        dx = max(x[0] for x in self.points) - min(x[0] for x in self.points)
-        dy = max(x[1] for x in self.points) - min(x[1] for x in self.points)
-        roots = self.curve.xcuts(point[0]) if dx >= dy else self.curve.ycuts(point[1])
-        
-        result = []
-        for t in roots:
-            if (helpers.in_unit(t, _PARAM_EPSILON) and
-                    helpers.distance(self.point(t), point) <= tolerance * 8.):
-                result.append(min(1., max(0., t)))
-        
-        return result
-    
-    
-    def _intersect_overlaps(self, other, tolerance):
-        """pass"""
-        
-        candidates = []
-        
-        for t1, p in ((0., self.start), (1., self.end)):
-            for t2 in other._intersect_candidates(p, tolerance):
-                candidates.append((t1, t2))
-        
-        for t2, p in ((0., other.start), (1., other.end)):
-            for t1 in self._intersect_candidates(p, tolerance):
-                candidates.append((t1, t2))
-        
-        candidates = helpers.unique_pairs(candidates, _PARAM_EPSILON)
-        if len(candidates) < 2:
-            return []
-        
-        result = []
-        for i, left in enumerate(candidates[:-1]):
-            for right in candidates[i + 1:]:
-                
-                if abs(left[0] - right[0]) <= _PARAM_EPSILON:
-                    continue
-                if abs(left[1] - right[1]) <= _PARAM_EPSILON:
-                    continue
-                
-                a = self.slice(left[0], right[0])
-                b = other.slice(left[1], right[1])
-                if a.curve.equals(b.curve, tolerance * 8.):
-                    result.extend((left, right))
-        
-        return result
-    
-    
-    def _intersect_endpoints(self, other, tolerance):
-        """pass"""
-        
-        result = []
-        for t1, p1 in ((0., self.start), (1., self.end)):
-            for t2, p2 in ((0., other.start), (1., other.end)):
-                if helpers.distance(p1, p2) <= tolerance*8.:
-                    result.append((t1, t2))
-        
-        return result
-
-
 class _Contour(object):
     """Represents an ordered closed collection of path segments."""
     
@@ -738,8 +559,8 @@ class _Nodes(object):
 def operate(first, second, operation):
     """Returns commands representing a boolean operation on two paths."""
     
-    points = [p for c in first.beziers() for p in c.points]
-    points += [p for c in second.beziers() for p in c.points]
+    points = list(first.points())
+    points.extend(second.points())
     scale, tolerance = helpers.tolerances(points)
     
     contours_a, segments_a = _parse_path(first, 0, tolerance)
@@ -749,7 +570,7 @@ def operate(first, second, operation):
     if not segments:
         return ()
     
-    _find_intersections(segments, tolerance, scale)
+    _find_intersections(segments, tolerance)
     
     boundary = []
     for seg in segments:
@@ -807,21 +628,17 @@ def _parse_path(path, operand_id, tolerance):
     return contours, segments
 
 
-def _find_intersections(segments, tolerance, scale):
+def _find_intersections(segments, tolerance):
     """Finds and marks splits at any segments intersections."""
     
     for i, first in enumerate(segments):
         
-        for t1, t2 in first.intersects(None, tolerance, scale):
+        for t1, t2 in first.intersects(None, tolerance):
             first.split(t1)
             first.split(t2)
         
         for second in segments[i+1:]:
-            
-            if not first.overlaps(second, tolerance):
-                continue
-            
-            for t1, t2 in first.intersects(second, tolerance, scale):
+            for t1, t2 in first.intersects(second, tolerance):
                 
                 if first.operand == second.operand \
                     and first.contour == second.contour \

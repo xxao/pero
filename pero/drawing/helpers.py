@@ -2,62 +2,35 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-import math
 from . utils import *
 
-# Legendre-Gauss abscissas
-T_VALUES = (
-  -0.0640568928626056260850430826247450385909,
-   0.0640568928626056260850430826247450385909,
-  -0.1911188674736163091586398207570696318404,
-   0.1911188674736163091586398207570696318404,
-  -0.3150426796961633743867932913198102407864,
-   0.3150426796961633743867932913198102407864,
-  -0.4337935076260451384870842319133497124524,
-   0.4337935076260451384870842319133497124524,
-  -0.5454214713888395356583756172183723700107,
-   0.5454214713888395356583756172183723700107,
-  -0.6480936519369755692524957869107476266696,
-   0.6480936519369755692524957869107476266696,
-  -0.7401241915785543642438281030999784255232,
-   0.7401241915785543642438281030999784255232,
-  -0.8200019859739029219539498726697452080761,
-   0.8200019859739029219539498726697452080761,
-  -0.8864155270044010342131543419821967550873,
-   0.8864155270044010342131543419821967550873,
-  -0.9382745520027327585236490017087214496548,
-   0.9382745520027327585236490017087214496548,
-  -0.9747285559713094981983919930081690617411,
-   0.9747285559713094981983919930081690617411,
-  -0.9951872199970213601799974097007368118745,
-   0.9951872199970213601799974097007368118745)
+# define constants
+COEFF_EPSILON = 1e-14
+ROOT_EPSILON = 1e-9
 
-# Legendre-Gauss weights
-C_VALUES = (
-  0.1279381953467521569740561652246953718517,
-  0.1279381953467521569740561652246953718517,
-  0.1258374563468282961213753825111836887264,
-  0.1258374563468282961213753825111836887264,
-  0.1216704729278033912044631534762624256070,
-  0.1216704729278033912044631534762624256070,
-  0.1155056680537256013533444839067835598622,
-  0.1155056680537256013533444839067835598622,
-  0.1074442701159656347825773424466062227946,
-  0.1074442701159656347825773424466062227946,
-  0.0976186521041138882698806644642471544279,
-  0.0976186521041138882698806644642471544279,
-  0.0861901615319532759171852029837426671850,
-  0.0861901615319532759171852029837426671850,
-  0.0733464814110803057340336152531165181193,
-  0.0733464814110803057340336152531165181193,
-  0.0592985849154367807463677585001085845412,
-  0.0592985849154367807463677585001085845412,
-  0.0442774388174198061686027482113382288593,
-  0.0442774388174198061686027482113382288593,
-  0.0285313886289336631813078159518782864491,
-  0.0285313886289336631813078159518782864491,
-  0.0123412297999871995468056670700372915759,
-  0.0123412297999871995468056670700372915759)
+
+def scale_t(t, ds, de, ts, te):
+    """Scales given t-value into new range."""
+    
+    return ts + (te - ts) * (t - ds) / (de - ds)
+
+
+def snap_t(value, epsilon):
+    """Snaps given t-value to 0 or 1 if within given epsilon."""
+    
+    if abs(value) <= epsilon:
+        return 0.
+    
+    if abs(value - 1.) <= epsilon:
+        return 1.
+    
+    return value
+
+
+def in_unit(value, epsilon):
+    """Returns True if given value is within unit range with given epsilon."""
+    
+    return -epsilon <= value <= 1.+epsilon
 
 
 def tolerances(points):
@@ -69,16 +42,17 @@ def tolerances(points):
     xs = [float(x[0]) for x in points]
     ys = [float(x[1]) for x in points]
     
-    extent = max(max(xs) - min(xs), max(ys) - min(ys), numpy.finfo(float).eps)
     magnitude = max([abs(x) for x in xs + ys] + [1.])
     precision = abs(numpy.spacing(magnitude)) * 32.
+    
+    extent = max(max(xs) - min(xs), max(ys) - min(ys), numpy.finfo(float).eps)
     tolerance = max(extent * 1e-10, precision, numpy.finfo(float).eps * 32.)
     
     return extent, tolerance
 
 
 def relative(p1, p2, r):
-    """pass"""
+    """Calculates a point relative to two given points and a ratio."""
     
     x = p1[0] + r*(p2[0] - p1[0])
     y = p1[1] + r*(p2[1] - p1[1])
@@ -87,7 +61,7 @@ def relative(p1, p2, r):
 
 
 def derivatives(*points):
-    """pass"""
+    """Calculates derivatives for given control points."""
     
     d = []
     p = points
@@ -113,7 +87,7 @@ def derivatives(*points):
 
 
 def align(p1, p2, *points):
-    """pass"""
+    """Aligns given points relative to a line defined by two points."""
     
     x1, y1 = p1
     x2, y2 = p2
@@ -131,79 +105,98 @@ def align(p1, p2, *points):
     return buff
 
 
-def crt(v):
-    """pass"""
+def align_y(p1, p2, *points):
+    """Gets scale-safe y-values after aligning points to a line."""
     
-    s = -1 if v < 0 else 1
-    return s*numpy.power(s*v, 1./3)
+    if p1 == p2:
+        return None
+    
+    all_points = (p1, p2) + points
+    
+    scale = max(abs(v) for p in all_points for v in p)
+    if scale:
+        p1 = [v/scale for v in p1]
+        p2 = [v/scale for v in p2]
+        points = [[v/scale for v in p] for p in points]
+    
+    aligned = align(p1, p2, *points)
+    
+    return numpy.array([p[1] for p in aligned], dtype=float)
 
 
 def roots(p1, p2, *points):
     """Finds cubic Bezier intersections with an infinite line as t-values."""
-
-    aligned = align(p1, p2, *points)
-    pa, pb, pc, pd = (x[1] for x in aligned)
-    coefficients = [
-        -pa + 3*pb - 3*pc + pd,
-        3*pa - 6*pb + 3*pc,
-        -3*pa + 3*pb,
-        pa]
-
-    scale = max(abs(x) for x in coefficients)
-    if scale == 0:
+    
+    ordinates = align_y(p1, p2, *points)
+    if ordinates is None:
         return []
-
-    cutoff = scale*1e-14
-    while coefficients and abs(coefficients[0]) <= cutoff:
-        coefficients.pop(0)
-    if len(coefficients) <= 1:
-        return []
-
-    values = []
-    for root in numpy.roots(coefficients):
-        if abs(root.imag) > 1e-8:
-            continue
-        value = float(root.real)
-        if -1e-9 <= value <= 1.+1e-9:
-            values.append(min(1., max(0., value)))
-
-    values.sort()
-    roots = []
-    for value in values:
-        if not roots or abs(value-roots[-1]) > 1e-8:
-            roots.append(value)
-
-    return roots
+    
+    scale = max(abs(v) for v in ordinates)
+    if scale <= COEFF_EPSILON:
+        return [0., 1.]
+    
+    a, b, c, d = ordinates/scale
+    coeffs = (
+        -a + 3*b - 3*c + d,
+        3*a - 6*b + 3*c,
+        -3*a + 3*b,
+        a)
+    
+    values = real_roots(coeffs)
+    values = (
+        snap_t(x, ROOT_EPSILON)
+        for x in values
+        if in_unit(x, ROOT_EPSILON))
+    
+    return unique(values, ROOT_EPSILON)
 
 
 def droots(p):
-    """pass"""
+    """Gets the real roots of a linear or quadratic Bezier derivative."""
     
-    if len(p) == 2:
-        a, b = p
-        if a != b:
-            return [float(a) / (a - b)]
+    values = numpy.asarray(p, dtype=float)
+    if len(values) not in (2, 3):
+        return []
     
-    elif len(p) == 3:
-        a, b, c = p
-        d = float(a - 2*b + c)
-        e = b*b - a*c
-        
-        if e < 0:
-            return []
-        
-        if d != 0:
-            m1 = -numpy.sqrt(e)
-            m2 = -a + b
-            v1 = -(m1 + m2)/d
-            v2 = -(-m1 + m2)/d
-            
-            return [v1, v2]
-        
-        elif b != c:
-            return [float(2*b - c) / (2*(b - c))]
+    scale = max(abs(v) for v in values)
+    if scale == 0:
+        return []
     
-    return []
+    values = values/scale
+    if len(values) == 2:
+        a, b = values
+        coeffs = (b-a, a)
+    else:
+        a, b, c = values
+        coeffs = (a-2*b+c, 2*(b-a), a)
+    
+    return real_roots(coeffs)
+
+
+def real_roots(coeffs):
+    """Gets the unique real roots of a polynomial."""
+    
+    coeffs = numpy.asarray(coeffs, dtype=float)
+    
+    scale = max(abs(c) for c in coeffs)
+    if scale == 0:
+        return []
+    
+    coeffs = coeffs/scale
+    while len(coeffs) > 1 and abs(coeffs[0]) <= COEFF_EPSILON:
+        coeffs = coeffs[1:]
+    
+    if len(coeffs) <= 1:
+        return []
+    
+    result = []
+    for root in numpy.roots(coeffs):
+        value = float(root.real)
+        if (abs(root.imag) <= ROOT_EPSILON and
+            abs(numpy.polyval(coeffs, value)) <= ROOT_EPSILON):
+            result.append(value)
+    
+    return unique(result, ROOT_EPSILON)
 
 
 def unique(values, tolerance):
@@ -229,57 +222,3 @@ def unique_pairs(values, tolerance):
             result.append(value)
     
     return result
-
-
-def subtract(p1, p2):
-    """pass"""
-    
-    return p1[0]-p2[0], p1[1]-p2[1]
-
-
-def dot(p1, p2):
-    """pass"""
-    
-    return p1[0]*p2[0]+p1[1]*p2[1]
-
-
-def cross(p1, p2):
-    """pass"""
-    
-    return p1[0]*p2[1]-p1[1]*p2[0]
-
-
-def length(value):
-    """pass"""
-    
-    return math.hypot(value[0], value[1])
-
-
-def in_unit(value, epsilon):
-    """pass"""
-    
-    return -epsilon <= value <= 1.+epsilon
-
-
-def snap(value, epsilon):
-    """pass"""
-    
-    if abs(value) <= epsilon:
-        return 0.
-    
-    if abs(value - 1.) <= epsilon:
-        return 1.
-    
-    return value
-
-
-def line_distance(p1, p2, p):
-    """Gets distance from line to give point."""
-    
-    direction = subtract(p2, p1)
-    length_value = length(direction)
-    
-    if length_value == 0:
-        return distance(p, p1)
-    
-    return abs(cross(subtract(p, p1), direction)) / length_value
