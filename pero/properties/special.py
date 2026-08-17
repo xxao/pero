@@ -2,6 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 from .. colors import Color, Palette, Gradient
+from .. geometry import Frame
 from . undefined import UNDEF
 from . prop import Property
 
@@ -163,3 +164,40 @@ class DashProperty(Property):
         # wrong value
         message = "Value of '%s' property must be a list or a tuple of numbers! -> %s" % (self.name, value)
         raise TypeError(message)
+
+
+class FrameProperty(Property):
+    """
+    Defines a frame property. The value must be provided as a pero.Frame or
+    as a tuple or list of four values for left x, top y, width and height.
+    """
+    
+    
+    def __init__(self, default=UNDEF, **kwargs):
+        """Initializes a new instance of MarkerProperty."""
+        
+        kwargs['default'] = default
+        kwargs['types'] = (Frame, tuple, list)
+        super().__init__(**kwargs)
+    
+    
+    def parse(self, value):
+        """Validates and converts given value."""
+        
+        # check type
+        if isinstance(value, Frame):
+            return value
+        
+        # parse main
+        value = super().parse(value)
+        
+        # allow UNDEF and None
+        if value is UNDEF or value is None:
+            return value
+        
+        # check func
+        if callable(value):
+            return value
+        
+        # convert to frame
+        return Frame(*value)

@@ -12,7 +12,7 @@ from . typed import IntProperty, FloatProperty, NumProperty, StringProperty
 from . typed import SequenceProperty, ListProperty, TupleProperty, SetProperty
 from . typed import DictProperty, QuadProperty
 from . special import ColorProperty, PaletteProperty, GradientProperty
-from . special import DashProperty
+from . special import DashProperty, FrameProperty
 
 # import property mixes
 from . mixes import ColorProperties, AngleProperties

@@ -3,7 +3,7 @@
 
 from .. enums import *
 from .. properties import *
-from .. geometry import Frame, FrameProperty
+from .. geometry import Frame
 from . glyph import Glyph
 
 
