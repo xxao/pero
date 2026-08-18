@@ -122,6 +122,10 @@ class FontManager(object):
             if not weight or font.weight == weight:
                 return font
         
+        # strict mode
+        if not loose:
+            return None
+        
         # check light weight loosely
         if weight in FONT_WEIGHTS_LIGHT:
             for font in fonts:
@@ -261,33 +265,16 @@ class Font(object):
         elif 'Oblique' in font_type:
             self._style = FONT_STYLE_ITALIC
         
+        # normalize names
+        font_type_key = "".join(
+            char for char in font_type.casefold()
+            if char.isalnum())
+        
         # set weight
-        if 'Regular' in font_type:
-            self._weight = FONT_WEIGHT_NORMAL
-        
-        elif 'Bold' in font_type:
-            self._weight = FONT_WEIGHT_BOLD
-        
-        elif 'Light' in font_type:
-            self._weight = FONT_WEIGHT_LIGHT
-        
-        elif 'Black' in font_type:
-            self._weight = FONT_WEIGHT_BLACK
-        
-        elif 'Heavy' in font_type:
-            self._weight = FONT_WEIGHT_HEAVY
-        
-        elif 'Semibold' in font_type:
-            self._weight = FONT_WEIGHT_SEMIBOLD
-        
-        elif 'Medium' in font_type:
-            self._weight = FONT_WEIGHT_MEDIUM
-        
-        elif 'Ultralight' in font_type:
-            self._weight = FONT_WEIGHT_ULTRALIGHT
-        
-        elif 'Thin' in font_type:
-            self._weight = FONT_WEIGHT_THIN
+        for weight, markers in FONT_WEIGHT_MARKERS:
+            if any(marker in font_type_key for marker in markers):
+                self._weight = weight
+                break
     
     
     def __str__(self):
@@ -433,6 +420,21 @@ class Font(object):
         return font.getbbox(text)[2:]
     
     
+    def get_metrics(self, size):
+        """
+        Gets ascent and descent for the specified font size.
+        
+        Returns:
+            (int, int)
+                Font ascent and descent.
+        """
+        
+        font = self.get_font(size)
+        ascent, descent = font.getmetrics()
+        
+        return ascent, abs(descent)
+    
+    
     def get_descent(self, size):
         """
         Gets font descent for given font size.
@@ -446,12 +448,7 @@ class Font(object):
                 Font descent.
         """
         
-        font = self.get_font(size)
-        
-        m = font.getbbox("M")[3]
-        mj = font.getbbox("Mj")[3]
-        
-        return mj - m
+        return self.get_metrics(size)[1]
     
     
     @staticmethod

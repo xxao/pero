@@ -72,6 +72,18 @@ FONT_WEIGHTS_BOLD = {
     FONT_WEIGHT_HEAVY,
     FONT_WEIGHT_SEMIBOLD}
 
+# define font weight markers
+FONT_WEIGHT_MARKERS = (
+    (FONT_WEIGHT_BLACK, ("black",)),
+    (FONT_WEIGHT_HEAVY, ("heavy", "extrabold", "ultrabold")),
+    (FONT_WEIGHT_SEMIBOLD, ("semibold", "demibold")),
+    (FONT_WEIGHT_BOLD, ("bold",)),
+    (FONT_WEIGHT_MEDIUM, ("medium",)),
+    (FONT_WEIGHT_ULTRALIGHT, ("ultralight", "extralight")),
+    (FONT_WEIGHT_LIGHT, ("semilight", "demilight", "light")),
+    (FONT_WEIGHT_THIN, ("thin", "hairline")),
+)
+
 # define text align
 TEXT_ALIGN_LEFT = LEFT
 TEXT_ALIGN_CENTER = CENTER

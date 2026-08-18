@@ -441,98 +441,118 @@ class Layout(Graphics):
     def _arrange_rows(self, available, spacing):
         """Calculates final size of each row."""
         
-        # init buffers
-        heights = [0]*len(self._rows)
-        minima = [0]*len(self._rows)
-        dirty = False
+        # get tracks
+        tracks = [(row.height, row.relative) for row in self._rows]
         
-        # get sums
-        fix_sum = sum(r.height for r in self._rows if not r.relative)
-        rel_sum = sum(r.height for r in self._rows if r.relative)
+        # get cell constraints
+        constraints = []
+        for cell in self._cells:
+            if cell.height is not UNDEF:
+                padding = cell.padding or (0, 0, 0, 0)
+                minimum = cell.height + padding[0] + padding[2] - spacing * (cell.row_span - 1)
+                constraints.append((cell.row, cell.row_span, max(0, minimum)))
         
-        # calc naive heights and minima
-        for i, row in enumerate(self._rows):
-            
-            # set fixed row
-            if not row.relative:
-                heights[i] = row.height
-                minima[i] = row.height
-            
-            # set relative row
-            else:
-                heights[i] = max(0, (available - fix_sum) * row.height / rel_sum)
-                cells = [c for c in self._grid[i] if c and c.height and c.row_span == 1]
-                minima[i] = max(c.height for c in cells) if cells else 0
-            
-            # check minimum height
-            dirty = dirty or heights[i] < minima[i]
-        
-        # force minima
-        while dirty:
-            dirty = False
-            
-            for i, row in enumerate(self._rows):
-                
-                if heights[i] < minima[i]:
-                    heights[i] = minima[i]
-                    fix_sum += minima[i]
-                    rel_sum -= row.height
-                    dirty = True
-                    break
-                
-                if heights[i] > minima[i] and row.relative:
-                    heights[i] = max(0, (available - fix_sum) * row.height / rel_sum)
-        
-        return heights
+        # arrange rows
+        return self._arrange_tracks(available, tracks, constraints)
     
     
     def _arrange_cols(self, available, spacing):
         """Calculates final size of each column."""
         
-        # init buffers
-        widths = [0]*len(self._cols)
-        minima = [0]*len(self._cols)
-        dirty = False
+        # get tracks
+        tracks = [(col.width, col.relative) for col in self._cols]
         
-        # get sums
-        fix_sum = sum(c.width for c in self._cols if not c.relative)
-        rel_sum = sum(c.width for c in self._cols if c.relative)
+        # get cell constraints
+        constraints = []
+        for cell in self._cells:
+            if cell.width is not UNDEF:
+                padding = cell.padding or (0, 0, 0, 0)
+                minimum = cell.width + padding[1] + padding[3] - spacing * (cell.col_span - 1)
+                constraints.append((cell.col, cell.col_span, max(0, minimum)))
         
-        # calc naive widths and minima
-        for i, col in enumerate(self._cols):
+        # arrange cols
+        return self._arrange_tracks(available, tracks, constraints)
+    
+    
+    def _arrange_tracks(self, available, tracks, constraints):
+        """Calculates final sizes of fixed and relative tracks."""
+        
+        # get minima
+        minima = [t[0] if not t[1] else 0 for t in tracks]
+        constraints = sorted(constraints, key=lambda item: item[1])
+        
+        # increase relative track minima until all cell constraints are met
+        while True:
+            sizes = self._allocate_tracks(available, tracks, minima)
             
-            # set fixed col
-            if not col.relative:
-                widths[i] = col.width
-                minima[i] = col.width
-            
-            # set relative col
+            for start, span, minimum in constraints:
+                current = sum(sizes[start:start+span])
+                deficit = minimum - current
+                
+                if deficit <= 1e-9:
+                    continue
+                
+                indices = [
+                    i for i in range(start, start+span)
+                    if tracks[i][1]]
+                
+                # fixed tracks take precedence over cell minima
+                if not indices:
+                    continue
+                
+                weights = [max(0, tracks[i][0]) for i in indices]
+                weight_sum = sum(weights)
+                
+                if weight_sum:
+                    shares = [weight / weight_sum for weight in weights]
+                else:
+                    shares = [1 / len(indices)] * len(indices)
+                
+                for i, share in zip(indices, shares):
+                    minima[i] = max(minima[i], sizes[i] + deficit * share)
+                
+                break
             else:
-                widths[i] = max(0, (available - fix_sum) * col.width / rel_sum)
-                cells = [self._grid[r][i] for r in range(len(self._rows))]
-                cells = [c for c in cells if c and c.width and c.col_span == 1]
-                minima[i] = max(c.width for c in cells) if cells else 0
-            
-            # check minimum height
-            dirty = dirty or widths[i] < minima[i]
+                return sizes
+    
+    
+    def _allocate_tracks(self, available, tracks, minima):
+        """Allocates available space using weights and minimum sizes."""
         
-        # force minima
-        while dirty:
-            dirty = False
-            
-            for i, col in enumerate(self._cols):
-                
-                if widths[i] < minima[i]:
-                    widths[i] = minima[i]
-                    fix_sum += minima[i]
-                    rel_sum -= col.width
-                    dirty = True
-                    break
-                
-                if widths[i] > minima[i] and col.relative:
-                    widths[i] = max(0, (available - fix_sum) * col.width / rel_sum)
+        # init values
+        remains = available
+        sizes = [0] * len(tracks)
+        active = []
         
-        return widths
+        # set fixed tracks
+        for i, (size, relative) in enumerate(tracks):
+            if relative:
+                active.append(i)
+            else:
+                sizes[i] = size
+                remains -= size
+        
+        # distribute relative tracks
+        while active:
+            
+            weight_sum = sum(max(0, tracks[i][0]) for i in active)
+            if not weight_sum:
+                for i in active:
+                    sizes[i] = minima[i]
+                break
+            
+            unit = remains / weight_sum
+            forced = next((i for i in active if max(0, unit * max(0, tracks[i][0])) < minima[i]), None)
+            if forced is None:
+                for i in active:
+                    sizes[i] = max(0, unit * max(0, tracks[i][0]))
+                break
+            
+            sizes[forced] = minima[forced]
+            remains -= minima[forced]
+            active.remove(forced)
+        
+        return sizes
 
 
 class Row(PropertySet):
@@ -770,43 +790,43 @@ class Cell(Graphics):
         v_align = self.get_property('v_align', source, overrides)
         clip = self.get_property('clip', source, overrides)
         
-        # get coords
-        padding = padding or (0, 0, 0, 0)
+        # calculate available area inside padding
+        inner_x = frame.x + padding[3]
+        inner_y = frame.y + padding[0]
+        inner_width = max(0, frame.width - padding[1] - padding[3])
+        inner_height = max(0, frame.height - padding[0] - padding[2])
+        
+        # calculate content size
         width = width or 0
         height = height or 0
         
         if not width or h_expand:
-            width = max(width, frame.width - padding[1] - padding[3])
+            width = max(width, inner_width)
         if not height or v_expand:
-            height = max(height, frame.height - padding[0] - padding[2])
+            height = max(height, inner_height)
         
-        if h_align == POS_CENTER:
-            x = frame.cx + padding[3] - padding[1] - .5*width
-        elif h_align == POS_RIGHT:
-            x = frame.x2 - width - padding[1]
-        else:
-            x = frame.x + padding[3]
-        
-        if v_align == POS_CENTER:
-            y = frame.cy + padding[0] - padding[2] - .5*height
-        elif v_align == POS_BOTTOM:
-            y = frame.y2 - height - padding[2]
-        else:
-            y = frame.y + padding[0]
-        
-        # apply clipping
+        # constrain content before alignment
         if clip:
-            x = max(x, frame.x + padding[3])
-            y = max(y, frame.y + padding[0])
-            width = min(width, frame.width - padding[1] - padding[3])
-            height = min(height, frame.height - padding[0] - padding[2])
+            width = min(width, inner_width)
+            height = min(height, inner_height)
         
-        # check flipped content
-        width = max(0, width)
-        height = max(0, height)
+        # align horizontally
+        if h_align == POS_CENTER:
+            x = inner_x + .5 * (inner_width - width)
+        elif h_align == POS_RIGHT:
+            x = inner_x + inner_width - width
+        else:
+            x = inner_x
         
-        # set content frame
-        self.content = Frame(x, y, width, height)
+        # align vertically
+        if v_align == POS_CENTER:
+            y = inner_y + .5 * (inner_height - height)
+        elif v_align == POS_BOTTOM:
+            y = inner_y + inner_height - height
+        else:
+            y = inner_y
+        
+        self.content = Frame(x, y, max(0, width), max(0, height))
     
     
     def to_content(self, x, y):

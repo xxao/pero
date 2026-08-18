@@ -1103,7 +1103,7 @@ class Canvas(PropertySet):
             self.fill_color = color
         
         # draw rectangle
-        self.draw_rect(*self.viewport.rect)
+        self.draw_rect(0, 0, self.viewport.width, self.viewport.height)
         
         # reset pen and brush
         self.line_width = line_width
@@ -1144,10 +1144,8 @@ class Canvas(PropertySet):
                 Viewport state context manager.
         """
         
-        # get current viewport
-        viewport = self.viewport
-        
         # init state
+        viewport = self._viewport if self._viewport is not None else None
         state = ViewState(self, viewport)
         
         # reset to full
@@ -1155,6 +1153,10 @@ class Canvas(PropertySet):
             self._viewport = None
             self._offset = numpy.array((0, 0))
             return state
+        
+        # check viewport
+        if viewport is None:
+            viewport = self._viewport_full
         
         # get origin
         if x is None:

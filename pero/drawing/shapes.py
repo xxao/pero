@@ -561,7 +561,7 @@ def make_donut_caped(x, y, inner_radius, outer_radius, start_angle, end_angle, c
     # calc shrink
     r = 0.5 * (outer_radius - inner_radius)
     cr = inner_radius + 0.5 * (outer_radius - inner_radius)
-    shrink = numpy.atan(r / cr)
+    shrink = numpy.arcsin(r / cr)
     
     # shrink angles
     start_angle_s = (start_angle + direction * shrink) % PI2X
