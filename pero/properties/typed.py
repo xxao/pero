@@ -389,9 +389,6 @@ class QuadProperty(Property):
             elif len(value) == 2:
                 return value[0], value[1], value[0], value[1]
             
-            elif len(value) == 3:
-                return value[0], value[1], value[2], value[2]
-            
             elif len(value) == 4:
                 return tuple(value)
         

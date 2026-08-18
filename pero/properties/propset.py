@@ -542,8 +542,8 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             dst_prefix += PROP_SPLITTER
         
         # get overrides
-        if src_prefix and overrides is not None:
-            overrides = self.get_child_overrides(src_prefix, overrides, skip)
+        # if src_prefix and overrides is not None:
+        #     overrides = self.get_child_overrides(src_prefix, overrides, skip)
         
         # process source properties
         for prop in prop_set.properties():
@@ -625,8 +625,8 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             dst_prefix += PROP_SPLITTER
         
         # get overrides
-        if src_prefix and overrides is not None:
-            overrides = self.get_child_overrides(src_prefix, overrides, skip)
+        # if src_prefix and overrides is not None:
+        #     overrides = self.get_child_overrides(src_prefix, overrides, skip)
         
         # process current properties
         for prop in self.properties():
@@ -772,7 +772,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             return
         
         # check property
-        path[-2].is_property_locked(path[-1].name)
+        return path[-2].is_property_locked(path[-1].name)
     
     
     def is_property_held(self, name, raise_error=True):
@@ -808,7 +808,7 @@ class PropertySet(EvtHandler, metaclass=PropertySetMeta):
             return
         
         # check property
-        path[-2].is_property_held(path[-1].name)
+        return path[-2].is_property_held(path[-1].name)
     
     
     def clone(self, source=UNDEF, overrides=None, native=False, deep=False):
