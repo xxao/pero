@@ -218,12 +218,13 @@ class Gradient(object, metaclass=GradientMeta):
             return Gradient(self._colors, self._stops, name)
         
         # calc normalization
-        stops = Gradient.calc_stops(len(self._colors), start, end)
+        scale = (end - start) / (self._stops[-1] - self._stops[0])
+        stops = [start + (s - self._stops[0]) * scale for s in self._stops]
         
         # make gradient
         return Gradient(self._colors, stops, name)
-
-
+    
+    
     def _locate(self, items, x):
         """Locates nearest higher color."""
         
@@ -295,6 +296,7 @@ class Gradient(object, metaclass=GradientMeta):
         """
         
         # try from gradients
+        name = name.lower()
         if name in GRADIENTS:
             return GRADIENTS[name]
         
@@ -304,7 +306,7 @@ class Gradient(object, metaclass=GradientMeta):
         
         # name not found
         message = "Unknown gradient or palette name specified! -> '%s'" % name
-        raise ValueError(message)
+        raise KeyError(message)
     
     
     @staticmethod

@@ -494,6 +494,47 @@ class Color(object, metaclass=ColorMeta):
         return Color(255-self._red, 255-self._green, 255-self._blue, self._alpha, name=name)
     
     
+    def blend(self, bgr, name=None):
+        """
+        Composites this color over the specified background using straight-alpha
+        source-over blending.
+        
+        Args:
+            bgr: str, tuple or pero.Color
+                Background color.
+        
+            name: str or None
+                Unique name to register.
+        
+        Returns:
+            pero.Color
+                Composited color.
+        """
+        
+        # check types
+        if not isinstance(bgr, Color):
+            bgr = Color.create(bgr)
+        
+        # calc weights
+        src_a = self._alpha / 255.
+        dst_a = bgr.alpha / 255.
+        out_a = src_a + dst_a * (1. - src_a)
+        src_weight = src_a
+        dst_weight = dst_a * (1. - src_a)
+        
+        # both fully transparent
+        if out_a == 0:
+            return Color(0, 0, 0, 0, name=name)
+        
+        # calc channels
+        red = (self._red * src_weight + bgr.red * dst_weight) / out_a
+        green = (self._green * src_weight + bgr.green * dst_weight) / out_a
+        blue = (self._blue * src_weight + bgr.blue * dst_weight) / out_a
+        
+        # create color
+        return Color(red, green, blue, out_a * 255, name=name)
+    
+    
     @staticmethod
     def create(value, name=None):
         """
@@ -552,12 +593,13 @@ class Color(object, metaclass=ColorMeta):
         """
         
         # get color
+        name = name.lower()
         if name in COLORS:
             return COLORS[name]
         
         # name not found
         message = "Unknown color name specified! -> '%s'" % name
-        raise ValueError(message)
+        raise KeyError(message)
     
     
     @staticmethod

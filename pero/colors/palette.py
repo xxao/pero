@@ -210,7 +210,7 @@ class Palette(object, metaclass=PaletteMeta):
                 New palette with specified transparency.
         """
         
-        colors = [c.opaque(transparency) for c in self._colors]
+        colors = [c.trans(transparency) for c in self._colors]
         return Palette(colors, name)
     
     
@@ -283,12 +283,13 @@ class Palette(object, metaclass=PaletteMeta):
         """
         
         # get color
+        name = name.lower()
         if name in PALETTES:
             return PALETTES[name]
         
         # name not found
         message = "Unknown palette name specified! -> '%s'" % name
-        raise ValueError(message)
+        raise KeyError(message)
     
     
     @staticmethod
@@ -314,6 +315,7 @@ class Palette(object, metaclass=PaletteMeta):
         """
         
         # check count
+        count = int(count)
         if count > len(palette):
             message = "Given palette contains only %s colors, %d requested!" % (len(palette), count)
             raise ValueError(message)
@@ -355,7 +357,7 @@ class Palette(object, metaclass=PaletteMeta):
             gradient = Gradient(gradient)
         
         # select colors
-        stops = [x for x in numpy.linspace(0, 1, num=count)]
+        stops = numpy.linspace(gradient.stops[0], gradient.stops[-1], num=count)
         colors = [gradient.color_at(x) for x in stops]
         
         return Palette(colors, name)
