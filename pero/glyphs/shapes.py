@@ -3,7 +3,7 @@
 
 from .. enums import *
 from .. properties import *
-from .. geometry import Path
+from .. geometry import Path, angle_difference
 from .. drawing import make_annulus, make_wedge
 from . glyph import Glyph
 
@@ -122,7 +122,7 @@ class Arc(Glyph):
         start_angle = AngleProperties.get_angle(self, 'start_', ANGLE_RAD, source, overrides)
         end_angle = AngleProperties.get_angle(self, 'end_', ANGLE_RAD, source, overrides)
         radius = self.get_property('radius', source, overrides)
-        clockwise = self.get_property('radius', source, overrides)
+        clockwise = self.get_property('clockwise', source, overrides)
         
         # set pen and brush
         canvas.set_pen_by(self, source=source, overrides=overrides)
@@ -694,7 +694,8 @@ class Wedge(Glyph):
         
         # apply offset
         if offset:
-            offset_angle = (end_angle + start_angle) * 0.5
+            angle_span = angle_difference(start_angle, end_angle, clockwise)
+            offset_angle = start_angle + 0.5 * angle_span
             x += math.cos(offset_angle) * offset
             y += math.sin(offset_angle) * offset
         

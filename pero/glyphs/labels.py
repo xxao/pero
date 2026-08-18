@@ -247,7 +247,7 @@ class LabelBox(Glyph):
         
         # init padded clip
         padded = clip
-        if padding:
+        if clip and padding:
             padded = clip.clone()
             padded.shrink(*padding)
         

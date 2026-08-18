@@ -338,6 +338,10 @@ class LegendBox(Glyph):
         
         # check spacing
         spacing = spacing or 0
+
+        # check items
+        if not items:
+            return []
         
         # init boxes
         boxes = []

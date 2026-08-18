@@ -167,14 +167,14 @@ class Box(Glyph):
         elif anchor in (POS_NE, POS_E, POS_SE):
             box_x -= margin[1]
         elif anchor in (POS_N, POS_C, POS_S):
-            box_x = margin[3]
+            box_x += 0.5 * (margin[3] - margin[1])
         
         if anchor in (POS_NW, POS_N, POS_NE):
             box_y += margin[0]
         if anchor in (POS_SW, POS_S, POS_SE):
             box_y -= margin[2]
         elif anchor in (POS_W, POS_C, POS_E):
-            box_y = margin[0]
+            box_y += 0.5 * (margin[0] - margin[2])
         
         # adjust content frame by padding
         con_x = box_x + padding[3]
