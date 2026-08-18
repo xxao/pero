@@ -25,7 +25,7 @@ class TestCase(unittest.TestCase):
         
         # test seconds
         self.assertEqual(formatter.format(1), "1.00")
-        self.assertEqual(formatter.format(17.555), "17.55")
+        self.assertEqual(formatter.format(17.555), "17.56")
         self.assertEqual(formatter.format(59), "59.00")
         
         # test milliseconds
@@ -67,7 +67,7 @@ class TestCase(unittest.TestCase):
         formatter = pero.TimeFormatter(precision=1)
         
         self.assertEqual(formatter.format(3600+1800-1), "1:29:59")
-        self.assertEqual(formatter.format(70.5), "01:10")
+        self.assertEqual(formatter.format(70.5), "01:11")
         self.assertEqual(formatter.format(17.567), "17.57")
         self.assertEqual(formatter.format(.1), "100.00")
         
@@ -114,7 +114,7 @@ class TestCase(unittest.TestCase):
         formatter = pero.TimeFormatter(domain=3600, precision=1)
         
         self.assertEqual(formatter.format(3600+1800-1), "1:29:59")
-        self.assertEqual(formatter.format(70.5), "0:01:10")
+        self.assertEqual(formatter.format(70.5), "0:01:11")
         self.assertEqual(formatter.format(17.567), "0:00:18")
         self.assertEqual(formatter.format(.1), "0:00:00")
     
@@ -125,7 +125,7 @@ class TestCase(unittest.TestCase):
         formatter = pero.TimeFormatter(separator=" ", add_units=True, domain=3600, precision=1)
         
         self.assertEqual(formatter.format(3600+1800-1), "1 h 29 m 59 s")
-        self.assertEqual(formatter.format(70.5), "0 h 01 m 10 s")
+        self.assertEqual(formatter.format(70.5), "0 h 01 m 11 s")
         self.assertEqual(formatter.format(17.567), "0 h 00 m 18 s")
         self.assertEqual(formatter.format(.1), "0 h 00 m 00 s")
     
@@ -195,6 +195,45 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(3600+1800-1), "1.50 h")
         self.assertEqual(formatter.format(70.5), "1.18 m")
         self.assertEqual(formatter.format(17.567), "17.57 s")
+        
+        # round seconds
+        formatter = pero.TimeFormatter(domain=60, precision=1)
+        
+        self.assertEqual(formatter.format(59.4), "00:59")
+        self.assertEqual(formatter.format(59.5), "01:00")
+        self.assertEqual(formatter.format(59.9), "01:00")
+        
+        # round minutes
+        formatter = pero.TimeFormatter(domain=3600, precision=1)
+        
+        self.assertEqual(formatter.format(3599.4), "0:59:59")
+        self.assertEqual(formatter.format(3599.5), "1:00:00")
+        self.assertEqual(formatter.format(3599.9), "1:00:00")
+        
+        # round milliseconds
+        formatter = pero.TimeFormatter(domain=60, precision=0.001)
+        
+        self.assertEqual(formatter.format(59.9994), "00:59:999")
+        self.assertEqual(formatter.format(59.9995), "01:00:000")
+        self.assertEqual(formatter.format(59.9999), "01:00:000")
+    
+    
+    def test_negative_standalone(self):
+        """Tests whether negative numbers work correctly."""
+        
+        # single part
+        formatter = pero.TimeFormatter()
+        
+        self.assertEqual(formatter.format(-70.5), "-1.18")
+        self.assertEqual(formatter.format(-17.5), "-17.50")
+        
+        # multi-part
+        formatter = pero.TimeFormatter(domain=70, precision=10)
+        
+        self.assertEqual(formatter.format(-70), "-01:10")
+        self.assertEqual(formatter.format(-60), "-01:00")
+        self.assertEqual(formatter.format(-50), "-00:50")
+        self.assertEqual(formatter.format(0), "00:00")
 
 
 # run test case

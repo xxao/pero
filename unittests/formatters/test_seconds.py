@@ -175,6 +175,16 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.invert(0.5), 30)
         self.assertEqual(formatter.invert(0.25), 15)
         self.assertEqual(formatter.invert(0.01), 0.6)
+    
+    
+    def test_negative(self):
+        """Tests whether negative values work correctly."""
+        
+        formatter = pero.SecondsFormatter()
+        
+        self.assertEqual(formatter.format(-3600), "-1 h")
+        self.assertEqual(formatter.format(-60), "-1 m")
+        self.assertEqual(formatter.format(-1), "-1 s")
 
 
 # run test case

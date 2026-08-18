@@ -252,6 +252,28 @@ class TestCase(unittest.TestCase):
             trans = color.trans(2)
     
     
+    def test_blend(self):
+        """Tests whether blending colors works correctly."""
+        
+        red = pero.Color(255, 0, 0)
+        blue = pero.Color(0, 0, 255)
+        
+        result = red.blend(blue)
+        self.assertEqual(result, red)
+        
+        result = red.trans(1).blend(blue)
+        self.assertEqual(result, blue)
+        
+        result = pero.Color(255, 0, 0, 128).blend(blue)
+        self.assertEqual(result.rgba, (128, 0, 127, 255))
+        
+        result = pero.Color(255, 0, 0, 128).blend(pero.Color(0, 0, 0, 0))
+        self.assertEqual(result.rgba, (255, 0, 0, 128))
+        
+        result = pero.Color(255, 0, 0, 0).blend(pero.Color(0, 0, 255, 0))
+        self.assertEqual(result.rgba, (0, 0, 0, 0))
+    
+    
     def test_interpolate(self):
         """Tests whether interpolation works correctly."""
         

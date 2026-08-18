@@ -167,6 +167,17 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.invert(0.2345678), 234.5678)
         self.assertEqual(formatter.invert(2.345678e-5), 234.5678e-4)
         self.assertEqual(formatter.invert(2.345678e-7), 234.5678e-6)
+    
+    
+    def test_negative(self):
+        """Tests whether negative values work correctly."""
+        
+        formatter = pero.EngFormatter()
+        
+        self.assertEqual(formatter.format(-234.5678e6), "-235 M")
+        self.assertEqual(formatter.format(-234.5678e3), "-235 k")
+        self.assertEqual(formatter.format(-234.5678), "-235")
+        self.assertEqual(formatter.format(-234.5678e-3), "-235 m")
 
 
 # run test case
