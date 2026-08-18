@@ -199,6 +199,7 @@ class SplitFormatter(Formatter):
         
         # get power
         self._power = 1
+        domain = abs(domain)
         for split in splits_val:
             if domain / split >= 1.:
                 self._power = split

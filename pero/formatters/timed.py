@@ -117,39 +117,53 @@ class TimeFormatter(Formatter):
         if self._is_dirty:
             self._init_formatting()
         
+        # keep sign
+        negative = value < 0
+        value = abs(value)
+        
         # get template
         template = self._template
         if not template:
             template = self._make_template(value)
         
-        # init parts
-        parts = {x[0]: 0 for x in self._parts}
-        
-        # split time
-        last = None
-        for units, f in self._parts:
-            
-            key = "{%s:" % units
-            if key in template:
-                
-                # get part value
-                val = value / float(f)
-                value -= int(val) * f
-                parts[units] = decimal.Decimal(val)
-                
-                # remove fractions from higher part
-                if last:
-                    parts[last] = int(parts[last])
-                
-                last = units
-        
-        # init context
+        # init rounding
         context = decimal.Context()
-        
-        if self.rounding == ROUNDING.FLOOR:
-            context.rounding = decimal.ROUND_DOWN
+        if self.rounding == ROUNDING.HALFUP:
+            context.rounding = decimal.ROUND_HALF_UP
+        elif self.rounding == ROUNDING.FLOOR:
+            context.rounding = decimal.ROUND_CEILING if negative else decimal.ROUND_FLOOR
         elif self.rounding == ROUNDING.CEIL:
-            context.rounding = decimal.ROUND_UP
+            context.rounding = decimal.ROUND_FLOOR if negative else decimal.ROUND_CEILING
+        
+        # init all parts
+        parts = {p[0]: 0 for p in self._parts}
+        
+        # get displayed parts
+        displayed = [
+            (units, decimal.Decimal(str(factor)))
+            for units, factor in self._parts
+            if "{%s:" % units in template]
+        
+        # convert value
+        value = decimal.Decimal(str(value))
+        
+        # round compound values before splitting to handle overflow
+        if len(displayed) > 1:
+            step = displayed[-1][1]
+            with decimal.localcontext(context):
+                value = (value / step).to_integral_value() * step
+        
+        # split higher parts
+        for units, factor in displayed[:-1]:
+            parts[units], value = divmod(value, factor)
+        
+        # set fraction to last
+        units, factor = displayed[-1]
+        parts[units] = value / factor
+        
+        # add sign
+        if negative:
+            template = "-" + template
         
         # format with correct rounding
         with decimal.localcontext(context):
