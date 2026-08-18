@@ -195,7 +195,7 @@ class ContinuousScale(Scale):
         
         # clip values
         if self.clip:
-            numpy.clip(value, self.in_range[self._in_min], self.in_range[self._in_max], out=value)
+            value = numpy.clip(value, self.in_range[self._in_min], self.in_range[self._in_max])
         
         # normalize values
         norm = self.normalizer.normalize(value, self.in_range[0], self.in_range[1])
@@ -215,7 +215,7 @@ class ContinuousScale(Scale):
         
         # clip values
         if self.clip:
-            numpy.clip(value, self.out_range[self._out_min], self.out_range[self._out_max], out=value)
+            value = numpy.clip(value, self.out_range[self._out_min], self.out_range[self._out_max])
         
         # normalize values
         norm = self.converter.normalize(value, self.out_range[0], self.out_range[1])
@@ -238,7 +238,7 @@ class ContinuousScale(Scale):
         
         # clip values
         if self.clip:
-            numpy.clip(norm, 0., 1., out=norm)
+            norm = numpy.clip(norm, 0., 1.)
         
         return norm
     

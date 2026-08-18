@@ -57,8 +57,9 @@ class LevelScale(Scale):
             return tuple(map(self.scale, value))
         
         # get index of the same or nearest bigger
+        count = min(len(self.in_range), len(self.out_range))
         idx = 0
-        hi = min(len(self.in_range), len(self.out_range))
+        hi = count
         
         while idx < hi:
             mid = (idx + hi) // 2
@@ -68,7 +69,7 @@ class LevelScale(Scale):
                 idx = mid + 1
         
         # out of range
-        if idx >= len(self.out_range):
+        if idx >= count:
             return None
         
         # get level
@@ -101,9 +102,10 @@ class LevelScale(Scale):
         
         # get index
         idx = self._levels_idx.get(value, None)
+        count = min(len(self.in_range), len(self.out_range))
         
         # check index
-        if idx is None or idx >= len(self.in_range):
+        if idx is None or idx >= count:
             return None
         
         # inside

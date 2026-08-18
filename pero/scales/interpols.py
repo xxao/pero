@@ -142,7 +142,10 @@ class LogInterpol(Interpol):
                 Normalized value(s).
         """
         
-        return numpy.log(x / float(start)) / numpy.log(end / float(start))
+        a = numpy.log(numpy.abs(start))
+        b = numpy.log(numpy.abs(end)) - a
+        
+        return (numpy.log(numpy.abs(x)) - a) / b
     
     
     def denormalize(self, x, start, end):
@@ -164,8 +167,11 @@ class LogInterpol(Interpol):
                 De-normalized value(s).
         """
         
-        return numpy.power(end, x) * numpy.power(start, 1-x)
-    
+        a = numpy.log(numpy.abs(start))
+        b = numpy.log(numpy.abs(end)) - a
+        
+        return numpy.sign(start) * numpy.exp(a + x * b)
+
 
 class PowInterpol(Interpol):
     """
@@ -201,10 +207,11 @@ class PowInterpol(Interpol):
         """
         
         power = self.power
-        a = numpy.power(start, power)
-        b = numpy.power(end, power) - a
+        a = numpy.sign(start) * numpy.power(numpy.abs(start), power)
+        b = numpy.sign(end) * numpy.power(numpy.abs(end), power) - a
+        value = numpy.sign(x) * numpy.power(numpy.abs(x), power)
         
-        return (numpy.power(x, power) - a) / float(b)
+        return (value - a) / float(b)
     
     
     def denormalize(self, x, start, end):
@@ -227,8 +234,8 @@ class PowInterpol(Interpol):
         """
         
         power = self.power
-        a = numpy.power(start, power)
-        b = numpy.power(end, power) - a
-        c = 1./power
+        a = numpy.sign(start) * numpy.power(numpy.abs(start), power)
+        b = numpy.sign(end) * numpy.power(numpy.abs(end), power) - a
+        value = a + x * b
         
-        return numpy.power(a + x * b, c)
+        return numpy.sign(value) * numpy.power(numpy.abs(value), 1./power)

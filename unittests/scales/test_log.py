@@ -16,8 +16,8 @@ class TestCase(unittest.TestCase):
         interpol = pero.LogInterpol()
         
         # test inside
-        self.assertEqual(interpol.normalize(10, 1, 100), 0.5)
-        self.assertEqual(interpol.denormalize(0.5, 1, 100), 10)
+        self.assertAlmostEqual(interpol.normalize(10, 1, 100), 0.5)
+        self.assertAlmostEqual(interpol.denormalize(0.5, 1, 100), 10)
         
         # test left
         self.assertAlmostEqual(interpol.normalize(0.1, 1, 100), -0.5, 10)
@@ -34,8 +34,8 @@ class TestCase(unittest.TestCase):
         interpol = pero.LogInterpol()
         
         # test inside
-        self.assertEqual(interpol.normalize(2, 1, 4), 0.5)
-        self.assertEqual(interpol.denormalize(0.5, 1, 4), 2)
+        self.assertAlmostEqual(interpol.normalize(2, 1, 4), 0.5)
+        self.assertAlmostEqual(interpol.denormalize(0.5, 1, 4), 2)
         
         # test left
         self.assertAlmostEqual(interpol.normalize(0.5, 1, 4), -0.5, 10)
