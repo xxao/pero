@@ -558,8 +558,8 @@ class SVGCanvas(Canvas):
         """
         
         # make command
-        id_tag = ' id="%s"' % id_tag if id_tag else ""
-        class_tag = ' class="%s"' % class_tag if class_tag else ""
+        id_tag = ' id="%s"' % html.escape(id_tag, quote=True) if id_tag else ""
+        class_tag = ' class="%s"' % html.escape(class_tag, quote=True) if class_tag else ""
         command = self._indent + '<g%s%s>' % (id_tag, class_tag)
         
         # add command
