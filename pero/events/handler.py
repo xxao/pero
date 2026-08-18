@@ -95,7 +95,7 @@ class EvtHandler(object):
             if item[0] != proxy:
                 continue
             
-            if kwargs and item[0] != kwargs:
+            if kwargs and item[1] != kwargs:
                 continue
             
             callbacks.remove(item)
@@ -126,7 +126,7 @@ class EvtHandler(object):
             return
         
         # call callbacks
-        for callback, params in reversed(callbacks):
+        for callback, params in reversed(callbacks[:]):
             
             # get params
             params = dict(params, **kwargs)
