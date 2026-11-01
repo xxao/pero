@@ -13,10 +13,36 @@ class Matrix(object):
     """
     
     
-    def __init__(self):
-        """Initializes a new instance of Matrix."""
+    def __init__(self, a=1, b=0, c=0, d=1, tx=0, ty=0):
+        """
+        Initializes a new instance of Matrix from affine coefficients.
+        Default values create an identity matrix. Points are transformed as
+        x' = a*x + c*y + tx and y' = b*x + d*y + ty.
         
-        self._matrix = numpy.identity(3)
+        Args:
+            a: int or float
+                X contribution to the transformed x-coordinate.
+            
+            b: int or float
+                X contribution to the transformed y-coordinate.
+            
+            c: int or float
+                Y contribution to the transformed x-coordinate.
+            
+            d: int or float
+                Y contribution to the transformed y-coordinate.
+            
+            tx: int or float
+                Horizontal translation.
+            
+            ty: int or float
+                Vertical translation.
+        """
+        
+        self._matrix = numpy.array((
+            [a, c, tx],
+            [b, d, ty],
+            [0.0, 0.0, 1.0]), dtype=float)
     
     
     def __str__(self):
@@ -54,6 +80,25 @@ class Matrix(object):
         """
         
         self._matrix = numpy.dot(matrix._matrix, self._matrix)
+        
+        return self
+    
+    
+    def invert(self):
+        """
+        Inverts current matrix in place. If the matrix is singular, it remains
+        unchanged and an exception is raised.
+        
+        Returns:
+            pero.Matrix
+                Returns self so that the commands can be chained.
+        
+        Raises:
+            numpy.linalg.LinAlgError
+                If the matrix is singular and cannot be inverted.
+        """
+        
+        self._matrix = numpy.linalg.inv(self._matrix)
         
         return self
     
@@ -286,21 +331,31 @@ class Matrix(object):
     
     def transform(self, x, y):
         """
-        Transforms given point by current matrix.
+        Transforms scalar or broadcast-compatible array coordinates by current
+        matrix.
         
         Args:
-            x: int or float
-                X-coordinate of the point to be transformed.
+            x: int, float or array-like
+                X-coordinate(s) to be transformed.
             
-            y: int or float
-                Y-coordinate of the point to be transformed.
+            y: int, float or array-like
+                Y-coordinate(s) to be transfromed.
         
         Returns:
-            (int, int) or (float, float)
-                Transformed point.
+            numpy.ndarray
+                Transformed coordinates with shape (2,) for scalar inputs or
+                (2, *broadcast_shape) for array inputs. The first axis contains
+                the transformed x and y coordinates.
         """
         
-        return numpy.array((x, y, 1)).dot(self._matrix.T)[0:2]
+        x = numpy.asarray(x)
+        y = numpy.asarray(y)
+        matrix = self._matrix
+        
+        tx = matrix[0, 0]*x + matrix[0, 1]*y + matrix[0, 2]
+        ty = matrix[1, 0]*x + matrix[1, 1]*y + matrix[1, 2]
+        
+        return numpy.array((tx, ty))
     
     
     def clone(self):
