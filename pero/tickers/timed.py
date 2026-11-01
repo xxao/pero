@@ -67,6 +67,11 @@ class TimeTicker(Ticker):
                 Generated major and minor ticks.
         """
         
+        # constant range
+        if self.start == self.end:
+            self.formatter.precision = calc_precision((self.start,))
+            return (self.start,), ()
+        
         # get range
         start, end = self.start, self.end
         domain = abs(end - start)
@@ -86,7 +91,7 @@ class TimeTicker(Ticker):
         minor_ticks = make_lin_ticks(start, end, minor_step)
         
         # update formatter
-        self.formatter.precision = abs(major_step)
+        self.formatter.precision = calc_precision(major_ticks)
         
         return major_ticks, minor_ticks
     
@@ -107,6 +112,10 @@ class TimeTicker(Ticker):
                 New extended range.
         """
         
+        # constant range
+        if start == end:
+            return start, end
+        
         # check order
         flip = False
         if start > end:
@@ -119,8 +128,8 @@ class TimeTicker(Ticker):
             step = self._calc_step(abs(end - start), self.major_count)
         
         # extend range
-        start = math.floor(start / step) * step
-        end = math.ceil(end / step) * step
+        start = math.floor(snap(start / step)) * step
+        end = math.ceil(snap(end / step)) * step
         
         return (start, end) if not flip else (end, start)
     
@@ -128,19 +137,35 @@ class TimeTicker(Ticker):
     def _calc_step(self, domain, count, exact=False):
         """Calculates minor step size."""
         
-        # split time
+        # get splits
+        count = max(1, count)
+        day = SPLITS_TIME["d"]
+        hour = SPLITS_TIME["h"]
+        ideal = domain / count
         parts = split_value(domain, SPLITS_TIME)
+        factor = 1
         
-        # get split
-        if parts["h"] or parts["m"]:
+        # use decimal steps in days
+        if ideal >= day:
+            factor = day
+            domain = domain / day
+            splits = (1, 2, 5)
+            base = 10
+        
+        # subdivide day grids using the 24-hour cycle
+        elif exact and domain >= day and ideal >= hour:
+            factor = hour
+            domain = domain / hour
+            splits = (1, 2, 3, 4, 6, 8, 12)
+            base = 24
+        
+        # choose time or decimal spacing
+        elif parts["d"] or parts["h"] or parts["m"]:
             splits = (30, 15, 10, 5, 2, 1)
             base = 60
-        
         else:
             splits = (5, 2, 1)
             base = 10
         
-        # calc step size
-        step = calc_step_size(domain, count, splits, base, exact=exact)
-        
-        return step
+        # calculate step in seconds
+        return factor * calc_step_size(domain, count, splits, base, exact=exact)

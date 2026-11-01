@@ -49,7 +49,12 @@ class TestCase(unittest.TestCase):
         ticker(start=1.1, end=1.2)
         ticks = ticker.major_ticks()
         ticks = tuple(map(lambda x:round(x,2), ticks))
-        self.assertEqual(ticks, (1.1, 1.12, 1.14, 1.16, 1.18))
+        self.assertEqual(ticks, (1.1, 1.12, 1.14, 1.16, 1.18, 1.2))
+        
+        # test special
+        ticker(start=0.001, end=1)
+        ticks = ticker.major_ticks()
+        self.assertEqual(ticks, (.001, 0.01, 0.1, 1))
     
     
     def test_minor_ticks(self):

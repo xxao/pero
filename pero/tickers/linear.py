@@ -74,6 +74,11 @@ class LinTicker(Ticker):
                 Generated major and minor ticks.
         """
         
+        # constant range
+        if self.start == self.end:
+            self.formatter.precision = calc_precision((self.start,))
+            return (self.start,), ()
+        
         # get range
         start = self.formatter.convert(self.start)
         end = self.formatter.convert(self.end)
@@ -101,7 +106,7 @@ class LinTicker(Ticker):
         minor_ticks = [self.formatter.invert(t) for t in minor_ticks]
         
         # update formatter
-        self.formatter.precision = abs(major_step)
+        self.formatter.precision = calc_precision(major_ticks)
         
         return major_ticks, minor_ticks
     
@@ -122,6 +127,10 @@ class LinTicker(Ticker):
                 New extended range.
         """
         
+        # constant range
+        if start == end:
+            return start, end
+        
         # get range
         start = self.formatter.convert(start)
         end = self.formatter.convert(end)
@@ -138,8 +147,8 @@ class LinTicker(Ticker):
             step = calc_step_size(abs(end - start), self.major_count, self.major_splits)
         
         # extend range
-        start = math.floor(start / step) * step
-        end = math.ceil(end / step) * step
+        start = math.floor(snap(start / step)) * step
+        end = math.ceil(snap(end / step)) * step
         
         # invert range
         start = self.formatter.invert(start)

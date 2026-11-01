@@ -1,11 +1,10 @@
-#  Created byMartin.cz
-#  Copyright (c) Martin Strohalm. All rights reserved.
+"""Proposed replacement for pero/tickers/logarithmic.py; not installed."""
 
 import math
-from .. properties import *
-from .. formatters import ScalarFormatter
-from . utils import *
-from . ticker import Ticker
+from ..properties import IntProperty, NumProperty
+from ..formatters import ScalarFormatter
+from .ticker import Ticker
+from .utils import *
 
 
 class LogTicker(Ticker):
@@ -39,7 +38,7 @@ class LogTicker(Ticker):
         
         # init formatter
         if 'formatter' not in overrides:
-            overrides['formatter'] = ScalarFormatter()
+            overrides['formatter'] = ScalarFormatter(trim_zeros=True)
         
         # init base
         super().__init__(**overrides)
@@ -54,37 +53,34 @@ class LogTicker(Ticker):
                 Generated major and minor ticks.
         """
         
-        # get range
-        start, end = self.start, self.end
+        # normalize range.
+        start, end = sorted((self.start, self.end))
         
-        # check order
-        flip = False
-        if start > end:
-            start, end = end, start
-            flip = True
+        # convert to exponents
+        lo, hi = (snap(math.log(x, self.base)) for x in (start, end))
         
-        # make major ticks
-        major_ticks, step, stage = self._make_major_ticks(start, end, self.major_count, self.base)
+        # constant range
+        if start == end:
+            major_ticks, minor_ticks = (start,), ()
+            precision = start
         
-        # make minor ticks
-        minor_ticks = self._make_minor_ticks(start, end, self.minor_count, self.base, step, stage)
+        # linear range
+        elif hi - lo < 1:
+            major_ticks, minor_ticks, precision = self._make_linear_ticks(start, end)
         
-        # crop ticks to current range
-        major_ticks = [x for x in major_ticks if start <= x <= end]
-        minor_ticks = [x for x in minor_ticks if start <= x <= end]
+        # exponent range
+        else:
+            major_ticks, minor_ticks, precision = self._make_exponent_ticks(start, end, lo, hi)
         
-        # flip order back
-        if flip:
-            major_ticks.reverse()
-            minor_ticks.reverse()
+        # restore direction
+        if self.start > self.end:
+            major_ticks = major_ticks[::-1]
+            minor_ticks = minor_ticks[::-1]
         
         # update formatter
-        if step < self.base:
-            self.formatter.precision = step
-        else:
-            self.formatter.precision = end
+        self.formatter.precision = precision
         
-        return tuple(major_ticks), tuple(minor_ticks)
+        return major_ticks, minor_ticks
     
     
     def beautify(self, start, end):
@@ -103,78 +99,77 @@ class LogTicker(Ticker):
                 New extended range.
         """
         
-        # check order
-        flip = False
-        if start > end:
-            start, end = end, start
-            flip = True
+        lo, hi = sorted((start, end))
+        lo = math.pow(self.base, math.floor(snap(math.log(lo, self.base))))
+        hi = math.pow(self.base, math.ceil(snap(math.log(hi, self.base))))
         
-        # recalculate start
-        start = math.log(start, self.base)
-        start = math.floor(start)
-        start = math.pow(self.base, start)
-        
-        # recalculate end
-        end = math.log(end, self.base)
-        end = math.ceil(end)
-        end = math.pow(self.base, end)
-        
-        return (start, end) if not flip else (end, start)
+        return (hi, lo) if start > end else (lo, hi)
     
     
-    def _make_major_ticks(self, start, end, count, base):
-        """Makes major ticks."""
+    def _make_linear_ticks(self, start, end):
+        """Makes ticks for linear range."""
         
-        lo = math.log(start, base)
-        hi = math.log(end, base)
-        domain = abs(hi - lo)
+        # make major ticks
+        count = max(1, self.major_count)
+        major_step = calc_step_size(end - start, count, (1, 2, 5))
+        major_ticks = make_lin_ticks(start, end, major_step)
         
-        stage1 = (count-domain)
-        stage2 = (count-domain*(base-1))
+        # retry with finer spacing
+        if not major_ticks:
+            major_step = calc_step_size(end - start, count+1, (1, 2, 5))
+            major_ticks = make_lin_ticks(start, end, major_step)
         
-        if domain >= count or abs(stage1) <= abs(stage2):
-            
-            count = min(domain, count)
-            splits = (base, 1) if domain <= count else (1, 2, 5)
-            step = calc_step_size(domain, count, splits, base)
-            
-            ticks = make_lin_ticks(lo, hi, step)
-            ticks = tuple(map(lambda t: math.pow(base, t), ticks))
-            
-            return ticks, math.pow(base, step), 1
+        # make major ticks
+        minor_step = calc_step_size(major_step, self.minor_count, exact=True)
+        minor_ticks = make_lin_ticks(start, end, minor_step)
         
-        domain = abs(end - start)
-        splits = (base, 1) if base != 10 else (1, 2, 5)
-        step = calc_step_size(domain, count, splits, base)
-        stage3 = (count - domain/step)
+        return major_ticks, minor_ticks, major_step
+    
+    
+    def _make_exponent_ticks(self, start, end, lo, hi):
+        """Makes ticks for exponent range."""
         
-        if stage2 < stage3:
-            ticks = make_log_ticks(start, end, base)
-            return ticks, step, 2
+        # calc step
+        count = max(1, self.major_count)
+        step_base = 2 if self.base == 2 else 10
+        splits = (1, 2, 3, 5)
+        major_step = max(1, calc_step_size(hi - lo, count, splits))
         
+        # make major
+        major_ticks = self._make_power_ticks(start, end, lo, hi, major_step)
+        
+        # generate subdivisions or consecutive powers
+        if self.base == int(self.base):
+            dense = make_log_ticks(start, end, self.base)
         else:
-            ticks = make_lin_ticks(start, end, step)
-            return ticks, step, 3
+            dense = self._make_power_ticks(start, end, lo, hi, 1)
+        
+        # prefer dense ticks when their count is closer
+        if abs(len(dense) - count) < abs(len(major_ticks) - count):
+            major_ticks, major_step = dense, 1
+        
+        # ensure ticks available
+        if not major_ticks:
+            return self._make_linear_ticks(start, end)
+        
+        # use dense ticks at unit exponent steps
+        if major_step == 1:
+            minor_ticks = dense
+        
+        # use finer ticks for sparse grids
+        else:
+            minor_step = calc_step_size(major_step, self.minor_count, splits, step_base, exact=True)
+            minor_step = max(1, minor_step)
+            minor_ticks = self._make_power_ticks(start, end, lo, hi, minor_step)
+        
+        # calc precision
+        precision = calc_precision(major_ticks)
+        
+        return major_ticks, minor_ticks, precision
     
     
-    def _make_minor_ticks(self, start, end, count, base, step, stage):
-        """Makes minor ticks."""
+    def _make_power_ticks(self, start, end, lo, hi, step):
+        """Make ticks by step."""
         
-        if stage != 1:
-            step = calc_step_size(step, count, (base, 1), base)
-            return make_lin_ticks(start, end, step)
-        
-        if step <= base:
-            return make_log_ticks(start, end, base)
-        
-        start = math.log(start, base)
-        end = math.log(end, base)
-        
-        step = math.log(step, base)
-        step = calc_step_size(step, count, (1, 2, 5), base)
-        step = max(step, 1.)
-        
-        ticks = make_lin_ticks(start, end, step)
-        ticks = tuple(map(lambda t: math.pow(base, t), ticks))
-        
-        return ticks
+        ticks = (math.pow(self.base, t) for t in make_lin_ticks(lo, hi, step))
+        return tuple(x for x in ticks if start <= x <= end)

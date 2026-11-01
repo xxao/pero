@@ -4,6 +4,13 @@
 import math
 
 
+def snap(x):
+    """Snaps value to nearest integer."""
+    
+    n = round(x)
+    return n if abs(x - n) <= min(4 * math.ulp(x), 1e-7) else x
+
+
 def calc_step_size(domain, count=7, splits=(5, 3, 2, 1), base=10, exact=False):
     """
     Calculates visually nice step size for given range.
@@ -29,26 +36,70 @@ def calc_step_size(domain, count=7, splits=(5, 3, 2, 1), base=10, exact=False):
             Step size.
     """
     
-    ideal = math.fabs(domain) / float(max(1, count))
-    log = math.log(ideal, base)
-    power = math.floor(log)
-    pw = math.pow(base, power)
+    domain = abs(domain)
+    count = max(1, count)
+    ideal = domain / count
+    pw = base ** math.floor(math.log(ideal, base))
     
-    fraction = log - power
-    error = float('inf')
+    steps = [
+        split * scale
+        for scale in (pw, pw * base)
+        for split in splits]
     
     if exact:
-        err = lambda s: abs(round(domain / s / pw) - domain / s / pw)
-        splits = [s for s in splits if err(s) < 0.01] or splits
+        
+        fitting = []
+        for step in steps:
+            intervals = snap(domain / step)
+            if intervals >= 1 and intervals == round(intervals):
+                fitting.append(step)
+        
+        if not fitting:
+            return domain / count
+        
+        steps = fitting
     
-    factor = 1.
-    for split in splits:
-        e = math.fabs(fraction - math.log(split, base))
-        if e < error:
-            factor = split
-            error = e
+    return min(steps, key=lambda step: (
+        abs(domain / step - count),
+        abs(math.log(step / ideal, base))))
+
+
+def calc_precision(ticks):
+    """
+    Finds decimal precision for finite ticks.
     
-    return factor * pw
+    Args:
+        ticks: (float,)
+            Ticks to analyze.
+    
+    Returns:
+        float
+            Precision.
+    """
+    
+    # iit digits
+    smallest = min((abs(t) for t in ticks if t), default=1.0)
+    digits = -math.floor(math.log10(smallest))
+    
+    # increase digits until rounding preserves all ticks
+    count = len(set(ticks))
+    while True:
+        
+        # round and count
+        rounded = [round(x, digits) for x in ticks]
+        
+        # not all ticks retained
+        if len(set(rounded)) != count:
+            digits += 1
+            continue
+        
+        # check resolution
+        merged = zip(ticks, rounded)
+        if all((t == 0 or rt != 0) and abs(t - rt) <= 4 * math.ulp(t) for t, rt in merged):
+            return max(10.0 ** -digits, math.ulp(0.0))
+        
+        # add digit
+        digits += 1
 
 
 def make_lin_ticks(start, end, step):
@@ -70,22 +121,24 @@ def make_lin_ticks(start, end, step):
             Ticks values.
     """
     
+    # reversed
+    if start > end:
+        return make_lin_ticks(end, start, step)[::-1]
+    
     # init buffer
     ticks = []
     
-    # ascending
-    if start < end:
-        tick = math.ceil(float(start) / step) * step
-        while tick <= end:
-            ticks.append(tick)
-            tick += step
+    # init range
+    first = math.ceil(snap(start / step))
+    last = math.floor(snap(end / step))
+    count = max(0, last - first + 1)
     
-    # descending
-    else:
-        tick = math.floor(float(start) / step) * step
-        while tick >= end:
+    # add ticks
+    for i in range(count):
+        tick = (first + i) * step
+        tick = min(end, max(start, tick))
+        if not ticks or tick != ticks[-1]:
             ticks.append(tick)
-            tick -= step
     
     return tuple(ticks)
 
@@ -111,8 +164,8 @@ def make_log_ticks(start, end, base):
     
     ticks = []
     
-    lo = round(math.log(start, base)) - 1
-    hi = round(math.log(end, base)) + 1
+    lo = math.floor(snap(math.log(start, base)))
+    hi = math.floor(snap(math.log(end, base))) + 1
     
     while lo < hi:
         

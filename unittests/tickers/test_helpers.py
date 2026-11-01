@@ -22,7 +22,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(step, 1)
         
         step = pero.tickers.calc_step_size(3, 4, (5,3,2,1))
-        self.assertAlmostEqual(step, 0.5)
+        self.assertAlmostEqual(step, 1)
         
         step = pero.tickers.calc_step_size(3, 5, (5,3,2,1))
         self.assertAlmostEqual(step, 0.5)
@@ -56,7 +56,7 @@ class TestCase(unittest.TestCase):
         self.assertAlmostEqual(step, .1)
         
         step = pero.tickers.calc_step_size(.3, 4, (5,3,2,1))
-        self.assertAlmostEqual(step, .05)
+        self.assertAlmostEqual(step, .1)
         
         step = pero.tickers.calc_step_size(.3, 5, (5,3,2,1))
         self.assertAlmostEqual(step, .05)
@@ -90,7 +90,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(step, 1)
         
         step = pero.tickers.calc_step_size(3, 4, (5,3,2,1), exact=True)
-        self.assertAlmostEqual(step, 0.5)
+        self.assertAlmostEqual(step, 1)
         
         step = pero.tickers.calc_step_size(3, 5, (5,3,2,1), exact=True)
         self.assertAlmostEqual(step, 0.5)
@@ -124,7 +124,7 @@ class TestCase(unittest.TestCase):
         self.assertAlmostEqual(step, .1)
         
         step = pero.tickers.calc_step_size(.3, 4, (5,3,2,1), exact=True)
-        self.assertAlmostEqual(step, .05)
+        self.assertAlmostEqual(step, .1)
         
         step = pero.tickers.calc_step_size(.3, 5, (5,3,2,1), exact=True)
         self.assertAlmostEqual(step, .05)
@@ -145,6 +145,26 @@ class TestCase(unittest.TestCase):
         self.assertAlmostEqual(step, .03)
     
     
+    def test_precision(self):
+        """Tests precision for signed ticks, zero and small values."""
+        
+        cases = (
+            ((), 1.0),
+            ((0,), 1.0),
+            ((-2, -1), 1.0),
+            ((-0.25, 0, 0.25), 0.01),
+            ((0.25, 0.25), 0.01),
+            ((0.30000000000000004,), 0.1),
+            ((5e-324,), 5e-324),
+            ((-5e-324,), 5e-324),
+            ((1.0, 1.0000000000000002), 1e-16),
+        )
+        
+        for ticks, expected in cases:
+            with self.subTest(ticks=ticks):
+                self.assertEqual(pero.tickers.calc_precision(ticks), expected)
+    
+    
     def test_lin_ticks(self):
         """Tests whether linear ticks are calculated correctly."""
         
@@ -163,9 +183,17 @@ class TestCase(unittest.TestCase):
         model = (0, 1, 2, 3, 4, 5)
         self.assertEqual(ticks, model)
         
+        ticks = pero.tickers.make_lin_ticks(0, 0.3, 0.1)
+        model = (0, 0.1, 0.2, 0.3)
+        self.assertEqual(ticks, model)
+        
         # test reversed range
         ticks = pero.tickers.make_lin_ticks(5.5, 0.5, 1)
         model = (5, 4, 3, 2, 1)
+        self.assertEqual(ticks, model)
+        
+        ticks = pero.tickers.make_lin_ticks(0.3, 0, 0.1)
+        model = (0.3, 0.2, 0.1, 0)
         self.assertEqual(ticks, model)
 
 
