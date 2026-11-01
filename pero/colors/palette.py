@@ -272,6 +272,8 @@ class Palette(object, metaclass=PaletteMeta):
     def from_name(name):
         """
         Gets the palette from library by its registered name (case in-sensitive).
+        For all known palettes, if provided name has '_r' suffix, the inverted
+        palette is returned.
         
         Args:
             name: str
@@ -286,6 +288,10 @@ class Palette(object, metaclass=PaletteMeta):
         name = name.lower()
         if name in PALETTES:
             return PALETTES[name]
+        
+        # try reversed
+        if name.endswith("_r") and name[:-2] in PALETTES:
+            return PALETTES[name[:-2]].reversed()
         
         # name not found
         message = "Unknown palette name specified! -> '%s'" % name
