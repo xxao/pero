@@ -4,7 +4,6 @@
 import ui
 from ... properties import *
 from ... colors import Transparent, Black
-from ... geometry import Matrix
 from ... drawing import Canvas, ClipState
 from . enums import *
 
@@ -85,10 +84,7 @@ class UICanvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # make ui path
         ui_path = self._make_native_path(path)
@@ -224,10 +220,7 @@ class UICanvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # save current canvas state
         state = ui.GState()

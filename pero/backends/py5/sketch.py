@@ -62,6 +62,7 @@ class ShowSketch(py5.Sketch):
         
         # draw graphics
         with pg.begin_draw():
+            canvas._update_device_trans()
             self._graphics.draw(canvas)
         
         # finalize image
@@ -169,6 +170,7 @@ class ExportSketch(py5.Sketch):
         
         # draw graphics
         with pg.begin_draw():
+            canvas._update_device_trans()
             self._graphics.draw(canvas)
         
         # finalize image

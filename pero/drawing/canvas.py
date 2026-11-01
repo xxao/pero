@@ -6,7 +6,7 @@ import numpy
 from .. enums import *
 from .. events import *
 from .. properties import *
-from .. geometry import Frame, Path
+from .. geometry import Frame, Path, Matrix
 from . fonts import FONTS
 
 
@@ -155,6 +155,8 @@ class Canvas(PropertySet):
     line_scale = FloatProperty(1, dynamic=False)
     font_scale = FloatProperty(1, dynamic=False)
     
+    snap = BoolProperty(True, dynamic=False)
+    
     pen = Include(LineProperties, dynamic=False,
         line_color = "#000",
         line_width = 1,
@@ -204,6 +206,12 @@ class Canvas(PropertySet):
         # init scale and offset
         self._scale = self.draw_scale
         self._offset = numpy.array((0, 0))
+        self._main_trans = None
+        self._update_main_trans()
+        
+        # init pixel snap
+        self._snap_trans = None
+        self._snap_inverse = None
         
         # set font
         self._cfont = None
@@ -1152,6 +1160,7 @@ class Canvas(PropertySet):
         if x is None and y is None:
             self._viewport = None
             self._offset = numpy.array((0, 0))
+            self._update_main_trans()
             return state
         
         # check viewport
@@ -1180,6 +1189,7 @@ class Canvas(PropertySet):
         # set viewport
         self._viewport = Frame(x, y, width, height)
         self._offset = numpy.array((x, y))
+        self._update_main_trans()
         
         # return state
         return state
@@ -1261,8 +1271,9 @@ class Canvas(PropertySet):
     def to_device(self, x, y):
         """
         Recalculates given logical content position into absolute device
-        position within the canvas by removing current line scale and origin
-        offset.
+        position within the canvas by removing current draw scale and origin
+        offset. If enabled by 'snap', it also snaps position to physical pixel
+        boundaries.
         
         Args:
             x: float
@@ -1276,8 +1287,22 @@ class Canvas(PropertySet):
                 Absolute device x and y coordinates.
         """
         
+        # apply scale and offset
         x = (x + self._offset[0]) * self._scale
         y = (y + self._offset[1]) * self._scale
+        
+        # snap to pixels
+        if self.snap and self._snap_trans is not None and self._snap_inverse is not None:
+            
+            # transform to physical pixels
+            x, y = self._snap_trans.transform(x, y)
+            
+            # snap to pixel boundaries
+            x = numpy.floor(x + 0.5 + 1e-9)
+            y = numpy.floor(y + 0.5 + 1e-9)
+            
+            # transform back to device units
+            return self._snap_inverse.transform(x, y)
         
         return x, y
     
@@ -1305,12 +1330,24 @@ class Canvas(PropertySet):
         return x, y
     
     
+    def _update_main_trans(self, evt=None):
+        """Updates scale and offset matrix."""
+        
+        # make matrix
+        self._main_trans = Matrix()
+        
+        # apply scaling and offset
+        self._main_trans.translate(self._offset[0], self._offset[1])
+        self._main_trans.scale(self._scale, self._scale)
+    
+    
     def _on_canvas_property_changed(self, evt):
         """Called after any property has changed."""
         
         # update global scaling
         if evt.name == 'draw_scale':
             self._scale = self.draw_scale
+            self._update_main_trans()
         
         # update full viewport
         if evt.name in ('draw_scale', 'width', 'height'):

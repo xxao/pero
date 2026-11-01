@@ -368,9 +368,18 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
     def _make_canvas(self, dc):
         """Makes canvas using given DC."""
         
+        # get pixel scale
+        if isinstance(dc, wx.MemoryDC):
+            bitmap = dc.GetSelectedBitmap()
+            pixel_scale = bitmap.GetWidth() / bitmap.GetLogicalWidth()
+        else:
+            pixel_scale = self.GetContentScaleFactor()
+        
         # use GCDC
         if 'wxMac' not in wx.PlatformInfo:
             dc = wx.GCDC(dc)
         
         # make canvas
-        return WXCanvas(dc)
+        canvas = WXCanvas(dc, pixel_scale)
+        
+        return canvas

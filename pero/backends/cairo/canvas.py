@@ -45,6 +45,7 @@ class CairoCanvas(Canvas):
         self._update_pen()
         self._update_brush()
         self._update_text()
+        self._update_device_trans()
         
         # bind events
         self.bind(EVT_PEN_CHANGED, self._update_pen)
@@ -101,8 +102,7 @@ class CairoCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         radius = self._scale * radius
         
         # init drawing
@@ -134,8 +134,7 @@ class CairoCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         radius = self._scale * radius
         
         # init drawing
@@ -167,8 +166,7 @@ class CairoCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         width = self._scale * width
         height = self._scale * height
         
@@ -212,10 +210,8 @@ class CairoCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x1 = self._scale * (x1 + self._offset[0])
-        y1 = self._scale * (y1 + self._offset[1])
-        x2 = self._scale * (x2 + self._offset[0])
-        y2 = self._scale * (y2 + self._offset[1])
+        x1, y1 = self.to_device(x1, y1)
+        x2, y2 = self.to_device(x2, y2)
         
         # init drawing
         self._dc.new_path()
@@ -242,7 +238,8 @@ class CairoCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
+        points = numpy.asarray(points).T
+        points = numpy.array(self.to_device(*points)).T
         
         # init drawing
         self._dc.new_path()
@@ -266,10 +263,7 @@ class CairoCanvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # set new fill rule
         fill_rule = self._dc.get_fill_rule()
@@ -299,7 +293,8 @@ class CairoCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
+        points = numpy.asarray(points).T
+        points = numpy.array(self.to_device(*points)).T
         
         # init drawing
         self._dc.new_path()
@@ -350,16 +345,14 @@ class CairoCanvas(Canvas):
             return
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
-        width = self._scale * width
-        height = self._scale * height
+        x1, y1 = self.to_device(x, y)
+        x2, y2 = self.to_device(x+width, y+height)
         
         # init drawing
         self._dc.new_path()
         
         # draw
-        self._dc.rectangle(x, y, width, height)
+        self._dc.rectangle(x1, y1, x2-x1, y2-y1)
         
         # fill and stroke
         self._fill_and_stroke()
@@ -485,10 +478,7 @@ class CairoCanvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # save current canvas state
         self._dc.save()
@@ -698,3 +688,37 @@ class CairoCanvas(Canvas):
                 self._font['family'],
                 self._font['style'],
                 self._font['weight'])
+    
+    
+    def _update_device_trans(self, evt=None):
+        """Updates pixel snapping matrices for current image surface."""
+        
+        # reset current
+        self._snap_trans = None
+        self._snap_inverse = None
+        
+        # vector and recording surfaces have no final pixel grid
+        surface = self._dc.get_group_target()
+        if not isinstance(surface, cairo.ImageSurface):
+            return
+        
+        # combine context and surface transformations
+        native = self._dc.get_matrix()
+        
+        matrix = Matrix(
+            native.xx, native.yx,
+            native.xy, native.yy,
+            native.x0, native.y0)
+        
+        matrix.scale(*surface.get_device_scale())
+        matrix.translate(*surface.get_device_offset())
+        
+        # make inverse
+        try:
+            inverse = matrix.clone().invert()
+        except numpy.linalg.LinAlgError:
+            return
+        
+        # set current
+        self._snap_trans = matrix
+        self._snap_inverse = inverse

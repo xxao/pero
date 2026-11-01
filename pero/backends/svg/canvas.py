@@ -4,7 +4,7 @@
 import numpy
 import html
 from ... properties import *
-from ... geometry import Path, Matrix
+from ... geometry import Path
 from ... drawing import Canvas, ClipState, GroupState
 from . enums import *
 
@@ -133,8 +133,7 @@ class SVGCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         radius = self._scale * radius
         
         # apply rounding
@@ -173,8 +172,7 @@ class SVGCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         width = self._scale * width
         height = self._scale * height
         
@@ -218,10 +216,8 @@ class SVGCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x1 = self._scale * (x1 + self._offset[0])
-        y1 = self._scale * (y1 + self._offset[1])
-        x2 = self._scale * (x2 + self._offset[0])
-        y2 = self._scale * (y2 + self._offset[1])
+        x1, y1 = self.to_device(x1, y1)
+        x2, y2 = self.to_device(x2, y2)
         
         # get pen
         pen = self._get_pen_attrs()
@@ -253,7 +249,8 @@ class SVGCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
+        points = numpy.asarray(points).T
+        points = numpy.array(self.to_device(*points)).T
         
         # apply rounding
         points = [(round(x, _DIGITS), round(y, _DIGITS)) for x, y in points]
@@ -282,10 +279,7 @@ class SVGCanvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # get svg
         svg = path.svg(self._indent+_INDENT, _DIGITS)
@@ -316,7 +310,8 @@ class SVGCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
+        points = numpy.asarray(points).T
+        points = numpy.array(self.to_device(*points)).T
         
         # apply rounding
         points = [(round(x, _DIGITS), round(y, _DIGITS)) for x, y in points]
@@ -375,17 +370,15 @@ class SVGCanvas(Canvas):
         radius = radius[0] if radius else 0
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
-        width = self._scale * width
-        height = self._scale * height
+        x1, y1 = self.to_device(x, y)
+        x2, y2 = self.to_device(x+width, y+height)
         radius = self._scale * radius
         
         # apply rounding
-        x = round(x, _DIGITS)
-        y = round(y, _DIGITS)
-        width = round(width, _DIGITS)
-        height = round(height, _DIGITS)
+        x = round(x1, _DIGITS)
+        y = round(y1, _DIGITS)
+        width = round(x2-x1, _DIGITS)
+        height = round(y2-y1, _DIGITS)
         radius = round(radius, _DIGITS)
         
         # get pen and brush
@@ -506,10 +499,7 @@ class SVGCanvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # get svg
         svg = path.svg("", _DIGITS)

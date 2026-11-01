@@ -126,8 +126,11 @@ def export(graphics, path, width=None, height=None, **options):
     if 'wxMac' not in wx.PlatformInfo:
         dc = wx.GCDC(dc)
     
+    # get pixel scale
+    pixel_scale = bitmap.GetWidth() / bitmap.GetLogicalWidth()
+    
     # init canvas
-    canvas = WXCanvas(dc, width=width, height=height)
+    canvas = WXCanvas(dc, pixel_scale, width=width, height=height)
     
     if 'draw_scale' in options:
         canvas.draw_scale = options['draw_scale']

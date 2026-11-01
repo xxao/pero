@@ -2,8 +2,8 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import numpy
-from math import floor
 from . loader import QPointF, QLineF, QRectF, QColor, QPen, QBrush, QPainterPath, QFontMetrics
+from . loader import QImage, QPixmap, QWidget
 from ... properties import *
 from ... geometry import Path, Matrix
 from ... drawing import Canvas, ClipState
@@ -28,7 +28,6 @@ class QtCanvas(Canvas):
         
         # init buffers
         self._dc = dc
-        
         self._pen = self._dc.pen()
         self._brush = self._dc.brush()
         self._default_font = self._dc.font()
@@ -57,6 +56,7 @@ class QtCanvas(Canvas):
         self._update_pen()
         self._update_brush()
         self._update_text()
+        self._update_device_trans()
         
         # bind events
         self.bind(EVT_PEN_CHANGED, self._update_pen)
@@ -125,16 +125,13 @@ class QtCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         width = self._scale * width
         height = self._scale * height
         
         # round
-        cx = floor(x - 0.5 * width)
-        cy = floor(y - 0.5 * height)
-        width = floor(width)
-        height = floor(height)
+        cx = x - 0.5 * width
+        cy = y - 0.5 * height
         
         # draw
         self._dc.drawEllipse(QRectF(cx, cy, width, height))
@@ -159,16 +156,8 @@ class QtCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x1 = self._scale * (x1 + self._offset[0])
-        y1 = self._scale * (y1 + self._offset[1])
-        x2 = self._scale * (x2 + self._offset[0])
-        y2 = self._scale * (y2 + self._offset[1])
-        
-        # round
-        x1 = floor(x1)
-        y1 = floor(y1)
-        x2 = floor(x2)
-        y2 = floor(y2)
+        x1, y1 = self.to_device(x1, y1)
+        x2, y2 = self.to_device(x2, y2)
         
         # draw
         self._dc.drawLine(QPointF(x1, y1), QPointF(x2, y2))
@@ -188,7 +177,8 @@ class QtCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
+        points = numpy.asarray(points).T
+        points = numpy.array(self.to_device(*points)).T
         
         # get lines
         lines = (QLineF(*p) for p in numpy.hstack([points[:-1], points[1:]]))
@@ -207,10 +197,7 @@ class QtCanvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # make qt path
         qt_path = self._make_native_path(path)
@@ -233,7 +220,8 @@ class QtCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
+        points = numpy.asarray(points).T
+        points = numpy.array(self.to_device(*points)).T
         
         # draw
         self._dc.drawPolygon(*(QPointF(p[0], p[1]) for p in points))
@@ -274,25 +262,17 @@ class QtCanvas(Canvas):
             return
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
-        width = self._scale * width + .5
-        height = self._scale * height + .5
-        
-        # round
-        x = floor(x)
-        y = floor(y)
-        width = floor(width)
-        height = floor(height)
+        x1, y1 = self.to_device(x, y)
+        x2, y2 = self.to_device(x+width, y+height)
         
         # no round corners
         if not radius:
-            self._dc.drawRect(QRectF(x, y, width, height))
+            self._dc.drawRect(QRectF(x1, y1, x2-x1, y2-y1))
         
         # same radius for all corners
         else:
             radius = self._scale * radius[0]
-            self._dc.drawRoundedRect(QRectF(x, y, width, height), radius, radius)
+            self._dc.drawRoundedRect(QRectF(x1, y1, x2-x1, y2-y1), radius, radius)
     
     
     def draw_text(self, text, x, y, angle=0):
@@ -423,10 +403,7 @@ class QtCanvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # save current canvas state
         self._dc.save()
@@ -623,3 +600,36 @@ class QtCanvas(Canvas):
         # set font
         self._dc.setFont(font)
         self._font_metrics = QFontMetrics(font)
+    
+    
+    def _update_device_trans(self, evt=None):
+        """Updates pixel snapping matrices for raster drawing devices."""
+        
+        # reset current
+        self._snap_trans = None
+        self._snap_inverse = None
+        
+        # vector and recording devices have no final pixel grid
+        if not isinstance(self._dc.device(), (QImage, QPixmap, QWidget)):
+            return
+        
+        # get the complete native transformation, including pixel ratio
+        native = self._dc.deviceTransform()
+        if not native.isAffine():
+            return
+        
+        # init matrix
+        matrix = Matrix(
+            native.m11(), native.m12(),
+            native.m21(), native.m22(),
+            native.dx(), native.dy())
+        
+        # make inverse
+        try:
+            inverse = matrix.clone().invert()
+        except numpy.linalg.LinAlgError:
+            return
+        
+        # set current
+        self._snap_trans = matrix
+        self._snap_inverse = inverse

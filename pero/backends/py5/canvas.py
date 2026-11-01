@@ -33,7 +33,6 @@ class Py5Canvas(Canvas):
         self._pg = pg
         self._context = context
         self._clipping = []
-        
         self._line_color = None
         self._fill_color = None
         self._for_color = Black
@@ -95,8 +94,7 @@ class Py5Canvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         radius = self._scale * radius
         
         # draw circle
@@ -123,8 +121,7 @@ class Py5Canvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         width = self._scale * width
         height = self._scale * height
         
@@ -156,10 +153,8 @@ class Py5Canvas(Canvas):
         """
         
         # apply scaling and offset
-        x1 = self._scale * (x1 + self._offset[0])
-        y1 = self._scale * (y1 + self._offset[1])
-        x2 = self._scale * (x2 + self._offset[0])
-        y2 = self._scale * (y2 + self._offset[1])
+        x1, y1 = self.to_device(x1, y1)
+        x2, y2 = self.to_device(x2, y2)
         
         # draw line
         self._pg.line(x1, y1, x2, y2)
@@ -179,7 +174,8 @@ class Py5Canvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
+        points = numpy.asarray(points).T
+        points = numpy.array(self.to_device(*points)).T
         
         # create coords
         points = numpy.concatenate((points[:-1], points[1:]), axis=1)
@@ -198,10 +194,7 @@ class Py5Canvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # draw individual sub-paths
         for sub in path.split():
@@ -272,14 +265,12 @@ class Py5Canvas(Canvas):
             return
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
-        width = self._scale * width
-        height = self._scale * height
+        x1, y1 = self.to_device(x, y)
+        x2, y2 = self.to_device(x+width, y+height)
         
         # draw rect
         self._pg.rect_mode(py5.CORNER)
-        self._pg.rect(x, y, width, height)
+        self._pg.rect(x1, y1, x2-x1, y2-y1)
     
     
     def draw_text(self, text, x, y, angle=0):
@@ -411,10 +402,7 @@ class Py5Canvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # set clipping
         rect = path.bbox().rect
@@ -523,3 +511,32 @@ class Py5Canvas(Canvas):
             color = ColorProperties.get_color(self, "text_bgr_")
             if color is not UNDEF:
                 self._bgr_color = color
+    
+    
+    def _update_device_trans(self, evt=None):
+        """Updates pixel snapping matrices within an active drawing context."""
+        
+        # reset current
+        self._snap_trans = None
+        self._snap_inverse = None
+        
+        # get native transformation
+        native = self._pg.get_matrix()
+        if native is None or native.shape != (2, 3):
+            return
+        
+        # make matrix
+        matrix = Matrix(
+            native[0, 0], native[1, 0],
+            native[0, 1], native[1, 1],
+            native[0, 2], native[1, 2])
+        
+        # make inverse
+        try:
+            inverse = matrix.clone().invert()
+        except numpy.linalg.LinAlgError:
+            return
+        
+        # set current
+        self._snap_trans = matrix
+        self._snap_inverse = inverse

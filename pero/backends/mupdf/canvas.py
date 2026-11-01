@@ -4,7 +4,7 @@
 import fitz
 import numpy
 from ... properties import *
-from ... geometry import Path, Matrix
+from ... geometry import Path
 from ... drawing import Canvas
 from . enums import *
 
@@ -85,8 +85,7 @@ class MuPDFCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         radius = self._scale * radius
         
         # init shape
@@ -118,8 +117,7 @@ class MuPDFCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         width = self._scale * width
         height = self._scale * height
         
@@ -156,10 +154,8 @@ class MuPDFCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x1 = self._scale * (x1 + self._offset[0])
-        y1 = self._scale * (y1 + self._offset[1])
-        x2 = self._scale * (x2 + self._offset[0])
-        y2 = self._scale * (y2 + self._offset[1])
+        x1, y1 = self.to_device(x1, y1)
+        x2, y2 = self.to_device(x2, y2)
         
         # init shape
         shape = self._page.new_shape()
@@ -185,7 +181,8 @@ class MuPDFCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
+        points = numpy.asarray(points).T
+        points = numpy.array(self.to_device(*points)).T
         
         # init shape
         shape = self._page.new_shape()
@@ -207,10 +204,7 @@ class MuPDFCanvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # init shape
         shape = self._page.new_shape()
@@ -262,7 +256,8 @@ class MuPDFCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
+        points = numpy.asarray(points).T
+        points = numpy.array(self.to_device(*points)).T
         
         # init shape
         shape = self._page.new_shape()
@@ -309,16 +304,14 @@ class MuPDFCanvas(Canvas):
             return
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
-        width = self._scale * width
-        height = self._scale * height
+        x1, y1 = self.to_device(x, y)
+        x2, y2 = self.to_device(x+width, y+height)
         
         # init shape
         shape = self._page.new_shape()
         
         # draw
-        shape.draw_rect((x, y, x+width, y+height))
+        shape.draw_rect((x1, y1, x2, y2))
         
         # fill and stroke
         self._fill_and_stroke(shape, close=True)

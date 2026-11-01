@@ -14,7 +14,7 @@ class WXCanvas(Canvas):
     """Wrapper for wxPython drawing context."""
     
     
-    def __init__(self, dc, **overrides):
+    def __init__(self, dc, pixel_scale=1, **overrides):
         """
         Initializes a new instance of WXCanvas.
         
@@ -29,10 +29,10 @@ class WXCanvas(Canvas):
         # init buffers
         self._dc = dc
         self._clipping = []
-        
         self._pen = self._dc.GetPen()
         self._brush = self._dc.GetBrush()
         self._default_font = self._dc.GetFont()
+        self._pixel_scale = float(pixel_scale)
         
         # set font factor
         self._font_factor = 1.
@@ -55,6 +55,7 @@ class WXCanvas(Canvas):
         self._update_pen()
         self._update_brush()
         self._update_text()
+        self._update_device_trans()
         
         # bind events
         self.bind(EVT_PEN_CHANGED, self._update_pen)
@@ -108,8 +109,7 @@ class WXCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         radius = self._scale * radius
         
         # make path
@@ -137,8 +137,7 @@ class WXCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         radius = self._scale * radius
         
         # draw
@@ -165,8 +164,7 @@ class WXCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
+        x, y = self.to_device(x, y)
         width = self._scale * width
         height = self._scale * height
         
@@ -198,10 +196,8 @@ class WXCanvas(Canvas):
         """
         
         # apply scaling and offset
-        x1 = self._scale * (x1 + self._offset[0])
-        y1 = self._scale * (y1 + self._offset[1])
-        x2 = self._scale * (x2 + self._offset[0])
-        y2 = self._scale * (y2 + self._offset[1])
+        x1, y1 = self.to_device(x1, y1)
+        x2, y2 = self.to_device(x2, y2)
         
         # draw
         self._dc.DrawLine(x1, y1, x2, y2)
@@ -221,7 +217,8 @@ class WXCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
+        points = numpy.asarray(points).T
+        points = numpy.array(self.to_device(*points)).T
         
         # draw
         self._dc.DrawLines(points)
@@ -237,10 +234,7 @@ class WXCanvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # make wx path
         gc = self._get_gc(self._dc)
@@ -264,7 +258,8 @@ class WXCanvas(Canvas):
             return
         
         # apply scaling and offset
-        points = (numpy.array(points) + self._offset) * numpy.array((self._scale, self._scale))
+        points = numpy.asarray(points).T
+        points = numpy.array(self.to_device(*points)).T
         
         # draw
         self._dc.DrawPolygon(points)
@@ -305,19 +300,17 @@ class WXCanvas(Canvas):
             return
         
         # apply scaling and offset
-        x = self._scale * (x + self._offset[0])
-        y = self._scale * (y + self._offset[1])
-        width = self._scale * width + 1
-        height = self._scale * height + 1
+        x1, y1 = self.to_device(x, y)
+        x2, y2 = self.to_device(x+width, y+height)
         
         # no round corners
         if not radius:
-            self._dc.DrawRectangle(x, y, width, height)
+            self._dc.DrawRectangle(x1, y1, x2-x1+1, y2-y1+1)
         
         # same radius for all corners
         else:
             radius = self._scale * radius[0]
-            self._dc.DrawRoundedRectangle(x, y, width, height, radius)
+            self._dc.DrawRoundedRectangle(x1, y1, x2-x1+1, y2-y1+1, radius)
     
     
     def draw_text(self, text, x, y, angle=0):
@@ -414,10 +407,7 @@ class WXCanvas(Canvas):
         """
         
         # apply scaling and offset
-        matrix = Matrix()
-        matrix.translate(self._offset[0], self._offset[1])
-        matrix.scale(self._scale, self._scale)
-        path = path.transformed(matrix)
+        path = path.transformed(self._main_trans)
         
         # set clipping
         rect = path.bbox().rect
@@ -462,7 +452,7 @@ class WXCanvas(Canvas):
     
     def _make_native_path(self, path, gc):
         """Converts given path to native path."""
-
+        
         # init path
         wx_path = gc.CreatePath()
         
@@ -632,3 +622,32 @@ class WXCanvas(Canvas):
         
         # set font
         self._dc.SetFont(font)
+    
+    
+    def _update_device_trans(self, evt=None):
+        """Updates pixel snapping matrices from the graphics context."""
+        
+        # reset current
+        self._snap_trans = None
+        self._snap_inverse = None
+        
+        # get the native transformation
+        gc = self._get_gc(self._dc)
+        if gc is None:
+            return
+        
+        # make matrix
+        matrix = Matrix(*gc.GetTransform().Get())
+        
+        # include pixel scale
+        matrix.scale(self._pixel_scale, self._pixel_scale)
+        
+        # make inverse
+        try:
+            inverse = matrix.clone().invert()
+        except numpy.linalg.LinAlgError:
+            return
+        
+        # set current
+        self._snap_trans = matrix
+        self._snap_inverse = inverse
