@@ -101,8 +101,6 @@ class ColorBar(Glyph):
             step_height = thickness
             step_x = step
             step_y = 0
-            lap_w = 0.5
-            lap_h = 0
             
         else:
             width = thickness
@@ -111,8 +109,6 @@ class ColorBar(Glyph):
             step_height = step
             step_x = 0
             step_y = step
-            lap_w = 0
-            lap_h = 0.5
         
         # start drawing group
         canvas.group(tag, "colorbar")
@@ -128,7 +124,7 @@ class ColorBar(Glyph):
         for i in range(steps):
             value = start + grange * abs(direction-float(i)/steps)
             canvas.fill_color = gradient.color_at(value)
-            canvas.draw_rect(x+i*step_x, y+i*step_y, step_width+lap_w, step_height+lap_h)
+            canvas.draw_rect(x+i*step_x, y+i*step_y, step_width, step_height)
         
         # set pen and brush for outline
         canvas.set_pen_by(self, source=source, overrides=overrides)
