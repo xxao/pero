@@ -1,7 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import fitz
+import os
+import pymupdf
 from . enums import *
 from . canvas import MuPDFCanvas
 
@@ -31,7 +32,14 @@ def export(graphics, path, width=None, height=None, **options):
         
         font_scale: float
             Font scaling factor.
+        
+        dpi: int
+            Image resolution as dots-per-inch.
     """
+    # get filename and extension
+    dirname, filename = os.path.split(path)
+    basename, extension = os.path.splitext(filename)
+    extension = extension.lower()
     
     # check size
     if not width:
@@ -40,7 +48,7 @@ def export(graphics, path, width=None, height=None, **options):
         height = EXPORT_HEIGHT
     
     # init document
-    doc = fitz.open()
+    doc = pymupdf.open()
     page = doc.new_page(width=width, height=height)
     
     # init canvas
@@ -58,6 +66,20 @@ def export(graphics, path, width=None, height=None, **options):
     # draw graphics
     graphics.draw(canvas)
     
-    # save to file
-    doc.save(path)
+    # save to PDF file
+    if extension == 'pdf':
+        doc.save(path)
+    
+    # save to SVG
+    elif extension == 'svg':
+        svg_content = page.get_svg_image()
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(svg_content)
+    
+    # save to raster
+    elif extension in ('png', 'jpg', 'jpeg'):
+        pix = page.get_pixmap(dpi=options.get('dpi', 72))
+        pix.save(path)
+    
+    # close document
     doc.close()

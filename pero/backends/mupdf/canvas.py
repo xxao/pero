@@ -1,7 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import fitz
+import pymupdf
 import numpy
 from ... properties import *
 from ... geometry import Path
@@ -350,7 +350,7 @@ class MuPDFCanvas(Canvas):
         if angle:
             angle *= -1
             
-            matrix = fitz.Matrix(numpy.rad2deg(angle))
+            matrix = pymupdf.Matrix(numpy.rad2deg(angle))
             text_morph = [None, matrix]
             bgr_morph = [None, matrix]
             
@@ -421,8 +421,8 @@ class MuPDFCanvas(Canvas):
             
             # set angle pivot
             if angle:
-                text_morph[0] = fitz.Point(text_x, text_y)
-                bgr_morph[0] = fitz.Point(bgr_x1, bgr_y2)
+                text_morph[0] = pymupdf.Point(text_x, text_y)
+                bgr_morph[0] = pymupdf.Point(bgr_x1, bgr_y2)
             
             # draw background
             if self._font['bgr_color']:

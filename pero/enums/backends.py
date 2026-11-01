@@ -70,7 +70,11 @@ EXPORT_CAIRO = {
 
 # define image formats supported by MuPDF backend
 EXPORT_MUPDF = {
-    '.pdf'}
+    '.jpg',
+    '.jpeg',
+    '.pdf',
+    '.png',
+    '.svg'}
 
 # define image formats supported by PY5 backend
 EXPORT_PY5 = {
