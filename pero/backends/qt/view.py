@@ -111,7 +111,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         
         # draw control
         if self.control is not None:
-            canvas = QtCanvas(qp, width=self.width(), height=self.height())
+            canvas = QtCanvas(qp, width=self.width(), height=self.height(), snap=True)
             self.control.draw(canvas)
         
         # end drawing
@@ -177,7 +177,7 @@ class QtView(QWidget, View, metaclass=type('QtViewMeta', (type(QWidget), type(Vi
         qp.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
         
         # init canvas
-        canvas = QtCanvas(qp, width=self.width(), height=self.height())
+        canvas = QtCanvas(qp, width=self.width(), height=self.height(), snap=True)
         
         # draw overlay
         if view is not None:

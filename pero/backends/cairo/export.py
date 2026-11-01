@@ -123,7 +123,7 @@ def export_raster(graphics, path, width=None, height=None, **options):
     dc.set_fill_rule(cairo.FILL_RULE_EVEN_ODD)
     
     # init canvas
-    canvas = CairoCanvas(dc, width=width, height=height)
+    canvas = CairoCanvas(dc, width=width, height=height, snap=True)
     
     if 'draw_scale' in options:
         canvas.draw_scale = options['draw_scale']
@@ -217,7 +217,7 @@ def export_vector(graphics, path, width=None, height=None, **options):
     dc.set_fill_rule(cairo.FILL_RULE_EVEN_ODD)
     
     # init canvas
-    canvas = CairoCanvas(dc, width=width, height=height)
+    canvas = CairoCanvas(dc, width=width, height=height, snap=False)
     
     if 'draw_scale' in options:
         canvas.draw_scale = options['draw_scale']

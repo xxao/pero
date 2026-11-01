@@ -176,7 +176,7 @@ def export_raster(graphics, path, width=None, height=None, **options):
     qp.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
     
     # init canvas
-    canvas = QtCanvas(qp, width=width, height=height)
+    canvas = QtCanvas(qp, width=width, height=height, snap=True)
     
     if 'draw_scale' in options:
         canvas.draw_scale = options['draw_scale']
@@ -256,7 +256,7 @@ def export_vector(graphics, path, width=None, height=None, **options):
     qp.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
     
     # init canvas
-    canvas = QtCanvas(qp, width=width, height=height)
+    canvas = QtCanvas(qp, width=width, height=height, snap=False)
     
     if 'draw_scale' in options:
         canvas.draw_scale = options['draw_scale']

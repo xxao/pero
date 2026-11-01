@@ -380,6 +380,6 @@ class WXView(wx.Window, View, metaclass=type('WXViewMeta', (type(wx.Window), typ
             dc = wx.GCDC(dc)
         
         # make canvas
-        canvas = WXCanvas(dc, pixel_scale)
+        canvas = WXCanvas(dc, pixel_scale, snap=True)
         
         return canvas

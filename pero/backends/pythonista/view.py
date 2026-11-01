@@ -47,7 +47,7 @@ class UIView(ui.View, View):
             
             # draw control
             if self.control is not None:
-                canvas = UICanvas(width=self.width, height=self.height)
+                canvas = UICanvas(width=self.width, height=self.height, snap=True)
                 self.control.draw(canvas)
             
             # get image
@@ -97,7 +97,7 @@ class UIView(ui.View, View):
         with ui.ImageContext(self.width, self.height) as ctx:
             
             # init canvas
-            canvas = UICanvas(width=self.width, height=self.height)
+            canvas = UICanvas(width=self.width, height=self.height, snap=True)
             
             # draw overlay
             if view is not None:

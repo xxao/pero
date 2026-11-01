@@ -58,7 +58,7 @@ class ShowSketch(py5.Sketch):
         pg = self.create_graphics(self._width, self._height)
         
         # init canvas
-        canvas = Py5Canvas(pg, self, **self._options)
+        canvas = Py5Canvas(pg, self, snap=True, **self._options)
         
         # draw graphics
         with pg.begin_draw():
@@ -138,7 +138,7 @@ class ExportSketch(py5.Sketch):
         pg = self.create_graphics(self._width, self._height, py5.PDF, self._path)
         
         # init canvas
-        canvas = Py5Canvas(pg, self, **self._options)
+        canvas = Py5Canvas(pg, self, snap=False, **self._options)
         
         # draw graphics
         with self.begin_record(pg):
@@ -152,7 +152,7 @@ class ExportSketch(py5.Sketch):
         pg = self.create_graphics(self._width, self._height, py5.SVG, self._path)
         
         # init canvas
-        canvas = Py5Canvas(pg, self, **self._options)
+        canvas = Py5Canvas(pg, self, snap=False, **self._options)
         
         # draw graphics
         with self.begin_record(pg):
@@ -166,7 +166,7 @@ class ExportSketch(py5.Sketch):
         pg = self.create_graphics(self._width, self._height)
         
         # init canvas
-        canvas = Py5Canvas(pg, self, **self._options)
+        canvas = Py5Canvas(pg, self, snap=True, **self._options)
         
         # draw graphics
         with pg.begin_draw():

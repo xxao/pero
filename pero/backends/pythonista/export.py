@@ -126,7 +126,7 @@ def export(graphics, path=None, width=None, height=None, **options):
     with ui.ImageContext(width*line_scale, height*line_scale) as ctx:
         
         # init canvas
-        canvas = UICanvas(width=width, height=height)
+        canvas = UICanvas(width=width, height=height, snap=True)
         
         if 'draw_scale' in options:
             canvas.draw_scale = options['draw_scale']

@@ -32,6 +32,10 @@ class Canvas(PropertySet):
         height: int or float
             Specifies the available height of the canvas in device units.
         
+        snap: bool
+            For supported backends, this specifies whether drawing should snap
+            to device pixels.
+        
         draw_scale: int or float
             Specifies the scaling factor for drawing.
         

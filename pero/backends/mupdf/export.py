@@ -44,7 +44,7 @@ def export(graphics, path, width=None, height=None, **options):
     page = doc.new_page(width=width, height=height)
     
     # init canvas
-    canvas = MuPDFCanvas(page)
+    canvas = MuPDFCanvas(page, snap=False)
     
     if 'draw_scale' in options:
         canvas.draw_scale = options['draw_scale']

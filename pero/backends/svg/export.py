@@ -39,7 +39,7 @@ def export(graphics, path, width=None, height=None, **options):
         height = EXPORT_HEIGHT
     
     # init canvas
-    canvas = SVGCanvas(width=width, height=height)
+    canvas = SVGCanvas(width=width, height=height, snap=False)
     
     if 'draw_scale' in options:
         canvas.draw_scale = options['draw_scale']

@@ -130,7 +130,7 @@ def export(graphics, path, width=None, height=None, **options):
     pixel_scale = bitmap.GetWidth() / bitmap.GetLogicalWidth()
     
     # init canvas
-    canvas = WXCanvas(dc, pixel_scale, width=width, height=height)
+    canvas = WXCanvas(dc, pixel_scale, width=width, height=height, snap=True)
     
     if 'draw_scale' in options:
         canvas.draw_scale = options['draw_scale']
