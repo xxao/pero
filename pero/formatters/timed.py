@@ -2,6 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import decimal
+from string import Formatter as _Formatter
 from .. enums import *
 from .. properties import *
 from . utils import *
@@ -65,6 +66,10 @@ class TimeFormatter(Formatter):
         
         add_units: bool
             Specifies whether the units should be added to individual parts.
+        
+        suffix_template: str, None or UNDEF
+            Specifies the format()-style template to be used for suffix
+            formatting.
     """
     
     template = StringProperty(UNDEF, dynamic=False, nullable=True)
@@ -79,6 +84,7 @@ class TimeFormatter(Formatter):
     rounding = EnumProperty(ROUNDING.HALFUP, enum=ROUNDING, dynamic=False)
     separator = StringProperty(UNDEF, dynamic=False)
     add_units = BoolProperty(False, dynamic=False)
+    suffix_template = StringProperty(" ({0})", dynamic=False)
     
     
     def __init__(self, **overrides):
@@ -87,10 +93,10 @@ class TimeFormatter(Formatter):
         super().__init__(**overrides)
         
         # init buffers
+        self._suffix = ""
         self._template = None
         self._templates_multi = None
         self._templates_single = None
-        
         self._is_dirty = True
         
         # get available parts (units, factor)
@@ -125,6 +131,7 @@ class TimeFormatter(Formatter):
         template = self._template
         if not template:
             template = self._make_template(value)
+            self._suffix = self._extract_suffix(template)
         
         # init rounding
         context = decimal.Context()
@@ -170,10 +177,35 @@ class TimeFormatter(Formatter):
             return template.format(**parts)
     
     
+    def suffix(self, *args, **kwargs):
+        """
+        Gets current (or the latest) suffix (hh:mm).
+        
+        Returns:
+            str
+                Labels suffix.
+        """
+        
+        # init formatting
+        if self._is_dirty:
+            self._init_formatting()
+        
+        # return suffix
+        if not self.add_units and self._suffix:
+            if self.suffix_template:
+                return self.suffix_template.format(self._suffix)
+            else:
+                return self._suffix
+        
+        # return suffix
+        return ""
+    
+    
     def _init_formatting(self):
         """Initializes formatting based on current settings."""
         
         # reset
+        self._suffix = ""
         self._template = None
         self._is_dirty = False
         
@@ -183,6 +215,7 @@ class TimeFormatter(Formatter):
         # use custom template
         if self.template:
             self._template = self._expand_template(self.template, False)
+            self._suffix = self._extract_suffix(self._template)
             return
         
         # check domain
@@ -191,6 +224,7 @@ class TimeFormatter(Formatter):
         
         # make template
         self._template = self._make_template(abs(self.domain))
+        self._suffix = self._extract_suffix(self._template)
     
     
     def _init_templates(self):
@@ -278,6 +312,20 @@ class TimeFormatter(Formatter):
             template = template.replace(tag, tmpl)
         
         return template
+    
+    
+    def _extract_suffix(self, template):
+        """Extracts units from template as suffix."""
+        
+        parts = list(_Formatter().parse(template))
+        units = [field for _, field, _, _ in parts if field in SPLITS_TIME]
+        
+        if len(units) <= 1:
+            return "".join(units)
+        
+        return "".join(
+            literal + (field if field in SPLITS_TIME else "")
+            for literal, field, _, _ in parts)
     
     
     def _on_time_formatter_property_changed(self, evt=None):
