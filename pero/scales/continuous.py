@@ -50,7 +50,7 @@ class ContinuousScale(Scale):
         
         clip: bool
             Specifies whether the values outside current input range should be
-            clipped (True) or interpolated (False).
+            clipped (True) or extrapolated (False).
     """
     
     in_range = TupleProperty((), intypes=(int, float), dynamic=False)

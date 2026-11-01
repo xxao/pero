@@ -10,7 +10,6 @@ from . ticker import Ticker
 
 class LinTicker(Ticker):
     """
-    
     This type of ticker generates nice looking ticks and labels according to
     linear scale. The major and the minor steps are calculated automatically
     according to current range, however, both can be specified if needed. The
