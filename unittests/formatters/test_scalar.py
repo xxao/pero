@@ -2,6 +2,7 @@
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
 import unittest
+import math
 import pero
 
 
@@ -136,6 +137,24 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(1.23456), "1235")
         self.assertEqual(formatter.format(123.456), "123456")
         self.assertEqual(formatter.format(1234.56), "1234560")
+    
+    
+    def test_trim_zeros(self):
+        """Tests whether zero trimmin works correctly."""
+        
+        formatter = pero.ScalarFormatter(
+            domain = 1e40,
+            precision = 1,
+            trim_zeros = True)
+        
+        self.assertEqual(formatter.format(1e24), "1e+24")
+        self.assertEqual(formatter.format(1e30), "1e+30")
+        self.assertEqual(formatter.format(1e40), "1e+40")
+        self.assertEqual(formatter.format(1.25e40), "1.25e+40")
+        self.assertEqual(formatter.format(-1e40), "-1e+40")
+        
+        formatter.precision = 100
+        self.assertEqual(formatter.format(12345.6), "1.23e+04")
 
 
 # run test case

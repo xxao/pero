@@ -234,7 +234,76 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(-60), "-01:00")
         self.assertEqual(formatter.format(-50), "-00:50")
         self.assertEqual(formatter.format(0), "00:00")
-
+    
+    
+    def test_suffix(self):
+        """Tests whether suffix works correctly."""
+        
+        formatter = pero.TimeFormatter(add_units=False, suffix_template="")
+        
+        # standalone units
+        self.assertEqual(formatter.format(3600 + 1800 - 1), "1.50")
+        self.assertEqual(formatter.suffix(), "h")
+        
+        self.assertEqual(formatter.format(70.5), "1.18")
+        self.assertEqual(formatter.suffix(), "m")
+        
+        self.assertEqual(formatter.format(17.567), "17.57")
+        self.assertEqual(formatter.suffix(), "s")
+        
+        self.assertEqual(formatter.format(.1), "100.00")
+        self.assertEqual(formatter.suffix(), "ms")
+        
+        # fixed domain
+        formatter(domain=600, precision=1)
+        self.assertEqual(formatter.format(90), "01:30")
+        self.assertEqual(formatter.suffix(), "m:s")
+        
+        formatter(domain=3600, precision=60)
+        self.assertEqual(formatter.format(3660), "1:01")
+        self.assertEqual(formatter.suffix(), "h:m")
+        
+        formatter(domain=86400, precision=1)
+        self.assertEqual(formatter.format(90061), "1:1:01:01")
+        self.assertEqual(formatter.suffix(), "d:h:m:s")
+        
+        formatter(domain=1, precision=.001)
+        self.assertEqual(formatter.format(.125), "00:125")
+        self.assertEqual(formatter.suffix(), "s:ms")
+        
+        formatter(domain=.001, precision=1e-6)
+        self.assertEqual(formatter.format(.001234), "001:234")
+        self.assertEqual(formatter.suffix(), "ms:us")
+        
+        formatter(domain=1e-6, precision=1e-9)
+        self.assertEqual(formatter.format(1.234e-6), "001:234")
+        self.assertEqual(formatter.suffix(), "us:ns")
+        
+        # specials
+        formatter = pero.TimeFormatter(add_units=False, suffix_template="")
+        
+        formatter(domain=600, precision=1)
+        self.assertEqual(formatter.suffix(), "m:s")
+        formatter.domain = 3600
+        self.assertEqual(formatter.suffix(), "h:m:s")
+        formatter.precision = 60
+        self.assertEqual(formatter.suffix(), "h:m")
+        formatter.separator = "/"
+        self.assertEqual(formatter.suffix(), "h/m")
+        formatter.template = "{s}:{m}"
+        self.assertEqual(formatter.suffix(), "s:m")
+        formatter.template = None
+        self.assertEqual(formatter.suffix(), "h/m")
+        formatter.add_units = True
+        self.assertEqual(formatter.suffix(), "")
+        formatter.add_units = False
+        self.assertEqual(formatter.suffix(), "h/m")
+        
+        # template
+        formatter = pero.TimeFormatter(add_units=False, suffix_template=" [{0}]")
+        formatter(domain=600, precision=1)
+        self.assertEqual(formatter.suffix(), " [m:s]")
+    
 
 # run test case
 if __name__ == "__main__":

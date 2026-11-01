@@ -152,7 +152,7 @@ class SplitFormatter(Formatter):
     def suffix(self, *args, **kwargs):
         """
         Gets current (or the latest) suffix (e.g. kHz).
-
+        
         Returns:
             str
                 Labels suffix.
