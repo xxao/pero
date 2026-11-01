@@ -33,6 +33,9 @@ class ScalarFormatter(Formatter):
             Specifies the threshold for 'domain' from which the scientific
             notation should be used as a power of 10.
         
+        trim_zeros: bool
+            Specifies whether redundant fractional zeros are removed from labels.
+        
         hide_suffix: bool
             Specifies whether the scientific notation suffix should be removed
             from the formatted value (True). The actual suffix can be retrieved
@@ -45,6 +48,7 @@ class ScalarFormatter(Formatter):
     
     sci_notation = BoolProperty(True, dynamic=False)
     sci_threshold = IntProperty(5, dynamic=False)
+    trim_zeros = BoolProperty(True, dynamic=False)
     
     hide_suffix = BoolProperty(False, dynamic=False)
     suffix_template = StringProperty(" (e{:.0f})", dynamic=False)
@@ -96,6 +100,12 @@ class ScalarFormatter(Formatter):
                 if value_power > self._last_digit:
                     last_digit = self._last_digit - value_power
             
+            # avoid digits beyond the float's shortest representation
+            if self.trim_zeros:
+                mantissa = repr(float(value)).partition('e')[0]
+                digits = len(mantissa.replace('.', '').lstrip('-0').rstrip('0'))
+                last_digit = -min(abs(last_digit), max(0, digits - 1))
+            
             template = "{:1.%de}" % abs(last_digit)
         
         # use current precision
@@ -108,6 +118,13 @@ class ScalarFormatter(Formatter):
         
         # apply format
         label = template.format(value)
+        
+        # trim fractional zeros
+        if self.trim_zeros:
+            mantissa, marker, exponent = label.partition('e')
+            if '.' in mantissa:
+                mantissa = mantissa.rstrip('0').rstrip('.')
+            label = mantissa + marker + exponent
         
         # avoid '-0'
         if label[0] == '-' and float(label) == 0:
