@@ -67,17 +67,17 @@ def export(graphics, path, width=None, height=None, **options):
     graphics.draw(canvas)
     
     # save to PDF file
-    if extension == 'pdf':
+    if extension == '.pdf':
         doc.save(path)
     
     # save to SVG
-    elif extension == 'svg':
+    elif extension == '.svg':
         svg_content = page.get_svg_image()
         with open(path, "w", encoding="utf-8") as f:
             f.write(svg_content)
     
     # save to raster
-    elif extension in ('png', 'jpg', 'jpeg'):
+    elif extension in ('.png', '.jpg', '.jpeg'):
         pix = page.get_pixmap(dpi=options.get('dpi', 72))
         pix.save(path)
     

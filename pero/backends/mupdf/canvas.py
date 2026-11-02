@@ -31,12 +31,14 @@ class MuPDFCanvas(Canvas):
         self._pen = {
             'width': None,
             'color': (0, 0, 0),
+            'opacity': 1,
             'cap': MUPDF_LINE_CAP[SQUARE],
             'join': MUPDF_LINE_JOIN[BEVEL],
             'dashes': "[]0"}
         
         self._brush = {
-            'color': None}
+            'color': None,
+            'opacity': 1}
         
         self._font = {
             'name': 'helvetica',
@@ -44,7 +46,9 @@ class MuPDFCanvas(Canvas):
             'size': 10,
             'descent': 0,
             'for_color': (0, 0, 0),
-            'bgr_color': None}
+            'for_opacity': 1,
+            'bgr_color': None,
+            'bgr_opacity': 1}
         
         # init size
         rect = self._page.bound()
@@ -434,6 +438,7 @@ class MuPDFCanvas(Canvas):
                     width = 0,
                     color = None,
                     fill = self._font['bgr_color'],
+                    fill_opacity = self._font['bgr_opacity'],
                     morph = bgr_morph,
                     closePath = True)
             
@@ -448,6 +453,7 @@ class MuPDFCanvas(Canvas):
                 encoding = 0,
                 color = None,
                 fill = self._font['for_color'],
+                fill_opacity = self._font['for_opacity'],
                 render_mode = 0,
                 morph = text_morph)
             
@@ -467,7 +473,9 @@ class MuPDFCanvas(Canvas):
             dashes = self._pen['dashes'],
             fill = self._brush['color'] if fill else None,
             even_odd = even_odd,
-            closePath = close)
+            closePath = close,
+            stroke_opacity = self._pen['opacity'],
+            fill_opacity = self._brush['opacity'])
         
         # update page
         if commit:
@@ -484,7 +492,8 @@ class MuPDFCanvas(Canvas):
         if prop_name is None or prop_name in ('line_color', 'line_alpha'):
             color = ColorProperties.get_color(self, "line_")
             if color is not UNDEF:
-                self._pen['color'] = color.rgb_r if color.alpha else None
+                self._pen['color'] = color.rgb_r
+                self._pen['opacity'] = color.alpha / 255
         
         # update width
         if prop_name is None or prop_name in ('line_width', 'line_scale'):
@@ -525,9 +534,11 @@ class MuPDFCanvas(Canvas):
         
         if self.fill_style == FILL_STYLE_TRANS:
             self._brush['color'] = None
+            self._brush['opacity'] = 0
         
         elif color is not UNDEF:
-            self._brush['color'] = color.rgb_r if color.alpha else None
+            self._brush['color'] = color.rgb_r
+            self._brush['opacity'] = color.alpha / 255
     
     
     def _update_text(self, evt=None):
@@ -560,10 +571,12 @@ class MuPDFCanvas(Canvas):
         if prop_name is None or prop_name in ('text_color', 'text_alpha'):
             color = ColorProperties.get_color(self, "text_")
             if color is not UNDEF:
-                self._font['for_color'] = color.rgb_r if color.alpha else None
+                self._font['for_color'] = color.rgb_r
+                self._font['for_opacity'] = color.alpha / 255
         
         # update background color
         if prop_name is None or prop_name in ('text_bgr_color', 'text_bgr_alpha'):
             color = ColorProperties.get_color(self, "text_bgr_")
             if color is not UNDEF:
-                self._font['bgr_color'] = color.rgb_r if color.alpha else None
+                self._font['bgr_color'] = color.rgb_r
+                self._font['bgr_opacity'] = color.alpha / 255
