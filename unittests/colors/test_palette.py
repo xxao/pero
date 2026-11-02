@@ -33,7 +33,7 @@ class TestCase(unittest.TestCase):
         self.assertTrue(palette[2] is color2)
     
     
-    def test_reversed(self):
+    def test_reverse(self):
         """Tests whether reversed palette is correctly created from parent."""
         
         color0 = pero.Color.Red
@@ -46,7 +46,7 @@ class TestCase(unittest.TestCase):
         colors = (color0, color1, color2, color3, color4, color5)
         palette = pero.Palette(colors)
         
-        rev = palette.reversed("Reversed")
+        rev = palette.reverse("Reversed")
         
         self.assertEqual(rev.name, "Reversed")
         self.assertEqual(len(rev), len(palette))
@@ -137,6 +137,34 @@ class TestCase(unittest.TestCase):
         self.assertEqual(picked[1], (85, 85, 85))
         self.assertEqual(picked[2], (170, 170, 170))
         self.assertEqual(picked[3], color1)
+    
+    
+    def test_mods(self):
+        """Tests whether modifiers are applied."""
+        
+        palette1 = pero.Palette.from_name('pero').lighter(0.5)
+        palette2 = pero.Palette.from_name('pero_l50')
+        self.assertEqual(palette1, palette2)
+        
+        palette1 = pero.Palette.from_name('pero').darker(0.5)
+        palette2 = pero.Palette.from_name('pero_d50')
+        self.assertEqual(palette1, palette2)
+        
+        palette1 = pero.Palette.from_name('pero').opaque(0.5)
+        palette2 = pero.Palette.from_name('pero_o50')
+        self.assertEqual(palette1, palette2)
+        
+        palette1 = pero.Palette.from_name('pero').trans(0.5)
+        palette2 = pero.Palette.from_name('pero_t50')
+        self.assertEqual(palette1, palette2)
+        
+        palette1 = pero.Palette.from_name('pero').reverse()
+        palette2 = pero.Palette.from_name('pero_r')
+        self.assertEqual(palette1, palette2)
+        
+        palette1 = pero.Palette.from_name('pero').lighter(0.5).darker(0.3).opaque(0.1).trans(0.05).reverse()
+        palette2 = pero.Palette.from_name('pero_l50_d30_o10_t5_r')
+        self.assertEqual(palette1, palette2)
     
     
     def test_name_registering(self):

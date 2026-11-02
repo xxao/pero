@@ -353,6 +353,34 @@ class TestCase(unittest.TestCase):
         self.assertEqual(color.rgba, (170, 187, 204, 255))
     
     
+    def test_mods(self):
+        """Tests whether modifiers are applied."""
+        
+        color1 = pero.Color.from_name('red').lighter(0.5)
+        color2 = pero.Color.from_name('red_l50')
+        self.assertEqual(color1, color2)
+        
+        color1 = pero.Color.from_name('red').darker(0.5)
+        color2 = pero.Color.from_name('red_d50')
+        self.assertEqual(color1, color2)
+        
+        color1 = pero.Color.from_name('red').opaque(0.5)
+        color2 = pero.Color.from_name('red_o50')
+        self.assertEqual(color1, color2)
+        
+        color1 = pero.Color.from_name('red').trans(0.5)
+        color2 = pero.Color.from_name('red_t50')
+        self.assertEqual(color1, color2)
+        
+        color1 = pero.Color.from_name('red').invert()
+        color2 = pero.Color.from_name('red_i')
+        self.assertEqual(color1, color2)
+        
+        color1 = pero.Color.from_name('red').lighter(0.5).darker(0.3).opaque(0.1).trans(0.05).invert()
+        color2 = pero.Color.from_name('red_l50_d30_o10_t5_i')
+        self.assertEqual(color1, color2)
+    
+    
     def test_name_registering(self):
         """Tests whether new named colors are registered."""
         

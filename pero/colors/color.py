@@ -1,11 +1,16 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
+import re
 import math
 from . library import Library
 
 # init library
 COLORS = Library()
+
+# define patterns
+_MODS_MATCH = re.compile(r'(?:_[ldoti]\d{0,2})+?$')
+_MODS_PARTS = re.compile(r'(?P<c>_[ldoti])(?P<v>\d{0,2})+?')
 
 
 class ColorMeta(type):
@@ -597,6 +602,13 @@ class Color(object, metaclass=ColorMeta):
         if name in COLORS:
             return COLORS[name]
         
+        # get mods
+        match = _MODS_MATCH.search(name)
+        if match:
+            name = name[:match.start()]
+            if name in COLORS:
+                return Color._apply(COLORS[name], match.group(0))
+        
         # name not found
         message = "Unknown color name specified! -> '%s'" % name
         raise KeyError(message)
@@ -649,3 +661,37 @@ class Color(object, metaclass=ColorMeta):
         
         # make color
         return Color(red, green, blue, alpha, name=name)
+    
+    
+    @staticmethod
+    def _apply(color, suffix):
+        """Creates new color by applying given modifications."""
+        
+        # parse and apply mods
+        for mod in _MODS_PARTS.finditer(suffix):
+            
+            # get mod
+            code = mod['c']
+            value = int(mod['v'])/100. if mod['v'] else None
+            
+            # make lighter
+            if code == '_l':
+                color = color.lighter(value or 0.2)
+            
+            # make darker
+            elif code == '_d':
+                color = color.darker(value or 0.2)
+            
+            # make opaque
+            elif code == '_o':
+                color = color.opaque(value or 1)
+            
+            # make transparent
+            elif code == '_t':
+                color = color.trans(value or 1)
+            
+            # invert
+            elif code == '_i':
+                color = color.invert()
+        
+        return color

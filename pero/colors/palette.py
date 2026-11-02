@@ -1,12 +1,17 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
+import re
 import numpy
 from . library import Library
 from . color import Color
 
 # init library
 PALETTES = Library()
+
+# define patterns
+_MODS_MATCH = re.compile(r'(?:_[ldotr]\d{0,2})+?$')
+_MODS_PARTS = re.compile(r'(?P<c>_[ldotr])(?P<v>\d{0,2})+?')
 
 
 class PaletteMeta(type):
@@ -76,6 +81,34 @@ class Palette(object, metaclass=PaletteMeta):
         """Gets debug string representation."""
         
         return "%s(%s)" % (self.__class__.__name__, self.__str__())
+    
+    
+    def __eq__(self, other):
+        """Equal operator."""
+        
+        if self is other:
+            return True
+        
+        if isinstance(other, Palette):
+            other = other.colors
+        
+        if not isinstance(other, (list, tuple)):
+            return False
+        
+        if len(self._colors) != len(other):
+            return False
+        
+        for i in range(len(self._colors)):
+            if self._colors[i] != other[i]:
+                return False
+        
+        return True
+    
+    
+    def __ne__(self, other):
+        """Not equal operator."""
+        
+        return not self.__eq__(other)
     
     
     def __len__(self):
@@ -214,7 +247,7 @@ class Palette(object, metaclass=PaletteMeta):
         return Palette(colors, name)
     
     
-    def reversed(self, name=None):
+    def reverse(self, name=None):
         """
         Creates derived palette by taking current colors in reversed order. The
         new palette is automatically registered for later use if the name is
@@ -289,9 +322,12 @@ class Palette(object, metaclass=PaletteMeta):
         if name in PALETTES:
             return PALETTES[name]
         
-        # try reversed
-        if name.endswith("_r") and name[:-2] in PALETTES:
-            return PALETTES[name[:-2]].reversed()
+        # get mods
+        match = _MODS_MATCH.search(name)
+        if match:
+            name = name[:match.start()]
+            if name in PALETTES:
+                return Palette._apply(PALETTES[name], match.group(0))
         
         # name not found
         message = "Unknown palette name specified! -> '%s'" % name
@@ -367,3 +403,37 @@ class Palette(object, metaclass=PaletteMeta):
         colors = [gradient.color_at(x) for x in stops]
         
         return Palette(colors, name)
+    
+    
+    @staticmethod
+    def _apply(palette, suffix):
+        """Creates new palette by applying given modifications."""
+        
+        # parse and apply mods
+        for mod in _MODS_PARTS.finditer(suffix):
+            
+            # get mod
+            code = mod['c']
+            value = int(mod['v'])/100. if mod['v'] else None
+            
+            # make lighter
+            if code == '_l':
+                palette = palette.lighter(value or 0.2)
+            
+            # make darker
+            elif code == '_d':
+                palette = palette.darker(value or 0.2)
+            
+            # make opaque
+            elif code == '_o':
+                palette = palette.opaque(value or 1)
+            
+            # make transparent
+            elif code == '_t':
+                palette = palette.trans(value or 1)
+            
+            # reverse
+            elif code == '_r':
+                palette = palette.reverse()
+        
+        return palette
