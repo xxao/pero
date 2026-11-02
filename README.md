@@ -20,7 +20,6 @@ Consider also checking a small derived library providing some basic plotting fun
 charts and Venn diagrams, called [perrot](https://github.com/xxao/perrot).
 
 ```python
-
 import pero
 
 img = pero.Image(width=200, height=200)
@@ -134,7 +133,6 @@ directly (requires [PyQt5](https://pypi.org/project/PyQt5/), [PyQt6](https://pyp
 just create an *image* and use it as any other *pero* canvas:
 
 ```python
-
 import pero
 
 # init size
@@ -162,7 +160,6 @@ img.show()
 Inside a *QWidget* you can create a *QPainter* and encapsulate it into the *pero* canvas:
 
 ```python
-
 import pero
 from PyQt5.QtGui import QPainter
 
@@ -194,7 +191,6 @@ qp.end()
 Inside a *wxApp* you can use just about any *wxDC* you want and encapsulate it into the *pero* canvas:
 
 ```python
-
 import pero
 import wx
 
@@ -227,7 +223,6 @@ Depending on the final image format, choose appropriate *cairo* surface, get the
 the *pero* canvas:
 
 ```python
-
 import pero
 import cairo
 
@@ -257,16 +252,15 @@ dc.show_page()
 Create a document, add new page and encapsulate it into the *pero* canvas:
 
 ```python
-
 import pero
-import fitz
+import pymupdf
 
 # init size
 width = 200
 height = 200
 
 # init document
-doc = fitz.open()
+doc = pymupdf.open()
 page = doc.newPage(width=width, height=height)
 
 # init canvas
@@ -289,7 +283,6 @@ Create a Py5Graphics and encapsulate it into the *pero* canvas:
 
 ```python
 import py5
-import pero
 from pero.backends.py5 import Py5Canvas
 
 
@@ -321,7 +314,6 @@ py5.run_sketch()
 The *pero* library implements its own way to draw and save SVG files. Just create a *pero* canvas:
 
 ```python
-
 import pero
 
 # init size
@@ -347,7 +339,6 @@ with open('test.svg', 'w', encoding='utf-8') as f:
 Initialize a new *ui.ImageContext* and create a *pero* canvas:
 
 ```python
-
 import pero
 import ui
 
@@ -379,7 +370,6 @@ be specified as a function, to which given data source is automatically provided
 the *pero.Axis)* this can be used to make simple plots easily.
 
 ```python
-
 import pero
 import numpy
 
