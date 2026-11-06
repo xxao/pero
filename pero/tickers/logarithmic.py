@@ -53,7 +53,7 @@ class LogTicker(Ticker):
                 Generated major and minor ticks.
         """
         
-        # normalize range.
+        # normalize range
         start, end = sorted((self.start, self.end))
         
         # convert to exponents
