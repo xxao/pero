@@ -24,7 +24,8 @@ class ContinuousScale(Scale):
     To make a specific scale it is mostly sufficient to create an instance of
     ContinuousScale and set the 'normalizer' and/or 'converter' to provide
     specific conversion. There are already some predefined scales for convenient
-    use like pero.LinScale, pero.LogScale and pero.PowScale.
+    use like pero.LinScale, pero.LogScale, pero.SymlogScale, pero.PowScale and
+    pero.SqrtScale.
     
     For the input values outside specified range the clipping can be applied by
     setting the 'clip' property to True. Otherwise such values will be
@@ -301,6 +302,48 @@ class LogScale(ContinuousScale):
         self.lock_property('converter')
 
 
+class SymlogScale(ContinuousScale):
+    """
+    Continuous scale with symmetric logarithmic transformation.
+    
+    Properties:
+        
+        threshold: int or float
+            Threshold for linear region.
+    """
+    
+    threshold = FloatProperty(1, dynamic=False)
+    
+    
+    def __init__(self, **overrides):
+        """Initializes a new instance of SymlogScale."""
+        
+        # init interpolators
+        overrides['normalizer'] = SymlogInterpol()
+        overrides['converter'] = LinInterpol()
+        
+        # init base
+        super().__init__(**overrides)
+        
+        # lock interpolators
+        self.lock_property('normalizer')
+        self.lock_property('converter')
+        
+        # set threshold
+        self.normalizer.threshold = self.threshold
+        
+        # bind events
+        self.bind(EVT_PROPERTY_CHANGED, self._on_symlog_scale_property_changed)
+    
+    
+    def _on_symlog_scale_property_changed(self, evt=None):
+        """Called after a property has changed."""
+        
+        # update normalizer
+        if evt is None or evt.name == 'threshold':
+            self.normalizer.threshold = self.threshold
+
+
 class PowScale(ContinuousScale):
     """
     Continuous scale with exponential transformation.
@@ -338,6 +381,25 @@ class PowScale(ContinuousScale):
     def _on_pow_scale_property_changed(self, evt=None):
         """Called after a property has changed."""
         
-        # check power
+        # update normalizer
         if evt is None or evt.name == 'power':
             self.normalizer.power = self.power
+
+
+class SqrtScale(ContinuousScale):
+    """Continuous scale with square-root transformation."""
+    
+    
+    def __init__(self, **overrides):
+        """Initializes a new instance of SqrtScale."""
+        
+        # init interpolators
+        overrides['normalizer'] = SqrtInterpol()
+        overrides['converter'] = LinInterpol()
+        
+        # init base
+        super().__init__(**overrides)
+        
+        # lock interpolators
+        self.lock_property('normalizer')
+        self.lock_property('converter')

@@ -114,7 +114,7 @@ class LinInterpol(Interpol):
         """
         
         return start + x * (end - start)
-    
+
 
 class LogInterpol(Interpol):
     """
@@ -171,6 +171,94 @@ class LogInterpol(Interpol):
         b = numpy.log(numpy.abs(end)) - a
         
         return numpy.sign(start) * numpy.exp(a + x * b)
+
+
+class SymlogInterpol(Interpol):
+    """
+    This type of interpolator applies symmetric logarithmic interpolation.
+    Values within [-threshold, threshold] are transformed linearly; outside
+    this range the transformation is sign(x) * (1 + log(abs(x) / threshold)).
+    The value and slope are continuous at both boundaries.
+    
+    Properties:
+        
+        threshold: int or float
+            Threshold for linear region.
+    """
+    
+    threshold = FloatProperty(1, dynamic=False)
+    
+    
+    def normalize(self, x, start, end):
+        """
+        Calculates normalized value within specified range.
+        
+        Args:
+            x: float or numpy.ndarray
+                Value(s) to be normalized.
+            
+            start: float
+                Start of the range to normalize into.
+            
+            end: float
+                End of the range to normalize into.
+        
+        Returns:
+            float, numpy.ndarray
+                Normalized value(s).
+        """
+        
+        a = self._transform(start)
+        b = self._transform(end) - a
+        
+        return (self._transform(x) - a) / float(b)
+    
+    
+    def denormalize(self, x, start, end):
+        """
+        Calculates de-normalized value within specified range.
+        
+        Args:
+            x: float or numpy.ndarray
+                Normalized value(s) to be converted.
+            
+            start: float
+                Start of the range to de-normalize from.
+            
+            end: float
+                End of the range to de-normalize from.
+        
+        Returns:
+            value: float or numpy.ndarray
+                De-normalized value(s).
+        """
+        
+        a = self._transform(start)
+        b = self._transform(end) - a
+        
+        value = a + numpy.asarray(x) * b
+        magnitude = numpy.abs(value)
+        
+        result = numpy.where(
+            magnitude <= 1,
+            magnitude,
+            numpy.exp(numpy.maximum(magnitude - 1, 0)))
+        
+        return numpy.sign(value) * self.threshold * result
+    
+    
+    def _transform(self, x):
+        """Applies the symmetric logarithmic transformation."""
+        
+        threshold = self.threshold
+        magnitude = numpy.abs(x)
+        
+        result = numpy.where(
+            magnitude <= threshold,
+            magnitude / threshold,
+            1 + numpy.log(numpy.maximum(magnitude, threshold) / threshold))
+        
+        return numpy.sign(x) * result
 
 
 class PowInterpol(Interpol):
@@ -239,3 +327,9 @@ class PowInterpol(Interpol):
         value = a + x * b
         
         return numpy.sign(value) * numpy.power(numpy.abs(value), 1./power)
+
+
+class SqrtInterpol(PowInterpol):
+    """This type of interpolator applies square-root interpolation."""
+    
+    power = FloatProperty(0.5, dynamic=False)

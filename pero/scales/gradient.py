@@ -19,8 +19,8 @@ class GradientScale(Scale):
     input range and converting the normalized value within the output gradient.
     To provide a specific way of input range normalization, appropriate
     'normalizer' must be specified. There are already some predefined gradient
-    scales for convenient use like GradientLinScale, GradientLogScale and
-    GradientPowScale.
+    scales for convenient use like GradientLinScale, GradientLogScale,
+    GradientSymlogScale, GradientPowScale and GradientSqrtScale.
     
     The output colors should be provided either as a list of colors or palette
     into the 'out_range', from which the gradient is created automatically.
@@ -139,6 +139,44 @@ class GradientLogScale(GradientScale):
         self.lock_property('normalizer')
 
 
+class GradientSymlogScale(GradientScale):
+    """
+    Gradient scale with symmetric logarithmic transformation.
+    
+    Properties:
+        
+        threshold: int or float
+            Threshold for linear region. Defaults to 1.
+    """
+    
+    threshold = FloatProperty(1, dynamic=False)
+    
+    
+    def __init__(self, **overrides):
+        """Initializes a new instance of GradientSymlogScale."""
+        
+        # init normalizer
+        overrides['normalizer'] = SymlogInterpol()
+        
+        # init base
+        super().__init__(**overrides)
+        
+        # lock normalizer
+        self.lock_property('normalizer')
+        
+        # bind events
+        self.normalizer.threshold = self.threshold
+        self.bind(EVT_PROPERTY_CHANGED, self._on_symlog_scale_property_changed)
+    
+    
+    def _on_symlog_scale_property_changed(self, evt=None):
+        """Called after a property has changed."""
+        
+        # update normalizer
+        if evt is None or evt.name == 'threshold':
+            self.normalizer.threshold = self.threshold
+
+
 class GradientPowScale(GradientScale):
     """
     Gradient scale with exponential transformation.
@@ -174,6 +212,23 @@ class GradientPowScale(GradientScale):
     def _on_pow_scale_property_changed(self, evt=None):
         """Called after a property has changed."""
         
-        # check power
+        # update normalizer
         if evt is None or evt.name == 'power':
             self.normalizer.power = self.power
+
+
+class GradientSqrtScale(GradientScale):
+    """Gradient scale with square-root transformation."""
+    
+    
+    def __init__(self, **overrides):
+        """Initializes a new instance of GradientSqrtScale."""
+        
+        # init normalizer
+        overrides['normalizer'] = SqrtInterpol()
+        
+        # init base
+        super().__init__(**overrides)
+        
+        # lock normalizer
+        self.lock_property('normalizer')
