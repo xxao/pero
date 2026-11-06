@@ -20,12 +20,12 @@ class SymlogTicker(Ticker):
     
     Properties:
         
+        base: int or float
+            Specifies the logarithm base.
+        
         threshold: int or float
             Positive, finite threshold for linear region. Defaults to 1.
             This value should match the threshold of the corresponding scale.
-        
-        base: int or float
-            Specifies the logarithm base.
         
         major_count: int
             Specifies the expected number of major ticks to be generated for
@@ -38,8 +38,8 @@ class SymlogTicker(Ticker):
             necessary the same.
     """
     
-    threshold = RangeProperty(1, types=(float,), minimum=0, minimum_incl=False, dynamic=False)
     base = NumProperty(10, dynamic=False)
+    threshold = NumProperty(1, dynamic=False)
     major_count = IntProperty(7, dynamic=False)
     minor_count = IntProperty(4, dynamic=False)
     
@@ -217,13 +217,16 @@ class SymlogTicker(Ticker):
     def _on_symlog_ticker_property_changed(self, evt=None):
         """Called after a property has changed."""
         
+        # base changed
         if evt is None or evt.name == 'base':
             self._log_ticker.base = self.base
         
+        # major count changed
         if evt is None or evt.name == 'major_count':
             self._lin_ticker.major_count = self.major_count
             self._log_ticker.major_count = self.major_count
         
+        # minor count changed
         if evt is None or evt.name == 'minor_count':
             self._lin_ticker.minor_count = self.minor_count
             self._log_ticker.minor_count = self.minor_count
