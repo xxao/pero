@@ -14,9 +14,8 @@ from . utils import calc_precision
 class SymlogTicker(Ticker):
     """
     This type of ticker generates ticks and labels for symmetric logarithmic
-    scales. Ticks within [-threshold, threshold] are linear. Logarithmic ticks
-    outside this region are anchored at threshold on both sides of zero.
-    Ranges entirely within the linear region use LinTicker.
+    scales. Ticks are logarithmic outside the [-threshold, threshold] interval
+    and linear outside.
     
     Properties:
         
@@ -24,8 +23,7 @@ class SymlogTicker(Ticker):
             Specifies the logarithm base.
         
         threshold: int or float
-            Positive, finite threshold for linear region. Defaults to 1.
-            This value should match the threshold of the corresponding scale.
+            Positive, finite threshold for linear region.
         
         major_count: int
             Specifies the expected number of major ticks to be generated for
@@ -129,10 +127,10 @@ class SymlogTicker(Ticker):
         lo, hi = sorted((start, end))
         
         # get threshold
-        threshold = self.threshold
+        thr = self.threshold
         
         # use linear range
-        if -threshold <= lo <= hi <= threshold:
+        if -thr <= lo <= hi <= thr:
             self._lin_ticker.major_step = UNDEF
             lo, hi = self._lin_ticker.beautify(lo, hi)
         
@@ -140,31 +138,37 @@ class SymlogTicker(Ticker):
         else:
             
             # update lin ticker
-            self._lin_ticker.major_step = threshold
+            self._lin_ticker.major_step = thr
             
             # beautify lo
-            if lo < -threshold:
-                lo = self._log_ticker.beautify(1, -lo / threshold)[1] * -threshold
-            elif lo > threshold:
-                lo = self._log_ticker.beautify(lo / threshold, lo / threshold)[0] * threshold
+            if lo < -thr:
+                lo = -self._log_ticker.beautify(-lo, -lo)[1]
+            elif lo > thr:
+                lo = max(thr, self._log_ticker.beautify(lo, lo)[0])
             else:
-                lo = self._lin_ticker.beautify(lo, threshold)[0]
+                lo = self._lin_ticker.beautify(lo, thr)[0]
             
             # beautify hi
-            if hi > threshold:
-                hi = self._log_ticker.beautify(1, hi / threshold)[1] * threshold
-            elif hi < -threshold:
-                hi = self._log_ticker.beautify(-hi / threshold, -hi / threshold)[0] * -threshold
+            if hi > thr:
+                hi = self._log_ticker.beautify(hi, hi)[1]
+            elif hi < -thr:
+                hi = -max(thr, self._log_ticker.beautify(-hi, -hi)[0])
             else:
-                hi = self._lin_ticker.beautify(-threshold, hi)[1]
+                hi = self._lin_ticker.beautify(-thr, hi)[1]
         
         return (hi, lo) if start > end else (lo, hi)
     
     
     def _make_linear_ticks(self, start, end):
-        """Makes ticks for linear range."""
+        """Makes ticks for linear-only range."""
         
-        self._lin_ticker(start=start, end=end, major_step=UNDEF)
+        self._lin_ticker(
+            start = start,
+            end = end,
+            major_step = UNDEF,
+            major_count = self.major_count,
+            minor_count = self.minor_count)
+        
         major_ticks = self._lin_ticker.major_ticks()
         minor_ticks = self._lin_ticker.minor_ticks()
         
@@ -179,39 +183,83 @@ class SymlogTicker(Ticker):
         minor_ticks = []
         
         # get threshold
-        threshold = self.threshold
+        thr = self.threshold
         
-        # get linear range in threshold units
-        linear_start = max(start, -threshold)
-        linear_end = min(end, threshold)
-        linear_span = max(0, linear_end - linear_start) / threshold
+        # get linear range
+        lin_start = max(start, -thr)
+        lin_end = min(end, thr)
         
-        # get log range
-        log_ranges = ((-1, max(threshold, -end), -start), (1, max(threshold, start), end))
+        # get log ranges
+        log_ranges = ((-1, max(thr, -end), -start), (1, max(thr, start), end))
         log_ranges = [(sign, lo, hi) for sign, lo, hi in log_ranges if lo <= hi]
-        log_spans = [math.log(hi / lo, self.base) for sign, lo, hi in log_ranges]
         
-        # get total range
-        total_span = linear_span + sum(log_spans)
+        # get absolute and relative spans
+        lin_span = max(0, lin_end - lin_start)
+        log_spans = [thr * (math.log(hi) - math.log(lo)) for _, lo, hi in log_ranges]
+        total_span = lin_span + sum(log_spans)
+        lin_share = lin_span / total_span if total_span else 0.0
+        log_share = max(log_spans, default=0.0) / total_span if total_span else 0.0
         
-        # allocate logarithmic ticks by region span and restore their signs
-        for (sign, lo, hi), span in zip(log_ranges, log_spans):
-            count = max(1, round(self.major_count * span / total_span))
-            self._log_ticker(start=lo / threshold, end=hi / threshold, major_count=count)
-            major_ticks.extend(sign * threshold * t for t in self._log_ticker.major_ticks())
-            minor_ticks.extend(sign * threshold * t for t in self._log_ticker.minor_ticks())
+        # get counts
+        lin_major_count, lin_minor_count = self._distribute_ticks(lin_share)
+        log_major_count, log_minor_count = self._distribute_ticks(log_share)
         
-        # add central ticks, zero and thresholds
-        if linear_start <= linear_end:
-            self._lin_ticker(start=linear_start, end=linear_end, major_step=threshold)
-            major_ticks.extend(self._lin_ticker.major_ticks())
-            minor_ticks.extend(self._lin_ticker.minor_ticks())
+        # use longer side range to keep symmetry
+        if len(log_ranges) == 2:
+            hi = max(-start, end)
+            log_ranges = [(-1, thr, hi), (1, thr, hi)]
         
-        # merge regions
+        # add log range ticks
+        for sign, lo, hi in log_ranges:
+            
+            self._log_ticker(
+                start = lo,
+                end = hi,
+                major_count = log_major_count,
+                minor_count = log_minor_count)
+            
+            major_ticks.extend(sign * t for t in self._log_ticker.major_ticks())
+            if log_minor_count:
+                minor_ticks.extend(sign * t for t in self._log_ticker.minor_ticks())
+        
+        # add linear range ticks
+        if lin_start <= lin_end:
+            
+            self._lin_ticker(
+                start = lin_start,
+                end = lin_end,
+                major_step = UNDEF,
+                major_count = lin_major_count,
+                minor_count = lin_minor_count)
+            
+            major_ticks.extend(t for t in self._lin_ticker.major_ticks() if t not in (-thr, thr))
+            if lin_major_count >= 2:
+                major_ticks.extend(t for t in (-thr, thr) if start <= t <= end)
+            
+            if lin_minor_count and max(-start, end) <= thr * self.base:
+                minor_ticks.extend(self._lin_ticker.minor_ticks())
+        
+        # remove duplicates
         major_ticks = tuple(sorted(set(t for t in major_ticks if start <= t <= end)))
         minor_ticks = tuple(sorted(set(t for t in minor_ticks if start <= t <= end)))
         
         return major_ticks, minor_ticks
+    
+    
+    def _distribute_ticks(self, span_share):
+        """Calculates tick counts from its share of the total span."""
+        
+        if span_share <= 0:
+            return 0, 0
+        
+        major_count = max(1, round(self.major_count * span_share))
+        minor_budget = self.major_count * self.minor_count * span_share
+        
+        minor_count = (
+            max(1, round(minor_budget / major_count))
+            if minor_budget >= 0.5 else 0)
+        
+        return major_count, minor_count
     
     
     def _on_symlog_ticker_property_changed(self, evt=None):

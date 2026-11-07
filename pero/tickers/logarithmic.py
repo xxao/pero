@@ -65,7 +65,7 @@ class LogTicker(Ticker):
             precision = start
         
         # linear range
-        elif hi - lo < 1:
+        elif snap(hi - lo) < 1:
             major_ticks, minor_ticks, precision = self._make_linear_ticks(start, end)
         
         # exponent range

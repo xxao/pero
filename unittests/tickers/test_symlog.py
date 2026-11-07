@@ -3,6 +3,7 @@
 
 import unittest
 import pero
+import numpy
 
 
 class TestCase(unittest.TestCase):
@@ -36,9 +37,10 @@ class TestCase(unittest.TestCase):
         ticker = pero.SymlogTicker(start=-10, end=10)
         
         ticks = tuple(round(x, 10) for x in ticker.minor_ticks())
-        model = (-10, -9, -8, -7, -6, -5, -4, -3, -2, -1,
-                 -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8,
-                 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+        model = (
+            -10, -9, -8, -7, -6, -5, -4, -3, -2, -1,
+            -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8,
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
         
         self.assertEqual(ticks, model)
         
@@ -79,13 +81,31 @@ class TestCase(unittest.TestCase):
         self.assertEqual(ticks, (-1.2, -1.18, -1.16, -1.14, -1.12, -1.1))
     
     
+    def test_log_only_range_has_no_linear_ticks(self):
+        """Tests that ranges beyond the threshold skip the linear tick region."""
+        
+        ticker = pero.SymlogTicker(start=1.1, end=1.2, threshold=1)
+        
+        self.assertEqual(
+            tuple(round(tick, 10) for tick in ticker.major_ticks()),
+            (1.1, 1.12, 1.14, 1.16, 1.18, 1.2))
+        self.assertTrue(all(tick > 1 for tick in ticker.minor_ticks()))
+        
+        ticker(start=1.2, end=1.1)
+        
+        self.assertEqual(
+            tuple(round(tick, 10) for tick in ticker.major_ticks()),
+            (1.2, 1.18, 1.16, 1.14, 1.12, 1.1))
+        self.assertTrue(all(tick > 1 for tick in ticker.minor_ticks()))
+    
+    
     def test_threshold(self):
-        """Tests whether custom thresholds anchor logarithmic ticks."""
+        """Tests that thresholds respect the allocated linear tick budget."""
         
         ticker = pero.SymlogTicker(start=-200, end=200, threshold=2)
         
-        self.assertEqual(ticker.major_ticks(), (-200, -20, -2, 0, 2, 20, 200))
-        self.assertEqual(ticker.labels(), ('-200', '-20', '-2', '0', '2', '20', '200'))
+        self.assertEqual(ticker.major_ticks(), (-100, -10, 0, 10, 100))
+        self.assertEqual(ticker.labels(), ('-100', '-10', '0', '10', '100'))
         
         ticker(threshold=1, start=-100, end=100)
         
@@ -95,6 +115,137 @@ class TestCase(unittest.TestCase):
         
         self.assertEqual(ticker.major_ticks(), (-10, -1, -0.1, 0, 0.1, 1, 10))
         self.assertEqual(ticker.labels(), ('-10', '-1', '-0.1', '0', '0.1', '1', '10'))
+
+        ticker(threshold=2, start=-1e25, end=1e25)
+        ticks = ticker.major_ticks()
+        self.assertIn(0, ticks)
+        self.assertNotIn(-2, ticks)
+        self.assertNotIn(2, ticks)
+    
+    
+    def test_threshold_regions(self):
+        """Tests whether log and linear tickers are restricted to their regions."""
+        
+        ticker = pero.SymlogTicker(start=-500, end=500, threshold=0.1)
+        
+        self.assertEqual(
+            ticker.major_ticks(),
+            (-100, -10, -1, -0.1, 0, 0.1, 1, 10, 100))
+        
+        logarithmic = pero.LogTicker(start=0.1, end=500)
+        model = sorted(set(
+            [-tick for tick in logarithmic.minor_ticks()]
+            + list(logarithmic.minor_ticks())))
+        
+        self.assertEqual(ticker.minor_ticks(), tuple(model))
+    
+    
+    def test_linear_minor_ticks_are_limited_to_nearby_log_ranges(self):
+        """Tests that central minor ticks are hidden for very wide log ranges."""
+        
+        ticker = pero.SymlogTicker(start=-10, end=10, threshold=1)
+        
+        self.assertIn(0.2, ticker.minor_ticks())
+        self.assertIn(-0.2, ticker.minor_ticks())
+        
+        ticker(start=-1e25, end=1e25)
+        
+        self.assertEqual(
+            [tick for tick in ticker.minor_ticks() if abs(tick) < 1],
+            [])
+        self.assertIn(0, ticker.major_ticks())
+        self.assertIn(1, ticker.major_ticks())
+        self.assertIn(-1, ticker.major_ticks())
+    
+    
+    def test_small_threshold_major_ticks(self):
+        """Tests whether major tick density stays global with a small threshold."""
+        
+        ticker = pero.SymlogTicker(start=-500, end=500, threshold=0.01)
+        
+        self.assertEqual(
+            ticker.major_ticks(),
+            (-100, -1, -0.01, 0, 0.01, 1, 100))
+    
+    
+    def test_major_count_is_allocated_by_symlog_span(self):
+        """Tests that linear and log portions share the major tick budget."""
+        
+        ticker = pero.SymlogTicker(start=-10, end=10, threshold=9)
+        
+        self.assertEqual(
+            ticker.major_ticks(),
+            (-10, -9, -6, -3, 0, 3, 6, 9, 10))
+        self.assertEqual(ticker._lin_ticker.major_count, 6)
+        self.assertEqual(ticker._log_ticker.major_count, 1)
+        
+        minor_ticks = ticker.minor_ticks()
+        self.assertEqual(
+            [round(tick, 10) for tick in minor_ticks if 9 < tick < 10],
+            [])
+        self.assertEqual(
+            [round(tick, 10) for tick in minor_ticks if -10 < tick < -9],
+            [])
+    
+    
+    def test_short_log_wing_does_not_get_a_full_tick_budget(self):
+        """Tests that a narrow log section receives ticks proportional to span."""
+        
+        ticker = pero.SymlogTicker(start=0, end=0.011, threshold=0.01)
+        
+        self.assertEqual(
+            ticker.major_ticks(),
+            (0, 0.002, 0.004, 0.006, 0.008, 0.01, 0.011))
+        self.assertEqual(ticker._lin_ticker.major_count, 6)
+        self.assertEqual(ticker._log_ticker.major_count, 1)
+        self.assertEqual(ticker._log_ticker.minor_count, 2)
+        self.assertEqual(
+            [round(tick, 10) for tick in ticker.minor_ticks() if 0.01 < tick < 0.011],
+            [0.0105])
+    
+    
+    def test_asymmetric_ranges_use_symmetric_log_ticks(self):
+        """Tests whether both log wings use steps from the longer side."""
+        
+        ticker = pero.SymlogTicker(start=-0.02, end=0.035, threshold=0.01)
+        
+        positive = [tick for tick in ticker.major_ticks() if tick > 0.01]
+        negative = sorted(-tick for tick in ticker.major_ticks() if tick < -0.01)
+        
+        self.assertEqual(positive, [0.02, 0.03])
+        self.assertEqual(negative, [0.02])
+        
+        positive = [tick for tick in ticker.minor_ticks() if tick > 0.01]
+        negative = sorted(-tick for tick in ticker.minor_ticks() if tick < -0.01)
+        
+        numpy.testing.assert_almost_equal(
+            positive[:5], [0.012, 0.014, 0.016, 0.018, 0.02])
+        numpy.testing.assert_almost_equal(negative, positive[:5])
+        
+        ticker(start=-0.035, end=0.02)
+        
+        positive = [tick for tick in ticker.major_ticks() if tick > 0.01]
+        negative = sorted(-tick for tick in ticker.major_ticks() if tick < -0.01)
+        
+        self.assertEqual(positive, [0.02])
+        self.assertEqual(negative, [0.02, 0.03])
+    
+    
+    def test_logarithmic_positions(self):
+        """Tests whether geometric ticks have equal spacing outside threshold."""
+        
+        interpol = pero.SymlogInterpol(threshold=0.1)
+        
+        ticks = numpy.array([0.1, 1, 10])
+        positions = interpol.normalize(ticks, 0.1, 10)
+        numpy.testing.assert_almost_equal(list(positions), [0, 0.5, 1], 10)
+        
+        ticks = numpy.array([-10, -1, -0.1])
+        positions = interpol.normalize(ticks, -10, -0.1)
+        numpy.testing.assert_almost_equal(list(positions), [0, 0.5, 1], 10)
+        
+        ticker = pero.LogTicker(start=0.1, end=1, major_count=2)
+        self.assertEqual(ticker.major_ticks(), (0.1, 1.0))
     
     
     def test_base(self):
@@ -102,7 +253,7 @@ class TestCase(unittest.TestCase):
         
         ticker = pero.SymlogTicker(start=-4, end=4, base=2)
         
-        self.assertEqual(ticker.major_ticks(), (-4, -2, -1, 0, 1, 2, 4))
+        self.assertEqual(ticker.major_ticks(), (-4, -2, -1, -0.5, 0, 0.5, 1, 2, 4))
         
         ticker(base=2.5, start=-6.25, end=6.25)
         
@@ -140,7 +291,7 @@ class TestCase(unittest.TestCase):
         
         ticker.threshold = 2
         
-        self.assertEqual(ticker.beautify(-19, 190), (-20, 200))
+        self.assertEqual(ticker.beautify(-19, 190), (-100, 1000))
     
     
     def test_condensed(self):
@@ -149,7 +300,7 @@ class TestCase(unittest.TestCase):
         ticker = pero.SymlogTicker(start=-1e10, end=1e10)
         ticks = ticker.major_ticks()
         
-        self.assertLessEqual(len(ticks), ticker.major_count + 2)
+        self.assertLessEqual(len(ticks), 2 * ticker.major_count)
         self.assertEqual(ticks, tuple(-x for x in ticks[::-1]))
         
         ticker.major_count = 20

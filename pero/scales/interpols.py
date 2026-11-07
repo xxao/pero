@@ -176,9 +176,7 @@ class LogInterpol(Interpol):
 class SymlogInterpol(Interpol):
     """
     This type of interpolator applies symmetric logarithmic interpolation.
-    Values within [-threshold, threshold] are transformed linearly; outside
-    this range the transformation is sign(x) * (1 + log(abs(x) / threshold)).
-    The value and slope are continuous at both boundaries.
+    Values within [-threshold, threshold] are transformed linearly.
     
     Properties:
         
@@ -240,11 +238,11 @@ class SymlogInterpol(Interpol):
         magnitude = numpy.abs(value)
         
         result = numpy.where(
-            magnitude <= 1,
+            magnitude <= self.threshold,
             magnitude,
-            numpy.exp(numpy.maximum(magnitude - 1, 0)))
+            self.threshold * numpy.exp(numpy.maximum(magnitude / self.threshold - 1, 0)))
         
-        return numpy.sign(value) * self.threshold * result
+        return numpy.sign(value) * result
     
     
     def _transform(self, x):
@@ -255,8 +253,8 @@ class SymlogInterpol(Interpol):
         
         result = numpy.where(
             magnitude <= threshold,
-            magnitude / threshold,
-            1 + numpy.log(numpy.maximum(magnitude, threshold) / threshold))
+            magnitude,
+            threshold * (1 + numpy.log(numpy.maximum(magnitude, threshold) / threshold)))
         
         return numpy.sign(x) * result
 
