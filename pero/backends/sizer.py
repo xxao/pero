@@ -4,6 +4,7 @@
 from .. enums import *
 from .. properties import *
 from .. drawing import Layout
+from .. events import MouseEvt, MouseLeaveEvt, TouchCancelEvt
 from . control import Control
 
 
@@ -25,15 +26,15 @@ class Sizer(Control):
     def __init__(self, **overrides):
         """Initializes a new instance of Sizer."""
         
+        # init layout
+        if 'graphics' not in overrides:
+            overrides['graphics'] = Layout()
+        
         # init base
         super().__init__(**overrides)
         
         # init buffs
         self._focused = None
-        
-        # init layout
-        if not self.graphics:
-            self.graphics = Layout()
         
         # lock layout
         self.lock_property('graphics')
@@ -215,12 +216,30 @@ class Sizer(Control):
     def _on_sizer_event(self, evt):
         """Relay events to focused control."""
         
+        # process leave event
+        if evt.TYPE in (EVT_MOUSE_LEAVE, EVT_TOUCH_CANCEL):
+            if self._focused is not None:
+                evt.control = self._focused.graphics
+                self._focused.graphics.fire(evt)
+                self._focused = None
+            return
+        
         # process cursor event
-        if (hasattr(evt, 'x_pos') and hasattr(evt, 'y_pos')
-                and evt.x_pos is not None and evt.y_pos is not None):
+        if (hasattr(evt, 'x_pos')
+            and hasattr(evt, 'y_pos')
+            and evt.x_pos is not None
+            and evt.y_pos is not None):
             
             # get item under cursor
+            previous = self._focused
             self._focused = self.graphics.get_cell_below(evt.x_pos, evt.y_pos)
+            
+            # leave previous
+            if previous is not None and previous != self._focused:
+                leave_evt = MouseLeaveEvt.from_evt(evt) if isinstance(evt, MouseEvt) else TouchCancelEvt.from_evt(evt)
+                previous.graphics.fire(leave_evt)
+            
+            # leave
             if self._focused is None:
                 return
             
