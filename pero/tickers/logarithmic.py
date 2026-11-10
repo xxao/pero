@@ -3,7 +3,7 @@
 
 import math
 from .. enums import *
-from ..properties import IntProperty, NumProperty
+from ..properties import IntProperty, FloatRangeProperty
 from ..formatters import ScalarFormatter
 from .ticker import Ticker
 from .utils import *
@@ -17,7 +17,7 @@ class LogTicker(Ticker):
     Properties:
         
         base: int or float
-            Specifies the logarithm base.
+            Specifies the logarithm base, greater than 1.
         
         major_count: int
             Specifies the expected number of major ticks to be generated for
@@ -30,7 +30,7 @@ class LogTicker(Ticker):
             necessary the same.
     """
     
-    base = NumProperty(10, dynamic=False)
+    base = FloatRangeProperty(10, minimum=1, minimum_incl=False, dynamic=False)
     major_count = IntProperty(7, dynamic=False)
     minor_count = IntProperty(4, dynamic=False)
     

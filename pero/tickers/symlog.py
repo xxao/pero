@@ -20,7 +20,7 @@ class SymlogTicker(Ticker):
     Properties:
         
         base: int or float
-            Specifies the logarithm base.
+            Specifies the logarithm base, greater than 1.
         
         threshold: int or float
             Positive, finite threshold for linear region.
@@ -36,8 +36,8 @@ class SymlogTicker(Ticker):
             necessary the same.
     """
     
-    base = NumProperty(10, dynamic=False)
-    threshold = NumProperty(1, dynamic=False)
+    base = FloatRangeProperty(10, minimum=1, minimum_incl=False, dynamic=False)
+    threshold = FloatRangeProperty(1, minimum=0, minimum_incl=False, dynamic=False)
     major_count = IntProperty(7, dynamic=False)
     minor_count = IntProperty(4, dynamic=False)
     

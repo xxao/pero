@@ -138,6 +138,32 @@ class RangeProperty(Property):
             **kwargs)
 
 
+class IntRangeProperty(RangeProperty):
+    """Defines an integer property allowing values within specific range only."""
+    
+    
+    def __init__(self, default=UNDEF, **kwargs):
+        """Initializes a new instance of IntRangeProperty."""
+        
+        kwargs['default'] = default
+        kwargs['types'] = (int,)
+        
+        super().__init__(**kwargs)
+
+
+class FloatRangeProperty(RangeProperty):
+    """Defines a float property allowing values within specific range only."""
+    
+    
+    def __init__(self, default=UNDEF, **kwargs):
+        """Initializes a new instance of FloatRangeProperty."""
+        
+        kwargs['default'] = default
+        kwargs['types'] = (float,)
+        
+        super().__init__(**kwargs)
+
+
 class FuncProperty(Property):
     """Defines a callable property."""
     

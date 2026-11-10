@@ -181,10 +181,10 @@ class SymlogInterpol(Interpol):
     Properties:
         
         threshold: int or float
-            Threshold for linear region.
+            Positive threshold for linear region.
     """
     
-    threshold = FloatProperty(1, dynamic=False)
+    threshold = FloatRangeProperty(1, minimum=0, minimum_incl=False, dynamic=False)
     
     
     def normalize(self, x, start, end):

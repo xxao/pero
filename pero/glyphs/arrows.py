@@ -372,8 +372,8 @@ class ConnectorArrow(Arrow):
     y2 = NumProperty(0)
     
     orientation = EnumProperty(ORI_HORIZONTAL, enum=ORIENTATION)
-    pivot = RangeProperty(0.5, minimum=0, maximum=1)
-    curve = RangeProperty(0, minimum=0, maximum=1)
+    pivot = FloatRangeProperty(0.5, minimum=0, maximum=1)
+    curve = FloatRangeProperty(0, minimum=0, maximum=1)
     
     
     def draw(self, canvas, source=UNDEF, **overrides):

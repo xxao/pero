@@ -27,7 +27,7 @@ class ScalarFormatter(Formatter):
     Properties:
         
         base: int or float
-            Specifies an exponent base used for scientific notation.
+            Specifies an exponent base greater than 1 used for scientific notation.
         
         sci_notation: bool
             Specifies whether the scientific notation (e.g. 2e6) is enabled
@@ -53,7 +53,7 @@ class ScalarFormatter(Formatter):
             the default suffix is used based on current 'base'.
     """
     
-    base = NumProperty(10, dynamic=False)
+    base = FloatRangeProperty(10, minimum=1, minimum_incl=False, dynamic=False)
     sci_notation = BoolProperty(True, dynamic=False)
     sci_threshold = IntProperty(5, dynamic=False)
     trim_zeros = BoolProperty(True, dynamic=False)
