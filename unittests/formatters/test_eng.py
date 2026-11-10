@@ -167,6 +167,12 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.invert(0.2345678), 234.5678)
         self.assertEqual(formatter.invert(2.345678e-5), 234.5678e-4)
         self.assertEqual(formatter.invert(2.345678e-7), 234.5678e-6)
+        
+        # test without domain
+        formatter = pero.EngFormatter()
+        
+        self.assertEqual(formatter.invert(formatter.convert(1500)), 1500)
+        self.assertEqual(formatter.invert(formatter.convert(2.5e6)), 2.5e6)
     
     
     def test_negative(self):
@@ -178,6 +184,16 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(-234.5678e3), "-235 k")
         self.assertEqual(formatter.format(-234.5678), "-235")
         self.assertEqual(formatter.format(-234.5678e-3), "-235 m")
+        
+        formatter = pero.EngFormatter(domain=1000, precision=1)
+        
+        self.assertEqual(formatter.format(-0.0001), "0.000 k")
+        self.assertEqual(formatter.format(-1), "-0.001 k")
+        
+        formatter = pero.BytesFormatter(domain=1e6, precision=1e3)
+        
+        self.assertEqual(formatter.format(-1), "0.0 kB")
+        self.assertEqual(formatter.format(-1e3), "-1.0 kB")
 
 
 # run test case

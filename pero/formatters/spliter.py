@@ -1,10 +1,10 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
 from ..enums import *
 from ..properties import *
 from .formatter import Formatter
+from .utils import *
 
 
 class SplitFormatter(Formatter):
@@ -24,15 +24,16 @@ class SplitFormatter(Formatter):
     
     Properties:
         
-        prefixes: {str: int}
-            Prefixes definition.
+        splits: {str: int or float}
+            Specifies the available splits as symbols and corresponding scale
+            values (e.g. {'k': 1e3}).
         
         units: str, None or UNDEF
             Specifies the optional units to be added right after a formatted
             label.
         
         places: int or UNDEF
-            Specifies the requested number of decimal placed to show. If not
+            Specifies the requested number of decimal places to show. If not
             specified, the formatting is automatically set by current
             'precision' and 'domain'.
         
@@ -96,7 +97,10 @@ class SplitFormatter(Formatter):
             value /= self._power
         
         # apply template
-        return template.format(value)
+        label = template.format(value)
+        
+        # avoid '-0'
+        return strip_negative_zero(label, template.format(0.))
     
     
     def convert(self, value, *args, **kwargs):
@@ -126,7 +130,8 @@ class SplitFormatter(Formatter):
     
     def invert(self, value, *args, **kwargs):
         """
-        Inverts given value using current formatting.
+        Inverts given value using current formatting. If the 'domain' is not
+        set, the scale used by the latest 'convert' or 'format' call is applied.
         
         Args:
             value: float
@@ -141,8 +146,8 @@ class SplitFormatter(Formatter):
         if self._is_dirty:
             self._init_formatting()
         
-        # init template
-        if not self._template:
+        # init template (keep the latest scale if available)
+        if not self._template and not self._power:
             self._make_template(value)
         
         # apply power
@@ -230,9 +235,7 @@ class SplitFormatter(Formatter):
         
         # get digits from precision
         elif self.precision:
-            prec = self.precision / self._power
-            prec_dig = int(math.floor(math.log10(prec)))
-            digits = abs(prec_dig) if prec_dig < 0 else 0
+            digits = calc_digits(self.precision, self._power)
         
         # make template
         return "{:.%df}%s" % (max(0, digits), suffix)

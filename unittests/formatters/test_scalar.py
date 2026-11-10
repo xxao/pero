@@ -203,6 +203,10 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(2.5**6), "2.5^6")
         self.assertEqual(formatter.format(9.375), "1.5×2.5^2")
         
+        formatter(base=3, domain=3**-6, precision=0.1, sci_threshold=3)
+        self.assertEqual(formatter.format(0.1), "3^-2")
+        self.assertEqual(formatter.format(-0.1), "-3^-2")
+        
         formatter(base=2.123456789, sci_threshold=0)
         self.assertEqual(formatter.format(2.123456789**2), "2.123456789^2")
     
@@ -278,6 +282,11 @@ class TestCase(unittest.TestCase):
         
         formatter(suffix_template=pero.UNDEF, base=10, domain=1e6)
         self.assertEqual(formatter.suffix(), " (e6)")
+        
+        # disabled notation
+        formatter(sci_notation=False, precision=1e5)
+        self.assertEqual(formatter.suffix(), "")
+        self.assertEqual(formatter.format(2e6), "2000000")
     
     
     def test_base_changes(self):

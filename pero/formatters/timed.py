@@ -1,6 +1,7 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
+import re
 import decimal
 from string import Formatter as _Formatter
 from .. enums import *
@@ -95,6 +96,7 @@ class TimeFormatter(Formatter):
         # init buffers
         self._suffix = ""
         self._template = None
+        self._displayed = []
         self._templates_multi = None
         self._templates_single = None
         self._is_dirty = True
@@ -129,8 +131,10 @@ class TimeFormatter(Formatter):
         
         # get template
         template = self._template
+        displayed = self._displayed
         if not template:
             template = self._make_template(value)
+            displayed = self._parse_template(template)
             self._suffix = self._extract_suffix(template)
         
         # init rounding
@@ -145,36 +149,35 @@ class TimeFormatter(Formatter):
         # init all parts
         parts = {p[0]: 0 for p in self._parts}
         
-        # get displayed parts
-        displayed = [
-            (units, decimal.Decimal(str(factor)))
-            for units, factor in self._parts
-            if "{%s:" % units in template]
-        
         # convert value
         value = decimal.Decimal(str(value))
         
         # round compound values before splitting to handle overflow
         if len(displayed) > 1:
-            step = displayed[-1][1]
+            units, factor, places = displayed[-1]
+            step = factor.scaleb(-places)
             with decimal.localcontext(context):
                 value = (value / step).to_integral_value() * step
         
         # split higher parts
-        for units, factor in displayed[:-1]:
+        for units, factor, _ in displayed[:-1]:
             parts[units], value = divmod(value, factor)
         
         # set fraction to last
-        units, factor = displayed[-1]
-        parts[units] = value / factor
-        
-        # add sign
-        if negative:
-            template = "-" + template
+        if displayed:
+            units, factor, _ = displayed[-1]
+            parts[units] = value / factor
         
         # format with correct rounding
         with decimal.localcontext(context):
-            return template.format(**parts)
+            label = template.format(**parts)
+            zero = template.format(**{k: 0 for k in parts})
+        
+        # add sign (avoid '-0')
+        if negative:
+            label = strip_negative_zero("-" + label, zero)
+        
+        return label
     
     
     def suffix(self, *args, **kwargs):
@@ -207,6 +210,7 @@ class TimeFormatter(Formatter):
         # reset
         self._suffix = ""
         self._template = None
+        self._displayed = []
         self._is_dirty = False
         
         # init templates
@@ -215,6 +219,7 @@ class TimeFormatter(Formatter):
         # use custom template
         if self.template:
             self._template = self._expand_template(self.template, False)
+            self._displayed = self._parse_template(self._template)
             self._suffix = self._extract_suffix(self._template)
             return
         
@@ -224,6 +229,7 @@ class TimeFormatter(Formatter):
         
         # make template
         self._template = self._make_template(abs(self.domain))
+        self._displayed = self._parse_template(self._template)
         self._suffix = self._extract_suffix(self._template)
     
     
@@ -277,6 +283,12 @@ class TimeFormatter(Formatter):
             if precision >= f:
                 break
         
+        # use single part for zero or tiny domain
+        if not template:
+            value = domain or self.precision or 1
+            units = next((u for u, f in self._parts if value >= f), self._parts[-1][0])
+            template.append(units)
+        
         # get separator
         separator = self.separator
         if separator is UNDEF:
@@ -312,6 +324,27 @@ class TimeFormatter(Formatter):
             template = template.replace(tag, tmpl)
         
         return template
+    
+    
+    def _parse_template(self, template):
+        """
+        Gets parts displayed by template as (units, factor, places) sorted from
+        the largest units. The places are taken from the precision of the part
+        format (e.g. 1 for '{s:.1f}'), which is expected to be fixed-point.
+        """
+        
+        # get decimal places of used parts
+        places = {}
+        for _, field, spec, _ in _Formatter().parse(template):
+            if field in SPLITS_TIME:
+                match = re.search(r"\.(\d+)", spec or "")
+                places[field] = int(match.group(1)) if match else 0
+        
+        # sort by factor
+        return [
+            (units, decimal.Decimal(str(factor)), places[units])
+            for units, factor in self._parts
+            if units in places]
     
     
     def _extract_suffix(self, template):

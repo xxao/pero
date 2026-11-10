@@ -233,7 +233,14 @@ class TestCase(unittest.TestCase):
         self.assertEqual(formatter.format(-70), "-01:10")
         self.assertEqual(formatter.format(-60), "-01:00")
         self.assertEqual(formatter.format(-50), "-00:50")
+        self.assertEqual(formatter.format(-0.4), "00:00")
         self.assertEqual(formatter.format(0), "00:00")
+        
+        # units
+        formatter = pero.TimeFormatter(separator=" ", add_units=True, domain=3600, precision=1)
+        
+        self.assertEqual(formatter.format(-0.1), "0 h 00 m 00 s")
+        self.assertEqual(formatter.format(-1), "-0 h 00 m 01 s")
     
     
     def test_suffix(self):
@@ -303,6 +310,40 @@ class TestCase(unittest.TestCase):
         formatter = pero.TimeFormatter(add_units=False, suffix_template=" [{0}]")
         formatter(domain=600, precision=1)
         self.assertEqual(formatter.suffix(), " [m:s]")
+    
+    
+    def test_zero_and_tiny(self):
+        """Tests whether zero and tiny values are formatted correctly."""
+        
+        formatter = pero.TimeFormatter()
+        self.assertEqual(formatter.format(0), "0.00")
+        self.assertEqual(formatter.suffix(), " (s)")
+        self.assertEqual(formatter.format(1e-12), "0.00")
+        self.assertEqual(formatter.suffix(), " (ns)")
+        
+        formatter = pero.TimeFormatter(domain=0, precision=0.001)
+        self.assertEqual(formatter.format(0), "0.00")
+        self.assertEqual(formatter.suffix(), " (ms)")
+        
+        formatter = pero.TimeFormatter(add_units=True)
+        self.assertEqual(formatter.format(0), "0.00 s")
+        
+        formatter = pero.TimeFormatter(template="--")
+        self.assertEqual(formatter.format(5), "--")
+    
+    
+    def test_compound_decimals(self):
+        """Tests whether decimals of the last compound part are kept."""
+        
+        formatter = pero.TimeFormatter(template="{m}:{s}", s_template="{:04.1f}")
+        self.assertEqual(formatter.format(61.25), "01:01.3")
+        self.assertEqual(formatter.format(59.94), "00:59.9")
+        self.assertEqual(formatter.format(59.96), "01:00.0")
+        self.assertEqual(formatter.format(-61.26), "-01:01.3")
+        
+        formatter.rounding = pero.ROUNDING.FLOOR
+        self.assertEqual(formatter.format(59.99), "00:59.9")
+        self.assertEqual(formatter.format(-59.91), "-01:00.0")
     
 
 # run test case

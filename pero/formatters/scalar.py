@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
 from .. enums import *
 from .. properties import *
 from . formatter import Formatter
@@ -16,8 +15,9 @@ class ScalarFormatter(Formatter):
     
     A scientific notation style (e.g. 2e6) can be used to format numbers
     exceeding specific threshold, which can be specified by the 'sci_threshold'
-    property as a power of 'base'. (E.g. if set to 3, all the values grater
-    than 1000 or smaller than -1000 wil be formatted with scientific notation.)
+    property as a power of 'base'. (E.g. if set to 3 for base 10, scientific
+    notation will be used if the absolute 'domain' is at least 1000 or smaller
+    than 0.01.)
     
     The scientific notation suffix can be removed from labels by setting the
     'hide_suffix' property to True and it becomes available using the 'suffix'
@@ -43,7 +43,8 @@ class ScalarFormatter(Formatter):
         hide_suffix: bool
             Specifies whether the scientific notation suffix should be removed
             from the formatted value (True). The actual suffix can be retrieved
-            by the 'suffix' method.
+            by the 'suffix' method. This has no effect if the 'sci_notation' is
+            disabled.
         
         suffix_template: str, None or UNDEF
             Specifies the format()-style template to be used for suffix
@@ -68,7 +69,6 @@ class ScalarFormatter(Formatter):
         
         # init buffers
         self._power = 0
-        self._last_digit = 0
         self._has_suffix = False
         self._is_dirty = True
         
@@ -98,19 +98,20 @@ class ScalarFormatter(Formatter):
             return "0"
         
         # use scientific notation
-        if self.sci_notation and self._has_suffix and not self.hide_suffix:
+        if self._has_suffix and not self.hide_suffix:
             if self.base == 10:
                 return self._format_sci_10(value)
             return self._format_sci_base(value)
         
         # use fixed notation (scaled if suffix is hidden)
         power = self._power if self.hide_suffix and self._has_suffix else 0
-        digits = max(0, -self._get_digits(power))
+        digits = calc_digits(self.precision, self.base, power)
         label = "{:.{}f}".format(value / self.base**power, digits)
         label = self._trim_zeros(label)
         
         # avoid '-0'
-        return label.lstrip('-') if float(label) == 0 else label
+        zero = self._trim_zeros("{:.{}f}".format(0., digits))
+        return strip_negative_zero(label, zero)
     
     
     def suffix(self, *args, **kwargs):
@@ -147,23 +148,15 @@ class ScalarFormatter(Formatter):
     def _init_formatting(self):
         """Initializes formatting based on current range."""
         
-        # get range and precision
+        # get range
         domain = self.domain or 1.
-        precision = self.precision or 1.
         
-        # calc power and digits
+        # calc power
         self._power = calc_power(abs(domain), self.base)
-        self._has_suffix = abs(self._power) >= abs(self.sci_threshold)
-        self._last_digit = int(math.floor(math.log10(abs(precision))))
+        self._has_suffix = self.sci_notation and abs(self._power) >= abs(self.sci_threshold)
         
         # reset flag
         self._is_dirty = False
-    
-    
-    def _get_digits(self, power):
-        """Gets last significant decimal digit relative to base^power."""
-        
-        return math.floor(math.log10(abs(self.precision or 1.)) - power * math.log10(self.base))
     
     
     def _format_sci_10(self, value):
@@ -175,7 +168,7 @@ class ScalarFormatter(Formatter):
         power = calc_power(value, self.base)
         
         # use standard notation
-        digits = max(0, -self._get_digits(power))
+        digits = calc_digits(self.precision, self.base, power)
         
         # avoid digits beyond the float's shortest representation
         if self.trim_zeros:
@@ -197,12 +190,15 @@ class ScalarFormatter(Formatter):
         value = abs(value)
         power = calc_power(value, self.base)
         
-        # get mantissa (fix rounding overflow)
-        for power in (power, power + 1):
-            digits = max(0, -self._get_digits(power))
-            mantissa = "{:.{}f}".format(value / self.base**power, digits)
-            if float(mantissa) < self.base:
-                break
+        # get mantissa
+        digits = calc_digits(self.precision, self.base, power)
+        mantissa = "{:.{}f}".format(value / self.base**power, digits)
+        
+        # fix rounding overflow
+        if float(mantissa) >= self.base:
+            power += 1
+            digits = calc_digits(self.precision, self.base, power)
+            mantissa = "{:.{}f}".format(1, digits)
         
         # prepare label
         mantissa = self._trim_zeros(mantissa)
