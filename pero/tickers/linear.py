@@ -1,7 +1,6 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import math
 from .. properties import *
 from .. formatters import ScalarFormatter
 from . utils import *
@@ -62,6 +61,9 @@ class LinTicker(Ticker):
         
         # init base
         super().__init__(**overrides)
+        
+        # lock formatter
+        self.lock_property('formatter')
     
     
     def make_ticks(self):
@@ -72,11 +74,6 @@ class LinTicker(Ticker):
             (float,), (float,)
                 Generated major and minor ticks.
         """
-        
-        # constant range
-        if self.start == self.end:
-            self.formatter.precision = calc_precision((self.start,))
-            return (self.start,), ()
         
         # get range
         start = self.formatter.convert(self.start)
@@ -100,7 +97,6 @@ class LinTicker(Ticker):
         minor_ticks = make_lin_ticks(start, end, minor_step)
         
         # invert ticks
-        major_step = self.formatter.invert(major_step)
         major_ticks = [self.formatter.invert(t) for t in major_ticks]
         minor_ticks = [self.formatter.invert(t) for t in minor_ticks]
         
@@ -126,31 +122,32 @@ class LinTicker(Ticker):
                 New extended range.
         """
         
-        # constant range
-        if start == end:
-            return start, end
+        # use current range for conversion
+        last_domain = self.formatter.domain
+        self.formatter.domain = max(abs(start), abs(end))
         
         # get range
         start = self.formatter.convert(start)
         end = self.formatter.convert(end)
         
-        # check order
-        flip = False
-        if start > end:
-            start, end = end, start
-            flip = True
-        
         # calc major step size
         step = self.major_step
         if step is UNDEF:
-            step = calc_step_size(abs(end - start), self.major_count, self.major_splits)
+            domain = abs(end - start) or abs(start) or 1
+            step = calc_step_size(domain, self.major_count, self.major_splits)
         
         # extend range
-        start = math.floor(snap(start / step)) * step
-        end = math.ceil(snap(end / step)) * step
+        start, end = extend_range(start, end, step)
+        
+        # extend constant range
+        if start == end:
+            start, end = start - step, end + step
         
         # invert range
         start = self.formatter.invert(start)
         end = self.formatter.invert(end)
         
-        return (start, end) if not flip else (end, start)
+        # restore formatter
+        self.formatter.domain = last_domain
+        
+        return start, end

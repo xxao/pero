@@ -268,13 +268,15 @@ class TestCase(unittest.TestCase):
         self.assertEqual(ticker.major_ticks(), (0,))
         self.assertEqual(ticker.minor_ticks(), ())
         self.assertEqual(ticker.labels(), ('0',))
-        self.assertEqual(ticker.beautify(0, 0), (0, 0))
+        self.assertEqual(ticker.beautify(0, 0), (-0.2, 0.2))
         
         ticker(start=-10, end=-10)
         
         self.assertEqual(ticker.major_ticks(), (-10,))
         self.assertEqual(ticker.minor_ticks(), ())
-        self.assertEqual(ticker.beautify(-10, -10), (-10, -10))
+        self.assertEqual(ticker.beautify(-10, -10), (-100, -1))
+        self.assertEqual(ticker.beautify(-500, -500), (-1000, -100))
+        self.assertEqual(ticker.beautify(0.5, 0.5), (0.4, 0.6))
     
     
     def test_beautify(self):
@@ -319,28 +321,31 @@ class TestCase(unittest.TestCase):
     
     def test_property_changes(self):
         """Tests whether property changes update the internal tickers."""
-
+        
         ticker = pero.SymlogTicker(start=-100, end=100)
         linear = ticker._lin_ticker
         logarithmic = ticker._log_ticker
-
+        
         ticker(base=2, major_count=12, minor_count=2)
-
+        
         self.assertEqual(logarithmic.base, 2)
         self.assertEqual(linear.major_count, 12)
         self.assertEqual(logarithmic.major_count, 12)
         self.assertEqual(linear.minor_count, 2)
         self.assertEqual(logarithmic.minor_count, 2)
-
+        
         model = pero.SymlogTicker(start=-100, end=100, base=2, major_count=12, minor_count=2)
-
+        
         self.assertEqual(ticker.major_ticks(), model.major_ticks())
         self.assertEqual(ticker.minor_ticks(), model.minor_ticks())
         self.assertEqual(ticker.labels(), model.labels())
         self.assertIs(ticker._lin_ticker, linear)
         self.assertIs(ticker._log_ticker, logarithmic)
-
-
+        
+        ticker = pero.SymlogTicker(start=-1e6, end=1e6, base=2)
+        self.assertEqual(ticker.formatter.base, 2)
+    
+    
     def test_region_changes(self):
         """Tests whether reused tickers reset settings between regions."""
 

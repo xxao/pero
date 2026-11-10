@@ -56,6 +56,9 @@ class TimeTicker(Ticker):
         
         # init base
         super().__init__(**overrides)
+        
+        # lock formatter
+        self.lock_property('formatter')
     
     
     def make_ticks(self):
@@ -66,11 +69,6 @@ class TimeTicker(Ticker):
             (float,), (float,)
                 Generated major and minor ticks.
         """
-        
-        # constant range
-        if self.start == self.end:
-            self.formatter.precision = calc_precision((self.start,))
-            return (self.start,), ()
         
         # get range
         start, end = self.start, self.end
@@ -112,30 +110,24 @@ class TimeTicker(Ticker):
                 New extended range.
         """
         
-        # constant range
-        if start == end:
-            return start, end
-        
-        # check order
-        flip = False
-        if start > end:
-            start, end = end, start
-            flip = True
-        
         # calc major step size
         step = self.major_step
         if step is UNDEF:
-            step = self._calc_step(abs(end - start), self.major_count)
+            domain = abs(end - start) or abs(start) or 1
+            step = self._calc_step(domain, self.major_count)
         
         # extend range
-        start = math.floor(snap(start / step)) * step
-        end = math.ceil(snap(end / step)) * step
+        start, end = extend_range(start, end, step)
         
-        return (start, end) if not flip else (end, start)
+        # extend constant range
+        if start == end:
+            start, end = start - step, end + step
+        
+        return start, end
     
     
     def _calc_step(self, domain, count, exact=False):
-        """Calculates minor step size."""
+        """Calculates step size."""
         
         # get splits
         count = max(1, count)

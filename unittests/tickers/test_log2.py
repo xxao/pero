@@ -61,7 +61,10 @@ class TestCase(unittest.TestCase):
         # test above one
         ticker(start=1.1, end=0.9e3)
         ticks = ticker.minor_ticks()
-        self.assertEqual(ticks, (2, 4, 8, 16, 32, 64, 128, 256, 512))
+        self.assertEqual(ticks, (
+            1.25, 1.5, 1.75, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 10, 12, 14, 16,
+            20, 24, 28, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256,
+            320, 384, 448, 512, 640, 768, 896))
         
         # test one
         ticker(start=1, end=0.9e3)
@@ -71,12 +74,17 @@ class TestCase(unittest.TestCase):
         # test below one
         ticker(start=0.1, end=0.9)
         ticks = ticker.minor_ticks()
-        self.assertEqual(ticks, (0.125, 0.25, 0.5))
+        self.assertEqual(ticks, (
+            0.109375, 0.125, 0.15625, 0.1875, 0.21875, 0.25, 0.3125, 0.375,
+            0.4375, 0.5, 0.625, 0.75, 0.875))
         
         # test cross one
         ticker(start=0.1, end=9)
         ticks = ticker.minor_ticks()
-        self.assertEqual(ticks, (0.125, 0.25, 0.5, 1, 2, 4, 8))
+        self.assertEqual(ticks, (
+            0.109375, 0.125, 0.15625, 0.1875, 0.21875, 0.25, 0.3125, 0.375,
+            0.4375, 0.5, 0.625, 0.75, 0.875, 1, 1.25, 1.5, 1.75, 2, 2.5, 3,
+            3.5, 4, 5, 6, 7, 8))
         
         # test condensed
         ticker(start=1, end=1e4)
@@ -86,7 +94,15 @@ class TestCase(unittest.TestCase):
         # test flipped
         ticker(start=9, end=0.1)
         ticks = ticker.minor_ticks()
-        self.assertEqual(ticks, (8, 4, 2, 1, 0.5, 0.25, 0.125))
+        self.assertEqual(ticks, (
+            8, 7, 6, 5, 4, 3.5, 3, 2.5, 2, 1.75, 1.5, 1.25, 1, 0.875, 0.75,
+            0.625, 0.5, 0.4375, 0.375, 0.3125, 0.25, 0.21875, 0.1875, 0.15625,
+            0.125, 0.109375))
+        
+        # test minor count
+        ticker(start=1, end=8, minor_count=2)
+        ticks = ticker.minor_ticks()
+        self.assertEqual(ticks, (1, 1.5, 2, 3, 4, 6, 8))
     
     
     def test_beautify(self):

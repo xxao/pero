@@ -1,4 +1,5 @@
-"""Proposed replacement for pero/tickers/logarithmic.py; not installed."""
+#  Created byMartin.cz
+#  Copyright (c) Martin Strohalm. All rights reserved.
 
 import math
 from .. enums import *
@@ -44,6 +45,9 @@ class LogTicker(Ticker):
         # init base
         super().__init__(**overrides)
         
+        # lock formatter
+        self.lock_property('formatter')
+        
         # set base
         self.formatter.base = self.base
         
@@ -66,13 +70,8 @@ class LogTicker(Ticker):
         # convert to exponents
         lo, hi = (snap(math.log(x, self.base)) for x in (start, end))
         
-        # constant range
-        if start == end:
-            major_ticks, minor_ticks = (start,), ()
-            precision = start
-        
         # linear range
-        elif snap(hi - lo) < 1:
+        if snap(hi - lo) < 1:
             major_ticks, minor_ticks, precision = self._make_linear_ticks(start, end)
         
         # exponent range
@@ -106,11 +105,14 @@ class LogTicker(Ticker):
                 New extended range.
         """
         
-        lo, hi = sorted((start, end))
-        lo = math.pow(self.base, math.floor(snap(math.log(lo, self.base))))
-        hi = math.pow(self.base, math.ceil(snap(math.log(hi, self.base))))
+        # extend range
+        lo, hi = extend_log_range(start, end, self.base)
         
-        return (hi, lo) if start > end else (lo, hi)
+        # extend constant range
+        if lo == hi:
+            lo, hi = lo / self.base, hi * self.base
+        
+        return lo, hi
     
     
     def _make_linear_ticks(self, start, end):
@@ -121,9 +123,10 @@ class LogTicker(Ticker):
         major_step = calc_step_size(end - start, count, (1, 2, 5))
         major_ticks = make_lin_ticks(start, end, major_step)
         
-        # retry with finer spacing
-        if not major_ticks:
-            major_step = calc_step_size(end - start, count+1, (1, 2, 5))
+        # retry with finer spacing to avoid single tick
+        while len(major_ticks) < 2 and count < 100:
+            count += 1
+            major_step = calc_step_size(end - start, count, (1, 2, 5))
             major_ticks = make_lin_ticks(start, end, major_step)
         
         # make major ticks
@@ -143,31 +146,35 @@ class LogTicker(Ticker):
         major_step = max(1, calc_step_size(hi - lo, count, splits))
         
         # make major
-        major_ticks = self._make_power_ticks(start, end, lo, hi, major_step)
+        major_ticks = make_power_ticks(start, end, self.base, major_step)
         
         # generate subdivisions or consecutive powers
         if self.base == int(self.base):
             dense = make_log_ticks(start, end, self.base)
         else:
-            dense = self._make_power_ticks(start, end, lo, hi, 1)
+            dense = make_power_ticks(start, end, self.base)
         
         # prefer dense ticks when their count is closer
         if abs(len(dense) - count) < abs(len(major_ticks) - count):
             major_ticks, major_step = dense, 1
         
-        # ensure ticks available
-        if not major_ticks:
+        # make sure enough ticks available
+        if len(major_ticks) < 2:
+            major_ticks, major_step = make_power_ticks(start, end, self.base), 1
+        if len(major_ticks) < 2:
+            major_ticks = dense
+        if len(major_ticks) < 2:
             return self._make_linear_ticks(start, end)
         
-        # use dense ticks at unit exponent steps
+        # subdivide power intervals at unit exponent steps
         if major_step == 1:
-            minor_ticks = dense
+            minor_ticks = make_log_ticks(start, end, self.base, self._calc_multiplier_step())
         
         # use finer ticks for sparse grids
         else:
             minor_step = calc_step_size(major_step, self.minor_count, splits, step_base, exact=True)
             minor_step = max(1, minor_step)
-            minor_ticks = self._make_power_ticks(start, end, lo, hi, minor_step)
+            minor_ticks = make_power_ticks(start, end, self.base, minor_step)
         
         # calc precision
         precision = calc_precision(major_ticks)
@@ -175,12 +182,16 @@ class LogTicker(Ticker):
         return major_ticks, minor_ticks, precision
     
     
-    def _make_power_ticks(self, start, end, lo, hi, step):
-        """Make ticks by step."""
+    def _calc_multiplier_step(self):
+        """Calculates multiplier step to subdivide single power interval."""
         
-        ticks = (math.pow(self.base, t) for t in make_lin_ticks(lo, hi, step))
-        return tuple(x for x in ticks if start <= x <= end)
-
+        # use integer multipliers if dense enough (e.g. 2-9 for base 10)
+        if self.base == int(self.base) and self.base - 1 >= self.minor_count:
+            return 1
+        
+        # use fractional multipliers (e.g. 1.25, 1.5, 1.75 for base 2)
+        return calc_step_size(self.base - 1, self.minor_count, (5, 2.5, 2, 1))
+    
     
     def _on_log_ticker_property_changed(self, evt=None):
         """Called after a property has changed."""

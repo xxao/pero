@@ -104,6 +104,27 @@ class TestCase(unittest.TestCase):
         # test flipped
         beautified = ticker.beautify(0.9e3, 0.9)
         self.assertEqual(beautified, (1000, 0.1))
+    
+    
+    def test_constant_range(self):
+        """Tests whether constant range is handled correctly."""
+        
+        ticker = pero.LogTicker(start=0.123, end=0.123)
+        self.assertEqual(ticker.major_ticks(), (0.123,))
+        self.assertEqual(ticker.minor_ticks(), ())
+        self.assertEqual(ticker.labels(), ("0.123",))
+        
+        ticker(start=1234.5678, end=1234.5678)
+        self.assertEqual(ticker.labels(), ("1234.5678",))
+        
+        ticker(start=0, end=0)
+        self.assertEqual(ticker.major_ticks(), (0,))
+        self.assertEqual(ticker.labels(), ("0",))
+        
+        # test beautify
+        self.assertEqual(ticker.beautify(5, 5), (1, 10))
+        self.assertEqual(ticker.beautify(10, 10), (1, 100))
+        self.assertEqual(ticker.beautify(0.123, 0.123), (0.1, 1))
 
 
 # run test case

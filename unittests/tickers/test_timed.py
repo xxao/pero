@@ -185,6 +185,11 @@ class TestCase(unittest.TestCase):
         
         beautified = ticker.beautify(48*60, 7*60)
         self.assertEqual(beautified, (50*60, 5*60))
+        
+        # test constant
+        self.assertEqual(ticker.beautify(5, 5), (4, 6))
+        self.assertEqual(ticker.beautify(3600, 3600), (50*60, 70*60))
+        self.assertEqual(ticker.beautify(0, 0), (-0.2, 0.2))
 
 
 # run test case

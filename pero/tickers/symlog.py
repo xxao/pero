@@ -8,14 +8,14 @@ from .. formatters import ScalarFormatter
 from . ticker import Ticker
 from . linear import LinTicker
 from . logarithmic import LogTicker
-from . utils import calc_precision
+from . utils import calc_precision, extend_range, extend_log_range
 
 
 class SymlogTicker(Ticker):
     """
     This type of ticker generates ticks and labels for symmetric logarithmic
     scales. Ticks are logarithmic outside the [-threshold, threshold] interval
-    and linear outside.
+    and linear inside.
     
     Properties:
         
@@ -52,6 +52,12 @@ class SymlogTicker(Ticker):
         # init base
         super().__init__(**overrides)
         
+        # lock formatter
+        self.lock_property('formatter')
+        
+        # set base
+        self.formatter.base = self.base
+        
         # init linear ticker
         self._lin_ticker = LinTicker(
             major_count = self.major_count,
@@ -78,11 +84,6 @@ class SymlogTicker(Ticker):
         
         # normalize range
         start, end = sorted((self.start, self.end))
-        
-        # constant range
-        if start == end:
-            self.formatter.precision = calc_precision((start,))
-            return (start,), ()
         
         # use linear range
         if -self.threshold <= start <= end <= self.threshold:
@@ -119,42 +120,40 @@ class SymlogTicker(Ticker):
                 New extended range.
         """
         
-        # constant range
-        if start == end:
-            return start, end
+        # get threshold
+        thr = self.threshold
+        
+        # constant log range
+        if start == end and abs(start) > thr:
+            lo, hi = self._log_ticker.beautify(abs(start), abs(start))
+            lo = max(thr, lo)
+            return (-hi, -lo) if start < 0 else (lo, hi)
         
         # normalize range
         lo, hi = sorted((start, end))
         
-        # get threshold
-        thr = self.threshold
-        
         # use linear range
         if -thr <= lo <= hi <= thr:
-            self._lin_ticker.major_step = UNDEF
             lo, hi = self._lin_ticker.beautify(lo, hi)
         
         # use log range
         else:
             
-            # update lin ticker
-            self._lin_ticker.major_step = thr
-            
             # beautify lo
             if lo < -thr:
-                lo = -self._log_ticker.beautify(-lo, -lo)[1]
+                lo = -extend_log_range(-lo, -lo, self.base)[1]
             elif lo > thr:
-                lo = max(thr, self._log_ticker.beautify(lo, lo)[0])
+                lo = max(thr, extend_log_range(lo, lo, self.base)[0])
             else:
-                lo = self._lin_ticker.beautify(lo, thr)[0]
+                lo = extend_range(lo, thr, thr)[0]
             
             # beautify hi
             if hi > thr:
-                hi = self._log_ticker.beautify(hi, hi)[1]
+                hi = extend_log_range(hi, hi, self.base)[1]
             elif hi < -thr:
-                hi = -max(thr, self._log_ticker.beautify(-hi, -hi)[0])
+                hi = -max(thr, extend_log_range(-hi, -hi, self.base)[0])
             else:
-                hi = self._lin_ticker.beautify(-thr, hi)[1]
+                hi = extend_range(-thr, hi, thr)[1]
         
         return (hi, lo) if start > end else (lo, hi)
     

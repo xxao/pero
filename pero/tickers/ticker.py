@@ -1,10 +1,10 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
-import numpy
 from .. enums import *
 from .. properties import *
 from .. formatters import Formatter
+from . utils import calc_precision
 
 
 class Ticker(PropertySet):
@@ -14,7 +14,9 @@ class Ticker(PropertySet):
     charts.
     
     All derived classes have to implement the 'make_ticks' method, which is
-    then automatically used to calculate major and minor ticks.
+    then automatically used to calculate major and minor ticks. Constant range
+    (start == end) is handled by the 'make_constant_ticks' method, which uses
+    the value itself as the only major tick and can be overridden if needed.
     
     Labels are automatically created from major ticks using specified
     'formatter'. The formatter 'domain' is automatically updated by current
@@ -82,7 +84,11 @@ class Ticker(PropertySet):
         self.formatter.domain = max(abs(self.start), abs(self.end))
         
         # make ticks
-        major_ticks, minor_ticks = self.make_ticks()
+        if self.start == self.end:
+            major_ticks, minor_ticks = self.make_constant_ticks(self.start)
+        else:
+            major_ticks, minor_ticks = self.make_ticks()
+        
         self._major_ticks = tuple(major_ticks)
         self._minor_ticks = tuple(minor_ticks)
         
@@ -94,7 +100,7 @@ class Ticker(PropertySet):
         """
         Generates ticks according to current settings. This method must be
         overridden in derived classes to provide specific mechanism to calculate
-        major and minor ticks.
+        major and minor ticks. It is not called for constant range.
         
         Returns:
             (float,), (float,)
@@ -102,6 +108,27 @@ class Ticker(PropertySet):
         """
         
         raise NotImplementedError("The 'make_ticks' method is not implemented for '%s'." % self.__class__.__name__)
+    
+    
+    def make_constant_ticks(self, value):
+        """
+        Generates ticks for constant range (start == end). By default, the
+        value itself is used as the only major tick. This method can be
+        overridden in derived classes to provide specific mechanism.
+        
+        Args:
+            value: int or float
+                Range value.
+        
+        Returns:
+            (float,), (float,)
+                Generated major and minor ticks.
+        """
+        
+        # update formatter
+        self.formatter.precision = calc_precision((value,))
+        
+        return (value,), ()
     
     
     def major_ticks(self):

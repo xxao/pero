@@ -143,9 +143,10 @@ def make_lin_ticks(start, end, step):
     return tuple(ticks)
 
 
-def make_log_ticks(start, end, base):
+def make_log_ticks(start, end, base, step=1):
     """
-    Makes logarithmic ticks for given range and base.
+    Makes logarithmic ticks for given range and base. Each interval between
+    consecutive powers of base is subdivided by multiples of given step.
     
     Args:
         start: int or float
@@ -156,27 +157,31 @@ def make_log_ticks(start, end, base):
         
         base: float
             Logarithm base.
+        
+        step: float
+            Multiplier step used to subdivide each power interval.
     
     Returns:
         (float,)
             Ticks values.
     """
     
-    ticks = []
+    # get multipliers within single power interval
+    multipliers = [1] + [m for m in make_lin_ticks(1, base, step) if 1 < m < base]
     
+    # get exponents range
     lo = math.floor(snap(math.log(start, base)))
     hi = math.floor(snap(math.log(end, base))) + 1
     
-    while lo < hi:
+    # make ticks
+    ticks = []
+    for exp in range(lo, hi):
         
-        p = math.pow(base, lo)
-        lo += 1
+        p = math.pow(base, exp)
         
-        b = 1
-        while b < base:
+        for m in multipliers:
             
-            t = p*b
-            b += 1
+            t = p*m
             
             if t < start:
                 continue
@@ -186,3 +191,90 @@ def make_log_ticks(start, end, base):
             ticks.append(t)
     
     return ticks
+
+
+def make_power_ticks(start, end, base, step=1):
+    """
+    Makes ticks as powers of base using equidistant exponent steps.
+    
+    Args:
+        start: int or float
+            Minimum value of the range.
+        
+        end: int or float
+            Maximum value of the range.
+        
+        base: float
+            Logarithm base.
+        
+        step: float
+            Exponent step size.
+    
+    Returns:
+        (float,)
+            Ticks values.
+    """
+    
+    # reversed
+    if start > end:
+        return make_power_ticks(end, start, base, step)[::-1]
+    
+    # convert to exponents
+    lo = snap(math.log(start, base))
+    hi = snap(math.log(end, base))
+    
+    # make ticks
+    ticks = (math.pow(base, t) for t in make_lin_ticks(lo, hi, step))
+    return tuple(x for x in ticks if start <= x <= end)
+
+
+def extend_range(start, end, step):
+    """
+    Extends given range to the nearest multiples of step size.
+    
+    Args:
+        start: int or float
+            Start value of the range.
+        
+        end: int or float
+            End value of the range.
+        
+        step: float
+            Step size.
+    
+    Returns:
+        (float, float)
+            Extended range in original direction.
+    """
+    
+    lo, hi = sorted((start, end))
+    lo = math.floor(snap(lo / step)) * step
+    hi = math.ceil(snap(hi / step)) * step
+    
+    return (hi, lo) if start > end else (lo, hi)
+
+
+def extend_log_range(start, end, base):
+    """
+    Extends given positive range to the nearest integer powers of base.
+    
+    Args:
+        start: int or float
+            Start value of the range.
+        
+        end: int or float
+            End value of the range.
+        
+        base: float
+            Logarithm base.
+    
+    Returns:
+        (float, float)
+            Extended range in original direction.
+    """
+    
+    lo, hi = sorted((start, end))
+    lo = math.pow(base, math.floor(snap(math.log(lo, base))))
+    hi = math.pow(base, math.ceil(snap(math.log(hi, base))))
+    
+    return (hi, lo) if start > end else (lo, hi)

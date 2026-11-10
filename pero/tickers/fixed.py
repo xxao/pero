@@ -55,3 +55,20 @@ class FixTicker(Ticker):
         minor_ticks = tuple(x for x in self.minor_values if start <= x <= end)
         
         return major_ticks, minor_ticks
+    
+    
+    def make_constant_ticks(self, value):
+        """
+        Generates ticks for constant range (start == end) using specified
+        values only.
+        
+        Args:
+            value: int or float
+                Range value.
+        
+        Returns:
+            (float,), (float,)
+                Generated major and minor ticks.
+        """
+        
+        return self.make_ticks()

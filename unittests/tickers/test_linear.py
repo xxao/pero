@@ -110,6 +110,26 @@ class TestCase(unittest.TestCase):
         # test descending
         beautified = ticker.beautify(0.99, 0.201)
         self.assertEqual(beautified, (1, 0.2))
+        
+        # test constant
+        self.assertEqual(ticker.beautify(5, 5), (4, 6))
+        self.assertEqual(ticker.beautify(-5, -5), (-6, -4))
+        self.assertEqual(ticker.beautify(1234.5678, 1234.5678), (1200, 1400))
+        self.assertEqual(ticker.beautify(0, 0), (-0.2, 0.2))
+    
+    
+    def test_beautify_converted(self):
+        """Tests whether beautify works correctly with converting formatter."""
+        
+        ticker = pero.LinTicker(formatter=pero.EngFormatter())
+        self.assertEqual(ticker.beautify(120, 2480), (0, 2700))
+        
+        # test stale formatter domain
+        ticker(start=0, end=10)
+        ticker.major_ticks()
+        
+        self.assertEqual(ticker.beautify(120, 2480), (0, 2700))
+        self.assertEqual(ticker.formatter.domain, 10)
 
 
 # run test case

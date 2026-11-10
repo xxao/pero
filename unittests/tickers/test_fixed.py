@@ -33,6 +33,13 @@ class TestCase(unittest.TestCase):
         ticker(start=1000, end=5)
         ticks = ticker.major_ticks()
         self.assertEqual(ticks, (8, 16))
+        
+        # test constant range
+        ticker(start=8, end=8)
+        self.assertEqual(ticker.major_ticks(), (8,))
+        
+        ticker(start=5, end=5)
+        self.assertEqual(ticker.major_ticks(), ())
     
     
     def test_minor_ticks(self):
