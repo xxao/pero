@@ -1,6 +1,8 @@
 #  Created byMartin.cz
 #  Copyright (c) Martin Strohalm. All rights reserved.
 
+import math
+
 
 def split_value(value, splits):
     """
@@ -31,3 +33,32 @@ def split_value(value, splits):
         parts[unit] = count
     
     return parts
+
+
+def calc_power(value, base=10):
+    """
+    Gets integer power of base for given value.
+    
+    Args:
+        value: float or int
+            Value to split.
+        
+        base: float or int
+            Power base.
+    
+    Returns:
+        {str: float}
+            Value for each available split.
+    """
+    
+    # get power
+    power = math.floor(math.log10(value) / math.log10(base))
+    
+    # fix floating-point errors
+    if base ** (power + 1) <= value:
+        return power + 1
+    
+    if base ** power > value:
+        return power - 1
+    
+    return power

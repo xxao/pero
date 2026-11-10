@@ -5,6 +5,7 @@ import math
 from .. enums import *
 from .. properties import *
 from . formatter import Formatter
+from . utils import *
 
 
 class ScalarFormatter(Formatter):
@@ -15,8 +16,8 @@ class ScalarFormatter(Formatter):
     
     A scientific notation style (e.g. 2e6) can be used to format numbers
     exceeding specific threshold, which can be specified by the 'sci_threshold'
-    property as a power of 10. (E.g. if set to 3, all the values grater than
-    1000 or smaller than -1000 wil be formatted with scientific notation.)
+    property as a power of 'base'. (E.g. if set to 3, all the values grater
+    than 1000 or smaller than -1000 wil be formatted with scientific notation.)
     
     The scientific notation suffix can be removed from labels by setting the
     'hide_suffix' property to True and it becomes available using the 'suffix'
@@ -25,13 +26,16 @@ class ScalarFormatter(Formatter):
     
     Properties:
         
+        base: int or float
+            Specifies an exponent base used for scientific notation.
+        
         sci_notation: bool
             Specifies whether the scientific notation (e.g. 2e6) is enabled
             (True) or disabled (False).
         
         sci_threshold: int
             Specifies the threshold for 'domain' from which the scientific
-            notation should be used as a power of 10.
+            notation should be used as a power of 'base'.
         
         trim_zeros: bool
             Specifies whether redundant fractional zeros are removed from labels.
@@ -43,15 +47,18 @@ class ScalarFormatter(Formatter):
         
         suffix_template: str, None or UNDEF
             Specifies the format()-style template to be used for suffix
-            formatting expecting the power as input (e.g. 'e{:.0f}').
+            formatting expecting the power as input (e.g. 'e{:.0f}'). Named
+            'base' and 'power' fields are also available. If set to UNDEF,
+            the default suffix is used based on current 'base'.
     """
     
+    base = NumProperty(10, dynamic=False)
     sci_notation = BoolProperty(True, dynamic=False)
     sci_threshold = IntProperty(5, dynamic=False)
     trim_zeros = BoolProperty(True, dynamic=False)
     
     hide_suffix = BoolProperty(False, dynamic=False)
-    suffix_template = StringProperty(" (e{:.0f})", dynamic=False)
+    suffix_template = StringProperty(UNDEF, dynamic=False, nullable=True)
     
     
     def __init__(self, **overrides):
@@ -86,56 +93,29 @@ class ScalarFormatter(Formatter):
         if self._is_dirty:
             self._init_formatting()
         
-        # use suffix
-        if self.hide_suffix and self._has_suffix:
-            value = value / (10.**self._power)
-            template = "{:1.%df}" % abs(self._last_digit - self._power)
+        # check value
+        if not value:
+            return "0"
         
         # use scientific notation
-        elif self.sci_notation and self._has_suffix:
-            
-            last_digit = 0
-            if value:
-                value_power = int(math.floor(math.log10(abs(value))))
-                if value_power > self._last_digit:
-                    last_digit = self._last_digit - value_power
-            
-            # avoid digits beyond the float's shortest representation
-            if self.trim_zeros:
-                mantissa = repr(float(value)).partition('e')[0]
-                digits = len(mantissa.replace('.', '').lstrip('-0').rstrip('0'))
-                last_digit = -min(abs(last_digit), max(0, digits - 1))
-            
-            template = "{:1.%de}" % abs(last_digit)
+        if self.sci_notation and self._has_suffix and not self.hide_suffix:
+            if self.base == 10:
+                return self._format_sci_10(value)
+            return self._format_sci_base(value)
         
-        # use current precision
-        elif self._last_digit < 0:
-            template = "{:0.%df}" % abs(self._last_digit)
-        
-        # make integer
-        else:
-            template = "{:0.0f}"
-        
-        # apply format
-        label = template.format(value)
-        
-        # trim fractional zeros
-        if self.trim_zeros:
-            mantissa, marker, exponent = label.partition('e')
-            if '.' in mantissa:
-                mantissa = mantissa.rstrip('0').rstrip('.')
-            label = mantissa + marker + exponent
+        # use fixed notation (scaled if suffix is hidden)
+        power = self._power if self.hide_suffix and self._has_suffix else 0
+        digits = max(0, -self._get_digits(power))
+        label = "{:.{}f}".format(value / self.base**power, digits)
+        label = self._trim_zeros(label)
         
         # avoid '-0'
-        if label[0] == '-' and float(label) == 0:
-            label = label[1:]
-        
-        return label
+        return label.lstrip('-') if float(label) == 0 else label
     
     
     def suffix(self, *args, **kwargs):
         """
-        Gets current labels suffix (e.g. e-2).
+        Gets current labels suffix (e.g. e2).
         
         Returns:
             str
@@ -146,12 +126,22 @@ class ScalarFormatter(Formatter):
         if self._is_dirty:
             self._init_formatting()
         
-        # return suffix
-        if self.hide_suffix and self._has_suffix and self.suffix_template:
-            return self.suffix_template.format(self._power)
+        # check suffix
+        if not self.hide_suffix or not self._has_suffix:
+            return ""
         
-        # not defined
-        return ""
+        # get template
+        template = self.suffix_template
+        if template is UNDEF:
+            template = " (e{power})" if self.base == 10 else " (×{base}^{power})"
+        
+        # check template
+        if not template:
+            return ""
+        
+        # apply template
+        base = "{:.15g}".format(self.base)
+        return template.format(self._power, base=base, power=self._power)
     
     
     def _init_formatting(self):
@@ -162,12 +152,73 @@ class ScalarFormatter(Formatter):
         precision = self.precision or 1.
         
         # calc power and digits
-        self._power = int(math.floor(math.log10(abs(domain))))
+        self._power = calc_power(abs(domain), self.base)
         self._has_suffix = abs(self._power) >= abs(self.sci_threshold)
         self._last_digit = int(math.floor(math.log10(abs(precision))))
         
         # reset flag
         self._is_dirty = False
+    
+    
+    def _get_digits(self, power):
+        """Gets last significant decimal digit relative to base^power."""
+        
+        return math.floor(math.log10(abs(self.precision or 1.)) - power * math.log10(self.base))
+    
+    
+    def _format_sci_10(self, value):
+        """Formats given value as 1.2e+03."""
+        
+        # get sign and power
+        sign = "-" if value < 0 else ""
+        value = abs(value)
+        power = calc_power(value, self.base)
+        
+        # use standard notation
+        digits = max(0, -self._get_digits(power))
+        
+        # avoid digits beyond the float's shortest representation
+        if self.trim_zeros:
+            sig = repr(float(value)).partition('e')[0].replace('.', '').strip('0')
+            digits = min(digits, max(0, len(sig) - 1))
+        
+        # prepare label
+        mantissa, _, exponent = "{:.{}e}".format(value, digits).partition('e')
+        mantissa = self._trim_zeros(mantissa)
+        
+        return "%s%se%s" % (sign, mantissa, exponent)
+    
+    
+    def _format_sci_base(self, value):
+        """Formats given value as number×base^power."""
+        
+        # get sign and power
+        sign = "-" if value < 0 else ""
+        value = abs(value)
+        power = calc_power(value, self.base)
+        
+        # get mantissa (fix rounding overflow)
+        for power in (power, power + 1):
+            digits = max(0, -self._get_digits(power))
+            mantissa = "{:.{}f}".format(value / self.base**power, digits)
+            if float(mantissa) < self.base:
+                break
+        
+        # prepare label
+        mantissa = self._trim_zeros(mantissa)
+        coeff = "" if mantissa == "1" else mantissa + "×"
+        base = "{:.15g}".format(self.base)
+        
+        return "%s%s%s^%d" % (sign, coeff, base, power)
+    
+    
+    def _trim_zeros(self, label):
+        """Removes redundant fractional zeros if enabled."""
+        
+        if self.trim_zeros and '.' in label:
+            return label.rstrip('0').rstrip('.')
+        
+        return label
     
     
     def _on_scalar_formatter_property_changed(self, evt=None):

@@ -268,6 +268,7 @@ class SymlogTicker(Ticker):
         # base changed
         if evt is None or evt.name == 'base':
             self._log_ticker.base = self.base
+            self.formatter.base = self.base
         
         # major count changed
         if evt is None or evt.name == 'major_count':

@@ -1,6 +1,7 @@
 """Proposed replacement for pero/tickers/logarithmic.py; not installed."""
 
 import math
+from .. enums import *
 from ..properties import IntProperty, NumProperty
 from ..formatters import ScalarFormatter
 from .ticker import Ticker
@@ -42,6 +43,12 @@ class LogTicker(Ticker):
         
         # init base
         super().__init__(**overrides)
+        
+        # set base
+        self.formatter.base = self.base
+        
+        # bind event
+        self.bind(EVT_PROPERTY_CHANGED, self._on_log_ticker_property_changed)
     
     
     def make_ticks(self):
@@ -173,3 +180,11 @@ class LogTicker(Ticker):
         
         ticks = (math.pow(self.base, t) for t in make_lin_ticks(lo, hi, step))
         return tuple(x for x in ticks if start <= x <= end)
+
+    
+    def _on_log_ticker_property_changed(self, evt=None):
+        """Called after a property has changed."""
+        
+        # base changed
+        if evt is None or evt.name == 'base':
+            self.formatter.base = self.base
