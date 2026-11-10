@@ -105,6 +105,21 @@ class TestCase(unittest.TestCase):
         self.assertEqual(ticks, (1, 1.5, 2, 3, 4, 6, 8))
     
     
+    def test_labels(self):
+        """Tests whether labels use scientific notation for small values."""
+        
+        # init ticker
+        ticker = pero.LogTicker(base=2, major_count=7)
+        
+        # test below one
+        ticker(start=1/1024, end=1)
+        self.assertEqual(ticker.labels(), ('2^-10', '2^-8', '2^-6', '2^-4', '2^-2', '2^0'))
+        
+        # test close to one
+        ticker(start=0.1, end=0.9)
+        self.assertEqual(ticker.labels(), ('0.125', '0.25', '0.5'))
+    
+    
     def test_beautify(self):
         """Tests whether beautify function works correctly."""
         

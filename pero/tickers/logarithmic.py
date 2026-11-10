@@ -85,6 +85,7 @@ class LogTicker(Ticker):
         
         # update formatter
         self.formatter.precision = precision
+        self.formatter.domain = start if abs(lo) > abs(hi) else end
         
         return major_ticks, minor_ticks
     
